@@ -24,7 +24,7 @@ export class RootComponent implements OnInit, OnDestroy {
         public header: HeaderService,
     ) { }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         const data$ = this.route.data as Observable<RootComponentData>;
 
         data$.pipe(
@@ -35,7 +35,7 @@ export class RootComponent implements OnInit, OnDestroy {
         });
     }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();
     }

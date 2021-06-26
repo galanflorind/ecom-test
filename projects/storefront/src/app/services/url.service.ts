@@ -11,15 +11,15 @@ import { Brand } from '../interfaces/brand';
 export class UrlService {
     constructor() { }
 
-    home(): string {
+    public home(): string {
         return '/';
     }
 
-    shop(): string {
+    public shop(): string {
         return '/shop';
     }
 
-    category(category: Category): string {
+    public category(category: Category): string {
         if (category.type === 'shop') {
             return this.shopCategory(category);
         }
@@ -27,43 +27,43 @@ export class UrlService {
         return '/';
     }
 
-    shopCategory(category: ShopCategory): string {
+    public shopCategory(category: ShopCategory): string {
         return `/shop/category/${category.slug}` + (category.layout === 'products' ? '/products' : '');
     }
 
-    allProducts(): string {
+    public allProducts(): string {
         return '/shop/category/products';
     }
 
-    product(product: Product): string {
+    public product(product: Product): string {
         return `/shop/products/${product.slug}`;
     }
 
-    brand(brand: Brand): string {
+    public brand(brand: Brand): string {
         return '/';
     }
 
-    address(address: Address): string {
+    public address(address: Address): string {
         return `/account/addresses/${address.id}`;
     }
 
-    order(order: Order): string {
+    public order(order: Order): string {
         return `/account/orders/${order.id}`;
     }
 
-    cart(): string {
+    public cart(): string {
         return '/shop/cart';
     }
 
-    checkout(): string {
+    public checkout(): string {
         return '/shop/checkout';
     }
 
-    login(): string {
+    public login(): string {
         return '/account/login';
     }
 
-    contacts(): string {
+    public contacts(): string {
         return '/site/contact-us-v1';
     }
 }
