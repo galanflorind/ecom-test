@@ -225,6 +225,40 @@
           }
         }
       }
+    },
+    "nao-utils": {
+      "projectType": "library",
+      "root": "libs/nao-utils",
+      "sourceRoot": "libs/nao-utils/src",
+      "prefix": "naologic",
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/nao-utils/src/**/*.ts",
+              "libs/nao-utils/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "nao-interfaces": {
+      "projectType": "library",
+      "root": "libs/nao-interfaces",
+      "sourceRoot": "libs/nao-interfaces/src",
+      "prefix": "naologic",
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/nao-interfaces/src/**/*.ts",
+              "libs/nao-interfaces/src/**/*.html"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "ecomm3",

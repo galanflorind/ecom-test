@@ -1,174 +1,37 @@
-import {
-    ChangeDetectorRef,
-    Component,
-    EventEmitter,
-    HostBinding,
-    Input,
-    OnChanges, OnDestroy, OnInit,
-    Output,
-    SimpleChanges, ViewChild,
-} from '@angular/core';
-import { ProductCardElement, ProductCardLayout } from '../../shared/components/product-card/product-card.component';
-import { SectionHeaderGroup, SectionHeaderLink } from '../../shared/components/section-header/section-header.component';
-import { OwlCarouselOConfig } from 'ngx-owl-carousel-o/lib/carousel/owl-carousel-o-config';
-import { LanguageService } from '../../language/services/language.service';
-import { Subject, timer } from 'rxjs';
-import { switchMap, takeUntil } from 'rxjs/operators';
-import { CarouselComponent } from 'ngx-owl-carousel-o';
+import { Component, Input } from '@angular/core';
 import { Product } from '../../../interfaces/product';
 
-export type BlockProductsCarouselLayout = 'grid-4' | 'grid-4-sidebar' | 'grid-5' | 'grid-6' | 'horizontal' | 'horizontal-sidebar';
-
-const carouselLayoutOptions = {
-    'grid-4': {
-        items: 4,
-        responsive: {
-            1110: { items: 4 },
-            930: { items: 4, margin: 16 },
-            690: { items: 3, margin: 16 },
-            430: { items: 2, margin: 16 },
-            0: { items: 1 },
-        },
-    },
-    'grid-4-sidebar': {
-        items: 4,
-        responsive: {
-            1040: { items: 4 },
-            818: { items: 3 },
-            638: { items: 3, margin: 16 },
-            430: { items: 2, margin: 16 },
-            0: { items: 1 },
-        },
-    },
-    'grid-5': {
-        items: 5,
-        responsive: {
-            1350: { items: 5 },
-            1110: { items: 4 },
-            930: { items: 4, margin: 16 },
-            690: { items: 3, margin: 16 },
-            430: { items: 2, margin: 16 },
-            0: { items: 1 },
-        },
-    },
-    'grid-6': {
-        items: 6,
-        margin: 16,
-        responsive: {
-            1350: { items: 6 },
-            1110: { items: 5 },
-            930: { items: 4, margin: 16 },
-            690: { items: 3, margin: 16 },
-            430: { items: 2, margin: 16 },
-            0: { items: 1 },
-        },
-    },
-    horizontal: {
-        items: 4,
-        responsive: {
-            1350: { items: 4, margin: 14 },
-            930: { items: 3, margin: 14 },
-            690: { items: 2, margin: 14 },
-            0: { items: 1, margin: 14 },
-        },
-    },
-    'horizontal-sidebar': {
-        items: 3,
-        responsive: {
-            1040: { items: 3, margin: 14 },
-            638: { items: 2, margin: 14 },
-            0: { items: 1, margin: 14 },
-        },
-    },
-};
-
-const productCardLayoutMap: {[K in BlockProductsCarouselLayout]: ProductCardLayout} = {
-    'grid-4': 'grid',
-    'grid-4-sidebar': 'grid',
-    'grid-5': 'grid',
-    'grid-6': 'grid',
-    horizontal: 'horizontal',
-    'horizontal-sidebar': 'horizontal',
-};
-
-const productCardExcludeMap: {[K in ProductCardLayout]: ProductCardElement[]} = {
-    grid: ['features', 'list-buttons'],
-    list: [],
-    table: [],
-    horizontal: ['actions', 'status-badge', 'features', 'buttons', 'meta'],
-};
 
 @Component({
     selector: 'app-featured-products-grid',
     templateUrl: './featured-products-grid.component.html',
     styleUrls: ['./featured-products-grid.component.scss'],
 })
-export class FeaturedProductsGridComponent implements OnChanges, OnInit, OnDestroy {
-    private destroy$: Subject<void> = new Subject<void>();
-
-    showCarousel = true;
-
-    carouselOptions!: Partial<OwlCarouselOConfig>;
-
-    columns: Product[][] = [];
-
+export class FeaturedProductsGridComponent {
+    /**
+     * List of products
+     */
     @Input() products: Product[] = [];
-
+    /**
+     * Block title
+     */
     @Input() blockTitle: string = '';
 
-    @Input() @HostBinding('attr.data-layout') layout: BlockProductsCarouselLayout = 'grid-4';
-
-    @Input() rows = 1;
-
+    // @Input() @HostBinding('attr.data-layout') layout: BlockProductsCarouselLayout = 'grid-4';
+    /**
+     * Loading
+     */
     @Input() loading = false;
 
-    @HostBinding('class.block') classBlock = true;
-
-    @HostBinding('class.block-products-carousel') classBlockProductsCarousel = true;
-
-    get productCardLayout(): ProductCardLayout {
-        return productCardLayoutMap[this.layout];
-    }
-
-    get productCardExclude(): ProductCardElement[] {
-        return productCardExcludeMap[this.productCardLayout];
-    }
+    // get productCardLayout(): ProductCardLayout {
+    //     return productCardLayoutMap[this.layout];
+    // }
+    //
+    // get productCardExclude(): ProductCardElement[] {
+    //     return productCardExcludeMap[this.productCardLayout];
+    // }
 
     constructor(
-        private language: LanguageService,
-        private cd: ChangeDetectorRef,
     ) { }
 
-    ngOnChanges(changes: SimpleChanges): void {
-        const properties = Object.keys(changes);
-
-        if (properties.includes('products') || properties.includes('row')) {
-            this.columns = [];
-
-            if (this.products && this.rows > 0) {
-                const products = this.products.slice();
-
-                while (products.length > 0) {
-                    this.columns.push(products.splice(0, this.rows));
-                }
-            }
-        }
-
-        if (changes.products) {
-            // Well, this is just another hack to get owl-carousel-o to work as expected
-            setTimeout(() => {
-
-                this.cd.detectChanges();
-            }, 0);
-        }
-    }
-
-    public ngOnInit(): void {
-
-    }
-
-    public ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
-    }
 }

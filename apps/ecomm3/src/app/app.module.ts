@@ -2,15 +2,11 @@ import { NgModule } from '@angular/core';
 import { filter } from 'rxjs/operators';
 import { ViewportScroller } from '@angular/common';
 import { Router, Scroll, Event } from '@angular/router';
-
-// modules (angular)
 import { BrowserModule } from '@angular/platform-browser';
-// modules (third-party)
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ToastrModule } from 'ngx-toastr';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
-// modules
 import { AppRoutingModule } from './app-routing.module';
 import { CurrencyModule } from './modules/currency/currency.module';
 import { FakeApiModule } from './api';
@@ -19,14 +15,12 @@ import { HeaderModule } from './modules/header/header.module';
 import { LanguageModule } from './modules/language/language.module';
 import { MobileModule } from './modules/mobile/mobile.module';
 import { SharedModule } from './modules/shared/shared.module';
-
-// components
 import { AppComponent } from './app.component';
 import { RootComponent } from './components/root/root.component';
-
-// pages
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
-
+import { NaoHttp2Module } from "@naologic/nao-http2";
+import { environment } from '../environments/environment';
+import { ECommerceService } from "./services/e-commerce.service";
 
 @NgModule({
     declarations: [
@@ -44,6 +38,7 @@ import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.com
         ToastrModule.forRoot(),
         TooltipModule.forRoot(),
         TranslateModule.forChild(),
+        NaoHttp2Module.forRoot(environment.API),
         // modules
         AppRoutingModule,
         CurrencyModule.config({
@@ -114,6 +109,9 @@ import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.com
         MobileModule,
         SharedModule,
     ],
+    providers: [
+        ECommerceService
+    ]
 })
 export class AppModule {
     constructor(router: Router, viewportScroller: ViewportScroller) {

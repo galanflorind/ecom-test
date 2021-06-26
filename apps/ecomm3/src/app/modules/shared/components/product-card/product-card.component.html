@@ -41,7 +41,7 @@
     <div class="product-card__image">
         <div class="image image--type--product">
             <a [routerLink]="url.product(product)" class="image__body">
-                <img class="image__tag" [src]="product|getProductImage" alt="">
+                <img class="image__tag" [src]="product?.data?.images[0]" alt="">
             </a>
         </div>
 
@@ -62,10 +62,10 @@
 
         <div class="product-card__name">
             <div>
-                <div *ngIf="product?.badges?.length" class="product-card__badges">
-                    <div *ngFor="let badge of product.badges" class="tag-badge tag-badge--{{ badge }}">{{ badge }}</div>
-                </div>
-                <a [routerLink]="url.product(product)">{{ product.name }}</a>
+<!--                <div *ngIf="product?.badges?.length" class="product-card__badges">-->
+<!--                    <div *ngFor="let badge of product.badges" class="tag-badge tag-badge&#45;&#45;{{ badge }}">{{ badge }}</div>-->
+<!--                </div>-->
+                <a [routerLink]="url.product(product)">{{ product?.data?.name }}</a>
             </div>
         </div>
 

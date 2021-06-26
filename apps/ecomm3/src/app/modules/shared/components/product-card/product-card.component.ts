@@ -35,7 +35,8 @@ export class ProductCardComponent implements OnChanges, OnInit, OnDestroy {
 
     vehicle: Vehicle|null = null;
 
-    @Input() product!: Product;
+    // TODO: update the interface
+    @Input() product!: Product | any;
 
     @Input() layout?: ProductCardLayout;
 
@@ -69,7 +70,7 @@ export class ProductCardComponent implements OnChanges, OnInit, OnDestroy {
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.product) {
-            this.featuredAttributes = this.product.attributes.filter(x => x.featured);
+            // this.featuredAttributes = this.product.attributes.filter(x => x.featured);
         }
     }
 

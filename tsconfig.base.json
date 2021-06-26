@@ -13,6 +13,8 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
+    "noImplicitAny": false,
+    "strictNullChecks": false,
     "target": "es2017",
     "module": "es2020",
     "lib": [
@@ -21,7 +23,9 @@
     ],
     "paths": {
       "@naologic/nao-user-access": ["libs/nao-user-access/src/index.ts"],
-      "@naologic/nao-http2": ["libs/nao-http2/src/index.ts"]
+      "@naologic/nao-http2": ["libs/nao-http2/src/index.ts"],
+      "@naologic/nao-interfaces": ["libs/nao-interfaces/src/index.ts"],
+      "@naologic/nao-utils": ["libs/nao-utils/src/index.ts"]
     },
     "rootDir": "."
   },

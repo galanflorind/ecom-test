@@ -1,21 +1,22 @@
 {
   "npmScope": "ecomm3",
+  "affected": {
+    "defaultBase": "master"
+  },
+  "implicitDependencies": {
+    "angular.json": "*",
+    "package.json": { "dependencies": "*", "devDependencies": "*" },
+    "tsconfig.base.json": "*",
+    "tslint.json": "*",
+    ".eslintrc.json": "*",
+    "nx.json": "*"
+  },
   "projects": {
-    "ecomm3": {
-      "projectType": "application",
-      "architect": {},
-      "root": ""
-    },
-    "nao-user-access": {
-      "projectType": "library",
-      "architect": {},
-      "root": ""
-    },
-    "nao-http2": {
-      "projectType": "library",
-      "architect": {},
-      "root": ""
-    }
+    "ecomm3": { "tags": [] },
+    "nao-user-access": { "tags": [] },
+    "nao-http2": { "tags": [] },
+    "nao-interfaces": { "tags": [] },
+    "nao-utils": { "tags": [] }
   },
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1

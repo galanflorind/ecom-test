@@ -5,6 +5,21 @@
 export const environment = {
     production: false,
     paypalClientId: 'AfqNKvCkZ4ExY1NKEB0kwrnqpcX7JfZRC1eNr7787k8WizTyOYIwWYCxLrYry28OlLx6v41bDH1NCtA7',
+    API: {
+        basicAuth: {
+            user: 'gabriel',
+            password: 'gabriel',
+        },
+        server: {
+            $id: 'server',
+            protocol: 'http',
+            port: 3010,
+            url: 'localhost',
+            prefix: 'api/v2/',
+            ssl: false
+        },
+        naoToken: 'naoprodvlhauavvm9kslfbynan6bu2a8'
+    }
 };
 
 /*

@@ -55,8 +55,6 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
 
     @HostBinding('class.search') classSearch = true;
 
-    @ViewChild('selectVehicleButton') selectVehicleButton!: ElementRef<HTMLElement>;
-
     @ViewChild('vehiclePickerDropdown') vehiclePickerDropdown!: ElementRef<HTMLElement>;
 
     get element(): HTMLElement { return this.elementRef.nativeElement; }
@@ -123,15 +121,15 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
         }
 
         this.zone.runOutsideAngular(() => {
-            fromOutsideClick([
-                this.selectVehicleButton.nativeElement,
-                this.vehiclePickerDropdown.nativeElement,
-            ]).pipe(
-                filter(() => this.vehiclePickerIsOpen),
-                takeUntil(this.destroy$),
-            ).subscribe(() => {
-                this.zone.run(() => this.vehiclePickerIsOpen = false);
-            });
+            // fromOutsideClick([
+            //     this.selectVehicleButton.nativeElement,
+            //     this.vehiclePickerDropdown.nativeElement,
+            // ]).pipe(
+            //     filter(() => this.vehiclePickerIsOpen),
+            //     takeUntil(this.destroy$),
+            // ).subscribe(() => {
+            //     this.zone.run(() => this.vehiclePickerIsOpen = false);
+            // });
 
             fromOutsideClick(this.element).pipe(
                 filter(() => this.suggestionsIsOpen),

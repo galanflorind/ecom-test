@@ -43,10 +43,8 @@
 <!--TODO: connect this to featured products, max limit of 10-->
 <app-featured-products-grid
     [blockTitle]="'HEADER_FEATURED_PRODUCTS'|translate"
-    layout="grid-5"
-    [rows]="1"
     [loading]="featuredProducts.loading"
-    [products]="(featuredProducts.products$|async) || []"
+    [products]="featuredProducts.products || []"
 ></app-featured-products-grid>
 
 <!--Spacer-->

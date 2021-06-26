@@ -1,10 +1,35 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHandler, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { HttpOptions, HttpReponseType, HttpRequestType } from './nao-socket.interface';
 import { catchError, first } from 'rxjs/operators';
 import { generateApiRoute } from './nao-http2.utils';
 import { naoAccessToken$ } from '@naologic/nao-utils';
+// @ts-nocheck
+
+export interface HttpOptions {
+    headers?: HttpHeaders | {
+        [header: string]: string | string[];
+    };
+    observe: 'body';
+    params?: HttpParams | {
+        [param: string]: string | string[];
+    };
+    reportProgress?: boolean;
+    responseType?: 'json';
+    withCredentials?: boolean;
+}
+
+export enum HttpReponseType {
+    arraybuffer = 'arraybuffer',
+    json = 'json',
+    blob = 'blob',
+    pdf = 'application/pdf',
+}
+
+export enum HttpRequestType {
+    json = 'application/json',
+    data = 'multipart/form-data'
+}
 
 @Injectable({
   providedIn: 'root'
@@ -16,14 +41,14 @@ export class NaoHttp2ApiService extends HttpClient {
 
   constructor(
     handler: HttpHandler,
-    @Inject('apiConfig') private readonly apiConfig,
+    @Inject('apiConfig') private readonly apiConfig: any,
   ) {
     // -->Init: http handler
     super(handler);
+    console.log("this.api >>>", this.apiConfig)
     // -->Set: api
     this.api = {
-      // url: `${this.apiConfig.server.protocol}://${this.apiConfig.server.url}:${this.apiConfig.server.port}/${this.apiConfig.server.prefix}`,
-      url: generateApiRoute(this.apiConfig.server),
+      url: `${this.apiConfig.server.protocol}://${this.apiConfig.server.url}:${this.apiConfig.server.port}/${this.apiConfig.server.prefix}`,
       basicAuth: btoa(`${this.apiConfig.basicAuth.user}:${this.apiConfig.basicAuth.password}`),
       naoToken: this.apiConfig.naoToken,
       ok: true
@@ -34,32 +59,32 @@ export class NaoHttp2ApiService extends HttpClient {
    *          Standard HTTP requests (no unsubscribe needed)
    *     --------------------------------
    */
-  public getJson<T>(uri: string, params?): Observable<T> {
+  public getJson<T>(uri: string, params?: any): Observable<T> {
     // -->Send: request
     return this.getJson$<T>(uri, params).pipe(first());
   }
 
-  public postJson<T>(uri: string, data: any, params?, responseType?: HttpReponseType, requestType?: HttpRequestType): Observable<T> {
+  public postJson<T>(uri: string, data: any, params?: any, responseType?: HttpReponseType, requestType?: HttpRequestType): Observable<T> {
     return this.postJson$<T>(uri, data, params, responseType, requestType).pipe(first());
   }
 
-  public putJson<T>(uri: string, data: any, params?): Observable<T> {
+  public putJson<T>(uri: string, data: any, params?: any): Observable<T> {
     return this.putJson$<T>(uri, data, params).pipe(first());
   }
 
-  public patchJson<T>(uri: string, data: any, params?): Observable<T> {
+  public patchJson<T>(uri: string, data: any, params?: any): Observable<T> {
     return this.patchJson$<T>(uri, data, params).pipe(first());
   }
 
-  public headJson<T>(uri: string, params?): Observable<T> {
+  public headJson<T>(uri: string, params?: any): Observable<T> {
     return this.headJson$<T>(uri, params).pipe(first());
   }
 
-  public deleteJson<T>(uri: string, params?): Observable<T> {
+  public deleteJson<T>(uri: string, params?: any): Observable<T> {
     return this.deleteJson$<T>(uri, params).pipe(first());
   }
 
-  public optionsJson<T>(uri: string, params?): Observable<T> {
+  public optionsJson<T>(uri: string, params?: any): Observable<T> {
     return this.optionsJson$<T>(uri, params).pipe(first());
   }
 
@@ -67,33 +92,40 @@ export class NaoHttp2ApiService extends HttpClient {
    *          Observable HTTP requests
    *     --------------------------------
    */
-  public getJson$<T>(uri: string, params?): Observable<T> {
+  public getJson$<T>(uri: string, params?: any): Observable<T> {
     // -->Send: request
-    return super.get<T>(this.getUrl(uri), this.getOptions(params)).pipe(catchError(this.handleError.bind(this)));
+      // @ts-ignore
+      return super.get<T>(this.getUrl(uri), this.getOptions(params)).pipe(catchError(this.handleError.bind(this)));
   }
 
   public postJson$<T>(uri: string, data: any, params?, responseType?: HttpReponseType, requestType?: HttpRequestType): Observable<T> {
-    return super.post<T>(this.getUrl(uri), data, this.getOptions(params, responseType, requestType)).pipe(catchError(this.handleError.bind(this)));
+    // @ts-ignore
+      return super.post<T>(this.getUrl(uri), data, this.getOptions(params, responseType, requestType)).pipe(catchError(this.handleError.bind(this)));
   }
 
   public putJson$<T>(uri: string, data: any, params?): Observable<T> {
-    return super.put<T>(this.getUrl(uri), data, this.getOptions(params)).pipe(catchError(this.handleError.bind(this)));
+    // @ts-ignore
+      return super.put<T>(this.getUrl(uri), data, this.getOptions(params)).pipe(catchError(this.handleError.bind(this)));
   }
 
   public patchJson$<T>(uri: string, data: any, params?): Observable<T> {
-    return super.patch<T>(this.getUrl(uri), data, this.getOptions(params)).pipe(catchError(this.handleError.bind(this)));
+    // @ts-ignore
+      return super.patch<T>(this.getUrl(uri), data, this.getOptions(params)).pipe(catchError(this.handleError.bind(this)));
   }
 
   public headJson$<T>(uri: string, params?): Observable<T> {
-    return super.head<T>(this.getUrl(uri), this.getOptions(params)).pipe(catchError(this.handleError.bind(this)));
+    // @ts-ignore
+      return super.head<T>(this.getUrl(uri), this.getOptions(params)).pipe(catchError(this.handleError.bind(this)));
   }
 
   public deleteJson$<T>(uri: string, params?): Observable<T> {
-    return super.delete<T>(this.getUrl(uri), this.getOptions(params)).pipe(catchError(this.handleError.bind(this)));
+    // @ts-ignore
+      return super.delete<T>(this.getUrl(uri), this.getOptions(params)).pipe(catchError(this.handleError.bind(this)));
   }
 
   public optionsJson$<T>(uri: string, params?): Observable<T> {
-    return super.options<T>(this.getUrl(uri), this.getOptions(params)).pipe(catchError(this.handleError.bind(this)));
+    // @ts-ignore
+      return super.options<T>(this.getUrl(uri), this.getOptions(params)).pipe(catchError(this.handleError.bind(this)));
   }
 
 
@@ -102,28 +134,30 @@ export class NaoHttp2ApiService extends HttpClient {
    *     --------------------------------
    */
   private fileGet<T>(uri: string, responseType: HttpReponseType = HttpReponseType.blob, params?): Observable<T> {
-    return super.get<T>(this.getUrl(uri), this.getOptions(params, responseType)).pipe(catchError(this.handleError.bind(this)));
+    // @ts-ignore
+      return super.get<T>(this.getUrl(uri), this.getOptions(params, responseType)).pipe(catchError(this.handleError.bind(this)));
   }
 
-  public fileDownloadAsBlob(uri: string, params?): Observable<Blob> {
-    return this.fileGet<Blob>(uri, HttpReponseType.blob, params);
+  // public fileDownloadAsBlob(uri: string, params?: any): Observable<Blob> {
+  //   return this.fileGet<Blob>(uri, HttpReponseType.blob, params);
+  // }
+
+  // public fileDownloadAsArrayBuffer(uri: string, params?: any): Observable<ArrayBuffer> {
+  //   return this.fileGet<ArrayBuffer>(uri, HttpReponseType.arraybuffer, params);
+  // }
+
+  public filePost<T>(uri: string, data: any, params?: any, responseType?: HttpReponseType): Observable<T> {
+    // @ts-ignore
+      return super.post<T>(this.getUrl(uri), data, this.getOptions(params, responseType)).pipe(catchError(this.handleError.bind(this)));
   }
 
-  public fileDownloadAsArrayBuffer(uri: string, params?): Observable<ArrayBuffer> {
-    return this.fileGet<ArrayBuffer>(uri, HttpReponseType.arraybuffer, params);
-  }
+  // public filePostDownloadAsBlob(uri: string, data: any, params?: any): Observable<Blob> {
+  //   return this.filePost<Blob>(uri, data, params, HttpReponseType.blob);
+  // }
 
-  public filePost<T>(uri: string, data: any, params?, responseType?: HttpReponseType): Observable<T> {
-    return super.post<T>(this.getUrl(uri), data, this.getOptions(params, responseType)).pipe(catchError(this.handleError.bind(this)));
-  }
-
-  public filePostDownloadAsBlob(uri: string, data: any, params?): Observable<Blob> {
-    return this.filePost<Blob>(uri, data, params, HttpReponseType.blob);
-  }
-
-  public filePostDownloadAsArrayBuffer(uri: string, data: any, params?): Observable<ArrayBuffer> {
-    return this.filePost<ArrayBuffer>(uri, data, params, HttpReponseType.arraybuffer);
-  }
+  // public filePostDownloadAsArrayBuffer(uri: string, data: any, params?: any): Observable<ArrayBuffer> {
+  //   return this.filePost<ArrayBuffer>(uri, data, params, HttpReponseType.arraybuffer);
+  // }
 
   public filesUpload<T>(uri: string, files: FileList, data?: any): Observable<T> {
     // -->Create: form data
@@ -154,7 +188,8 @@ export class NaoHttp2ApiService extends HttpClient {
       // -->Set: options
       const opts = this.getOptionsForFiles(null, HttpReponseType.json);
 
-      return super.post<T>(this.getUrl(uri), form, opts).pipe(catchError(this.handleError.bind(this)));
+      // @ts-ignore
+        return super.post<T>(this.getUrl(uri), form, opts).pipe(catchError(this.handleError.bind(this)));
     } else {
       throw new Error(`No files sent in request`);
     }
@@ -195,7 +230,8 @@ export class NaoHttp2ApiService extends HttpClient {
     };
 
     // -->Request
-    return super.post<T>(this.getUrl(uri), form, options).pipe(catchError(this.handleError.bind(this)));
+    // @ts-ignore
+      return super.post<T>(this.getUrl(uri), form, options).pipe(catchError(this.handleError.bind(this)));
   }
 
   /**    --------------------------------
@@ -210,7 +246,7 @@ export class NaoHttp2ApiService extends HttpClient {
    *    > set retry strategy for token refresh
    *    https://blog.angular-university.io/rxjs-error-handling/
    */
-  public handleError(err): any {
+  public handleError(err: { error: BufferSource | undefined; }): any {
     /**
      * In some cases, the error returns as an ArrayBuffer
      *    > transform it to JSON if possible
@@ -224,7 +260,8 @@ export class NaoHttp2ApiService extends HttpClient {
       }
     }
     // -->Check: if the user is logged in
-    if (err && err.error && err.error.statusCode === 401) {
+    // @ts-ignore
+      if (err && err.error && err.error.statusCode === 401) {
       // -->Navigate: away
       // this.router.navigate(['/login'], {
       //   queryParams: { reason: 'tokenExpired' }
@@ -243,7 +280,7 @@ export class NaoHttp2ApiService extends HttpClient {
   /**
    * Get the HTTP options for the requests
    */
-  private getOptions(data, responseType: HttpReponseType = HttpReponseType.json, requestType: HttpRequestType = HttpRequestType.json, extraHeaders: { name: string, value: string }[] = []): HttpOptions {
+  private getOptions(data: any, responseType: HttpReponseType = HttpReponseType.json, requestType: HttpRequestType = HttpRequestType.json, extraHeaders: { name: string, value: string }[] = []): HttpOptions {
     // -->Get: token
     const accessToken = this.accessToken;
     // -->Init: headers
@@ -283,7 +320,7 @@ export class NaoHttp2ApiService extends HttpClient {
    * Get the HTTP options for the requests
    */
   private getOptionsForFiles(
-    data,
+    data: null,
     responseType: HttpReponseType = HttpReponseType.json,
     requestType: HttpRequestType = HttpRequestType.json,
     extraHeaders: { name: string, value: string }[] = []
@@ -305,9 +342,10 @@ export class NaoHttp2ApiService extends HttpClient {
       });
     }
     // -->Set: http options
-    const options = {
+      const options = {
       headers,
       observe: 'body',
+      // @ts-ignore
       params: (data) ? new HttpParams({ fromObject: data }) : new HttpParams(),
       reportProgress: true,
       responseType,
@@ -315,11 +353,5 @@ export class NaoHttp2ApiService extends HttpClient {
     };
 
     return options as HttpOptions;
-  }
-
-  /**
-   * Destroy
-   */
-  public OnDestroy(): void {
   }
 }

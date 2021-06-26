@@ -9,20 +9,20 @@
     <!--TODO: add grid class that could change-->
     <!--TODO: add grid class that could change-->
     <!--TODO: add grid class that could change-->
-    <div class="block-products-carousel__carousel">
+    <div class="block-products-carousel__carousel"
+         [class.block-products-carousel__carousel--loading]="loading">
 
         <div class="block-products-carousel__carousel-loader"></div>
 
-        <ng-template *ngFor="let column of columns">
-            <div class="block-products-carousel__column">
+<!--        <ng-template *ngFor="let column of columns">-->
+            <div class="nao-grid-5">
                 <app-product-card
-                    *ngFor="let product of column"
+                    *ngFor="let product of products"
+                    layout="grid"
                     class="block-products-carousel__cell"
                     [product]="product"
-                    [layout]="productCardLayout"
-                    [exclude]="productCardExclude"
                 ></app-product-card>
             </div>
-        </ng-template>
+<!--        </ng-template>-->
     </div>
 </div>

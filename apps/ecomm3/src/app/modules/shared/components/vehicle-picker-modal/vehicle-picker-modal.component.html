@@ -8,8 +8,6 @@
                 class="vehicle-picker-modal__panel"
                 [class.vehicle-picker-modal__panel--active]="currentPanel === 'list' && (vehicles$|async)?.length"
             >
-                <div class="vehicle-picker-modal__title card-title">{{ 'HEADER_SELECT_VEHICLE'|translate }}</div>
-
                 <div class="vehicle-picker-modal__text">
                     {{ 'TEXT_SELECT_VEHICLE_TO_FIND_EXACT_FIT_PARTS'|translate }}
                 </div>

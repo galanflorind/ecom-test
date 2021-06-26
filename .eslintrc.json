@@ -5,7 +5,14 @@
   "overrides": [
     {
       "files": ["*.ts", "*.tsx"],
+      "extends": ["plugin:@nrwl/nx/typescript"],
       "rules": {
+        "max-len": 0,
+        "no-empty-function": "off",
+        "no-prototype-builtins": 0,
+        "@typescript-eslint/no-explicit-any": ["off"],
+        "allowEmptyCatch": 0,
+        "@typescript-eslint/no-namespace": "off",
         "@nrwl/nx/enforce-module-boundaries": [
           "error",
           {
@@ -24,19 +31,7 @@
           "error",
           { "type": "element", "prefix": ["customize", "app", "nao", "file"], "style": "kebab-case" }
         ],
-        "@angular-eslint/max-len": "off",
-        "allowEmptyCatch": 0
-      }
-    },
-    {
-      "files": ["*.ts", "*.tsx"],
-      "extends": ["plugin:@nrwl/nx/typescript"],
-      "rules": {
-        "max-len": 0,
-        "no-empty-function": "off",
-        "no-prototype-builtins": 0,
-        "@typescript-eslint/no-explicit-any": ["off"],
-        "allowEmptyCatch": 0
+        "@angular-eslint/max-len": "off"
       }
     },
     {
