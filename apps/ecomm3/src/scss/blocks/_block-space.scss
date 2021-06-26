@@ -8,7 +8,8 @@
 .block-space {
     display: block;
 }
-.block-space--layout--after-header {
+
+.nao-spacer-after-header {
     @include media-breakpoint-up(xl) {
         height: (24px + 60px);
 
@@ -26,7 +27,8 @@
         height: 36px;
     }
 }
-.block-space--layout--before-footer {
+
+.nao-spacer-before-footer {
     height: 80px;
 
     @include media-breakpoint-down(lg) {
@@ -36,22 +38,28 @@
         height: 48px;
     }
 }
-.block-space--layout--divider-xl {
+
+.nao-spacer-xl {
     height: 72px;
 }
-.block-space--layout--divider-lg {
+
+.nao-spacer-lg {
     height: 60px;
 }
-.block-space--layout--divider-nl {
+
+.nao-spacer-nl {
     height: 52px;
 }
-.block-space--layout--divider-sm {
+
+.nao-spacer-sm {
     height: 40px;
 }
-.block-space--layout--divider-xs {
+
+.nao-spacer-xs {
     height: 36px;
 }
-.block-space--layout--spaceship-ledge-height {
+
+.nao-spacer-ledge-height {
     height: $spaceship-ledge-height;
 
     @include media-breakpoint-down(lg) {

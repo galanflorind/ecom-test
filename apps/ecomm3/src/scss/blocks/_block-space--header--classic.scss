@@ -7,7 +7,7 @@
 
 @include desktop-header-variant-selector {
     @if($header-layout == classic) {
-        .block-space--layout--spaceship-ledge-height {
+        .nao-spacer-ledge-height {
             display: none;
         }
     }

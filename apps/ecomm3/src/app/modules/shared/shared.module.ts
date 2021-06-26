@@ -20,7 +20,6 @@ import { AddressCardComponent } from './components/address-card/address-card.com
 import { AddressFormComponent } from './components/address-form/address-form.component';
 import { ArrowComponent } from './components/arrow/arrow.component';
 import { BlockHeaderComponent } from './components/block-header/block-header.component';
-import { BlockSpaceComponent } from './components/block-space/block-space.component';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import { DecorComponent } from './components/decor/decor.component';
 import { IconComponent } from './components/icon/icon.component';
@@ -78,7 +77,6 @@ import { StockToStatusBadgeTypePipe } from './pipes/stock-to-status-badge-type.p
         AddressFormComponent,
         ArrowComponent,
         BlockHeaderComponent,
-        BlockSpaceComponent,
         BreadcrumbComponent,
         DecorComponent,
         IconComponent,
@@ -135,7 +133,6 @@ import { StockToStatusBadgeTypePipe } from './pipes/stock-to-status-badge-type.p
         AddressFormComponent,
         ArrowComponent,
         BlockHeaderComponent,
-        BlockSpaceComponent,
         DecorComponent,
         IconComponent,
         InputNumberComponent,

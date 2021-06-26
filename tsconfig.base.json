@@ -19,7 +19,10 @@
       "es2018",
       "dom"
     ],
-    "paths": {},
+    "paths": {
+      "@naologic/nao-user-access": ["libs/nao-user-access/src/index.ts"],
+      "@naologic/nao-http2": ["libs/nao-http2/src/index.ts"]
+    },
     "rootDir": "."
   },
   "angularCompilerOptions": {

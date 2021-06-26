@@ -243,7 +243,9 @@
                 </div>
 
                 <ng-container *ngIf="relatedProducts.length > 0">
-                    <app-block-space layout="divider-nl"></app-block-space>
+                    <!--Spacer-->
+<div class="nao-spacer-nl"></div>
+
 
                     <app-block-products-carousel
                         [blockTitle]="'HEADER_RELATED_PRODUCTS'|translate"
@@ -259,4 +261,5 @@
     </div>
 </div>
 
-<app-block-space layout="before-footer"></app-block-space>
+<!--Spacer-->
+<div class="nao-spacer-before-footer"></div>

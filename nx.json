@@ -12,9 +12,10 @@
     "nx.json": "*"
   },
   "projects": {
-    "ecomm3": {
-      "tags": []
-    }
+    "ecomm3": {"tags": [] },
+    "nao-user-access": { "tags": [] },
+    "nao-http2": { "tags": [] }
   },
-  "$schema": "./node_modules/@angular/cli/lib/config/schema.json"
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": "1.0.0"
 }

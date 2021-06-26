@@ -191,6 +191,40 @@
           }
         }
       }
+    },
+    "nao-user-access": {
+      "projectType": "library",
+      "root": "libs/nao-user-access",
+      "sourceRoot": "libs/nao-user-access/src",
+      "prefix": "naologic",
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/nao-user-access/src/**/*.ts",
+              "libs/nao-user-access/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "nao-http2": {
+      "projectType": "library",
+      "root": "libs/nao-http2",
+      "sourceRoot": "libs/nao-http2/src",
+      "prefix": "naologic",
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/nao-http2/src/**/*.ts",
+              "libs/nao-http2/src/**/*.html"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "ecomm3",

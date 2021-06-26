@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { BlogApi, ShopApi } from '../../../../api';
-import { SectionHeaderGroup } from '../../../shared/components/section-header/section-header.component';
-import { BehaviorSubject, EMPTY, Observable, of, timer } from 'rxjs';
-import { Product } from '../../../../interfaces/product';
-import { filter, mergeMap, switchMap, tap } from 'rxjs/operators';
-import { ShopCategory } from '../../../../interfaces/category';
 import { Post } from '../../../../interfaces/post';
+import { BehaviorSubject, EMPTY, Observable, of, timer } from 'rxjs';
 import { Brand } from '../../../../interfaces/brand';
+import { filter, mergeMap, switchMap, tap } from 'rxjs/operators';
+import { Product } from '../../../../interfaces/product';
+import { SectionHeaderGroup } from '../../../shared/components/section-header/section-header.component';
+import { ShopCategory } from '../../../../interfaces/category';
 
 interface ProductsCarouselGroup extends SectionHeaderGroup {
     products$: Observable<Product[]>;
@@ -19,34 +19,26 @@ interface ProductsCarouselData {
     groups: ProductsCarouselGroup[];
 }
 
-interface BlockZoneData {
-    image: string;
-    mobileImage: string;
-    category$: Observable<ShopCategory>;
-}
-
 interface DeferredData<T> {
     loading: boolean;
     data$: Observable<T>;
 }
 
 @Component({
-    selector: 'app-page-one',
-    templateUrl: './page-one.component.html',
-    styleUrls: ['./page-one.component.scss'],
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss'],
 })
-export class PageOneComponent implements OnInit {
+export class HomeComponent implements OnInit {
+    brands$: Observable<Brand[]> = of([]);
+
+    popularCategories$: Observable<ShopCategory[]> = of([]);
+
     featuredProducts!: ProductsCarouselData;
 
     blockSale!: DeferredData<Product[]>;
 
-    blockZones: BlockZoneData[] = [];
-
-    newArrivals!: DeferredData<Product[]>;
-
     latestPosts!: DeferredData<Post[]>;
-
-    brands$: Observable<Brand[]> = of([]);
 
     columnTopRated$!: Observable<Product[]>;
     columnSpecialOffers$!: Observable<Product[]>;
@@ -58,6 +50,20 @@ export class PageOneComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
+        this.brands$ = this.shopApi.getBrands({ limit: 16 });
+
+        this.popularCategories$ = this.shopApi.getCategories({
+            slugs: [
+                'headlights-lighting',
+                'fuel-system',
+                'body-parts',
+                'interior-parts',
+                'tires-wheels',
+                'engine-drivetrain',
+            ],
+            depth: 1,
+        });
+
         this.featuredProducts = this.makeCarouselData([
             {
                 label: 'All',
@@ -79,29 +85,7 @@ export class PageOneComponent implements OnInit {
 
         this.blockSale = this.makeDeferredData(this.shopApi.getSpecialOffers(8));
 
-        this.blockZones = [
-            {
-                image: 'assets/images/categories/category-overlay-1.jpg',
-                mobileImage: 'assets/images/categories/category-overlay-1-mobile.jpg',
-                category$: this.shopApi.getCategoryBySlug('tires-wheels', { depth: 1 }),
-            },
-            {
-                image: 'assets/images/categories/category-overlay-2.jpg',
-                mobileImage: 'assets/images/categories/category-overlay-2-mobile.jpg',
-                category$: this.shopApi.getCategoryBySlug('interior-parts', { depth: 1 }),
-            },
-            {
-                image: 'assets/images/categories/category-overlay-3.jpg',
-                mobileImage: 'assets/images/categories/category-overlay-3-mobile.jpg',
-                category$: this.shopApi.getCategoryBySlug('engine-drivetrain', { depth: 1 }),
-            },
-        ];
-
-        this.newArrivals = this.makeDeferredData(this.shopApi.getLatestProducts(8));
-
         this.latestPosts = this.makeDeferredData(this.blogApi.getLatestPosts(8));
-
-        this.brands$ = this.shopApi.getBrands({ limit: 16 });
 
         this.columnTopRated$ = this.shopApi.getTopRatedProducts(null, 3);
         this.columnSpecialOffers$ = this.shopApi.getSpecialOffers(3);

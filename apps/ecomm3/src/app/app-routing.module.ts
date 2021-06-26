@@ -8,20 +8,20 @@ const routes: Routes = [
     /**
      * ROUTES_ONLY_FOR_DEMO / START
      */
-    {
-        path: 'home-two',
-        component: RootComponent,
-        data: {
-            desktopHeader: 'classic/one',
-        },
-        children: [
-            {
-                path: '',
-                pathMatch: 'full',
-                loadChildren: () => import('./modules/home-two/home-two.module').then(m => m.HomeTwoModule),
-            },
-        ],
-    },
+    // {
+    //     path: 'home',
+    //     component: RootComponent,
+    //     data: {
+    //         desktopHeader: 'classic/one',
+    //     },
+    //     children: [
+    //         {
+    //             path: '',
+    //             pathMatch: 'full',
+    //             loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule),
+    //         },
+    //     ],
+    // },
     // Desktop header variations.
     { path: 'header-spaceship-variant-one',   component: RootComponent, data: { desktopHeader: 'spaceship/one' } },
     { path: 'header-spaceship-variant-two',   component: RootComponent, data: { desktopHeader: 'spaceship/two' } },
@@ -46,7 +46,7 @@ const routes: Routes = [
              * - spaceship/{one, two, three}
              * - classic/{one, two, three, four, five}
              */
-            desktopHeader: 'spaceship/one',
+            desktopHeader: 'classic/one',
             /**
              * Mobile header layout, one of:
              * - one
@@ -58,7 +58,7 @@ const routes: Routes = [
             {
                 path: '',
                 pathMatch: 'full',
-                loadChildren: () => import('./modules/home-one/home-one.module').then(m => m.HomeOneModule),
+                loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule),
             },
             {
                 path: 'shop',

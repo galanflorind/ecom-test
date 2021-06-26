@@ -236,12 +236,4 @@ export const mainMenu: MainMenuLink[] = [
             ],
         },
     },
-    {
-        title: 'Buy Theme',
-        url: 'https://themeforest.net/item/redparts-auto-parts-angular-template/27087440',
-        external: true,
-        customFields: {
-            ignoreIn: ['spaceship'],
-        },
-    },
 ];

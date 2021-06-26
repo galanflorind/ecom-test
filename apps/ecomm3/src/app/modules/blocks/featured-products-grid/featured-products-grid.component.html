@@ -1,0 +1,28 @@
+<div class="container">
+    <div class="section-header__body">
+        <h2 *ngIf="blockTitle" class="section-header__title">{{ blockTitle }}</h2>
+        <div class="section-header__divider"></div>
+    </div>
+
+    <!--TODO: add grid class that could change-->
+    <!--TODO: add grid class that could change-->
+    <!--TODO: add grid class that could change-->
+    <!--TODO: add grid class that could change-->
+    <!--TODO: add grid class that could change-->
+    <div class="block-products-carousel__carousel">
+
+        <div class="block-products-carousel__carousel-loader"></div>
+
+        <ng-template *ngFor="let column of columns">
+            <div class="block-products-carousel__column">
+                <app-product-card
+                    *ngFor="let product of column"
+                    class="block-products-carousel__cell"
+                    [product]="product"
+                    [layout]="productCardLayout"
+                    [exclude]="productCardExclude"
+                ></app-product-card>
+            </div>
+        </ng-template>
+    </div>
+</div>

@@ -48,7 +48,9 @@
                         </div>
                     </div>
 
-                    <app-block-space layout="divider-nl"></app-block-space>
+                    <!--Spacer-->
+<div class="nao-spacer-nl"></div>
+
                 </ng-container>
 
                 <app-block-products-carousel
@@ -58,7 +60,9 @@
                     [loading]="bestsellers.loading"
                 ></app-block-products-carousel>
 
-                <app-block-space layout="divider-nl"></app-block-space>
+                <!--Spacer-->
+<div class="nao-spacer-nl"></div>
+
 
                 <app-block-products-carousel
                     [blockTitle]="'HEADER_FEATURED_PRODUCTS'|translate"
@@ -68,7 +72,9 @@
                     [loading]="featured.loading"
                 ></app-block-products-carousel>
 
-                <app-block-space layout="divider-nl"></app-block-space>
+                <!--Spacer-->
+<div class="nao-spacer-nl"></div>
+
 
                 <app-block-brands
                     [layout]="hasSidebar ? 'columns-7-sidebar' : 'columns-8-full'"
@@ -82,4 +88,5 @@
     </div>
 </div>
 
-<app-block-space layout="before-footer"></app-block-space>
+<!--Spacer-->
+<div class="nao-spacer-before-footer"></div>

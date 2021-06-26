@@ -153,13 +153,5 @@ export const mobileMenuLinks: MobileMenuLink[] = [
             { title: 'Components', url: '/site/components' },
             { title: 'Typography', url: '/site/typography' },
         ],
-    },
-    {
-        title: 'Buy Theme',
-        url: 'https://themeforest.net/item/redparts-auto-parts-angular-template/27087440',
-        external: true,
-        customFields: {
-            highlight: true,
-        },
-    },
+    }
 ];

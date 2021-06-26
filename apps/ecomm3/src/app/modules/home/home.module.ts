@@ -1,31 +1,21 @@
 import { NgModule } from '@angular/core';
-
-// modules (angular)
 import { CommonModule } from '@angular/common';
-// modules (third-party)
 import { TranslateModule } from '@ngx-translate/core';
-// modules
 import { BlocksModule } from '../blocks/blocks.module';
-import { HomeTwoRoutingModule } from './home-two-routing.module';
+import { HomeRoutingModule } from './home-routing.module';
 import { SharedModule } from '../shared/shared.module';
-
-// pages
-import { PageTwoComponent } from './pages/page-two/page-two.component';
+import { HomeComponent } from './pages/home/home.component';
 
 @NgModule({
     declarations: [
-        // pages
-        PageTwoComponent,
+        HomeComponent,
     ],
     imports: [
-        // modules (angular)
         CommonModule,
-        // modules (third-party)
         TranslateModule.forChild(),
-        // modules
         BlocksModule,
-        HomeTwoRoutingModule,
+        HomeRoutingModule,
         SharedModule,
     ],
 })
-export class HomeTwoModule { }
+export class HomeModule { }

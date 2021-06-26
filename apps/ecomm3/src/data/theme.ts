@@ -1,9 +1,9 @@
 export const theme = {
-    name: 'RedParts',
-    url: 'https://themeforest.net/item/redparts-auto-parts-angular-template/27087440',
+    name: 'Naologic',
+    url: 'https://www.naologic.com',
     author: {
-        name: 'Kos',
-        profile_url: 'https://themeforest.net/user/kos9',
+        name: 'Nao',
+        profile_url: 'https://www.naologic.com',
     },
     contacts: {
         address: ['715 Fake Street, New York 10021 USA'],
