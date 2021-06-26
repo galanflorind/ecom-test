@@ -15,7 +15,6 @@ import { MobileMenuIndicatorsComponent } from './components/mobile-menu-indicato
 import { MobileMenuLinksComponent } from './components/mobile-menu-links/mobile-menu-links.component';
 import { MobileMenuPanelComponent } from './components/mobile-menu-panel/mobile-menu-panel.component';
 import { MobileMenuSettingsComponent } from './components/mobile-menu-settings/mobile-menu-settings.component';
-import { MobileLogoComponent } from './components/mobile-logo/mobile-logo.component';
 
 
 @NgModule({
@@ -27,7 +26,6 @@ import { MobileLogoComponent } from './components/mobile-logo/mobile-logo.compon
         MobileMenuLinksComponent,
         MobileMenuPanelComponent,
         MobileMenuSettingsComponent,
-        MobileLogoComponent,
     ],
     exports: [
         // components
