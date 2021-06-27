@@ -18,6 +18,8 @@ import { Observable, of, Subject } from 'rxjs';
 import { getCategoryPath } from '../../../../functions/utils';
 import { LanguageService } from '../../../language/services/language.service';
 import { BreadcrumbItem } from '../../../shared/components/breadcrumb/breadcrumb.component';
+import {NaoSettingsInterface} from "@naologic/nao-interfaces";
+import {AppService} from "../../../../app.service";
 
 export type PageProductLayout = 'sidebar' | 'full';
 
@@ -36,6 +38,7 @@ export interface PageProductData {
 })
 export class PageProductComponent implements OnInit {
     private destroy$: Subject<void> = new Subject<void>();
+    public appSettings: NaoSettingsInterface.Settings;
 
     layout: PageProductLayout = 'sidebar';
 
@@ -77,9 +80,13 @@ export class PageProductComponent implements OnInit {
         private shop: ShopApi,
         public vehicleService: VehicleApi,
         public url: UrlService,
+        private appService: AppService,
     ) { }
 
     ngOnInit(): void {
+        // -->Set: app settings
+        this.appSettings = this.appService.settings.getValue();
+
         const data$ = this.route.data as Observable<PageProductData>;
         const product$ = data$.pipe(map((data: PageProductData) => data.product));
 

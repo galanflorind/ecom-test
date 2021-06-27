@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ShopApi } from '../../../../api';
-import {BehaviorSubject, Observable, Subscription} from 'rxjs';
-import { filter, switchMap, tap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { Product } from '../../../../interfaces/product';
-import { SectionHeaderGroup } from '../../../shared/components/section-header/section-header.component';
-import { ECommerceService } from "../../../../services/e-commerce.service";
-import {QuickMongoQuery} from "../../../../../../../../libs/nao-utils/src";
+import { ECommerceService } from "../../../../e-commerce.service";
+import { QuickMongoQuery } from "@naologic/nao-utils";
+import {AppService} from "../../../../app.service";
+import {NaoSettingsInterface} from "../../../../../../../../libs/nao-interfaces/src";
 
 interface ProductsCarouselData {
     products: Product[];
@@ -29,12 +28,14 @@ export class HomeComponent implements OnInit {
     };
     public dataSub = new Subscription();
 
+
     constructor(
-        private shopApi: ShopApi,
         private ecommerceService: ECommerceService,
     ) { }
 
     public ngOnInit(): void {
+
+
         this.refreshFeaturedProducts();
 
         // this.featuredProducts = this.makeCarouselData([

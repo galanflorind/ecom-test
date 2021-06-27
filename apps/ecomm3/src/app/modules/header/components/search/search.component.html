@@ -57,7 +57,9 @@
                         <div class="suggestions__product-name">
                             {{ product.name }}
                         </div>
-                        <div class="suggestions__product-rating">
+                        <!--Show rating only if it's allowed in settings-->
+                        <!--This will have to be connected to ecomm in the future-->
+                        <div class="suggestions__product-rating" *ngIf="appSettings?.rating">
                             <div class="suggestions__product-rating-stars">
                                 <app-rating [value]="product.rating || 0"></app-rating>
                             </div>

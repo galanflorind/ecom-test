@@ -16,6 +16,13 @@ export class ECommerceService<T = any> {
     }
 
     /**
+     * Get info that contains categories, vendors, FAQ and stuff like that
+     */
+    public getInfo(docId: string, naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault()): Observable<T> {
+        return this.naoHttp2ApiService.postJson<T>(`${this.api.path}/info/get/${naoQueryOptions.docName}/data`, { data: { m: 12 }, naoQueryOptions });
+    }
+
+    /**
      * Get a document by Id
      */
     public productsGet(docId: string, naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault()): Observable<T> {
@@ -45,11 +52,11 @@ export class ECommerceService<T = any> {
     }
 
     /**
-     * Download an invoice todo: @WIP
+     * Download an invoice
      */
-    // public downloadInvoicePdf(docId: string, naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault()): Observable<any> {
-    //     return this.naoHttp2ApiService.filePostDownloadAsArrayBuffer(`${this.api.root}/invoices/download/${naoQueryOptions.docName}/pdf`, { data: { docId }, naoQueryOptions });
-    // }
+    public downloadInvoicePdf(docId: string, naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault()): Observable<any> {
+        return this.naoHttp2ApiService.filePostDownloadAsArrayBuffer(`${this.api.path}/invoices/download/${naoQueryOptions.docName}/pdf`, { data: { docId }, naoQueryOptions });
+    }
 
     /**
      * List orders with pagination

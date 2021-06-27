@@ -5,6 +5,8 @@ import { ReviewsList } from '../../../../interfaces/list';
 import { ShopApi } from '../../../../api';
 import { UrlService } from '../../../../services/url.service';
 import { distinctUntilChanged, switchMap, takeUntil } from 'rxjs/operators';
+import {AppService} from "../../../../app.service";
+import {NaoSettingsInterface} from "@naologic/nao-interfaces";
 
 @Component({
     selector: 'app-reviews-list',
@@ -14,6 +16,7 @@ import { distinctUntilChanged, switchMap, takeUntil } from 'rxjs/operators';
 export class ReviewsListComponent implements OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
     private productId$: BehaviorSubject<number|null> = new BehaviorSubject<number|null>(null);
+    public appSettings: NaoSettingsInterface.Settings;
 
     currentPage: FormControl = new FormControl(1);
 
@@ -31,9 +34,13 @@ export class ReviewsListComponent implements OnInit, OnDestroy {
     constructor(
         private shop: ShopApi,
         public url: UrlService,
+        private appService: AppService,
     ) { }
 
     ngOnInit(): void {
+        // -->Set: app settings
+        this.appSettings = this.appService.settings.getValue();
+
         this.productId$.pipe(
             switchMap(productId => {
                 if (!productId) {

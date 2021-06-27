@@ -20,8 +20,9 @@
                     <app-filter-check *ngIf="filter.type === 'check'" [options]="filter" [formControlName]="filter.slug"></app-filter-check>
 
                     <app-filter-radio *ngIf="filter.type === 'radio'" [options]="filter" [formControlName]="filter.slug"></app-filter-radio>
-
-                    <app-filter-rating *ngIf="filter.type === 'rating'" [options]="filter" [formControlName]="filter.slug"></app-filter-rating>
+                    <!--Show rating only if it's allowed in settings-->
+                    <!--This will have to be connected to ecomm in the future-->
+<!--                    <app-filter-rating *ngIf="filter.type === 'rating'" [options]="filter" [formControlName]="filter.slug"></app-filter-rating>-->
 
                     <app-filter-color *ngIf="filter.type === 'color'" [options]="filter" [formControlName]="filter.slug"></app-filter-color>
                 </div>

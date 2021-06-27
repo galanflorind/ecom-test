@@ -20,7 +20,8 @@ import { RootComponent } from './components/root/root.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { NaoHttp2Module } from "@naologic/nao-http2";
 import { environment } from '../environments/environment';
-import { ECommerceService } from "./services/e-commerce.service";
+import { ECommerceService } from "./e-commerce.service";
+import {AppService} from "./app.service";
 
 @NgModule({
     declarations: [
@@ -110,7 +111,8 @@ import { ECommerceService } from "./services/e-commerce.service";
         SharedModule,
     ],
     providers: [
-        ECommerceService
+        ECommerceService,
+        AppService
     ]
 })
 export class AppModule {

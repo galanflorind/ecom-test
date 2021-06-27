@@ -1,10 +1,12 @@
-import { Component, OnDestroy } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { CompareService } from '../../../../services/compare.service';
 import { Observable, Subject } from 'rxjs';
 import { Product, ProductAttributeValue } from '../../../../interfaces/product';
 import { map, shareReplay, takeUntil } from 'rxjs/operators';
 import { UrlService } from '../../../../services/url.service';
 import { FormControl } from '@angular/forms';
+import {NaoSettingsInterface} from "@naologic/nao-interfaces";
+import {AppService} from "../../../../app.service";
 
 interface Attribute {
     slug: string;
@@ -18,9 +20,9 @@ interface Attribute {
     templateUrl: './page-compare.component.html',
     styleUrls: ['./page-compare.component.scss'],
 })
-export class PageCompareComponent implements OnDestroy {
+export class PageCompareComponent implements OnDestroy, OnInit {
     destroy$: Subject<void> = new Subject<void>();
-
+    public appSettings: NaoSettingsInterface.Settings;
     products$: Observable<Product[]>;
     attributes$: Observable<Attribute[]>;
     differentAttributes$: Observable<Attribute[]>;
@@ -32,6 +34,7 @@ export class PageCompareComponent implements OnDestroy {
     constructor(
         public compare: CompareService,
         public url: UrlService,
+        private appService: AppService,
     ) {
         this.products$ = this.compare.items$.pipe(shareReplay(1));
         this.attributes$ = this.products$.pipe(
@@ -75,7 +78,12 @@ export class PageCompareComponent implements OnDestroy {
         );
     }
 
-    ngOnDestroy(): void {
+    ngOnInit(): void {
+        // -->Set: app settings
+        this.appSettings = this.appService.settings.getValue();
+    }
+
+        ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();
     }

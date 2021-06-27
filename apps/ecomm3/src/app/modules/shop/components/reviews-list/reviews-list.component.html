@@ -11,7 +11,9 @@
                         <div class="review__author">{{ review.author }}</div>
                         <div class="review__date">{{ 'FORMAT_DATE_MEDIUM'|translate:{date: review.date} }}</div>
                     </div>
-                    <div class="review__rating">
+                    <!--Show rating only if it's allowed in settings-->
+                    <!--This will have to be connected to ecomm in the future-->
+                    <div class="review__rating" *ngIf="appSettings?.rating">
                         <app-rating [value]="review.rating"></app-rating>
                     </div>
                     <div class="review__content typography">

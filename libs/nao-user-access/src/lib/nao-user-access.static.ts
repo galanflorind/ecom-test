@@ -2,6 +2,7 @@
 import { BehaviorSubject } from 'rxjs';
 import { NaoCompanyInterface, NaoUserAccessInterface, NaoUsersInterface } from './nao-user-access.interface';
 import { naoAccessToken$ } from '@naologic/nao-utils';
+import { NaoStreamInterface } from "@naologic/nao-interfaces";
 
 
 const charCodes1 = [97, 115, 100, 97, 115, 100, 97, 115, 100, 97, 100, 50, 51, 52, 101, 102, 115, 102, 50, 51, 114, 115, 100];
@@ -26,7 +27,7 @@ export const NaoUserAccessData = {
   roleData: new BehaviorSubject<NaoUsersInterface.Role>(null),
   ads: new BehaviorSubject<any>(null),
   oldRoleData: new BehaviorSubject<NaoUsersInterface.Role>(null),
-  // defaultNaoQueryOptions: { docName: 'doc' } as NaoStreamInterface.NaoQueryOptions
+  defaultNaoQueryOptions: { docName: 'doc' } as NaoStreamInterface.NaoQueryOptions
 };
 
 /**

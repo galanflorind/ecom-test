@@ -20,6 +20,8 @@ import { UrlService } from '../../../../services/url.service';
 import { isPlatformBrowser } from '@angular/common';
 import { fromOutsideClick } from '../../../../functions/rxjs/from-outside-click';
 import { TranslateService } from '@ngx-translate/core';
+import { NaoSettingsInterface } from "@naologic/nao-interfaces";
+import {AppService} from "../../../../app.service";
 
 @Component({
     selector: 'app-search',
@@ -28,6 +30,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
     private destroy$: Subject<void> = new Subject<void>();
+    public appSettings: NaoSettingsInterface.Settings;
 
     query$: Subject<string> = new Subject<string>();
 
@@ -67,9 +70,13 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
         private translate: TranslateService,
         private elementRef: ElementRef,
         public url: UrlService,
+        private appService: AppService,
     ) { }
 
     ngOnInit(): void {
+        // -->Set: app settings
+        this.appSettings = this.appService.settings.getValue();
+
         this.vehicles$ = this.vehiclesApi.userVehicles$;
         this.currentVehicle$ = this.vehiclesApi.currentVehicle$;
 

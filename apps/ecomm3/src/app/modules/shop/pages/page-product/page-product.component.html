@@ -26,7 +26,9 @@
                             <h1 class="product__title">{{ product.name }}</h1>
 
                             <div class="product__subtitle">
-                                <div class="product__rating">
+                                <!--Show rating only if it's allowed in settings-->
+                                <!--This will have to be connected to ecomm in the future-->
+                                <div class="product__rating" *ngIf="appSettings?.rating">
                                     <div class="product__rating-stars">
                                         <app-rating [value]="product.rating || 0"></app-rating>
                                     </div>

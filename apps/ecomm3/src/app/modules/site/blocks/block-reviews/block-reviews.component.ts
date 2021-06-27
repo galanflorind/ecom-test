@@ -4,6 +4,8 @@ import { LanguageService } from '../../../language/services/language.service';
 import { switchMap, takeUntil } from 'rxjs/operators';
 import { Subject, timer } from 'rxjs';
 import { OwlCarouselOConfig } from 'ngx-owl-carousel-o/lib/carousel/owl-carousel-o-config';
+import { NaoSettingsInterface } from "@naologic/nao-interfaces";
+import {AppService} from "../../../../app.service";
 
 @Component({
     selector: 'app-block-reviews',
@@ -12,6 +14,7 @@ import { OwlCarouselOConfig } from 'ngx-owl-carousel-o/lib/carousel/owl-carousel
 })
 export class BlockReviewsComponent implements OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
+    public appSettings: NaoSettingsInterface.Settings;
 
     showCarousel = true;
 
@@ -26,9 +29,13 @@ export class BlockReviewsComponent implements OnInit, OnDestroy {
     constructor(
         private language: LanguageService,
         private cd: ChangeDetectorRef,
+        private appService: AppService,
     ) { }
 
     ngOnInit(): void {
+        // -->Set: app settings
+        this.appSettings = this.appService.settings.getValue();
+
         this.initOptions();
 
         // Since ngx-owl-carousel-o cannot re-initialize itself, we will do it manually when the direction changes.

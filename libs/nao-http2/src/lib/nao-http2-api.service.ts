@@ -138,26 +138,26 @@ export class NaoHttp2ApiService extends HttpClient {
       return super.get<T>(this.getUrl(uri), this.getOptions(params, responseType)).pipe(catchError(this.handleError.bind(this)));
   }
 
-  // public fileDownloadAsBlob(uri: string, params?: any): Observable<Blob> {
-  //   return this.fileGet<Blob>(uri, HttpReponseType.blob, params);
-  // }
+  public fileDownloadAsBlob(uri: string, params?: any): Observable<Blob> {
+    return this.fileGet<Blob>(uri, HttpReponseType.blob, params);
+  }
 
-  // public fileDownloadAsArrayBuffer(uri: string, params?: any): Observable<ArrayBuffer> {
-  //   return this.fileGet<ArrayBuffer>(uri, HttpReponseType.arraybuffer, params);
-  // }
+  public fileDownloadAsArrayBuffer(uri: string, params?: any): Observable<ArrayBuffer> {
+    return this.fileGet<ArrayBuffer>(uri, HttpReponseType.arraybuffer, params);
+  }
 
   public filePost<T>(uri: string, data: any, params?: any, responseType?: HttpReponseType): Observable<T> {
     // @ts-ignore
       return super.post<T>(this.getUrl(uri), data, this.getOptions(params, responseType)).pipe(catchError(this.handleError.bind(this)));
   }
 
-  // public filePostDownloadAsBlob(uri: string, data: any, params?: any): Observable<Blob> {
-  //   return this.filePost<Blob>(uri, data, params, HttpReponseType.blob);
-  // }
+  public filePostDownloadAsBlob(uri: string, data: any, params?: any): Observable<Blob> {
+    return this.filePost<Blob>(uri, data, params, HttpReponseType.blob);
+  }
 
-  // public filePostDownloadAsArrayBuffer(uri: string, data: any, params?: any): Observable<ArrayBuffer> {
-  //   return this.filePost<ArrayBuffer>(uri, data, params, HttpReponseType.arraybuffer);
-  // }
+  public filePostDownloadAsArrayBuffer(uri: string, data: any, params?: any): Observable<ArrayBuffer> {
+    return this.filePost<ArrayBuffer>(uri, data, params, HttpReponseType.arraybuffer);
+  }
 
   public filesUpload<T>(uri: string, files: FileList, data?: any): Observable<T> {
     // -->Create: form data

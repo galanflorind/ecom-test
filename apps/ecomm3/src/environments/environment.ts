@@ -1,15 +1,19 @@
-// This file can be replaced during build by using the `fileReplacements` array.
-// `ng build` replaces `environment.ts` with `environment.prod.ts`.
-// The list of file replacements can be found in `angular.json`.
-
 export const environment = {
     production: false,
-    paypalClientId: 'AfqNKvCkZ4ExY1NKEB0kwrnqpcX7JfZRC1eNr7787k8WizTyOYIwWYCxLrYry28OlLx6v41bDH1NCtA7',
-    API: {
-        basicAuth: {
-            user: 'gabriel',
-            password: 'gabriel',
+    localDatabase: {
+        company: {
+            dbName: 'company',
+            collections: [{ name: 'cache', schema: 'any' }],
         },
+        nao: {
+            dbName: 'nao',
+            collections: [
+                { name: 'sessions', schema: 'any' },
+                { name: 'companycache', schema: 'any' },
+            ],
+        },
+    },
+    API: {
         server: {
             $id: 'server',
             protocol: 'http',
@@ -18,15 +22,46 @@ export const environment = {
             prefix: 'api/v2/',
             ssl: false
         },
-        naoToken: 'naoprodvlhauavvm9kslfbynan6bu2a8'
-    }
+        naoToken: 'naoprodvlhauavvm9kslfbynan6bu2a8',
+        webSocket: {
+            enabled: false,
+        },
+        basicAuth: {
+            user: 'gabriel',
+            password: 'gabriel',
+        },
+        chargebee: {
+            site: 'naologic-test',
+            publishableKey: 'test_X1FcQ8U5O90FSlpacuDmVpJTPiEnnTKrr',
+        },
+    },
+    naoUsers: {
+        ws: {
+            enabled: false,
+        },
+        users: {
+            updateEverySeconds: 60 * 5,
+        },
+        subscribeTo: {
+            companyUpdates: true,
+            userUpdates: true,
+        },
+        // api: { root: 'users-guests-auth' },
+        api: { root: 'users-auth' },
+        cfpPath: 'ecommerce-api/ecommerce-api',
+        naoQueryOptions: {
+            docName: 'guest-external-ecommerce',
+            cfpPath: 'users/users',
+            userMode: 'guest-external',
+        },
+    },
 };
 
 /*
  * For easier debugging in development mode, you can import the following file
- * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
+ * to ignore zone related error stack frames such as zone.run, zoneDelegate.invokeTask.
  *
  * This import should be commented out in production mode because it will have a negative impact
  * on performance if an error is thrown.
  */
-// import 'zone.js/plugins/zone-error';  // Included with Angular CLI.
+import 'zone.js/dist/zone-error'; // Included with Angular CLI.

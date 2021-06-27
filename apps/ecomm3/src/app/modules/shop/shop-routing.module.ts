@@ -23,18 +23,18 @@ const routes: Routes = [
     {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'category',
+        redirectTo: 'category/products',
     },
-    {
-        path: 'category',
-        component: PageCategoryComponent,
-        data: {
-            layout: 'columns-4-sidebar',
-        },
-        resolve: {
-            children: RootCategoriesResolver,
-        },
-    },
+    // {
+    //     path: 'category',
+    //     component: PageCategoryComponent,
+    //     data: {
+    //         layout: 'columns-4-sidebar',
+    //     },
+    //     resolve: {
+    //         children: RootCategoriesResolver,
+    //     },
+    // },
     {
         path: 'category/products',
         component: PageShopComponent,
@@ -133,38 +133,38 @@ const routes: Routes = [
             children: RootCategoriesResolver,
         },
     })),
-    {
-        path: 'category-right-sidebar',
-        component: PageCategoryComponent,
-        data: {
-            layout: 'columns-4-sidebar',
-            sidebarPosition: 'end',
-        },
-        resolve: {
-            children: RootCategoriesResolver,
-        },
-    },
-    // shop
-    ...[
-        'grid-3-sidebar',
-        'grid-4-sidebar',
-        'grid-4-full',
-        'grid-5-full',
-        'grid-6-full',
-    ].map(gridLayout => ({
-        path: `shop-${gridLayout}`,
-        component: PageShopComponent,
-        resolve: {
-            category: CategoryResolver,
-            productsList: ProductsListResolver,
-        },
-        data: {
-            layout: 'grid',
-            gridLayout,
-            sidebarPosition: 'start',
-            categorySlug: 'headlights-lighting',
-        },
-    })),
+    // {
+    //     path: 'category-right-sidebar',
+    //     component: PageCategoryComponent,
+    //     data: {
+    //         layout: 'columns-4-sidebar',
+    //         sidebarPosition: 'end',
+    //     },
+    //     resolve: {
+    //         children: RootCategoriesResolver,
+    //     },
+    // },
+    // // shop
+    // ...[
+    //     'grid-3-sidebar',
+    //     'grid-4-sidebar',
+    //     'grid-4-full',
+    //     'grid-5-full',
+    //     'grid-6-full',
+    // ].map(gridLayout => ({
+    //     path: `shop-${gridLayout}`,
+    //     component: PageShopComponent,
+    //     resolve: {
+    //         category: CategoryResolver,
+    //         productsList: ProductsListResolver,
+    //     },
+    //     data: {
+    //         layout: 'grid',
+    //         gridLayout,
+    //         sidebarPosition: 'start',
+    //         categorySlug: 'headlights-lighting',
+    //     },
+    // })),
     {
         path: 'shop-list',
         component: PageShopComponent,
@@ -179,34 +179,34 @@ const routes: Routes = [
             categorySlug: 'headlights-lighting',
         },
     },
-    {
-        path: 'shop-table',
-        component: PageShopComponent,
-        resolve: {
-            category: CategoryResolver,
-            productsList: ProductsListResolver,
-        },
-        data: {
-            layout: 'table',
-            gridLayout: 'grid-4-sidebar',
-            sidebarPosition: 'start',
-            categorySlug: 'headlights-lighting',
-        },
-    },
-    {
-        path: 'shop-right-sidebar',
-        component: PageShopComponent,
-        resolve: {
-            category: CategoryResolver,
-            productsList: ProductsListResolver,
-        },
-        data: {
-            layout: 'grid',
-            gridLayout: 'grid-4-sidebar',
-            sidebarPosition: 'end',
-            categorySlug: 'headlights-lighting',
-        },
-    },
+    // {
+    //     path: 'shop-table',
+    //     component: PageShopComponent,
+    //     resolve: {
+    //         category: CategoryResolver,
+    //         productsList: ProductsListResolver,
+    //     },
+    //     data: {
+    //         layout: 'table',
+    //         gridLayout: 'grid-4-sidebar',
+    //         sidebarPosition: 'start',
+    //         categorySlug: 'headlights-lighting',
+    //     },
+    // },
+    // {
+    //     path: 'shop-right-sidebar',
+    //     component: PageShopComponent,
+    //     resolve: {
+    //         category: CategoryResolver,
+    //         productsList: ProductsListResolver,
+    //     },
+    //     data: {
+    //         layout: 'grid',
+    //         gridLayout: 'grid-4-sidebar',
+    //         sidebarPosition: 'end',
+    //         categorySlug: 'headlights-lighting',
+    //     },
+    // },
     // product
     {
         path: 'product-full',

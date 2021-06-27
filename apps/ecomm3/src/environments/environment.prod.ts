@@ -1,20 +1,60 @@
-// noinspection JSUnusedGlobalSymbols
 export const environment = {
     production: true,
-    paypalClientId: 'AfqNKvCkZ4ExY1NKEB0kwrnqpcX7JfZRC1eNr7787k8WizTyOYIwWYCxLrYry28OlLx6v41bDH1NCtA7',
+    localDatabase: {
+        company: {
+            dbName: 'company',
+            collections: [
+                { name: 'cache', schema: 'any' }
+            ]
+        },
+        nao: {
+            dbName: 'nao',
+            collections: [
+                { name: 'sessions', schema: 'any' },
+                { name: 'companycache', schema: 'any' },
+            ]
+        }
+    },
     API: {
         server: {
             $id: 'server',
             protocol: 'https',
             port: 443,
-            url: 'api-v2-bee11.naologic.com/',
+            url: 'api-v2-bee11.naologic.com',
             prefix: 'api/v2/',
             ssl: true
         },
         naoToken: 'naoprodvlhauavvm9kslfbynan6bu2a8',
+        webSocket: {
+            enabled: false
+        },
         basicAuth: {
             user: 'gabriel',
             password: 'gabriel'
+        },
+        chargebee: {
+            site: 'naologic-test',
+            publishableKey: 'test_X1FcQ8U5O90FSlpacuDmVpJTPiEnnTKrr'
         }
+    },
+    naoUsers: {
+        ws: {
+            enabled: false,
+        },
+        users: {
+            updateEverySeconds: 60 * 5,
+        },
+        subscribeTo: {
+            companyUpdates: true,
+            userUpdates: true,
+        },
+        // api: { root: 'users-guests-auth' },
+        api: { root: 'users-auth' },
+        cfpPath: 'ecommerce-api/ecommerce-api',
+        naoQueryOptions: {
+            docName: 'guest-external-ecommerce',
+            cfpPath: 'users/users',
+            userMode: 'guest-external',
+        },
     },
 };

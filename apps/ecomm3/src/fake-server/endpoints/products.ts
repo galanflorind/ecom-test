@@ -39,14 +39,15 @@ function getProducts(shift: number, categorySlug: string|null = null): Product[]
 
 export function getProductsList(options?: GetProductsListOptions): Observable<ProductsList> {
     const filterValues = options?.filters || {};
+    // todo: move this filters from face backend
     const filters: AbstractFilterBuilder[] = [
         new CategoryFilterBuilder('category', 'Categories'),
-        new VehicleFilterBuilder('vehicle', 'Vehicle'),
+        // new VehicleFilterBuilder('vehicle', 'Vehicle'),
         new RangeFilterBuilder('price', 'Price'),
         new CheckFilterBuilder('brand', 'Brand'),
         new RadioFilterBuilder('discount', 'With Discount'),
-        new RatingFilterBuilder('rating', 'Rating'),
-        new ColorFilterBuilder('color', 'Color'),
+        // new RatingFilterBuilder('rating', 'Rating'),
+        // new ColorFilterBuilder('color', 'Color'),
     ];
 
     let products = dbProducts.slice(0);

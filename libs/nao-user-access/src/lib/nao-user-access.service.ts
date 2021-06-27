@@ -3,12 +3,12 @@ import { NaoHttp2ApiService } from '@naologic/nao-http2';
 import { NgxPermissionsService, NgxRolesService } from 'ngx-permissions';
 import { TranslateService } from '@ngx-translate/core';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
-import { checkSessionData, createPermissionsFromNgxPermissions, createPermissionsFromPolicy, findPermissionsDifference, NaoUserAccessData } from './nao-user-access.static';
+import { checkSessionData, NaoUserAccessData } from './nao-user-access.static';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, share } from 'rxjs/operators';
 import { NaoCompanyInterface, NaoUserAccessInterface, NaoUsersInterface } from './nao-user-access.interface';
 // import { CurrencyData, naoAccessToken$ } from '@naologic/nao-utils';
-export const naoAccessToken$ =  new BehaviorSubject<string | null>(null);
+import { naoAccessToken$ } from '@naologic/nao-utils';
 
 
 
@@ -23,14 +23,10 @@ export class NaoUserAccessService {
   get accessToken(): BehaviorSubject<string> { return naoAccessToken$; }
   get userId(): BehaviorSubject<string> { return NaoUserAccessData.userId; }
   get userData(): BehaviorSubject<NaoUsersInterface.UserData> { return NaoUserAccessData.userData; }
-  get companyData(): BehaviorSubject<NaoCompanyInterface.Company> { return NaoUserAccessData.companyData; }
-  get companyId(): BehaviorSubject<string> { return NaoUserAccessData.companyId; }
   get roleData(): BehaviorSubject<NaoUsersInterface.Role> { return NaoUserAccessData.roleData; }
   get ads(): BehaviorSubject<any> { return NaoUserAccessData.ads; }
   get oldRoleData(): BehaviorSubject<NaoUsersInterface.Role> { return NaoUserAccessData.oldRoleData; }
   get isLoggedIn$(): BehaviorSubject<boolean> { return NaoUserAccessData.isLoggedIn$; }
-  get rolePermissions(): any { return NaoUserAccessData.rolePermissions$; }
-  get userPermissions(): string[] { return createPermissionsFromNgxPermissions(this.ngxPermissionsService.getPermissions()); }
 
   get status(): string { return this.userData.getValue() ? this.userData.getValue().status : null; }
   get state(): string { return this.userData.getValue() ? this.userData.getValue().state : null; }
@@ -47,8 +43,6 @@ export class NaoUserAccessService {
     private readonly translateService: TranslateService,
     private readonly bsLocaleService: BsLocaleService,
   ) {
-    // -->Start: subscribers
-    this.refreshSubscriptions();
   }
 
   /**
@@ -64,26 +58,6 @@ export class NaoUserAccessService {
     } else {
       const state = this.userData?.getValue()?.state;
       switch (state) {
-        case 'suspended-for-payment':
-          // -->User: is suspended for not paying their bills
-          res.redirectTo = '/suspended-with-payment'; res.ok = false; res.canLoad = false;
-          break;
-        case 'suspended':
-          // -->User: was suspended by someone else directly from the user management table
-          res.redirectTo = '/suspended'; res.ok = false; res.canLoad = false;
-          break;
-        case 'locked':
-          // -->User: I locked my screen or someone locked it for me
-          res.redirectTo = '/lock'; res.ok = false; res.canLoad = false;
-          break;
-        case 'reset-password-on-next-login-screen':
-          // -->User: I locked my screen or someone locked it for me
-          res.redirectTo = '/locked-screen'; res.ok = false; res.canLoad = false;
-          break;
-        case 'license-error':
-          // -->User: I locked my screen or someone locked it for me
-          res.redirectTo = '/license-error'; res.ok = false; res.canLoad = false;
-          break;
         case 'active':
           res.redirectTo = null; res.ok = true; res.canLoad = true;
           break;
@@ -112,64 +86,6 @@ export class NaoUserAccessService {
   }
 
   /**
-   * Refresh the subscriptions
-   */
-  public refreshSubscriptions(): void {
-    this.subs.unsubscribe();
-    this.subs = new Subscription();
-    // -->Subscribe: to policy list
-    this.subs.add(
-      NaoUserAccessData.roleData.subscribe(roleData => {
-        // -->Get: old role
-        const oldRoleData = this.oldRoleData.getValue();
-        // -->Check: old role
-        if (oldRoleData) {
-          // -->Check: if slug changed
-          if (!roleData || (roleData && roleData.slug && roleData.slug !== oldRoleData.slug)) {
-            if (this.isLoggedIn$.getValue()) {
-              // todo-->Logout: the user (because the slug changed)
-              // this.logout();
-              return;
-            }
-          }
-        }
-        // -->Check: role data
-        if (roleData && roleData.slug && Array.isArray(roleData.policyList) && roleData.policyList.length) {
-          // -->Prepare: permissions
-          const perms = createPermissionsFromPolicy(roleData.policyList);
-          // -->Check: role
-          const role$ = this.ngxRolesService.getRole(roleData.slug);
-          if (!role$) {
-            // -->Add: role
-            this.ngxRolesService.addRole(roleData.slug, [roleData.slug]);
-          }
-          // -->Check: permissions
-          const perms$ = this.ngxPermissionsService.getPermissions();
-          // -->Get: difference in permissions
-          const diff$ = findPermissionsDifference(perms$, perms);
-          // -->Remove: perms
-          for (const rmPerm of diff$.removePerms) {
-            this.ngxPermissionsService.removePermission(rmPerm);
-          }
-          // -->Add: perms
-          for (const addPerm of diff$.addPerms) {
-            this.ngxPermissionsService.addPermission(addPerm);
-          }
-        } else {
-          // this.naoUserAccessService.isLoggedIn$.next(false);
-          // -->Flush: the access
-          this.ngxRolesService.flushRoles();
-          this.ngxPermissionsService.flushPermissions();
-        }
-        // -->Set: user permissions
-        NaoUserAccessData.rolePermissions$.next(this.userPermissions);
-        // -->Set: old role
-        this.oldRoleData.next(roleData);
-      })
-    );
-  }
-
-  /**
    * Refresh user data
    */
   public async refreshSessionData(
@@ -180,7 +96,11 @@ export class NaoUserAccessService {
     // -->Return
     if (checkSessionData(sessionData)) {
       // -->Set: session data
-      NaoUserAccessData.sessionStorage.setObject(NaoUserAccessData.sessionDataKey, sessionData);
+        // todo: check this
+        // todo: check this
+        // todo: check this
+        // todo: check this
+      // NaoUserAccessData.sessionStorage.setObject(NaoUserAccessData.sessionDataKey, sessionData);
       // -->Set: locale @NOTE: commented this until we add the locale settings as they match the ones below!
       // NaoUserAccessData.locale.next(sessionData.userData?.data?.locale);
       // -->Set: locale
@@ -455,8 +375,8 @@ export class NaoUserAccessService {
    * @private
    */
   private clearLoginData(): void {
-    NaoUserAccessData.userStorage.clear();
-    NaoUserAccessData.sessionStorage.clear();
+    // NaoUserAccessData.userStorage.clear();
+    // NaoUserAccessData.sessionStorage.clear();
     // -->Flush: again
     NaoUserAccessData.isLoggedIn$.next(false);
     NaoUserAccessData.userId.next(null);

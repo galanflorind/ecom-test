@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { Subject, timer } from 'rxjs';
 import { Product } from '../../../../interfaces/product';
 import { QuickviewService } from '../../../../services/quickview.service';
@@ -9,15 +9,17 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { CartService } from '../../../../services/cart.service';
 import { NavigationStart, Router } from '@angular/router';
+import { AppService } from "../../../../app.service";
+import { NaoSettingsInterface } from "@naologic/nao-interfaces";
 
 @Component({
     selector: 'app-quickview',
     templateUrl: './quickview.component.html',
     styleUrls: ['./quickview.component.scss'],
 })
-export class QuickviewComponent implements OnDestroy, AfterViewInit {
+export class QuickviewComponent implements OnDestroy, AfterViewInit, OnInit {
     private destroy$: Subject<void> = new Subject();
-
+    public appSettings: NaoSettingsInterface.Settings;
     showGallery = false;
 
     product: Product|null = null;
@@ -35,9 +37,15 @@ export class QuickviewComponent implements OnDestroy, AfterViewInit {
         private cart: CartService,
         private router: Router,
         public url: UrlService,
+        private appService: AppService,
     ) { }
 
-    ngAfterViewInit(): void {
+    ngOnInit(): void {
+        // -->Set: app settings
+        this.appSettings = this.appService.settings.getValue();
+    }
+
+        ngAfterViewInit(): void {
         this.quickview.show$.pipe(
             switchMap(product => {
                 this.modal.show();

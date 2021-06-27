@@ -15,6 +15,8 @@ import { UrlService } from '../../../../services/url.service';
 import { Product, ProductAttribute, ProductCompatibilityResult } from '../../../../interfaces/product';
 import { Vehicle } from '../../../../interfaces/vehicle';
 import { CurrentVehicleService } from '../../../../services/current-vehicle.service';
+import {AppService} from "../../../../app.service";
+import {NaoSettingsInterface} from "@naologic/nao-interfaces";
 
 export type ProductCardElement = 'actions' | 'status-badge' | 'meta' | 'features' | 'buttons' | 'list-buttons';
 
@@ -28,6 +30,7 @@ export type ProductCardLayout = 'grid' | 'list' | 'table' | 'horizontal';
 })
 export class ProductCardComponent implements OnChanges, OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject();
+    public appSettings: NaoSettingsInterface.Settings;
 
     showingQuickview = false;
 
@@ -66,6 +69,7 @@ export class ProductCardComponent implements OnChanges, OnInit, OnDestroy {
         public currency: CurrencyService,
         public url: UrlService,
         public currentVehicle: CurrentVehicleService,
+        private appService: AppService,
     ) { }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -75,6 +79,9 @@ export class ProductCardComponent implements OnChanges, OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        // -->Set: app settings
+        this.appSettings = this.appService.settings.getValue();
+
         this.currency.changes$.pipe(takeUntil(this.destroy$)).subscribe(() => {
             this.cd.markForCheck();
         });

@@ -69,7 +69,9 @@
             </div>
         </div>
 
-        <div class="product-card__rating">
+        <!--Show rating only if it's allowed in settings-->
+        <!--This will have to be connected to ecomm in the future-->
+        <div class="product-card__rating" *ngIf="appSettings?.rating">
             <app-rating class="product-card__rating-stars" [value]="product.rating || 0"></app-rating>
             <div class="product-card__rating-label">
                 {{ 'TEXT_RATING_LABEL'|translate:{rating: product.rating, reviews: product.reviews} }}

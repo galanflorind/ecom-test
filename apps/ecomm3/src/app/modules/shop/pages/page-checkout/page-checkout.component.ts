@@ -218,38 +218,38 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
     }
 
     private initConfig(): void {
-        this.payPalConfig = {
-            currency: 'USD',
-            clientId: environment.paypalClientId,
-            createOrderOnClient: (): ICreateOrderRequest => this.createPayPalOrderRequest(),
-            advanced: {
-                commit: 'true',
-            },
-            style: {
-                label: 'paypal',
-                layout: 'horizontal',
-                tagline: false,
-            },
-            onInit: (data, actions) => {
-                this.payPalInit = true;
-                this.enablePaypalButton = actions.enable;
-                this.disablePaypalButton = actions.disable;
-
-                if (this.form.invalid) {
-                    this.disablePaypalButton();
-                }
-            },
-            onApprove: () => {},
-            onClientAuthorization: () => {
-                this.zone.run(() => this.checkout());
-            },
-            onError: err => {
-                alert(err);
-            },
-            onClick: () => {
-                this.zone.run(() => this.checkData());
-            },
-        };
+        // this.payPalConfig = {
+        //     currency: 'USD',
+        //     clientId: environment.paypalClientId,
+        //     createOrderOnClient: (): ICreateOrderRequest => this.createPayPalOrderRequest(),
+        //     advanced: {
+        //         commit: 'true',
+        //     },
+        //     style: {
+        //         label: 'paypal',
+        //         layout: 'horizontal',
+        //         tagline: false,
+        //     },
+        //     onInit: (data, actions) => {
+        //         this.payPalInit = true;
+        //         this.enablePaypalButton = actions.enable;
+        //         this.disablePaypalButton = actions.disable;
+        //
+        //         if (this.form.invalid) {
+        //             this.disablePaypalButton();
+        //         }
+        //     },
+        //     onApprove: () => {},
+        //     onClientAuthorization: () => {
+        //         this.zone.run(() => this.checkout());
+        //     },
+        //     onError: err => {
+        //         alert(err);
+        //     },
+        //     onClick: () => {
+        //         this.zone.run(() => this.checkData());
+        //     },
+        // };
     }
 
     private createPayPalOrderRequest(): ICreateOrderRequest {

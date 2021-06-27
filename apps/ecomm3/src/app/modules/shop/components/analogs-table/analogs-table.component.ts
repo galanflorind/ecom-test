@@ -4,6 +4,8 @@ import { ShopApi } from '../../../../api';
 import { switchMap, takeUntil } from 'rxjs/operators';
 import { Product } from '../../../../interfaces/product';
 import { UrlService } from '../../../../services/url.service';
+import { NaoSettingsInterface } from "@naologic/nao-interfaces";
+import { AppService } from "../../../../app.service";
 
 @Component({
     selector: 'app-analogs-table',
@@ -13,6 +15,7 @@ import { UrlService } from '../../../../services/url.service';
 export class AnalogsTableComponent implements OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
     private productId$: BehaviorSubject<number|null> = new BehaviorSubject<number|null>(null);
+    public appSettings: NaoSettingsInterface.Settings;
 
     analogs: Product[] = [];
 
@@ -27,9 +30,13 @@ export class AnalogsTableComponent implements OnInit, OnDestroy {
     constructor(
         private shop: ShopApi,
         public url: UrlService,
+        private appService: AppService,
     ) { }
 
     ngOnInit(): void {
+        // -->Set: app settings
+        this.appSettings = this.appService.settings.getValue();
+
         this.productId$.pipe(
             switchMap(productId => {
                 if (!productId) {

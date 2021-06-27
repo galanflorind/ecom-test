@@ -12,7 +12,9 @@
                         <div class="block-reviews__item-content">
                             <div class="block-reviews__item-text">{{ testimonial.review }}</div>
                             <div class="block-reviews__item-meta">
-                                <div class="block-reviews__item-rating">
+                                <!--Show rating only if it's allowed in settings-->
+                                <!--This will have to be connected to ecomm in the future-->
+                                <div class="block-reviews__item-rating" *ngIf="appSettings?.rating">
                                     <app-rating [value]="testimonial.rating"></app-rating>
                                 </div>
                                 <div class="block-reviews__item-author">
