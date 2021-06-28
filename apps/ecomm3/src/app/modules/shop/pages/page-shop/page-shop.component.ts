@@ -133,8 +133,8 @@ export class PageShopComponent implements OnInit, OnDestroy {
                                 category: categorySlug,
                             },
                         };
-                        console.log("opt >>>>", opt)
-                        this.refresh(opt);
+                        // console.log("opt >>>>", opt)
+                        // this.refresh(opt);
                         return opt;
                     }),
                     tap(() => this.page.isLoading = true),
@@ -154,15 +154,15 @@ export class PageShopComponent implements OnInit, OnDestroy {
     /**
      * Refresh products
      */
-    public refresh(opt: any): void {
+    public refresh(query2: any): void {
         // todo: add typescript to options
         // if (!this.status.isLoading()) {
         //     this.status.startLoading();
         // -->Prepare: query
-        const query = this.prepareQuery(opt);
-        console.log("query >>>", query)
+        // const query = this.prepareQuery(query2);
+        console.log("query >>>", query2)
         // -->Execute
-        this.eCommerceService.productsFilter(query).subscribe((res) => {
+        this.eCommerceService.productsFilter(query2).subscribe((res) => {
             // -->Check: res
             if (res && res.ok && Array.isArray(res.data)) {
                 console.log("Response >>>>", res)
