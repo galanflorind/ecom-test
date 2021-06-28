@@ -43,7 +43,7 @@ export function getProductsList(options?: GetProductsListOptions): Observable<Pr
         new CategoryFilterBuilder('category', 'Categories'),
         new RangeFilterBuilder('price', 'Price'),
         new CheckFilterBuilder('brand', 'Brand'),
-        new RadioFilterBuilder('discount', 'With Discount'),
+        // new RadioFilterBuilder('discount', 'With Discount'),
         // new RatingFilterBuilder('rating', 'Rating'),
         // new ColorFilterBuilder('color', 'Color'),
     ];
