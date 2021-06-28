@@ -4,7 +4,6 @@ import { FilterColorHandler } from './filter-color/filter-color.handler';
 import { FilterRadioHandler } from './filter-radio/filter-radio.handler';
 import { FilterRangeHandler } from './filter-range/filter-range.handler';
 import { FilterRatingHandler } from './filter-rating/filter-rating.handler';
-import { FilterVehicleHandler } from './filter-vehicle/filter-vehicle.handler';
 
 
 export const filterHandlers: FilterHandler[] = [
@@ -13,5 +12,4 @@ export const filterHandlers: FilterHandler[] = [
     new FilterRadioHandler(),
     new FilterRangeHandler(),
     new FilterRatingHandler(),
-    new FilterVehicleHandler(),
 ];

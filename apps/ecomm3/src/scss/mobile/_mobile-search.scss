@@ -67,51 +67,6 @@
         transition: color .2s;
         fill: currentColor;
     }
-    .mobile-search__vehicle-picker {
-        order: -1;
-        background: map_get($mobile-search-vehicle-button-scheme, normal-bg-color);
-        color: map_get($mobile-search-vehicle-button-scheme, normal-font-color);
-        min-width: 44px;
-        padding: 0 12px;
-        white-space: nowrap;
-        font-size: 15px;
-        font-weight: $font-weight-medium;
-        border-radius: 2.5px;
-        flex-shrink: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: none;
-        transition:
-            color .15s,
-            background-color .15s;
-
-        &:hover {
-            background: map_get($mobile-search-vehicle-button-scheme, hover-bg-color);
-        }
-        &:active {
-            background: map_get($mobile-search-vehicle-button-scheme, active-bg-color);
-        }
-        &:focus {
-            outline: none;
-        }
-
-        svg {
-            display: block;
-        }
-
-        app-icon {
-            flex-shrink: 0;
-            fill: rgba(#000, .75);
-        }
-
-        app-icon + .mobile-search__vehicle-picker-label {
-            @include direction {
-                #{$margin-inline-start}: 8px;
-            };
-        }
-    }
-
 
     @include media-breakpoint-up(md) {
         .mobile-search__input {
@@ -151,11 +106,6 @@
                 #{$inset-inline-end}: 0;
             }
         }
-        .mobile-search__vehicle-picker {
-            @include direction {
-                #{$margin-inline-end}: 6px;
-            }
-        }
 
         @each $state in (normal, focus, hover) {
             @include local-search-button-selector($state) {
@@ -170,12 +120,6 @@
             }
         }
     }
-    @include media-breakpoint-only(md) {
-        .mobile-search__vehicle-picker-label {
-            display: none;
-        }
-    }
-
 
     @include media-breakpoint-down(sm) {
         .mobile-search__body {
@@ -239,17 +183,5 @@
             }
         }
 
-        .mobile-search__vehicle-picker {
-            margin: 8px 0;
-
-            @include direction {
-                #{$margin-inline-start}: 8px;
-            }
-        }
-    }
-    @media (max-width: 440px) {
-        .mobile-search__vehicle-picker-label {
-            display: none;
-        }
     }
 }

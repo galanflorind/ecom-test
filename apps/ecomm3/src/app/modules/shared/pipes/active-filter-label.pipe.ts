@@ -21,12 +21,12 @@ export class ActiveFilterLabelPipe implements PipeTransform {
     transform(filter: ActiveFilter): string {
         this.currencyFormatPipe.transform(0);
         switch (filter.type) {
-            case 'vehicle':
-                if (!filter.original.vehicle) {
-                    throw new Error('filter.original.vehicle is null');
-                }
-
-                return `${filter.original.vehicle.year} ${filter.original.vehicle.make} ${filter.original.vehicle.model}`;
+            // case 'vehicle':
+            //     if (!filter.original.vehicle) {
+            //         throw new Error('filter.original.vehicle is null');
+            //     }
+            //
+            //     return `${filter.original.vehicle.year} ${filter.original.vehicle.make} ${filter.original.vehicle.model}`;
             case 'range':
                 const [min, max] = filter.original.value;
 

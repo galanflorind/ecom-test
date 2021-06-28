@@ -26,7 +26,6 @@ import { IconComponent } from './components/icon/icon.component';
 import { InputNumberComponent } from './components/input-number/input-number.component';
 import { LoadingBarComponent } from './components/loading-bar/loading-bar.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
-import { PostCardComponent } from './components/post-card/post-card.component';
 import { ProductCardComponent } from './components/product-card/product-card.component';
 import { ProductFormComponent } from './components/product-form/product-form.component';
 import { ProductGalleryComponent } from './components/product-gallery/product-gallery.component';
@@ -39,23 +38,18 @@ import { StatusBadgeComponent } from './components/status-badge/status-badge.com
 import { TermsComponent } from './components/terms/terms.component';
 import { TermsModalComponent } from './components/terms-modal/terms-modal.component';
 import { TimerComponent } from './components/timer/timer.component';
-import { VehicleFormComponent } from './components/vehicle-form/vehicle-form.component';
-import { VehiclePickerModalComponent } from './components/vehicle-picker-modal/vehicle-picker-modal.component';
-import { VehicleSelectComponent } from './components/vehicle-select/vehicle-select.component';
 import { WidgetCategoriesComponent } from './widgets/widget-categories/widget-categories.component';
 
 // directives
 import { AddToCartDirective } from './directives/add-to-cart.directive';
 import { AddToCompareDirective } from './directives/add-to-compare.directive';
 import { AddToWishlistDirective } from './directives/add-to-wishlist.directive';
-import { AddVehicleDirective } from './directives/add-vehicle.directive';
 import { DropdownDirective } from './directives/dropdown.directive';
 import { FakeSlidesDirective } from './directives/fake-slides.directive';
 import { OwlPreventClickDirective } from './directives/owl-prevent-click.directive';
 import { RemoveFromCartDirective } from './directives/remove-from-cart.directive';
 import { RemoveFromCompareDirective } from './directives/remove-from-compare.directive';
 import { RemoveFromWishlistDirective } from './directives/remove-from-wishlist.directive';
-import { RemoveVehicleDirective } from './directives/remove-vehicle.directive';
 import { SplitStringDirective } from './directives/split-string.directive';
 
 // pipes
@@ -83,7 +77,6 @@ import { StockToStatusBadgeTypePipe } from './pipes/stock-to-status-badge-type.p
         InputNumberComponent,
         LoadingBarComponent,
         PaginationComponent,
-        PostCardComponent,
         ProductCardComponent,
         ProductFormComponent,
         ProductGalleryComponent,
@@ -96,22 +89,17 @@ import { StockToStatusBadgeTypePipe } from './pipes/stock-to-status-badge-type.p
         TermsComponent,
         TermsModalComponent,
         TimerComponent,
-        VehicleFormComponent,
-        VehiclePickerModalComponent,
-        VehicleSelectComponent,
         WidgetCategoriesComponent,
         // directives
         AddToCartDirective,
         AddToCompareDirective,
         AddToWishlistDirective,
-        AddVehicleDirective,
         DropdownDirective,
         FakeSlidesDirective,
         OwlPreventClickDirective,
         RemoveFromCartDirective,
         RemoveFromCompareDirective,
         RemoveFromWishlistDirective,
-        RemoveVehicleDirective,
         SplitStringDirective,
         // pipes
         ActiveFilterLabelPipe,
@@ -138,7 +126,6 @@ import { StockToStatusBadgeTypePipe } from './pipes/stock-to-status-badge-type.p
         InputNumberComponent,
         LoadingBarComponent,
         PaginationComponent,
-        PostCardComponent,
         ProductCardComponent,
         ProductFormComponent,
         ProductGalleryComponent,
@@ -150,22 +137,17 @@ import { StockToStatusBadgeTypePipe } from './pipes/stock-to-status-badge-type.p
         StatusBadgeComponent,
         TermsComponent,
         TimerComponent,
-        VehicleFormComponent,
-        VehiclePickerModalComponent,
-        VehicleSelectComponent,
         WidgetCategoriesComponent,
         // directives
         AddToCartDirective,
         AddToCompareDirective,
         AddToWishlistDirective,
-        AddVehicleDirective,
         DropdownDirective,
         FakeSlidesDirective,
         OwlPreventClickDirective,
         RemoveFromCartDirective,
         RemoveFromCompareDirective,
         RemoveFromWishlistDirective,
-        RemoveVehicleDirective,
         SplitStringDirective,
         // pipes
         ActiveFilterLabelPipe,

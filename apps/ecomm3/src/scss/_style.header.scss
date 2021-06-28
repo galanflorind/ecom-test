@@ -17,14 +17,11 @@
 //   - .search
 //   - .suggestions
 //   - .topbar
-//   - .vehicle-picker
 // - Pages
 //   - .about
 // - Blocks
 //   - .block-header
 //   - .block-space
-// - Blog
-//   - .post-header
 // ---------------------------------------- */
 
 
@@ -53,7 +50,6 @@
 @import 'header/search';
 @import 'header/suggestions';
 @import 'header/topbar';
-@import 'header/vehicle-picker';
 
 
 
@@ -71,8 +67,3 @@
 @import 'blocks/block-space--header--classic';
 
 
-
-/* ----------------------------------------
-// Blog
-// ---------------------------------------- */
-@import 'blog/post-header--header--spaceship';

@@ -9,11 +9,9 @@
                 {{ filter.name }}
                 <span class="filter__arrow"><app-icon icon="arrow-rounded-down-12x7"></app-icon></span>
             </button>
-            <div class="filter__body" appCollapseContent>
+            <div class="filter__body nao-fancy-scrollbar-sm" appCollapseContent>
                 <div class="filter__container">
                     <app-filter-category *ngIf="filter.type === 'category'" [options]="filter"></app-filter-category>
-
-                    <app-filter-vehicle *ngIf="filter.type === 'vehicle'" [options]="filter" [formControlName]="filter.slug"></app-filter-vehicle>
 
                     <app-filter-range *ngIf="filter.type === 'range'" [options]="filter" [formControlName]="filter.slug"></app-filter-range>
 
@@ -24,7 +22,7 @@
                     <!--This will have to be connected to ecomm in the future-->
 <!--                    <app-filter-rating *ngIf="filter.type === 'rating'" [options]="filter" [formControlName]="filter.slug"></app-filter-rating>-->
 
-                    <app-filter-color *ngIf="filter.type === 'color'" [options]="filter" [formControlName]="filter.slug"></app-filter-color>
+<!--                    <app-filter-color *ngIf="filter.type === 'color'" [options]="filter" [formControlName]="filter.slug"></app-filter-color>-->
                 </div>
             </div>
         </div>

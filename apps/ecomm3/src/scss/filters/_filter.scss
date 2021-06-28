@@ -76,6 +76,8 @@ $local-transition-duration: .2s;
         visibility: visible;
         height: auto;
         opacity: 1;
+        max-height: 400px;
+        overflow-y: auto;
     }
     .filter__arrow {
         transform: rotateZ(180deg);

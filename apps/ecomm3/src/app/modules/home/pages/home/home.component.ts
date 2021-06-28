@@ -95,13 +95,14 @@ export class HomeComponent implements OnInit {
         // };
         // todo: add fetch
         const query = new QuickMongoQuery()
+            .limit(10)
             .returnDataModel({ _id: 1, data: 1 })
             .done();
         console.log("query >>>", query)
         // -->Start: loading
         this.featuredProducts.loading = true;
         this.ecommerceService.productsList(query).subscribe(res => {
-            this.featuredProducts.products = res.data.slice(10);
+            this.featuredProducts.products = res.data;
             this.featuredProducts.loading = false;
         }, err => err)
 

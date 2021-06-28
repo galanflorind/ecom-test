@@ -4,10 +4,8 @@ import { Observable, Subject } from 'rxjs';
 @Injectable()
 export class ShopSidebarService {
     private isOpenState = false;
-
     private isOpenSubject: Subject<boolean> = new Subject();
-
-    isOpen$: Observable<boolean> = this.isOpenSubject.asObservable();
+    public isOpen$: Observable<boolean> = this.isOpenSubject.asObservable();
 
     get isOpen(): boolean {
         return this.isOpenState;
@@ -22,15 +20,24 @@ export class ShopSidebarService {
 
     constructor() { }
 
-    open(): void {
+    /**
+     * Open sidebar
+     */
+    public open(): void {
         this.isOpen = true;
     }
 
-    close(): void {
+    /**
+     * Close sidebar
+     */
+    public close(): void {
         this.isOpen = false;
     }
 
-    toggle(): void {
+    /**
+     * Toggle sidebar
+     */
+    public toggle(): void {
         this.isOpen = !this.isOpen;
     }
 }

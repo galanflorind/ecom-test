@@ -9,13 +9,13 @@
     <div class="sidebar__content">
         <app-widget-filters [offcanvasSidebar]="offcanvas"></app-widget-filters>
 
-        <app-widget-products
-            *ngIf="offcanvas !== 'always'"
-            [ngClass]="{
-                'd-none d-lg-block': offcanvas === 'mobile'
-            }"
-            [widgetTitle]="'HEADER_LATEST_PRODUCTS'|translate"
-            [products]="(latestProducts$|async) || []"
-        ></app-widget-products>
+<!--        <app-widget-products-->
+<!--            *ngIf="offcanvas !== 'always'"-->
+<!--            [ngClass]="{-->
+<!--                'd-none d-lg-block': offcanvas === 'mobile'-->
+<!--            }"-->
+<!--            [widgetTitle]="'HEADER_LATEST_PRODUCTS'|translate"-->
+<!--            [products]="(latestProducts$|async) || []"-->
+<!--        ></app-widget-products>-->
     </div>
 </div>

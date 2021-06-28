@@ -26,7 +26,6 @@
 // - .mobile-header
 //   - .mobile-search
 //   - .mobile-search (overlay state)
-//   - .mobile-search__button--vehicle
 //   - .mobile-indicator__counter
 //   - .mobile-menu
 // - common
@@ -68,9 +67,6 @@
 // - account
 //   - .account-nav
 //   - .addresses-list
-// - blog
-//   - .post-header
-//   - .comment
 // - shop
 //   - .product-gallery
 //   - .product-tabs
@@ -478,20 +474,6 @@
          ),
       ), $mobile-search-overlay-scheme);
 
-   // ----------------------------------------
-   // -- .mobile-search__button--vehicle
-   // ----------------------------------------
-      $mobile-search-vehicle-button-scheme: () !default;
-      $mobile-search-vehicle-button-scheme: map_merge((
-         // normal
-         normal-bg-color:    map_get($accent-scheme, main),
-         normal-font-color:  #262626,
-         normal-icon-color:  rgba(#000, .75),
-         // hover
-         hover-bg-color:     #ffd226,
-         // active
-         active-bg-color:    #ffca16,
-      ), $mobile-search-vehicle-button-scheme);
 
    // ----------------------------------------
    // -- .mobile-indicator__counter
@@ -1057,24 +1039,6 @@
       $addresses-list-plus-normal-color: #e0e0e0 !default;
       $addresses-list-plus-hover-color:  #ccc    !default;
 
-// ----------------------------------------
-// -- blog
-// ----------------------------------------
-   // ----------------------------------------
-   // -- .post-header
-   // ----------------------------------------
-      $post-header-category-link-scheme:     $theme-scheme                 !default;
-      // overlay
-      $post-header-overlay-bg-color:         #262626                       !default;
-      $post-header-overlay-font-color:       #fff                          !default;
-      $post-header-overlay-font-shadow:      0 1px 5px rgba(#000, .25)     !default;
-      $post-header-overlay-link-hover-color: map_get($accent-scheme, main) !default;
-
-   // ----------------------------------------
-   // -- .comment
-   // ----------------------------------------
-      $comment-avatar-size:   38px !default;
-      $comment-avatar-margin: 14px !default;
 
 // ----------------------------------------
 // -- shop

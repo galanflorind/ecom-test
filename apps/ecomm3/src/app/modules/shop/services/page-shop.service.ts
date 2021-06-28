@@ -22,7 +22,6 @@ export class PageShopService {
      * All active filters.
      */
     private activeFiltersSubject$: BehaviorSubject<ActiveFilter[]> = new BehaviorSubject<ActiveFilter[]>([]);
-
     /**
      * Active filters except removed ones.
      */
@@ -67,6 +66,8 @@ export class PageShopService {
     constructor() { }
 
     setList(list: ProductsList): void {
+        console.log("setList >>>", list)
+
         this.listState = list;
         this.listSubject$.next(this.listState);
 

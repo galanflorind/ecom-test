@@ -66,9 +66,41 @@ export type ProductStock = 'in-stock' | 'out-of-stock' | 'on-backorder';
 
 export type ProductCompatibilityResult = 'all' | 'fit' | 'not-fit' | 'unknown';
 
-export interface Product {
-    id: number;
+export interface Category {
+    id: string;
+    isFeatured: boolean;
+    level: number;
     name: string;
+    parentId: number | string;
+}
+
+export interface Product {
+    _id?: number;
+    data?: {
+        availability: string;
+        available: true;
+        barcode?: string;
+        categories: Category[]
+        currency: string;
+        description: string;
+        images: string[];
+        isShippable: boolean;
+        manufacturerId: string;
+        name: string;
+        options: any;
+        price: number;
+        sky: string;
+        quantity: number;
+        status: string;
+        variants: any;
+        vendorId;
+    }
+
+    /**
+     * @deprecated !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! everything below
+     */
+    name: string;
+    id: number;
     /**
      * A short product description without HTML tags.
      */

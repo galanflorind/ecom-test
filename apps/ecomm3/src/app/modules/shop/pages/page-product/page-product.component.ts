@@ -6,14 +6,13 @@ import {
     ProductAttributeGroup,
     ProductCompatibilityResult,
 } from '../../../../interfaces/product';
-import { Vehicle } from '../../../../interfaces/vehicle';
 import { ProductGalleryLayout } from '../../../shared/components/product-gallery/product-gallery.component';
 import { UrlService } from '../../../../services/url.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { CartService } from '../../../../services/cart.service';
 import { finalize, map, switchMap, takeUntil } from 'rxjs/operators';
-import { ShopApi, VehicleApi } from '../../../../api';
+import { ShopApi } from '../../../../api';
 import { Observable, of, Subject } from 'rxjs';
 import { getCategoryPath } from '../../../../functions/utils';
 import { LanguageService } from '../../../language/services/language.service';
@@ -46,8 +45,6 @@ export class PageProductComponent implements OnInit {
 
     breadcrumb$!: Observable<BreadcrumbItem[]>;
 
-    vehicle: Vehicle|null = null;
-
     product!: Product;
 
     featuredAttributes: ProductAttribute[] = [];
@@ -78,7 +75,6 @@ export class PageProductComponent implements OnInit {
         private language: LanguageService,
         private cart: CartService,
         private shop: ShopApi,
-        public vehicleService: VehicleApi,
         public url: UrlService,
         private appService: AppService,
     ) { }
@@ -131,9 +127,6 @@ export class PageProductComponent implements OnInit {
             takeUntil(this.destroy$),
         ).subscribe(x => this.relatedProducts = x);
 
-        this.vehicleService.currentVehicle$.pipe(
-            takeUntil(this.destroy$),
-        ).subscribe(vehicle => this.vehicle = vehicle);
 
         this.form = this.fb.group({
             options: [{}],
@@ -191,10 +184,10 @@ export class PageProductComponent implements OnInit {
         if (this.product.compatibility === 'unknown') {
             return 'unknown';
         }
-        if (this.vehicle && this.product.compatibility.includes(this.vehicle.id)) {
-            return 'fit';
-        } else {
-            return 'not-fit';
-        }
+        // if (this.vehicle && this.product.compatibility.includes(this.vehicle.id)) {
+        //     return 'fit';
+        // } else {
+        //     return 'not-fit';
+        // }
     }
 }

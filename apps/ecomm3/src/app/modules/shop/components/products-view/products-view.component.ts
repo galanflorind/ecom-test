@@ -5,6 +5,8 @@ import { PageShopService } from '../../services/page-shop.service';
 import { FormControl } from '@angular/forms';
 import { merge, Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
+import {NaoSettingsInterface} from "../../../../../../../../libs/nao-interfaces/src";
+import {AppService} from "../../../../app.service";
 
 export interface LayoutButton {
     layout: PageShopLayout;
@@ -18,14 +20,17 @@ export interface LayoutButton {
 })
 export class ProductsViewComponent implements OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
-
+    public appSettings: NaoSettingsInterface.Settings;
     isEmptyList$!: Observable<boolean>;
 
     currentFiltersCount$!: Observable<number>;
 
     hasActiveFilters$!: Observable<boolean>;
 
-    layoutButtons: LayoutButton[] = [
+    /**
+     * Change the view of the products from grid to table
+     */
+    public layoutButtons: LayoutButton[] = [
         { layout: 'grid', icon: 'layout-grid-16' },
         { layout: 'grid-with-features', icon: 'layout-grid-with-details-16' },
         { layout: 'list', icon: 'layout-list-16' },
@@ -51,13 +56,19 @@ export class ProductsViewComponent implements OnInit, OnDestroy {
     constructor(
         public sidebar: ShopSidebarService,
         public page: PageShopService,
+        private appService: AppService,
     ) { }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
+        // -->Set: app settings
+        this.appSettings = this.appService.settings.getValue();
+
+        // -->Init: filter controls
         this.pageControl = new FormControl(this.page.defaultOptions.page);
         this.limitControl = new FormControl(this.page.defaultOptions.limit);
         this.sortControl = new FormControl(this.page.defaultOptions.sort);
 
+        // -->Filter: for page, limit and sort
         merge(
             this.pageControl.valueChanges.pipe(map(v => ['page', v])),
             this.limitControl.valueChanges.pipe(map(v => ['limit', parseFloat(v)])),
@@ -81,16 +92,24 @@ export class ProductsViewComponent implements OnInit, OnDestroy {
         this.hasActiveFilters$ = this.page.activeFilters$.pipe(map(x => x.length > 0));
     }
 
-    ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
-    }
 
-    setLayout(value: PageShopLayout): void {
+    /**
+     * Set: layout
+     */
+    public setLayout(value: PageShopLayout): void {
         this.layout = value;
     }
 
-    trackById(index: number, entity: {id: string | number}): string | number {
+    /**
+     * Track by
+     * todo: change this to `_id`
+     */
+    public trackById(index: number, entity: {id: string | number}): string | number {
         return entity.id;
+    }
+
+    public ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 }

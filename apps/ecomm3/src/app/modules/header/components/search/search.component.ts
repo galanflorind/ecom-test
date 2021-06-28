@@ -10,9 +10,8 @@ import {
     ViewChild,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ShopApi, VehicleApi } from '../../../../api';
+import { ShopApi } from '../../../../api';
 import { fromEvent, Observable, Subject } from 'rxjs';
-import { Vehicle } from '../../../../interfaces/vehicle';
 import { debounceTime, distinctUntilChanged, filter, map, switchMap, takeUntil } from 'rxjs/operators';
 import { Product } from '../../../../interfaces/product';
 import { ShopCategory } from '../../../../interfaces/category';
@@ -40,17 +39,6 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
 
     searchPlaceholder$!: Observable<string>;
 
-    vehiclePickerIsOpen = false;
-
-    vehiclePanel: 'list'|'form' = 'list';
-
-    vehicles$!: Observable<Vehicle[]>;
-
-    currentVehicle$!: Observable<Vehicle|null>;
-
-    currentVehicleControl: FormControl = new FormControl(null);
-
-    addVehicleControl: FormControl = new FormControl(null);
 
     products: Product[] = [];
 
@@ -58,14 +46,11 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
 
     @HostBinding('class.search') classSearch = true;
 
-    @ViewChild('vehiclePickerDropdown') vehiclePickerDropdown!: ElementRef<HTMLElement>;
-
     get element(): HTMLElement { return this.elementRef.nativeElement; }
 
     constructor(
         @Inject(PLATFORM_ID) private platformId: any,
         private zone: NgZone,
-        private vehiclesApi: VehicleApi,
         private shopApi: ShopApi,
         private translate: TranslateService,
         private elementRef: ElementRef,
@@ -76,17 +61,6 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
     ngOnInit(): void {
         // -->Set: app settings
         this.appSettings = this.appService.settings.getValue();
-
-        this.vehicles$ = this.vehiclesApi.userVehicles$;
-        this.currentVehicle$ = this.vehiclesApi.currentVehicle$;
-
-        this.currentVehicleControl.valueChanges.pipe(
-            switchMap(vehicleId => this.vehiclesApi.userVehicles$.pipe(
-                map(vehicles => vehicles.find(x => x.id === vehicleId) || null)),
-            ),
-        ).subscribe(vehicle => this.vehiclesApi.setCurrentVehicle(vehicle));
-
-        this.currentVehicle$.subscribe(vehicle => this.currentVehicleControl.setValue(vehicle ? vehicle.id : null, { emitEvent: false }));
 
         this.query$.pipe(
             distinctUntilChanged(),
@@ -106,15 +80,7 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
             this.categories = result.categories;
         });
 
-        this.searchPlaceholder$ = this.vehiclesApi.currentVehicle$.pipe(
-            switchMap(vehicle => {
-                if (vehicle) {
-                    return this.translate.stream('INPUT_SEARCH_PLACEHOLDER_VEHICLE', vehicle);
-                }
-
-                return this.translate.stream('INPUT_SEARCH_PLACEHOLDER');
-            }),
-        );
+        this.searchPlaceholder$ = this.translate.stream('INPUT_SEARCH_PLACEHOLDER')
     }
 
     ngOnDestroy(): void {
@@ -167,18 +133,6 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
 
     toggleSuggestions(force?: boolean): void {
         this.suggestionsIsOpen = force !== undefined ? force : !this.suggestionsIsOpen;
-
-        if (this.suggestionsIsOpen) {
-            this.toggleVehiclePicker(false);
-        }
-    }
-
-    toggleVehiclePicker(force?: boolean): void {
-        this.vehiclePickerIsOpen = force !== undefined ? force : !this.vehiclePickerIsOpen;
-
-        if (this.vehiclePickerIsOpen) {
-            this.toggleSuggestions(false);
-        }
     }
 
     onInput(event: Event): void {

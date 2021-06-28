@@ -18,7 +18,7 @@ export class ECommerceService<T = any> {
     /**
      * Get info that contains categories, vendors, FAQ and stuff like that
      */
-    public getInfo(docId: string, naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault()): Observable<T> {
+    public getInfo(data?: any, naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault()): Observable<T> {
         return this.naoHttp2ApiService.postJson<T>(`${this.api.path}/info/get/${naoQueryOptions.docName}/data`, { data: { m: 12 }, naoQueryOptions });
     }
 
@@ -35,7 +35,6 @@ export class ECommerceService<T = any> {
     public productsGetBulk(docIds: string[], naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault()): Observable<T> {
         return this.naoHttp2ApiService.postJson<T>(`${this.api.path}/products/get/${naoQueryOptions.docName}/bulk`, { data: { docIds }, naoQueryOptions });
     }
-
     /**
      * List the data with filter
      */
@@ -43,6 +42,13 @@ export class ECommerceService<T = any> {
         return this.naoHttp2ApiService.postJson<T>(`${this.api.path}/products/list/${naoQueryOptions.docName}/filter`, { data, naoQueryOptions });
     }
 
+    /**
+     * List the data with filter
+     * @wip
+     */
+    public productsFilter(data, naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault()): Observable<T> {
+        return this.naoHttp2ApiService.postJson<T>(`${this.api.path}/products/filter/${naoQueryOptions.docName}/data`, { data, naoQueryOptions });
+    }
     /**
      * Get the invoice data
      * todo: gabi will do

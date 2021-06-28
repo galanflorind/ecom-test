@@ -1,5 +1,4 @@
 import { ShopCategory } from './category';
-import { Vehicle } from './vehicle';
 
 
 export interface BaseFilter<T extends string, V> {
@@ -9,10 +8,14 @@ export interface BaseFilter<T extends string, V> {
     value: V;
 }
 export interface BaseFilterItem {
+    _id?: string;
+    // todo: remove slug????
     slug: string;
     name: string;
     count: number;
+    manufacturerId?: string;
 }
+
 
 
 export interface ColorFilterItem extends BaseFilterItem {
@@ -25,7 +28,6 @@ export interface RatingFilterItem {
 
 
 export type CategoryFilterValue = string | null;
-export type VehicleFilterValue = number | null;
 export type RangeFilterValue = [number, number];
 export type CheckFilterValue = string[];
 export type RadioFilterValue = string | null;
@@ -34,7 +36,6 @@ export type ColorFilterValue = string[];
 
 
 export type CategoryFilter = BaseFilter<'category', CategoryFilterValue> & {items: ShopCategory[]};
-export type VehicleFilter = BaseFilter<'vehicle', VehicleFilterValue> & {vehicle: Vehicle|null};
 export type RangeFilter = BaseFilter<'range', RangeFilterValue> & {min: number; max: number};
 export type CheckFilter = BaseFilter<'check', CheckFilterValue> & {items: BaseFilterItem[]};
 export type RadioFilter = BaseFilter<'radio', RadioFilterValue> & {items: BaseFilterItem[]};
@@ -44,7 +45,6 @@ export type ColorFilter = BaseFilter<'color', ColorFilterValue> & {items: ColorF
 
 export type Filter =
     CategoryFilter |
-    VehicleFilter |
     RangeFilter |
     CheckFilter |
     RadioFilter |
@@ -58,7 +58,6 @@ export interface ActiveFilterBase<T extends Filter> {
     original: T;
 }
 
-export type ActiveFilterVehicle = ActiveFilterBase<VehicleFilter> & {original: VehicleFilter};
 export type ActiveFilterRange = ActiveFilterBase<RangeFilter>;
 export type ActiveFilterCheck = ActiveFilterBase<CheckFilter> & {item: BaseFilterItem};
 export type ActiveFilterRadio = ActiveFilterBase<RadioFilter> & {item: BaseFilterItem};
@@ -66,7 +65,6 @@ export type ActiveFilterRating = ActiveFilterBase<RatingFilter> & {item: RatingF
 export type ActiveFilterColor = ActiveFilterBase<ColorFilter> & {item: ColorFilterItem};
 
 export type ActiveFilter =
-    ActiveFilterVehicle |
     ActiveFilterRange |
     ActiveFilterCheck |
     ActiveFilterRadio |

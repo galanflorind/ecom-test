@@ -103,22 +103,21 @@
             </div>
         </div>
 
-        <div
-            class="products-view__list products-list"
+        <div class="products-view__list products-list products-list--grid--4"
             [attr.data-layout]="layout === 'grid-with-features' ? 'grid' : layout"
-            [attr.data-with-features]="layout === 'grid-with-features' ? 'true' : 'false'"
-            [class.products-list--grid--6]="gridLayout === 'grid-6-full'"
-            [class.products-list--grid--5]="gridLayout === 'grid-5-full'"
-            [class.products-list--grid--4]="['grid-4-full', 'grid-4-sidebar'].includes(gridLayout)"
-            [class.products-list--grid--3]="gridLayout === 'grid-3-sidebar'"
-        >
+            [attr.data-with-features]="layout === 'grid-with-features' ? 'true' : 'false'">
             <div class="products-list__head">
                 <div class="products-list__column products-list__column--image">{{ 'TABLE_IMAGE'|translate }}</div>
                 <div class="products-list__column products-list__column--meta">{{ 'TABLE_SKU'|translate }}</div>
                 <div class="products-list__column products-list__column--product">{{ 'TABLE_PRODUCT'|translate }}</div>
-                <div class="products-list__column products-list__column--rating">{{ 'TABLE_RATING'|translate }}</div>
+
+                <!--Show rating only if it's allowed in settings-->
+                <!--This will have to be connected to ecomm in the future-->
+                <div class="products-list__column products-list__column--rating" *ngIf="appSettings?.rating">{{ 'TABLE_RATING'|translate }}</div>
+
                 <div class="products-list__column products-list__column--price">{{ 'TABLE_PRICE'|translate }}</div>
             </div>
+
             <div class="products-list__content">
                 <div *ngFor="let product of (page.list$|async)?.items; trackBy: trackById" class="products-list__item">
                     <app-product-card [product]="product"></app-product-card>

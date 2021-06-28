@@ -49,7 +49,6 @@ import { FilterColorComponent } from './filters/filter-color/filter-color.compon
 import { FilterRadioComponent } from './filters/filter-radio/filter-radio.component';
 import { FilterRangeComponent } from './filters/filter-range/filter-range.component';
 import { FilterRatingComponent } from './filters/filter-rating/filter-rating.component';
-import { FilterVehicleComponent } from './filters/filter-vehicle/filter-vehicle.component';
 
 
 @NgModule({
@@ -85,7 +84,6 @@ import { FilterVehicleComponent } from './filters/filter-vehicle/filter-vehicle.
         FilterRadioComponent,
         FilterRangeComponent,
         FilterRatingComponent,
-        FilterVehicleComponent,
     ],
     imports: [
         // modules (angular)

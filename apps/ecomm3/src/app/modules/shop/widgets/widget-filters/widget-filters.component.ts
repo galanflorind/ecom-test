@@ -45,6 +45,9 @@ export class WidgetFiltersComponent implements OnInit, OnDestroy {
         ).subscribe(filters => {
             this.filters = filters;
 
+            console.log("widget-filters >>>", this.filters)
+
+            // todo: WTFFFFFFFFFFF
             const filtersWithHandlers = this.page.filters
                 .map(filter => ({ filter, handler: filterHandlers.find(x => x.type === filter.type) }))
                 .filter((x): x is {filter: Filter; handler: FilterHandler} => !!x.handler);

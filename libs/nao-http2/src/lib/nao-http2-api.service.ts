@@ -45,7 +45,6 @@ export class NaoHttp2ApiService extends HttpClient {
   ) {
     // -->Init: http handler
     super(handler);
-    console.log("this.api >>>", this.apiConfig)
     // -->Set: api
     this.api = {
       url: `${this.apiConfig.server.protocol}://${this.apiConfig.server.url}:${this.apiConfig.server.port}/${this.apiConfig.server.prefix}`,

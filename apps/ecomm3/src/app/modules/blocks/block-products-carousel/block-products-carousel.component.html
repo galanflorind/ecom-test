@@ -16,7 +16,7 @@
         [class.block-products-carousel__carousel--loading]="loading"
         [class.block-products-carousel__carousel--has-items]="columns.length > 0"
     >
-        <div class="block-products-carousel__carousel-loader"></div>
+        <div class="block-products__loader"></div>
 
         <owl-carousel-o [options]="carouselOptions" appOwlPreventClick>
             <ng-template *ngFor="let column of columns" carouselSlide>

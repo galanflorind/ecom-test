@@ -8,9 +8,8 @@ import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { filter, first, takeUntil } from 'rxjs/operators';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { VehicleApi } from './api';
-import { CurrentVehicleService } from './services/current-vehicle.service';
 import { TranslateService } from '@ngx-translate/core';
+import { AppService } from "./app.service";
 
 @Component({
     selector: 'app-root',
@@ -31,9 +30,8 @@ export class AppComponent implements OnInit, OnDestroy {
         private cart: CartService,
         private compare: CompareService,
         private wishlist: WishlistService,
-        private vehicleApi: VehicleApi,
-        private currentVehicle: CurrentVehicleService,
         private translate: TranslateService,
+        private appService: AppService,
     ) {
         this.language.direction$.pipe(
             takeUntil(this.destroy$),
@@ -42,7 +40,9 @@ export class AppComponent implements OnInit, OnDestroy {
         });
     }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
+        // -->Refresh: info
+        this.appService.refresh();
 
         if (isPlatformBrowser(this.platformId)) {
             this.zone.runOutsideAngular(() => {
@@ -74,28 +74,30 @@ export class AppComponent implements OnInit, OnDestroy {
             });
         }
 
+        // -->Show: toaster when a product is added
         this.cart.onAdding$.subscribe(product => {
             this.toastr.success(
                 this.translate.instant('TEXT_TOAST_PRODUCT_ADDED_TO_CART', { productName: product.name }),
             );
         });
+        // -->Show: toaster when a product is added to compare
         this.compare.onAdding$.subscribe(product => {
             this.toastr.success(
                 this.translate.instant('TEXT_TOAST_PRODUCT_ADDED_TO_COMPARE', { productName: product.name }),
             );
         });
+        // -->Show: toaster when a product is added to todo: my lists
+        // -->Show: toaster when a product is added to todo: my lists
+        // -->Show: toaster when a product is added to todo: my lists
+        // -->Show: toaster when a product is added to todo: my lists
         this.wishlist.onAdding$.subscribe(product => {
             this.toastr.success(
                 this.translate.instant('TEXT_TOAST_PRODUCT_ADDED_TO_WISHLIST', { productName: product.name }),
             );
         });
-
-        this.vehicleApi.currentVehicle$.pipe(
-            takeUntil(this.destroy$),
-        ).subscribe(x => this.currentVehicle.value = x);
     }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();
     }

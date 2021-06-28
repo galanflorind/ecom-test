@@ -1,5 +1,5 @@
 import { CategoryDef } from '../interfaces/category-def';
-import { BaseCategory, BlogCategory, Category, ShopCategory } from '../../app/interfaces/category';
+import { BaseCategory, Category, ShopCategory } from '../../app/interfaces/category';
 
 let lastId = 0;
 
@@ -14,20 +14,6 @@ function makeShopCategory(def: CategoryDef, parent: ShopCategory|null): ShopCate
         parent: parent || undefined,
         children: [],
         layout: def.layout ? def.layout : 'products',
-        customFields: {},
-    };
-}
-
-function makeBlogCategory(def: CategoryDef, parent: BlogCategory|null): BlogCategory {
-    return {
-        id: ++lastId,
-        type: 'blog',
-        name: def.name,
-        slug: def.slug,
-        image: def.image || null,
-        items: def.items,
-        parent: parent || undefined,
-        children: [],
         customFields: {},
     };
 }
@@ -162,67 +148,7 @@ const shopCategoriesDef: CategoryDef[] = [
     },
 ];
 
-const blogCategoriesDef: CategoryDef[] = [
-    {
-        name: 'Latest News',
-        slug: 'latest-news',
-    },
-    {
-        name: 'Special Offers',
-        slug: 'special-offers',
-        children: [
-            {
-                name: 'Spring Sales',
-                slug: 'spring-sales',
-            },
-            {
-                name: 'Summer Sales',
-                slug: 'summer-sales',
-            },
-            {
-                name: 'Autumn Sales',
-                slug: 'autumn-sales',
-            },
-            {
-                name: 'Christmas Sales',
-                slug: 'christmas-sales',
-            },
-            {
-                name: 'Other Sales',
-                slug: 'other-sales',
-            },
-        ],
-    },
-    {
-        name: 'New Arrivals',
-        slug: 'new-arrivals',
-    },
-    {
-        name: 'Reviews',
-        slug: 'reviews',
-    },
-    {
-        name: 'Wheels & Tires',
-        slug: 'wheels-tires',
-    },
-    {
-        name: 'Engine & Drivetrain',
-        slug: 'engine-drivetrain',
-    },
-    {
-        name: 'Transmission',
-        slug: 'transmission',
-    },
-    {
-        name: 'Performance',
-        slug: 'performance',
-    },
-];
 
 export const shopCategoriesTree: ShopCategory[] = makeCategories(makeShopCategory, shopCategoriesDef);
 
 export const shopCategoriesList: ShopCategory[] = flatTree(shopCategoriesTree);
-
-export const blogCategoriesTree: BlogCategory[] = makeCategories(makeBlogCategory, blogCategoriesDef);
-
-export const blogCategoriesList: BlogCategory[] = flatTree(blogCategoriesTree);

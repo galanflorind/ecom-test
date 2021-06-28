@@ -3,21 +3,21 @@ import { ActiveFilterCheck, CheckFilter } from '../../../../interfaces/filter';
 
 
 export class FilterCheckHandler extends FilterHandler {
-    type = 'check';
+    public type = 'check';
 
-    serialize(value: string[]): string {
+    public serialize(value: string[]): string {
         return value.join(',');
     }
 
-    deserialize(value: string): string[] {
+    public deserialize(value: string): string[] {
         return value !== '' ? value.split(',') : [];
     }
 
-    isDefaultValue(filter: CheckFilter, value: string[]): boolean {
+    public isDefaultValue(filter: CheckFilter, value: string[]): boolean {
         return value.length === 0;
     }
 
-    activeFilters(filter: CheckFilter): ActiveFilterCheck[] {
+    public activeFilters(filter: CheckFilter): ActiveFilterCheck[] {
         if (this.isDefaultValue(filter, filter.value)) {
             return [];
         }
@@ -30,7 +30,7 @@ export class FilterCheckHandler extends FilterHandler {
         }));
     }
 
-    getResetValue(activeFilters: ActiveFilterCheck[]): string {
+    public getResetValue(activeFilters: ActiveFilterCheck[]): string {
         const itemSlugs = activeFilters.map(x => x.item.slug);
 
         return this.serialize(activeFilters[0].original.value.filter(x => !itemSlugs.includes(x)));

@@ -81,7 +81,7 @@ $local-gutter: 20px;
     }
 }
 
-.products-list--grid--5[data-layout="grid"] {
+.products-list--grid--5 {
     @include local-layout(5, 20px);
 
     .products-list__head {

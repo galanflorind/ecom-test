@@ -20,14 +20,6 @@
                     [placeholder]="searchPlaceholder$|async"
                     #searchInput
                 >
-                <button
-                    type="button"
-                    class="mobile-search__vehicle-picker"
-                    (click)="openVehiclePicker()"
-                >
-                    <app-icon icon="car-20"></app-icon>
-                    <span class="mobile-search__vehicle-picker-label">{{ 'BUTTON_SEARCH_SELECT_VEHICLE_MOBILE'|translate }}</span>
-                </button>
                 <button type="submit" class="mobile-search__button mobile-search__button--search">
                     <app-icon icon="search-20"></app-icon>
                 </button>

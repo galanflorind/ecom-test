@@ -17,7 +17,6 @@ import {
 } from '../../app/api/base';
 import { AbstractFilterBuilder } from '../filters/abstract-filter-builder';
 import { CategoryFilterBuilder } from '../filters/category-filter-builder';
-import { VehicleFilterBuilder } from '../filters/vehicle-filter-builder';
 import { RangeFilterBuilder } from '../filters/range-filter-builder';
 import { CheckFilterBuilder } from '../filters/check-filter-builder';
 import { RadioFilterBuilder } from '../filters/radio-filter-builder';
@@ -42,13 +41,13 @@ export function getProductsList(options?: GetProductsListOptions): Observable<Pr
     // todo: move this filters from face backend
     const filters: AbstractFilterBuilder[] = [
         new CategoryFilterBuilder('category', 'Categories'),
-        // new VehicleFilterBuilder('vehicle', 'Vehicle'),
         new RangeFilterBuilder('price', 'Price'),
         new CheckFilterBuilder('brand', 'Brand'),
         new RadioFilterBuilder('discount', 'With Discount'),
         // new RatingFilterBuilder('rating', 'Rating'),
         // new ColorFilterBuilder('color', 'Color'),
     ];
+
 
     let products = dbProducts.slice(0);
 
@@ -82,6 +81,9 @@ export function getProductsList(options?: GetProductsListOptions): Observable<Pr
     });
 
     const items = products.slice(from - 1, to) as unknown as Array<Product>;
+
+    console.error("products.ts filters")
+    console.log(filters.map(x => x.build()));
 
     return delayResponse(of({
         items,

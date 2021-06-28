@@ -17,47 +17,43 @@ import { filter, takeUntil } from 'rxjs/operators';
     ],
 })
 export class FilterCheckComponent implements OnInit, OnDestroy, ControlValueAccessor {
+    @HostBinding('class.filter-list') public classFilterList = true;
+    @Input() public options!: CheckFilter;
     private destroy$: Subject<void> = new Subject<void>();
+    public value: any[] = [];
+    public control: FormControl = new FormControl([]);
 
-    value: any[] = [];
+    public changeFn: (_: number) => void = () => {};
 
-    control: FormControl = new FormControl([]);
-
-    @Input() options!: CheckFilter;
-
-    @HostBinding('class.filter-list') classFilterList = true;
-
-    changeFn: (_: number) => void = () => {};
-
-    touchedFn: () => void = () => {};
+    public touchedFn: () => void = () => {};
 
     constructor() { }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this.control.valueChanges.pipe(
             filter(value => value !== this.value),
             takeUntil(this.destroy$),
         ).subscribe(value => this.changeFn(value));
     }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();
     }
 
-    registerOnChange(fn: any): void {
+    public registerOnChange(fn: any): void {
         this.changeFn = fn;
     }
 
-    registerOnTouched(fn: any): void {
+    public registerOnTouched(fn: any): void {
         this.touchedFn = fn;
     }
 
-    writeValue(obj: any): void {
+    public writeValue(obj: any): void {
         this.control.setValue(this.value = obj, { emitEvent: false });
     }
 
-    trackBy(index: number, item: BaseFilterItem): string {
-        return item.slug;
+    public trackBy(index: number, item: BaseFilterItem): string {
+        return item._id;
     }
 }

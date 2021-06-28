@@ -26,7 +26,7 @@ $local-carousel-expand: 10px;
         display: flex;
     }
 }
-.block-products-carousel__carousel-loader {
+.block-products__loader {
     @include loader-overlay(map_get($body-scheme, main), $local-carousel-expand, $local-carousel-expand, 100px, 2px, $body-loader-color);
 
     z-index: 2;
@@ -41,7 +41,7 @@ $local-carousel-expand: 10px;
         min-height: 120px;
     }
 
-    .block-products-carousel__carousel-loader {
+    .block-products__loader {
         visibility: visible;
         transition-delay: 0s;
         opacity: 1;

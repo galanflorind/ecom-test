@@ -19,8 +19,4 @@ export interface ShopCategory extends BaseCategory {
     layout: ShopCategoryLayout;
 }
 
-export interface BlogCategory extends BaseCategory {
-    type: 'blog';
-}
-
-export type Category = ShopCategory | BlogCategory;
+export type Category = ShopCategory;

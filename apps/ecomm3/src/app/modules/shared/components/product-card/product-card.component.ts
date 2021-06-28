@@ -13,8 +13,6 @@ import { skip, takeUntil, tap } from 'rxjs/operators';
 import { QuickviewService } from '../../../../services/quickview.service';
 import { UrlService } from '../../../../services/url.service';
 import { Product, ProductAttribute, ProductCompatibilityResult } from '../../../../interfaces/product';
-import { Vehicle } from '../../../../interfaces/vehicle';
-import { CurrentVehicleService } from '../../../../services/current-vehicle.service';
 import {AppService} from "../../../../app.service";
 import {NaoSettingsInterface} from "@naologic/nao-interfaces";
 
@@ -35,8 +33,6 @@ export class ProductCardComponent implements OnChanges, OnInit, OnDestroy {
     showingQuickview = false;
 
     featuredAttributes: ProductAttribute[] = [];
-
-    vehicle: Vehicle|null = null;
 
     // TODO: update the interface
     @Input() product!: Product | any;
@@ -68,7 +64,6 @@ export class ProductCardComponent implements OnChanges, OnInit, OnDestroy {
         private quickview: QuickviewService,
         public currency: CurrencyService,
         public url: UrlService,
-        public currentVehicle: CurrentVehicleService,
         private appService: AppService,
     ) { }
 
@@ -86,13 +81,6 @@ export class ProductCardComponent implements OnChanges, OnInit, OnDestroy {
             this.cd.markForCheck();
         });
 
-        this.currentVehicle.value$.pipe(
-            tap(vehicle => this.vehicle = vehicle),
-            skip(1),
-            takeUntil(this.destroy$),
-        ).subscribe(() => {
-            this.cd.markForCheck();
-        });
     }
 
     ngOnDestroy(): void {
@@ -121,10 +109,11 @@ export class ProductCardComponent implements OnChanges, OnInit, OnDestroy {
         if (this.product.compatibility === 'unknown') {
             return 'unknown';
         }
-        if (this.vehicle && this.product.compatibility.includes(this.vehicle.id)) {
-            return 'fit';
-        } else {
+        // todo:
+        // if (this.vehicle && this.product.compatibility.includes(this.vehicle.id)) {
+        //     return 'fit';
+        // } else {
             return 'not-fit';
-        }
+        // }
     }
 }

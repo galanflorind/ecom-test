@@ -1,6 +1,11 @@
 import { Observable, timer } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 
+/**
+ * TODO: move this to utils when you delete fake-server
+ * @param input
+ * @param time
+ */
 export function delayResponse<T>(input: Observable<T>, time = 500): Observable<T> {
     return timer(time).pipe(mergeMap(() => input));
 }

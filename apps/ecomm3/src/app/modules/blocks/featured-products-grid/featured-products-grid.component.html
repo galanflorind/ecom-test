@@ -4,25 +4,19 @@
         <div class="section-header__divider"></div>
     </div>
 
-    <!--TODO: add grid class that could change-->
-    <!--TODO: add grid class that could change-->
-    <!--TODO: add grid class that could change-->
-    <!--TODO: add grid class that could change-->
-    <!--TODO: add grid class that could change-->
-    <div class="block-products-carousel__carousel"
+    <!--TODO: connect with featured products-->
+    <div class="position-relative products-view__list products-list products-list--grid--5"
          [class.block-products-carousel__carousel--loading]="loading">
-
-        <div class="block-products-carousel__carousel-loader"></div>
-
-<!--        <ng-template *ngFor="let column of columns">-->
-            <div class="nao-grid-5">
-                <app-product-card
-                    *ngFor="let product of products"
-                    layout="grid"
-                    class="block-products-carousel__cell"
-                    [product]="product"
-                ></app-product-card>
-            </div>
-<!--        </ng-template>-->
+        <!--Loader-->
+        <div class="block-products__loader"></div>
+        <!--Products-->
+        <div class="products-list__content">
+            <app-product-card
+                *ngFor="let product of products"
+                layout="grid"
+                class="products-list__item"
+                [product]="product"
+            ></app-product-card>
+        </div>
     </div>
 </div>
