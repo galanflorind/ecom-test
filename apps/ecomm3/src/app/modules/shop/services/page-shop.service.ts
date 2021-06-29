@@ -59,8 +59,9 @@ export class PageShopService {
     readonly defaultOptions: Required<GetProductsListOptions> = {
         page: 1,
         limit: 16,
-        sort: 'default',
+        sort: 'name_asc',
         filters: {},
+        searchTerm: null
     };
 
     constructor() { }
@@ -99,6 +100,17 @@ export class PageShopService {
             sort: list.sort,
             filters,
         };
+    }
+
+    /**
+     * Trigger search term
+     */
+    setSearchTerm(searchTerm: string): void {
+        this.setOptions({
+            ...this.optionsState,
+            page: 1,
+            searchTerm
+        });
     }
 
     setOptionValue(optionSlug: string, optionValue: any): void {

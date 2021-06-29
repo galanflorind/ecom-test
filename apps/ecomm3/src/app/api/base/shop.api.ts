@@ -26,6 +26,7 @@ export interface GetProductsListOptions {
     limit?: number;
     sort?: string;
     filters?: {[slug: string]: string};
+    searchTerm?: string;
 }
 
 export interface GetProductReviewsOptions {

@@ -7,9 +7,7 @@ import {
     OnDestroy,
     OnInit,
     PLATFORM_ID,
-    ViewChild,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { ShopApi } from '../../../../api';
 import { fromEvent, Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map, switchMap, takeUntil } from 'rxjs/operators';
@@ -20,12 +18,12 @@ import { isPlatformBrowser } from '@angular/common';
 import { fromOutsideClick } from '../../../../functions/rxjs/from-outside-click';
 import { TranslateService } from '@ngx-translate/core';
 import { NaoSettingsInterface } from "@naologic/nao-interfaces";
-import {AppService} from "../../../../app.service";
+import { AppService } from "../../../../app.service";
 
 @Component({
     selector: 'app-search',
     templateUrl: './search.component.html',
-    styleUrls: ['./search.component.scss'],
+    styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
     private destroy$: Subject<void> = new Subject<void>();

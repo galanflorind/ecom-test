@@ -1,9 +1,9 @@
-import {CategoryFilter, CheckFilter} from "../../../interfaces/filter";
-import {nameToSlug} from "../../../../fake-server/utils";
+import {CategoryFilter, CheckFilter, RadioFilter, RangeFilter} from "../../../interfaces/filter";
+import { nameToSlug } from "../../../../fake-server/utils";
 
 
 /**
- * Prepare: categories for filter
+ * Prepare: categories filter
  */
 function buildCategoriesFilter(): CategoryFilter {
     console.warn("buildCategoriesFilter")
@@ -23,9 +23,10 @@ function buildCategoriesFilter(): CategoryFilter {
 }
 
 /**
- * Prepare manufactures for filter
+ * Prepare manufactures filter
  */
-function buildManufacturerFilter(vendors: Vendor[]): CheckFilter {
+function buildManufacturerFilter(vendors: Vendor[], values: string[]): CheckFilter {
+    // todo: check shit
     console.warn("buildManufacturerFilter")
     // -->Init
     const items = [];
@@ -46,13 +47,33 @@ function buildManufacturerFilter(vendors: Vendor[]): CheckFilter {
         slug: 'manufacturer',
         name: 'Manufacturer',
         items: items,
-        value: ['606b2d52b1c8e17e4ab4fb31']
+        value: values || []
+    }
+}
+
+/**
+ * Prepare price filter
+ */
+function buildPriceFilter(min: number, max: number, valueMin: number, valueMax: number): RangeFilter {
+    // todo: checvk shit
+
+    // todo: check if the current value is lower than min, than the valueMin is min
+    // todo: same for max
+
+    return  {
+        type: 'range',
+        slug: 'price',
+        name: 'Price',
+        min,
+        max,
+        value: [valueMin | min, valueMax | max]
     }
 }
 
 export {
     buildCategoriesFilter,
-    buildManufacturerFilter
+    buildManufacturerFilter,
+    buildPriceFilter
 }
 
 // todo: move this interfaces somewhere

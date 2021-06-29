@@ -61,7 +61,7 @@ export function getProductsList(options?: GetProductsListOptions): Observable<Pr
 
     const page = options?.page || 1;
     const limit = options?.limit || 16;
-    const sort = options?.sort || 'default';
+    const sort = options?.sort || 'name_asc';
     const total = products.length;
     const pages = Math.ceil(products.length / limit);
     const from = (page - 1) * limit + 1;
@@ -124,7 +124,7 @@ export function getProductReviews(productId: number, options?: GetProductReviews
 
     const page = options?.page || 1;
     const limit = options?.limit || 8;
-    const sort = options?.sort || 'default';
+    const sort = options?.sort || 'name_asc';
     const total = items.length;
     const pages = Math.ceil(items.length / limit);
     const from = (page - 1) * limit + 1;

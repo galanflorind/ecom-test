@@ -12,7 +12,7 @@ export function getOrdersList(options?: GetOrdersListOptions): Observable<Orders
 
     const page = options.page || 1;
     const limit = options.limit || 16;
-    const sort = options.sort || 'default';
+    const sort = options.sort || 'name_asc';
     const total = items.length;
     const pages = Math.ceil(items.length / limit);
     const from = (page - 1) * limit + 1;

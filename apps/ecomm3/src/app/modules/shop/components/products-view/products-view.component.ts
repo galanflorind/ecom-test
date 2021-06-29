@@ -82,6 +82,7 @@ export class ProductsViewComponent implements OnInit, OnDestroy {
         this.page.list$.pipe(
             takeUntil(this.destroy$),
         ).subscribe(({ page, limit, sort }) => {
+            console.log({ page, limit, sort })
             this.pageControl.setValue(page, { emitEvent: false });
             this.limitControl.setValue(limit, { emitEvent: false });
             this.sortControl.setValue(sort, { emitEvent: false });

@@ -18,7 +18,8 @@ import { Filter } from '../../../../interfaces/filter';
 import { FilterHandler } from '../../filters/filter.handler';
 import { ECommerceService } from "../../../../e-commerce.service";
 import {AppService} from "../../../../app.service";
-import {buildManufacturerFilter} from "../../filters/filter.utils.static";
+import {buildManufacturerFilter, buildPriceFilter} from "../../filters/filter.utils.static";
+import {nameToSlug} from "../../../../../fake-server/utils";
 
 export type PageShopLayout =
     'grid' |
@@ -110,10 +111,7 @@ export class PageShopComponent implements OnInit, OnDestroy {
             this.sidebarPosition = data.sidebarPosition;
         });
 
-        // todo: do we need this??????
-        // todo: do we need this??????
-        // todo: do we need this??????
-        // todo: do we need this??????
+
         data$.pipe(
             switchMap((data: PageShopData) => merge(
                 of(data.productsList),
@@ -133,7 +131,7 @@ export class PageShopComponent implements OnInit, OnDestroy {
                                 category: categorySlug,
                             },
                         };
-                        // console.log("opt >>>>", opt)
+                        console.log("opt >>>>", opt)
                         // this.refresh(opt);
                         return opt;
                     }),
@@ -160,39 +158,61 @@ export class PageShopComponent implements OnInit, OnDestroy {
         //     this.status.startLoading();
         // -->Prepare: query
         // const query = this.prepareQuery(query2);
+        // -->Selected manufacturers
+        const selectedManufacturerIds = query2?.filters?.manufacturer?.split(',')?.filter(f => f) || [];
+
+
         console.log("query >>>", query2)
+        const filterRequest = {
+            searchTerm: '', // search name, description, itemId, manufacturerId, partId
+            // categoryId: 1,
+            manufacturerIds: selectedManufacturerIds,
+            sortBy: 'name',
+            sortOrder: query2.sort === 'name_asc' ? 1 : -1, // 1 = asc/ -1 = desc
+            pageSize: query2.limit,
+            minPrice: 0,
+            maxPrice: 2500,
+            pageNo: query2.page,
+            calculateFilters: true
+        };
+        console.log("filter request >>>", filterRequest)
         // -->Execute
-        this.eCommerceService.productsFilter(query2).subscribe((res) => {
+        this.eCommerceService.productsFilter(filterRequest).subscribe((res) => {
             // -->Check: res
-            if (res && res.ok && Array.isArray(res.data)) {
+            if (res && res.ok && res.data) {
                 console.log("Response >>>>", res)
                 // todo: map or change the structore
                 // todo: map or change the structore
                 // todo: map or change the structore
                 // todo: map or change the structore
                 // -->TODO: for future use, we will set `count` as 0 but when we add count for filters we will have to connect it
+
+
+                const filters2 = [];
+                // -->TODO: push filter for categories
+
+                // -->TOdo: push filter for price
+                filters2.push(buildPriceFilter(0, 2000, 10, 500));
+                // -->Todo: push filter for manufacturers
+                filters2.push(buildManufacturerFilter(res.data.vendorList, selectedManufacturerIds))
+
+                console.log("filters2 >>>", filters2)
+                // todo: change this
                 // -->Set: data
                 const list =  {
-                    items: res.data || [],
-                    filters: this.getTempFilters(),
-                    page: 1,
-                    limit: 20,
-                    sort: 'default',
-                    total: res.meta?.totalHits || 0,
-                    pages: 100,
+                    items: res.data.items || [],
+                    filters: filters2,
+                    page: res.data.page || 1,
+                    limit: filterRequest.pageSize,
+                    sort: query2.sort,
+                    total: res.data.total,
+                    pages: res.data.pages,
                     from: 0,
                     to: 20
                 } as any;
                 // -->Set: data
                 this.page.isLoading = false;
                 this.page.setList(list);
-                // -->Set: the pagination
-                if (res.meta) {
-                    // -->Set: pages
-                    // this.search.pageMeta$.next({
-                    //     totalRows: res.meta.totalHits || 0,
-                    // });
-                }
                 // -->Set: done loader
                 // this.status.doneLoading();
             } else {
@@ -201,6 +221,11 @@ export class PageShopComponent implements OnInit, OnDestroy {
         });
         // }
     }
+
+
+    /**
+     * @deprecated
+     */
 
     /**
      * Refactor
@@ -459,7 +484,7 @@ export class PageShopComponent implements OnInit, OnDestroy {
         ];
 
         // todo: remove as any
-        filters.push(buildManufacturerFilter(info$.vendors) as any);
+        // filters.push(buildManufacturerFilter(info$.vendors) as any);
 
         return filters;
     }
