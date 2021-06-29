@@ -52,7 +52,6 @@ export interface PageShopData {
     styleUrls: ['./page-shop.component.scss'],
     providers: [
         ShopSidebarService,
-        PageShopService,
     ],
 })
 export class PageShopComponent implements OnInit, OnDestroy {
@@ -164,7 +163,7 @@ export class PageShopComponent implements OnInit, OnDestroy {
 
         console.log("query >>>", query2)
         const filterRequest = {
-            searchTerm: '', // search name, description, itemId, manufacturerId, partId
+            searchTerm: query2.searchTerm, // search name, description, itemId, manufacturerId, partId
             // categoryId: 1,
             manufacturerIds: selectedManufacturerIds,
             sortBy: 'name',
@@ -226,104 +225,6 @@ export class PageShopComponent implements OnInit, OnDestroy {
     /**
      * @deprecated
      */
-
-    /**
-     * Refactor
-     */
-    public search = {
-        pageQuery$: new BehaviorSubject<any>({ options: {} }),
-        pageMeta$: new BehaviorSubject<{totalRows: number; }>({totalRows: 0}),
-        filters$: new BehaviorSubject(null),
-        categoryId$: new BehaviorSubject<string>(''),
-        categoryId: '',
-        searchQuery$: new BehaviorSubject<any>({query: [], sorts: [], options: { sort: [['info.createdAt', -1]] }})
-    };
-
-    public sort = {
-        lastSort: 'createdAt',
-        by: new BehaviorSubject<string>('data.name'),
-        reverse: true,
-        sorts: new BehaviorSubject([]),
-    };
-
-
-    /**
-     * Prepare query
-     */
-    public prepareQuery(options): any {
-        const query = this.search.searchQuery$.getValue();
-
-        // -->Set: pagination options
-        query.options = {
-            ...query.options,
-            ...this.search.pageQuery$.getValue().options,
-            sort: this.sort.sorts.getValue()
-        };
-
-
-        /**
-         * Price: query
-         */
-            // -->Get: slider price todo
-        const [gte, lte] = [0, 20000];
-        // const [gte, lte] = this.formGroup.get('sliderPrice').value;
-
-        // -->Set: query for filter
-        query.query = {
-            $and: [
-                { 'data.variants.0.price': { $gte: gte || 0 } },
-                { 'data.variants.0.price': { $lte: lte || 100000 } },
-            ]
-        };
-
-        // -->Check: if there is a category selected
-        if (this.search.categoryId$.getValue() && Number(this.search.categoryId$.getValue())) {
-            // -->Push: query
-            query.query.$and.push({ 'data.categories.id': { $eq: Number(this.search.categoryId$.getValue()) } });
-        }
-
-        // console.log("options.filters >>>", options?.filters)
-
-
-        /**
-         * Manufacturers query
-         */
-        // if (options?.filters?.manufacturer) {
-        //     // -->Check: if it's array of ids or just one id
-        //     if (options.filters.manufacturer.includes(',')) {
-        //         // -->Push: query
-        //         query.query.$and.push({ 'data.manufacturerId': { $in: options.filters.manufacturer.split(',') }});
-        //     } else {
-        //         // -->Push: query
-        //         query.query.$and.push({ 'data.manufacturerId': { $eq: options.filters.manufacturer }});
-        //     }
-        // }
-
-        /**
-         * Search: query
-         */
-
-        // todo:
-        // -->Check: if there is a product searched
-        // if (this.queryParams && this.queryParams.search) {
-        //     const querySearch = {
-        //         $or: [
-        //             {'data.name': {$regex: `${this.queryParams.search}`, $options : 'i'}},
-        //             {'data.manufacturerProductId': { $eq: this.queryParams.search }}
-        //         ]
-        //     };
-        //     query.query.$and.push(querySearch);
-        // }
-
-        /**
-         * Categories query
-         */
-
-
-        // -->Return
-        return query;
-    }
-
 
     /**
      * Update url

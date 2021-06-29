@@ -20,7 +20,7 @@
                     [placeholder]="searchPlaceholder$|async"
                     #searchInput
                 >
-                <button type="submit" class="mobile-search__button mobile-search__button--search">
+                <button type="submit" class="mobile-search__button mobile-search__button--search" (click)="searchAndRedirect(searchInput.value)">
                     <app-icon icon="search-20"></app-icon>
                 </button>
                 <button

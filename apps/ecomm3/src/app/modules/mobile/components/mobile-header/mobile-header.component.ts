@@ -17,6 +17,8 @@ import { delay, filter, switchMap, takeUntil } from 'rxjs/operators';
 import { CartService } from '../../../../services/cart.service';
 import { TranslateService } from '@ngx-translate/core';
 import { WishlistService } from '../../../../services/wishlist.service';
+import {PageShopService} from "../../../shop/services/page-shop.service";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-mobile-header',
@@ -45,6 +47,8 @@ export class MobileHeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         public menu: MobileMenuService,
         public cart: CartService,
         public wishlist: WishlistService,
+        private page: PageShopService,
+        private router: Router
     ) { }
 
     ngOnInit(): void {
@@ -80,6 +84,13 @@ export class MobileHeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         if (this.searchInput.nativeElement) {
             this.searchInput.nativeElement.focus();
         }
+    }
+
+    public searchAndRedirect(searchTerm: string): void {
+        // -->Redirect: to shop
+        this.router.navigateByUrl('/shop').then();
+        // -->Trigger: search
+        this.page.setSearchTerm(searchTerm);
     }
 
     closeSearch(): void {

@@ -6,6 +6,7 @@ import { GetProductsListOptions } from '../../../api';
 import { ActiveFilter, Filter } from '../../../interfaces/filter';
 import { filterHandlers } from '../filters/filter-handlers';
 import { FilterHandler } from '../filters/filter.handler';
+import {Router} from "@angular/router";
 
 
 @Injectable()
@@ -64,9 +65,10 @@ export class PageShopService {
         searchTerm: null
     };
 
-    constructor() { }
+    constructor(
+    ) { }
 
-    setList(list: ProductsList): void {
+    public setList(list: ProductsList): void {
         console.log("setList >>>", list)
 
         this.listState = list;
@@ -105,7 +107,7 @@ export class PageShopService {
     /**
      * Trigger search term
      */
-    setSearchTerm(searchTerm: string): void {
+    public setSearchTerm(searchTerm: string): void {
         this.setOptions({
             ...this.optionsState,
             page: 1,
@@ -113,7 +115,7 @@ export class PageShopService {
         });
     }
 
-    setOptionValue(optionSlug: string, optionValue: any): void {
+    public setOptionValue(optionSlug: string, optionValue: any): void {
         this.setOptions({
             ...this.optionsState,
             page: 1,
@@ -121,7 +123,7 @@ export class PageShopService {
         });
     }
 
-    setFilterValue(filterSlug: string, filterValue: string|null): void {
+    public setFilterValue(filterSlug: string, filterValue: string|null): void {
         this.setOptions({
             ...this.optionsState,
             page: 1,
@@ -132,7 +134,7 @@ export class PageShopService {
         });
     }
 
-    resetFilter(activeFilter: ActiveFilter): void {
+    public resetFilter(activeFilter: ActiveFilter): void {
         const handler = filterHandlers.find(x => x.type === activeFilter.type);
 
         if (!handler) {
@@ -147,7 +149,7 @@ export class PageShopService {
         this.setRemovedFilters(removedFilters);
     }
 
-    resetAllFilters(): void {
+    public resetAllFilters(): void {
         this.setOptions({
             ...this.optionsState,
             page: 1,

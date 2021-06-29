@@ -10,23 +10,10 @@
         spellcheck="false"
         name="search"
         class="search__input"
-        [placeholder]="searchPlaceholder$|async"
-        (focus)="onInputFocus($event)"
-        (input)="onInput($event)"
+        [placeholder]="'INPUT_SEARCH_PLACEHOLDER' | translate"
+        (keyup)="onSearchKeyUp($event)"
     >
-<!--    <button-->
-<!--        type="button"-->
-<!--        class="search__button search__button&#45;&#45;start"-->
-<!--        [class.search__button&#45;&#45;hover]="vehiclePickerIsOpen"-->
-<!--        (click)="toggleVehiclePicker()"-->
-<!--        #selectVehicleButton-->
-<!--    >-->
-<!--        <span class="search__button-icon">-->
-<!--            <app-icon icon="car-20"></app-icon>-->
-<!--        </span>-->
-<!--        <span class="search__button-title">{{ 'BUTTON_SEARCH_SELECT_VEHICLE_DESKTOP'|translate }}</span>-->
-<!--    </button>-->
-    <button class="search__button search__button--end" type="submit">
+    <button class="search__button search__button--end" type="submit" (click)="searchAndRedirect()">
         <span class="search__button-icon">
             <app-icon icon="search-20"></app-icon>
         </span>
@@ -37,56 +24,56 @@
         <div class="search__decor-end"></div>
     </div>
 
-    <div
-        class="search__dropdown search__dropdown--suggestions suggestions"
-        [class.search__dropdown--open]="suggestionsIsOpen && hasSuggestions"
-    >
-        <div class="suggestions__group" *ngIf="products.length > 0">
-            <div class="suggestions__group-title">{{ 'TEXT_PRODUCTS'|translate }}</div>
-            <div class="suggestions__group-content">
-                <a
-                    *ngFor="let product of products"
-                    class="suggestions__item suggestions__product"
-                    [routerLink]="url.product(product)"
-                    (click)="toggleSuggestions(false)"
-                >
-                    <div class="suggestions__product-image">
-                        <img [src]="product|getProductImage" alt="">
-                    </div>
-                    <div class="suggestions__product-info">
-                        <div class="suggestions__product-name">
-                            {{ product.name }}
-                        </div>
-                        <!--Show rating only if it's allowed in settings-->
-                        <!--This will have to be connected to ecomm in the future-->
-                        <div class="suggestions__product-rating" *ngIf="appSettings?.rating">
-                            <div class="suggestions__product-rating-stars">
-                                <app-rating [value]="product.rating || 0"></app-rating>
-                            </div>
-                            <div class="suggestions__product-rating-label">
-                                {{ 'TEXT_RATING_LABEL'|translate:{rating: product.rating, reviews: product.reviews} }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="suggestions__product-price">
-                        {{ product.price|currencyFormat }}
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="suggestions__group" *ngIf="categories.length > 0">
-            <div class="suggestions__group-title">{{ 'TEXT_CATEGORIES'|translate }}</div>
-            <div class="suggestions__group-content">
-                <a
-                    *ngFor="let category of categories"
-                    class="suggestions__item suggestions__category"
-                    [routerLink]="url.category(category)"
-                    (click)="toggleSuggestions(false)"
-                >
-                    {{ category.name }}
-                </a>
-            </div>
-        </div>
-    </div>
+<!--    <div-->
+<!--        class="search__dropdown search__dropdown&#45;&#45;suggestions suggestions"-->
+<!--        [class.search__dropdown&#45;&#45;open]="suggestionsIsOpen && hasSuggestions"-->
+<!--    >-->
+<!--        <div class="suggestions__group" *ngIf="products.length > 0">-->
+<!--            <div class="suggestions__group-title">{{ 'TEXT_PRODUCTS'|translate }}</div>-->
+<!--            <div class="suggestions__group-content">-->
+<!--                <a-->
+<!--                    *ngFor="let product of products"-->
+<!--                    class="suggestions__item suggestions__product"-->
+<!--                    [routerLink]="url.product(product)"-->
+<!--                    (click)="toggleSuggestions(false)"-->
+<!--                >-->
+<!--                    <div class="suggestions__product-image">-->
+<!--                        <img [src]="product|getProductImage" alt="">-->
+<!--                    </div>-->
+<!--                    <div class="suggestions__product-info">-->
+<!--                        <div class="suggestions__product-name">-->
+<!--                            {{ product.name }}-->
+<!--                        </div>-->
+<!--                        &lt;!&ndash;Show rating only if it's allowed in settings&ndash;&gt;-->
+<!--                        &lt;!&ndash;This will have to be connected to ecomm in the future&ndash;&gt;-->
+<!--                        <div class="suggestions__product-rating" *ngIf="appSettings?.rating">-->
+<!--                            <div class="suggestions__product-rating-stars">-->
+<!--                                <app-rating [value]="product.rating || 0"></app-rating>-->
+<!--                            </div>-->
+<!--                            <div class="suggestions__product-rating-label">-->
+<!--                                {{ 'TEXT_RATING_LABEL'|translate:{rating: product.rating, reviews: product.reviews} }}-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="suggestions__product-price">-->
+<!--                        {{ product.price|currencyFormat }}-->
+<!--                    </div>-->
+<!--                </a>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="suggestions__group" *ngIf="categories.length > 0">-->
+<!--            <div class="suggestions__group-title">{{ 'TEXT_CATEGORIES'|translate }}</div>-->
+<!--            <div class="suggestions__group-content">-->
+<!--                <a-->
+<!--                    *ngFor="let category of categories"-->
+<!--                    class="suggestions__item suggestions__category"-->
+<!--                    [routerLink]="url.category(category)"-->
+<!--                    (click)="toggleSuggestions(false)"-->
+<!--                >-->
+<!--                    {{ category.name }}-->
+<!--                </a>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
 
 </form>

@@ -22,6 +22,7 @@ import { NaoHttp2Module } from "@naologic/nao-http2";
 import { environment } from '../environments/environment';
 import { ECommerceService } from "./e-commerce.service";
 import {AppService} from "./app.service";
+import {PageShopService} from "./modules/shop/services/page-shop.service";
 
 @NgModule({
     declarations: [
@@ -112,6 +113,7 @@ import {AppService} from "./app.service";
     ],
     providers: [
         ECommerceService,
+        PageShopService,
         AppService
     ]
 })
