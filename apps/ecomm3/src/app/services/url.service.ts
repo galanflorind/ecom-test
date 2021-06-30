@@ -4,6 +4,7 @@ import { Address } from '../interfaces/address';
 import { Order } from '../interfaces/order';
 import { Product } from '../interfaces/product';
 import { Brand } from '../interfaces/brand';
+import { nameToSlug } from "../../fake-server/utils";
 
 @Injectable({
     providedIn: 'root',
@@ -20,15 +21,14 @@ export class UrlService {
     }
 
     public category(category: Category): string {
-        if (category.type === 'shop') {
-            return this.shopCategory(category);
-        }
-
-        return '/';
+        return this.shopCategory(category);
     }
 
     public shopCategory(category: ShopCategory): string {
-        return `/shop/category/${category.slug}` + (category.layout === 'products' ? '/products' : '');
+        // -->Slugify: the category name
+        const categorySlug = nameToSlug(category.name);
+        // -->Return: category url
+        return `/shop/category/${categorySlug}/${category.id}/products`;
     }
 
     public allProducts(): string {
@@ -36,7 +36,10 @@ export class UrlService {
     }
 
     public product(product: Product): string {
-        return `/shop/products/${product.slug}`;
+        // -->Slugify: the product name
+        const productSlug = nameToSlug(product.data?.name);
+        // -->Return: product url
+        return `/shop/products/${productSlug}/${product._id}`;
     }
 
     public brand(brand: Brand): string {

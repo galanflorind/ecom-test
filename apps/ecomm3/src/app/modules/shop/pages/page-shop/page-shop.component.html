@@ -1,7 +1,7 @@
 <!--Page header + breadcrumbs-->
 <app-block-header
     [pageTitle]="(pageTitle$|async) || ''"
-    [breadcrumb]="(breadcrumbs$|async) || []"
+    [breadcrumb]="breadcrumbs || []"
 ></app-block-header>
 
 <!--Content-->

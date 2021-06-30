@@ -25,7 +25,7 @@
         </ng-container>
         <li
             class="filter-category__item"
-            [class.filter-category__item--current]="options.value"
+            [class.filter-category__item--current]="+options.value === item.id"
         >
             <a [routerLink]="url.category(item)">{{ item.name }}</a>
         </li>

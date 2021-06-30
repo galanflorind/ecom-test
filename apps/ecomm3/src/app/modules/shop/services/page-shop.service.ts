@@ -13,7 +13,13 @@ import {Router} from "@angular/router";
 export class PageShopService {
     private listSubject$: ReplaySubject<ProductsList> = new ReplaySubject<ProductsList>(1);
 
-    private optionsState: GetProductsListOptions = {};
+    private optionsState: GetProductsListOptions = {
+        // page: 1,
+        // limit: 16,
+        // sort: 'name_asc',
+        // filters: {},
+        // searchTerm: null
+    };
 
     private listState!: ProductsList;
 
@@ -38,16 +44,16 @@ export class PageShopService {
         return this.activeFiltersSubject$.value;
     }
 
-    // getters for list
-    get items(): Product[] { return this.listState.items; }
-    get page(): number { return this.listState.page; }
-    get limit(): number { return this.listState.limit; }
-    get sort(): string { return this.listState.sort; }
-    get total(): number { return this.listState.total; }
-    get pages(): number { return this.listState.pages; }
-    get from(): number { return this.listState.from; }
-    get to(): number { return this.listState.to; }
-    get filters(): Filter[] { return this.listState.filters; }
+    // getters for list todo: this is not working properly
+    get items(): Product[] { return this.listState?.items; }
+    get page(): number { return this.listState?.page; }
+    get limit(): number { return this.listState?.limit; }
+    get sort(): string { return this.listState?.sort; }
+    get total(): number { return this.listState?.total; }
+    get pages(): number { return this.listState?.pages; }
+    get from(): number { return this.listState?.from; }
+    get to(): number { return this.listState?.to; }
+    get filters(): Filter[] { return this.listState?.filters; }
 
     readonly optionsChange$: EventEmitter<GetProductsListOptions> = new EventEmitter<GetProductsListOptions>();
 
@@ -66,10 +72,12 @@ export class PageShopService {
     };
 
     constructor(
-    ) { }
+    ) {
+        // // -->Init: options
+        // this.setOptions(this.defaultOptions);
+    }
 
     public setList(list: ProductsList): void {
-        console.log("setList >>>", list)
 
         this.listState = list;
         this.listSubject$.next(this.listState);
@@ -158,7 +166,7 @@ export class PageShopService {
         this.setRemovedFilters(this.activeFilters);
     }
 
-    private setOptions(options: GetProductsListOptions): void {
+    public setOptions(options: GetProductsListOptions): void {
         this.optionsState = options;
         this.optionsChange$.emit(options);
     }

@@ -12,14 +12,14 @@ export class ProductsListResolver implements Resolve<ProductsList> {
     ) { }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ProductsList> {
-        const categorySlug = route.params.categorySlug || route.data.categorySlug;
+        const categoryId = route.params.categoryId || route.data.categoryId;
         const options = parseProductsListParams(route.queryParams);
 
         return this.shop.getProductsList({
             ...options,
             filters: {
                 ...options.filters,
-                category: categorySlug,
+                category: categoryId,
             },
         });
     }

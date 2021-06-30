@@ -2,10 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ShopSidebarService } from '../../services/shop-sidebar.service';
 import { PageShopService } from '../../services/page-shop.service';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import {ActivatedRoute, NavigationEnd, Params, Router} from '@angular/router';
 import { ShopApi } from '../../../../api';
-import { BehaviorSubject, merge, Observable, of, Subject } from 'rxjs';
-import { map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import {BehaviorSubject, merge, Observable, of, Subject, Subscription} from 'rxjs';
+import {map, switchMap, takeUntil, tap, throttleTime} from 'rxjs/operators';
 import { UrlService } from '../../../../services/url.service';
 import { getCategoryPath } from '../../../../functions/utils';
 import { ShopCategory } from '../../../../interfaces/category';
@@ -17,9 +17,14 @@ import { BreadcrumbItem } from '../../../shared/components/breadcrumb/breadcrumb
 import { Filter } from '../../../../interfaces/filter';
 import { FilterHandler } from '../../filters/filter.handler';
 import { ECommerceService } from "../../../../e-commerce.service";
-import {AppService} from "../../../../app.service";
-import {buildManufacturerFilter, buildPriceFilter} from "../../filters/filter.utils.static";
-import {nameToSlug} from "../../../../../fake-server/utils";
+import { AppService } from "../../../../app.service";
+import {
+    buildCategoriesFilter,
+    buildManufacturerFilter,
+    buildPriceFilter
+} from "../../filters/filter.utils.static";
+import {getBreadcrumbs} from "../../../../../fake-server/utils";
+
 
 export type PageShopLayout =
     'grid' |
@@ -65,7 +70,8 @@ export class PageShopComponent implements OnInit, OnDestroy {
 
     public pageTitle$!: Observable<string>;
 
-    public breadcrumbs$!: Observable<BreadcrumbItem[]>;
+    public breadcrumbs: BreadcrumbItem[];
+    private refreshSubs = new Subscription();
 
     get offCanvasSidebar(): PageShopOffCanvasSidebar {
         return ['grid-4-full', 'grid-5-full', 'grid-6-full'].includes(this.gridLayout) ? 'always' : 'mobile';
@@ -84,25 +90,20 @@ export class PageShopComponent implements OnInit, OnDestroy {
         private appService: AppService,
     ) { }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         const data$: Observable<PageShopData> = this.route.data as Observable<PageShopData>;
 
         const category$: Observable<ShopCategory> = data$.pipe(map(data => data.category));
-        // -->Page: title
+        // -->Page: todo: title
         this.pageTitle$ = category$.pipe(
             switchMap(category => category ? of(category.name) : this.translate.stream('HEADER_SHOP')),
         );
 
-        // -->Breadcrumb
-        this.breadcrumbs$ = this.language.current$.pipe(
-            switchMap(() => category$.pipe(
-                map(category => [
-                    { label: this.translate.instant('LINK_HOME'), url: this.url.home() },
-                    { label: this.translate.instant('LINK_SHOP'), url: this.url.shop() },
-                    ...getCategoryPath(category).map(x => ({ label: x.name, url: this.url.category(x) })),
-                ]),
-            )),
-        );
+        // -->Set: breadcrumb
+        this.breadcrumbs = [
+            { label: this.translate.instant('LINK_HOME'), url: this.url.home() },
+            { label: this.translate.instant('LINK_SHOP'), url: this.url.shop() },
+        ]
 
         data$.subscribe((data: PageShopData) => {
             this.layout = data.layout;
@@ -110,40 +111,30 @@ export class PageShopComponent implements OnInit, OnDestroy {
             this.sidebarPosition = data.sidebarPosition;
         });
 
+        // todo: subscribe to router
 
         data$.pipe(
+            throttleTime(400),
             switchMap((data: PageShopData) => merge(
                 of(data.productsList),
                 this.page.optionsChange$.pipe(
                     map(() => {
                         this.updateUrl();
-
-                        // todo: capture category id and not slug
-                        // todo: capture category id and not slug
-                        // todo: capture category id and not slug
-                        const categorySlug: string = this.route.snapshot.params.categorySlug || this.route.snapshot.data.categorySlug || undefined;
-
-                        const opt =  {
-                            ...this.page.options,
-                            filters: {
-                                ...this.page.options.filters,
-                                category: categorySlug,
-                            },
-                        };
-                        console.log("opt >>>>", opt)
-                        // this.refresh(opt);
-                        return opt;
+                        return null;
                     }),
-                    tap(() => this.page.isLoading = true),
-                    // switchMap(options => this.shop.getProductsList(options)),
                 ),
             )),
             takeUntil(this.destroy$),
         ).subscribe(options => {
-            // this.page.isLoading = false;
-            // this.page.setList(list);
-            this.refresh(options);
+            this.refresh();
         });
+
+        // -->Subscribe: to router changes
+        this.router.events.subscribe(val => {
+            if (val instanceof NavigationEnd) {
+                this.refresh();
+            }
+        })
 
     }
 
@@ -151,80 +142,102 @@ export class PageShopComponent implements OnInit, OnDestroy {
     /**
      * Refresh products
      */
-    public refresh(query2: any): void {
-        // todo: add typescript to options
-        // if (!this.status.isLoading()) {
-        //     this.status.startLoading();
-        // -->Prepare: query
-        // const query = this.prepareQuery(query2);
-        // -->Selected manufacturers
-        const selectedManufacturerIds = query2?.filters?.manufacturer?.split(',')?.filter(f => f) || [];
+    public refresh(): void {
+        if (this.refreshSubs) {
+            this.refreshSubs.unsubscribe();
+            this.refreshSubs = null;
+        }
+
+        // -->Start: loading
+        this.page.isLoading = true
+        // -->Get: category id
+        const categoryId: number = this.route.snapshot.params.categoryId ? +this.route.snapshot.params.categoryId : undefined;
+        // -->Create: filters options
+        const options =  {
+            ...this.page.options,
+            filters: {
+                ...this.page.options.filters,
+                category: categoryId,
+            },
+        } as any;
+        // -->Get: Selected manufacturers
+        const selectedManufacturerIds = options?.filters?.manufacturer?.split(',')?.filter(f => f) || [];
 
 
-        console.log("query >>>", query2)
-        const filterRequest = {
-            searchTerm: query2.searchTerm, // search name, description, itemId, manufacturerId, partId
-            // categoryId: 1,
+
+        // -->Create: query
+        const query = {
+            searchTerm: options.searchTerm, // search name, description, itemId, manufacturerId, partId
+            categoryId: options.filters?.category,
             manufacturerIds: selectedManufacturerIds,
             sortBy: 'name',
-            sortOrder: query2.sort === 'name_asc' ? 1 : -1, // 1 = asc/ -1 = desc
-            pageSize: query2.limit,
-            minPrice: 0,
-            maxPrice: 2500,
-            pageNo: query2.page,
+            sortOrder: options.sort === 'name_asc' ? 1 : -1, // 1 = asc/ -1 = desc
+            pageSize: options.limit || this.page.defaultOptions.limit,
+            pageNo: options.page || this.page.defaultOptions.page,
             calculateFilters: true
-        };
-        console.log("filter request >>>", filterRequest)
+        } as any;
+
+        // -->Get: min and max price range
+        let minPrice, maxPrice;
+        // -->Check: if there is a price already set, if not wait for the response
+        if (options?.filters?.price?.split('-')?.length) {
+            // -->Split: string to get min and max price
+            [minPrice, maxPrice] = options?.filters?.price?.split('-').map(p => +p);
+            // -->Set: only if both of them are numbers
+            if (!isNaN(minPrice) && !isNaN(maxPrice)) {
+                query.minPrice = minPrice
+                query.maxPrice = maxPrice
+            }
+        }
+
         // -->Execute
-        this.eCommerceService.productsFilter(filterRequest).subscribe((res) => {
+        this.refreshSubs = this.eCommerceService.productsFilter(query).subscribe((res) => {
             // -->Check: res
             if (res && res.ok && res.data) {
-                console.log("Response >>>>", res)
-                // todo: map or change the structore
-                // todo: map or change the structore
-                // todo: map or change the structore
-                // todo: map or change the structore
-                // -->TODO: for future use, we will set `count` as 0 but when we add count for filters we will have to connect it
 
+                // -->Init: filters
+                const filters = [];
+                // -->Push: category filters
+                filters.push(buildCategoriesFilter(this.appService.appInfo?.getValue()?.categories?.items || [], categoryId))
+                // --->Push: price filter
+                filters.push(buildPriceFilter(res.data?.filterInfo?.min, res.data?.filterInfo?.max, minPrice, maxPrice));
+                // -->Push: manufacturers filter
+                filters.push(buildManufacturerFilter(res.data?.filterInfo?.vendors || [], selectedManufacturerIds))
 
-                const filters2 = [];
-                // -->TODO: push filter for categories
-
-                // -->TOdo: push filter for price
-                filters2.push(buildPriceFilter(0, 2000, 10, 500));
-                // -->Todo: push filter for manufacturers
-                filters2.push(buildManufacturerFilter(res.data.vendorList, selectedManufacturerIds))
-
-                console.log("filters2 >>>", filters2)
-                // todo: change this
-                // -->Set: data
+                // -->Set: List and calculate pages and everything
                 const list =  {
                     items: res.data.items || [],
-                    filters: filters2,
-                    page: res.data.page || 1,
-                    limit: filterRequest.pageSize,
-                    sort: query2.sort,
-                    total: res.data.total,
-                    pages: res.data.pages,
-                    from: 0,
-                    to: 20
-                } as any;
+                    filters: filters,
+                    page: options.page || 1,
+                    limit: query.pageSize,
+                    sort: options.sort || this.page.defaultOptions.sort,
+                    total: res.data?.filterInfo?.count || 1,
+                    pages: Math.ceil(res.data?.filterInfo?.count / query.pageSize),
+                    from: (options.page - 1) * query.pageSize + 1,
+                    to: options.page * query.pageSize
+                };
+
+                // -->Get: breadcrumbs
+                const breadcrumbs = getBreadcrumbs(this.appService.appInfo?.getValue()?.categories?.items, categoryId)
+                // -->Update: breadcrumbs
+                this.breadcrumbs = [
+                    { label: this.translate.instant('LINK_HOME'), url: this.url.home() },
+                    { label: this.translate.instant('LINK_SHOP'), url: this.url.shop() },
+                    ...breadcrumbs.map(x => ({ label: x.name, url: this.url.category(x) })),
+                ]
+
                 // -->Set: data
                 this.page.isLoading = false;
                 this.page.setList(list);
-                // -->Set: done loader
-                // this.status.doneLoading();
+
             } else {
-                // this.status.error();
+                this.page.isLoading = false;
+                // todo: show errors
+                // todo: refresh with default data
             }
         });
-        // }
     }
 
-
-    /**
-     * @deprecated
-     */
 
     /**
      * Update url
@@ -244,13 +257,13 @@ export class PageShopComponent implements OnInit, OnDestroy {
         const filterValues = options.filters || {};
 
         if ('page' in options && options.page !== this.page.defaultOptions.page) {
-            params.page = options.page;
+            params.page = options.page ? options.page : this.page.defaultOptions.page;
         }
         if ('limit' in options && options.limit !== this.page.defaultOptions.limit) {
-            params.limit = options.limit;
+            params.limit = options.limit ? options.limit : this.page.defaultOptions.limit;
         }
         if ('sort' in options && options.sort !== this.page.defaultOptions.sort) {
-            params.sort = options.sort;
+            params.sort = options.sort ? options.sort : this.page.defaultOptions.sort;
         }
         if ('filters' in options) {
             this.page.filters
@@ -275,123 +288,6 @@ export class PageShopComponent implements OnInit, OnDestroy {
 
         return params;
     }
-
-
-    /**
-     * Temporary todo: remove htis
-     */
-    public getTempFilters(): any {
-        const info$ = this.appService.appInfo.getValue();
-
-        const filters =  [
-            {
-                "type": "category",
-                "slug": "category",
-                "name": "Categories",
-                "items": [
-                    {
-                        "id": 1,
-                        "type": "shop",
-                        "name": "Headlights & Lighting",
-                        "slug": "headlights-lighting",
-                        "image": "assets/images/categories/category-1.jpg",
-                        "items": 131,
-                        "layout": "products",
-                        "customFields": {}
-                    },
-                    {
-                        "id": 10,
-                        "type": "shop",
-                        "name": "Fuel System",
-                        "slug": "fuel-system",
-                        "image": "assets/images/categories/category-2.jpg",
-                        "items": 356,
-                        "layout": "products",
-                        "customFields": {}
-                    },
-                    {
-                        "id": 16,
-                        "type": "shop",
-                        "name": "Body Parts",
-                        "slug": "body-parts",
-                        "image": "assets/images/categories/category-3.jpg",
-                        "items": 54,
-                        "layout": "products",
-                        "customFields": {}
-                    },
-                    {
-                        "id": 22,
-                        "type": "shop",
-                        "name": "Interior Parts",
-                        "slug": "interior-parts",
-                        "image": "assets/images/categories/category-4.jpg",
-                        "items": 274,
-                        "layout": "products",
-                        "customFields": {}
-                    },
-                    {
-                        "id": 30,
-                        "type": "shop",
-                        "name": "Tires & Wheels",
-                        "slug": "tires-wheels",
-                        "image": "assets/images/categories/category-5.jpg",
-                        "items": 508,
-                        "layout": "products",
-                        "customFields": {}
-                    },
-                    {
-                        "id": 38,
-                        "type": "shop",
-                        "name": "Engine & Drivetrain",
-                        "slug": "engine-drivetrain",
-                        "image": "assets/images/categories/category-6.jpg",
-                        "items": 95,
-                        "layout": "products",
-                        "customFields": {}
-                    },
-                    {
-                        "id": 46,
-                        "type": "shop",
-                        "name": "Oils & Lubricants",
-                        "slug": "oils-lubricants",
-                        "image": "assets/images/categories/category-7.jpg",
-                        "items": 179,
-                        "layout": "products",
-                        "customFields": {}
-                    },
-                    {
-                        "id": 47,
-                        "type": "shop",
-                        "name": "Tools & Garage",
-                        "slug": "tools-garage",
-                        "image": "assets/images/categories/category-8.jpg",
-                        "items": 106,
-                        "layout": "products",
-                        "customFields": {}
-                    }
-                ]
-            },
-            {
-                "type": "range",
-                "slug": "price",
-                "name": "Price",
-                "min": 0,
-                "max": 10000,
-                "value": [
-                    0,
-                    10000
-                ]
-            }
-        ];
-
-        // todo: remove as any
-        // filters.push(buildManufacturerFilter(info$.vendors) as any);
-
-        return filters;
-    }
-
-
-
 
 
     /**

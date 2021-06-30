@@ -70,6 +70,13 @@ export class ProductCardComponent implements OnChanges, OnInit, OnDestroy {
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.product) {
             // this.featuredAttributes = this.product.attributes.filter(x => x.featured);
+
+            // -->Calculate: min and max price for this product
+            const minPrice = this.product?.data?.variants?.reduce((min, variant) => (variant.price < min ? variant.price : min), this.product.data.variants[0].price)
+            const maxPrice = this.product?.data?.variants?.reduce((max, variant) => (variant.price > max ? variant.price : max), this.product.data.variants[0].price)
+            // -->Set: min and max price
+            this.product.minPrice = minPrice;
+            this.product.maxPrice = maxPrice;
         }
     }
 
@@ -116,4 +123,5 @@ export class ProductCardComponent implements OnChanges, OnInit, OnDestroy {
             return 'not-fit';
         // }
     }
+
 }

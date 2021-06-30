@@ -47,23 +47,27 @@ const routes: Routes = [
             sidebarPosition: 'start',
         },
     },
+    // {
+    //     path: 'category/:categorySlug/:categoryId',
+    //     component: PageCategoryComponent,
+    //     data: {
+    //         layout: 'columns-4-sidebar',
+    //     },
+    //     resolve: {
+    //         category: CategoryResolver,
+    //     },
+    // },
     {
-        path: 'category/:categorySlug',
-        component: PageCategoryComponent,
-        data: {
-            layout: 'columns-4-sidebar',
-        },
-        resolve: {
-            category: CategoryResolver,
-        },
-    },
-    {
-        path: 'category/:categorySlug/products',
+        path: 'category/:categorySlug/:categoryId/products',
         component: PageShopComponent,
-        resolve: {
-            category: CategoryResolver,
-            productsList: ProductsListResolver,
-        },
+        // todo: add resolve so we could get the data befor going to that route????
+        // todo: add resolve so we could get the data befor going to that route????
+        // todo: add resolve so we could get the data befor going to that route????
+        // todo: add resolve so we could get the data befor going to that route????
+        // resolve: {
+            // category: CategoryResolver,
+            // productsList: ProductsListResolver,
+        // },
         data: {
             layout: 'grid',
             gridLayout: 'grid-4-sidebar',
@@ -71,7 +75,7 @@ const routes: Routes = [
         },
     },
     {
-        path: 'products/:productSlug',
+        path: 'products/:productSlug/:productId',
         component: PageProductComponent,
         resolve: {
             product: ProductResolver,

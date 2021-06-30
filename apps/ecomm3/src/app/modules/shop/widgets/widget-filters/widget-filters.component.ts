@@ -1,4 +1,4 @@
-import { Component, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, HostBinding, Input, OnDestroy, OnInit} from '@angular/core';
 import { PageShopService } from '../../services/page-shop.service';
 import { Subject } from 'rxjs';
 import { Filter } from '../../../../interfaces/filter';
@@ -36,6 +36,7 @@ export class WidgetFiltersComponent implements OnInit, OnDestroy {
     constructor(
         private page: PageShopService,
         private fb: FormBuilder,
+        private cd: ChangeDetectorRef,
     ) { }
 
     ngOnInit(): void {
@@ -59,6 +60,7 @@ export class WidgetFiltersComponent implements OnInit, OnDestroy {
             });
 
             this.form = this.fb.group(fields);
+            this.cd.detectChanges();
         });
     }
 

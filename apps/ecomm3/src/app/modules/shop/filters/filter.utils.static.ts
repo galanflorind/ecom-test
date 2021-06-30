@@ -1,36 +1,74 @@
 import {CategoryFilter, CheckFilter, RadioFilter, RangeFilter} from "../../../interfaces/filter";
 import { nameToSlug } from "../../../../fake-server/utils";
+import {BaseCategory} from "../../../interfaces/category";
 
 
 /**
  * Prepare: categories filter
  */
-function buildCategoriesFilter(): CategoryFilter {
-    console.warn("buildCategoriesFilter")
-    const items = [];
+function buildCategoriesFilter(items: any[], categoryId = null): CategoryFilter {
+    if (!Array.isArray(items)) {
+        items = [];
+    }
+    // -->Init
+    let filterCategories = [];
+    // -->Check: if there si a category selected
+    if (!categoryId) {
+        // -->Get: categories with level 0 and add children
+        filterCategories = items.filter(c => c.level === 0 && c.showOnWebsite);
 
-    // todo: match categories on levels
-    // todo: cache the categories leveled
-
+    } else {
+        // -->Get: current category
+        const currentCategory = items.find(c => c.id === categoryId)
+        // -->Get: parent category
+        const parent = items.find(c => c?.id === currentCategory?.parentId)
+        // -->Get; children
+        const children = items.filter(c => c.parentId === currentCategory.id && c.showOnWebsite);
+        // -->Create: category
+        const category = {
+            ...currentCategory,
+            children
+        }
+        // -->Check: if this category has parent
+        if (parent) {
+            category.parent = getParentsCategory(items, parent);
+        }
+        // -->Push: category
+        filterCategories.push(category)
+    }
 
     return {
         type: 'category',
         slug: 'category',
         name: 'Categories',
-        items: items,
-        value: '',
+        items: filterCategories,
+        value: categoryId,
     };
+}
+
+/**
+ * Get: all parents for a category
+ */
+function getParentsCategory(items: any[], parentCategory: any): any {
+    // -->Check: if the parent is root or not
+    if (parentCategory.level > 0) {
+        const parent = items.find(c => c?.id === parentCategory?.parentId)
+        // -->Return: and start the search again
+        return { parent: getParentsCategory(items, parent), ...parentCategory }
+
+    }
+    return parentCategory;
 }
 
 /**
  * Prepare manufactures filter
  */
 function buildManufacturerFilter(vendors: Vendor[], values: string[]): CheckFilter {
-    // todo: check shit
-    console.warn("buildManufacturerFilter")
+    if(!Array.isArray(vendors)) {
+        vendors = [];
+    }
     // -->Init
     const items = [];
-
     // -->Iterate: over vendors
     vendors.map(vendor => {
         if (vendor) {
@@ -57,8 +95,19 @@ function buildManufacturerFilter(vendors: Vendor[], values: string[]): CheckFilt
 function buildPriceFilter(min: number, max: number, valueMin: number, valueMax: number): RangeFilter {
     // todo: checvk shit
 
+    // -->Round: values
+    min = Math.ceil(min);
+    max = Math.ceil(max);
+
     // todo: check if the current value is lower than min, than the valueMin is min
     // todo: same for max
+    if (!valueMin) {
+        valueMin = min
+    }
+
+    if (!valueMax) {
+        valueMax = max
+    }
 
     return  {
         type: 'range',
@@ -66,15 +115,18 @@ function buildPriceFilter(min: number, max: number, valueMin: number, valueMax: 
         name: 'Price',
         min,
         max,
-        value: [valueMin | min, valueMax | max]
+        value: [valueMin, valueMax]
     }
 }
+
+
 
 export {
     buildCategoriesFilter,
     buildManufacturerFilter,
-    buildPriceFilter
+    buildPriceFilter,
 }
+
 
 // todo: move this interfaces somewhere
 export interface Vendor {

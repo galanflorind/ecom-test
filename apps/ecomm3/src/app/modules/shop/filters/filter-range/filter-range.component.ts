@@ -37,7 +37,9 @@ export class FilterRangeComponent implements OnInit, ControlValueAccessor {
     constructor(
         @Inject(PLATFORM_ID) private platformId: any,
         private language: LanguageService,
-    ) { }
+    ) {
+
+    }
 
     ngOnInit(): void {
         this.value = [this.options.min, this.options.max];

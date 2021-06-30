@@ -97,13 +97,20 @@
 
     <div class="product-card__footer">
         <div class="product-card__prices">
-            <ng-container *ngIf="product.compareAtPrice">
-                <div class="product-card__price product-card__price--new">{{ product.price|currencyFormat }}</div>
-                <div class="product-card__price product-card__price--old">{{ product.compareAtPrice|currencyFormat }}</div>
-            </ng-container>
-            <ng-container *ngIf="!product.compareAtPrice">
-                <div class="product-card__price product-card__price--current">{{ product.price|currencyFormat }}</div>
-            </ng-container>
+            <!--TODO:check the compare price-->
+            <!--TODO:check the compare price-->
+            <!--TODO:check the compare price-->
+            <!--TODO:check the compare price-->
+            <!--TODO:check the compare price-->
+<!--            <ng-container *ngIf="product.compareAtPrice">-->
+<!--                <div class="product-card__price product-card__price&#45;&#45;new">{{ product.price|currencyFormat }}</div>-->
+<!--                <div class="product-card__price product-card__price&#45;&#45;old">{{ product.compareAtPrice|currencyFormat }}</div>-->
+<!--            </ng-container>-->
+<!--            <ng-container *ngIf="!product.compareAtPrice">-->
+<!--                <div class="product-card__price product-card__price&#45;&#45;current">{{ product.price|currencyFormat }}</div>-->
+<!--            </ng-container>-->
+            <div class="product-card__price product-card__price&#45;&#45;current" *ngIf="product.minPrice === product.maxPrice">{{ product.minPrice|currencyFormat }}</div>
+            <div class="product-card__price product-card__price&#45;&#45;current" *ngIf="product.minPrice !== product.maxPrice">{{ product.minPrice|currencyFormat }} - {{ product.maxPrice|currencyFormat }}</div>
         </div>
         <ng-container *ngIf="!exclude.includes('buttons')">
             <button

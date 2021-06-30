@@ -2,7 +2,7 @@
     <h4>{{ 'HEADER_FILTERS'|translate }}</h4>
 </div>
 
-<div class="widget-filters__list" [formGroup]="form">
+<div class="widget-filters__list" [formGroup]="form" *ngIf="form">
     <div *ngFor="let filter of filters; trackBy: trackBySlug" class="widget-filters__item">
         <div class="filter filter--opened" appCollapseItem="filter--opened" #collapseItem="appCollapseItem">
             <button type="button" class="filter__title" (click)="collapseItem.toggle()">
