@@ -1,5 +1,5 @@
 <ng-template #empty>
-    {{ 'TEXT_REVIEWS_LIST_EMPTY'|translate }}
+    {{ 'TEXT_REVIEWS_LIST_EMPTY' | translate }}
 </ng-template>
 <ng-container *ngIf="list && list.total > 0; else empty">
     <ol class="reviews-list__content">
@@ -9,7 +9,7 @@
                     <div class="review__avatar"><img [src]="review.avatar" alt=""></div>
                     <div class="review__meta">
                         <div class="review__author">{{ review.author }}</div>
-                        <div class="review__date">{{ 'FORMAT_DATE_MEDIUM'|translate:{date: review.date} }}</div>
+                        <div class="review__date">{{ 'FORMAT_DATE_MEDIUM' | translate:{date: review.date} }}</div>
                     </div>
                     <!--Show rating only if it's allowed in settings-->
                     <!--This will have to be connected to ecomm in the future-->

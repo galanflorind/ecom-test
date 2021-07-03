@@ -74,7 +74,7 @@
 //   - .product-card__wishlist, .product-card__compare, .product__actions-item--wishlist, .product__actions-item--compare
 //   - .category-card
 //   - .quickview
-//   - .product-form
+//   - .product-variants
 //   - .categories-list
 // - other
 //   - .filter
@@ -1121,7 +1121,7 @@
       $quickview-see-details-active-bg-color: #f0f0f0 !default;
 
    // ----------------------------------------
-   // -- .product-form
+   // -- .product-variants
    // ----------------------------------------
       $product-form-bg-color:    #f9f9f9 !default;
       $product-form-title-color: #6c7177 !default;

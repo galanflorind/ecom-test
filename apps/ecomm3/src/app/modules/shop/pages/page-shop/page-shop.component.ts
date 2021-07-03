@@ -119,8 +119,9 @@ export class PageShopComponent implements OnInit, OnDestroy {
                 of(data.productsList),
                 this.page.optionsChange$.pipe(
                     map(() => {
+                        // todo: fix the update url
                         this.updateUrl();
-                        return null;
+                        return null
                     }),
                 ),
             )),
@@ -133,6 +134,15 @@ export class PageShopComponent implements OnInit, OnDestroy {
         this.router.events.subscribe(val => {
             if (val instanceof NavigationEnd) {
                 this.refresh();
+            }
+        })
+
+        // todo: change this, this is a temp fix
+        this.appService.appInfo.subscribe(value => {
+            // -->If: the value changes refresh again, todo: change thsi to be on app.component and hide router-outlet
+            // console.log("appInfo >>", value)
+            if (value) {
+                this.refresh()
             }
         })
 
@@ -211,8 +221,8 @@ export class PageShopComponent implements OnInit, OnDestroy {
                     page: options.page || 1,
                     limit: query.pageSize,
                     sort: options.sort || this.page.defaultOptions.sort,
-                    total: res.data?.filterInfo?.count || 1,
-                    pages: Math.ceil(res.data?.filterInfo?.count / query.pageSize),
+                    total: res.data?.count || 0,
+                    pages: Math.ceil(res.data?.count / query.pageSize),
                     from: (options.page - 1) * query.pageSize + 1,
                     to: options.page * query.pageSize
                 };
@@ -229,6 +239,10 @@ export class PageShopComponent implements OnInit, OnDestroy {
                 // -->Set: data
                 this.page.isLoading = false;
                 this.page.setList(list);
+
+
+
+                // this.updateUrl();
 
             } else {
                 this.page.isLoading = false;
@@ -252,6 +266,10 @@ export class PageShopComponent implements OnInit, OnDestroy {
      * Get query params
      */
     private getQueryParams(): Params {
+        // todo: this should be done on first request data and to params????
+        // todo: this should be done on first request data and to params????
+        // todo: this should be done on first request data and to params????
+        // todo: this should be done on first request data and to params????
         const params: Params = {};
         const options = this.page.options;
         const filterValues = options.filters || {};

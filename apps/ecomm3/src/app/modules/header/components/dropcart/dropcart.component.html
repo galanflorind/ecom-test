@@ -1,5 +1,5 @@
 <div class="dropcart__empty" *ngIf="!(cart.items$|async)?.length">
-    {{ 'TEXT_YOUR_SHOPPING_CART_IS_EMPTY'|translate }}
+    {{ 'TEXT_YOUR_SHOPPING_CART_IS_EMPTY' | translate }}
 </div>
 <ng-container *ngIf="(cart.items$|async)?.length">
     <ul class="dropcart__list">
@@ -40,7 +40,7 @@
         <table>
             <tbody>
             <tr *ngIf="(cart.totals$|async)?.length">
-                <th>{{ 'TABLE_SUBTOTAL'|translate }}</th>
+                <th>{{ 'TABLE_SUBTOTAL' | translate }}</th>
                 <td>{{ ((cart.subtotal$|async) || 0)|currencyFormat }}</td>
             </tr>
             <tr *ngFor="let total of cart.totals$|async">
@@ -48,14 +48,14 @@
                 <td>{{ total.price|currencyFormat  }}</td>
             </tr>
             <tr>
-                <th>{{ 'TABLE_TOTAL'|translate }}</th>
+                <th>{{ 'TABLE_TOTAL' | translate }}</th>
                 <td>{{ ((cart.total$|async) || 0)|currencyFormat }}</td>
             </tr>
             </tbody>
         </table>
     </div>
     <div class="dropcart__actions">
-        <a routerLink="/shop/cart" class="btn btn-secondary" (click)="closeMenu.emit()">{{ 'BUTTON_VIEW_CART'|translate }}</a>
-        <a routerLink="/shop/checkout" class="btn btn-primary" (click)="closeMenu.emit()">{{ 'BUTTON_CHECKOUT'|translate }}</a>
+        <a routerLink="/shop/cart" class="btn btn-secondary" (click)="closeMenu.emit()">{{ 'BUTTON_VIEW_CART' | translate }}</a>
+        <a routerLink="/shop/checkout" class="btn btn-primary" (click)="closeMenu.emit()">{{ 'BUTTON_CHECKOUT' | translate }}</a>
     </div>
 </ng-container>

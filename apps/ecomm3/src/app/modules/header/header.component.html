@@ -25,7 +25,7 @@
         </div>
         <div *ngIf="header.desktopLayout === 'classic'" class="header__navbar-phone phone">
             <a [routerLink]="url.contacts()" class="phone__body">
-                <div class="phone__title">{{ 'TEXT_CALL_US'|translate }}</div>
+                <div class="phone__title">{{ 'TEXT_CALL_US' | translate }}</div>
                 <div class="phone__number">800 060-0730</div>
             </a>
         </div>
@@ -43,8 +43,8 @@
         <app-indicator
             link="/account"
             icon="person-32"
-            [label]="(email$|async) || ('TEXT_INDICATOR_ACCOUNT_LABEL'|translate)"
-            [value]="'TEXT_INDICATOR_ACCOUNT_VALUE'|translate"
+            [label]="(email$|async) || ('TEXT_INDICATOR_ACCOUNT_LABEL' | translate)"
+            [value]="'TEXT_INDICATOR_ACCOUNT_VALUE' | translate"
             trigger="click"
             #accountIndicator="indicator"
         >
@@ -53,7 +53,7 @@
         <app-indicator
             link="/shop/cart"
             icon="cart-32"
-            [label]="'TEXT_INDICATOR_CART_LABEL'|translate"
+            [label]="'TEXT_INDICATOR_CART_LABEL' | translate"
             [value]="(((cart.subtotal$|async) || 0)|currencyFormat) || ''"
             [counter]="(cart.quantity$|async) || 0"
             trigger="click"

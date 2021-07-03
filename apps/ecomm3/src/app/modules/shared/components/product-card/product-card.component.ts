@@ -61,7 +61,7 @@ export class ProductCardComponent implements OnChanges, OnInit, OnDestroy {
 
     constructor(
         private cd: ChangeDetectorRef,
-        private quickview: QuickviewService,
+        private quickViewService: QuickviewService,
         public currency: CurrencyService,
         public url: UrlService,
         private appService: AppService,
@@ -95,13 +95,16 @@ export class ProductCardComponent implements OnChanges, OnInit, OnDestroy {
         this.destroy$.complete();
     }
 
-    showQuickview(): void {
+    /**
+     * Show: quick view
+     */
+    public showQuickView(): void {
         if (this.showingQuickview) {
             return;
         }
 
         this.showingQuickview = true;
-        this.quickview.show(this.product).subscribe({
+        this.quickViewService.show(this.product).subscribe({
             complete: () => {
                 this.showingQuickview = false;
                 this.cd.markForCheck();

@@ -3,21 +3,21 @@
 
     <div *ngIf="(isEmptyList$|async) && (hasActiveFilters$|async)" class="products-view__empty">
         <div class="products-view__empty-title">
-            {{ 'TEXT_NO_MATCHING_ITEMS_TITLE'|translate }}
+            {{ 'TEXT_NO_MATCHING_ITEMS_TITLE' | translate }}
         </div>
         <div class="products-view__empty-subtitle">
-            {{ 'TEXT_NO_MATCHING_ITEMS_SUBTITLE'|translate }}
+            {{ 'TEXT_NO_MATCHING_ITEMS_SUBTITLE' | translate }}
         </div>
         <div class="products-view__empty-actions">
             <button type="button" class="btn btn-primary btn-sm" (click)="page.resetAllFilters()">
-                {{ 'BUTTON_RESET_FILTERS'|translate }}
+                {{ 'BUTTON_RESET_FILTERS' | translate }}
             </button>
         </div>
     </div>
 
     <div *ngIf="(isEmptyList$|async) && (hasActiveFilters$|async) === false" class="products-view__empty">
-        <div class="products-view__empty-title">{{ 'TEXT_CATEGORY_IS_EMPTY_TITLE'|translate }}</div>
-        <div class="products-view__empty-subtitle">{{ 'TEXT_CATEGORY_IS_EMPTY_SUBTITLE'|translate }}</div>
+        <div class="products-view__empty-title">{{ 'TEXT_CATEGORY_IS_EMPTY_TITLE' | translate }}</div>
+        <div class="products-view__empty-subtitle">{{ 'TEXT_CATEGORY_IS_EMPTY_SUBTITLE' | translate }}</div>
     </div>
 
     <ng-container *ngIf="(isEmptyList$|async) === false">
@@ -29,7 +29,7 @@
             <div class="view-options__body">
                 <button type="button" class="view-options__filters-button filters-button" (click)="sidebar.open()">
                     <span class="filters-button__icon"><app-icon icon="filters-16"></app-icon></span>
-                    <span class="filters-button__title">{{ 'BUTTON_FILTERS'|translate }}</span>
+                    <span class="filters-button__title">{{ 'BUTTON_FILTERS' | translate }}</span>
                     <span class="filters-button__counter">{{ currentFiltersCount$|async }}</span>
                 </button>
 
@@ -48,7 +48,7 @@
                 </div>
 
                 <div class="view-options__legend">
-                    {{ 'TEXT_SHOWING_PRODUCTS'|translate:{
+                    {{ 'TEXT_SHOWING_PRODUCTS' | translate:{
                         from: page.from,
                         to: page.to,
                         total: page.total
@@ -58,15 +58,15 @@
                 <div class="view-options__spring"></div>
 
                 <div class="view-options__select">
-                    <label for="view-option-sort">{{ 'INPUT_SORT_LABEL'|translate }}:</label>
+                    <label for="view-option-sort">{{ 'INPUT_SORT_LABEL' | translate }}:</label>
                     <select id="view-option-sort" class="form-control form-control-sm" [formControl]="sortControl">
-<!--                        <option value="default">{{ 'INPUT_SORT_OPTION_DEFAULT'|translate }}</option>-->
-                        <option value="name_asc">{{ 'INPUT_SORT_OPTION_NAME_ASC'|translate }}</option>
-                        <option value="name_desc">{{ 'INPUT_SORT_OPTION_NAME_DESC'|translate }}</option>
+<!--                        <option value="default">{{ 'INPUT_SORT_OPTION_DEFAULT' | translate }}</option>-->
+                        <option value="name_asc">{{ 'INPUT_SORT_OPTION_NAME_ASC' | translate }}</option>
+                        <option value="name_desc">{{ 'INPUT_SORT_OPTION_NAME_DESC' | translate }}</option>
                     </select>
                 </div>
                 <div class="view-options__select">
-                    <label for="view-option-limit">{{ 'INPUT_LIMIT_LABEL'|translate }}:</label>
+                    <label for="view-option-limit">{{ 'INPUT_LIMIT_LABEL' | translate }}:</label>
                     <select id="view-option-limit" class="form-control form-control-sm" [formControl]="limitControl">
                         <option value="8">8</option>
                         <option value="16">16</option>
@@ -77,7 +77,7 @@
             </div>
 
             <div class="view-options__body view-options__body--filters" *ngIf="hasActiveFilters$|async">
-                <div class="view-options__label">{{ 'TEXT_ACTIVE_FILTERS'|translate }}</div>
+                <div class="view-options__label">{{ 'TEXT_ACTIVE_FILTERS' | translate }}</div>
                 <div class="view-options__applied-filters applied-filters">
                     <ul class="applied-filters__list">
                         <li *ngFor="let filter of page.currentFilters$|async; trackBy: trackById" class="applied-filters__item">
@@ -96,7 +96,7 @@
                                 type="button"
                                 class="applied-filters__button applied-filters__button--clear"
                                 (click)="page.resetAllFilters()"
-                            >{{ 'BUTTON_CLEAR_ALL'|translate }}</button>
+                            >{{ 'BUTTON_CLEAR_ALL' | translate }}</button>
                         </li>
                     </ul>
                 </div>
@@ -107,15 +107,15 @@
             [attr.data-layout]="layout === 'grid-with-features' ? 'grid' : layout"
             [attr.data-with-features]="layout === 'grid-with-features' ? 'true' : 'false'">
             <div class="products-list__head">
-                <div class="products-list__column products-list__column--image">{{ 'TABLE_IMAGE'|translate }}</div>
-                <div class="products-list__column products-list__column--meta">{{ 'TABLE_SKU'|translate }}</div>
-                <div class="products-list__column products-list__column--product">{{ 'TABLE_PRODUCT'|translate }}</div>
+                <div class="products-list__column products-list__column--image">{{ 'TABLE_IMAGE' | translate }}</div>
+                <div class="products-list__column products-list__column--meta">{{ 'TABLE_SKU' | translate }}</div>
+                <div class="products-list__column products-list__column--product">{{ 'TABLE_PRODUCT' | translate }}</div>
 
                 <!--Show rating only if it's allowed in settings-->
                 <!--This will have to be connected to ecomm in the future-->
-                <div class="products-list__column products-list__column--rating" *ngIf="appSettings?.rating">{{ 'TABLE_RATING'|translate }}</div>
+                <div class="products-list__column products-list__column--rating" *ngIf="appSettings?.rating">{{ 'TABLE_RATING' | translate }}</div>
 
-                <div class="products-list__column products-list__column--price">{{ 'TABLE_PRICE'|translate }}</div>
+                <div class="products-list__column products-list__column--price">{{ 'TABLE_PRICE' | translate }}</div>
             </div>
 
             <div class="products-list__content">
@@ -130,7 +130,7 @@
                 <app-pagination [formControl]="pageControl" [siblings]="2" [total]="page.pages"></app-pagination>
             </nav>
             <div class="products-view__pagination-legend">
-                {{ 'TEXT_SHOWING_PRODUCTS'|translate:{
+                {{ 'TEXT_SHOWING_PRODUCTS' | translate:{
                     from: page.from,
                     to: page.to,
                     total: page.total

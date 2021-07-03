@@ -9,81 +9,73 @@
                     *ngIf="showGallery"
                     class="quickview__gallery"
                     layout="quickview"
-                    [images]="product.images || []"
+                    [images]="product.data?.images || []"
                 ></app-product-gallery>
 
                 <div class="quickview__product">
                     <div class="quickview__product-name">
-                        {{ product.name }}
+                        {{ product.data?.name }}
                     </div>
+
                     <!--Show rating only if it's allowed in settings-->
                     <!--This will have to be connected to ecomm in the future-->
                     <div class="quickview__product-rating" *ngIf="appSettings?.rating">
                         <div class="quickview__product-rating-stars">
-                            <app-rating [value]="product.rating || 0"></app-rating>
+                            <app-rating [value]="product?.data?.rating || 0"></app-rating>
                         </div>
                         <div class="quickview__product-rating-title">
-                            {{ 'TEXT_RATING_LABEL'|translate:{rating: product.rating, reviews: product.reviews} }}
+                            {{ 'TEXT_RATING_LABEL' | translate:{rating: product?.data?.rating, reviews: product.reviews} }}
                         </div>
                     </div>
+
+
                     <div class="quickview__product-meta">
                         <table>
                             <tbody>
-                            <tr>
-                                <th>{{ 'TABLE_SKU'|translate }}</th>
-                                <td>{{ product.sku }}</td>
-                            </tr>
-                            <tr *ngIf="product.brand">
-                                <th>{{ 'TABLE_BRAND'|translate }}</th>
-                                <td>
-                                    <a [routerLink]="url.brand(product.brand)">
-                                        {{ product.brand.name }}
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr *ngIf="product.brand">
-                                <th>{{ 'TABLE_COUNTRY'|translate }}</th>
-                                <td>{{ ('COUNTRY_NAME_' + product.brand.country)|translate }}</td>
-                            </tr>
-                            <tr>
-                                <th>{{ 'TABLE_PART_NUMBER'|translate }}</th>
-                                <td>{{ product.partNumber }}</td>
-                            </tr>
+                                <tr>
+                                    <th>{{ 'TABLE_SKU' | translate }}</th>
+                                    <td>{{ product?.data?.variants[variantIndex]?.sku || product.data?.sku }}</td>
+                                </tr>
+                                <tr>
+                                    <th>{{ 'TABLE_BRAND' | translate }}</th>
+                                    <td>{{ product?.data?.manufacturerId }}</td>
+                                </tr>
+                                <tr *ngIf="product?.data?.variants[variantIndex]?.countryOfOrigin">
+                                    <th>{{ 'TABLE_COUNTRY' | translate }}</th>
+                                    <td>{{ product.data.variants[variantIndex].countryOfOrigin }}</td>
+                                </tr>
+                                <tr>
+                                    <th>{{ 'TABLE_PART_NUMBER' | translate }}</th>
+                                    <td>{{ product?.data?.variants[variantIndex]?.manufacturerItemCode }}</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
-                    <div *ngIf="product.excerpt" class="quickview__product-description">
-                        {{ product.excerpt }}
+
+                    <div *ngIf="product.data?.shortDescription || product.data?.description" class="quickview__product-description">
+                        {{ product.data?.shortDescription || product.data?.description }}
                     </div>
+
                     <div class="quickview__product-prices-stock">
                         <div class="quickview__product-prices">
-                            <ng-container *ngIf="product.compareAtPrice">
-                                <div class="quickview__product-price quickview__product-price--old">
-                                    {{ product.compareAtPrice|currencyFormat }}
-                                </div>
-                                <div class="quickview__product-price quickview__product-price--new">
-                                    {{ product.price|currencyFormat }}
-                                </div>
-                            </ng-container>
-                            <ng-container *ngIf="!product.compareAtPrice">
-                                <div class="quickview__product-price quickview__product-price--current">
-                                    {{ product.price|currencyFormat }}
-                                </div>
-                            </ng-container>
+                            <div class="quickview__product-price quickview__product-price--current">
+                                {{ product?.data?.variants[variantIndex]?.price|currencyFormat }}
+                            </div>
                         </div>
                         <app-status-badge
-                            class="quickview__product-stock"
-                            [type]="product.stock|stockToStatusBadgeType"
-                            [text]="product.stock|stockToStatusBadgeText|translate"
+                            class="product__stock"
+                            [type]="product?.data?.variants[variantIndex]?.quantity | stockToStatusBadgeType"
+                            [text]="product?.data?.variants[variantIndex]?.quantity | stockToStatusBadgeText | translate"
                         ></app-status-badge>
                     </div>
 
-                    <app-product-form
-                        *ngIf="product.options.length > 0"
+                    <app-product-variants
+                        *ngIf="product?.data?.options?.length > 0"
                         formControlName="options"
                         class="quickview__product-form"
-                        [options]="product.options"
-                    ></app-product-form>
+                        [options]="product?.data?.options"
+                        [variants]="product?.data?.variants"
+                    ></app-product-variants>
 
                     <div class="quickview__product-actions">
                         <div class="quickview__product-actions-item quickview__product-actions-item--quantity">
@@ -95,7 +87,7 @@
                                 [class.btn-loading]="addToCartInProgress"
                                 (click)="addToCart()"
                             >
-                                {{ 'BUTTON_ADD_TO_CART'|translate }}
+                                {{ 'BUTTON_ADD_TO_CART' | translate }}
                             </button>
                         </div>
                         <div class="quickview__product-actions-item quickview__product-actions-item--wishlist">
@@ -126,7 +118,7 @@
                 </div>
             </div>
             <a [routerLink]="url.product(product)" class="quickview__see-details">
-                {{ 'BUTTON_SEE_FULL_DETAILS'|translate }}
+                {{ 'BUTTON_SEE_FULL_DETAILS' | translate }}
             </a>
         </div>
     </div>

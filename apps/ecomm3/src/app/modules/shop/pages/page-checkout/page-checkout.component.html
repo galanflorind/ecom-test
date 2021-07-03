@@ -1,9 +1,9 @@
 <app-block-header
-    [pageTitle]="'HEADER_CHECKOUT'|translate"
+    [pageTitle]="'HEADER_CHECKOUT' | translate"
     [breadcrumb]="[
-        {label: 'LINK_HOME'|translate, url: url.home()},
-        {label: 'LINK_CART'|translate, url: url.cart()},
-        {label: 'LINK_CHECKOUT'|translate, url: url.checkout()}
+        {label: 'LINK_HOME' | translate, url: url.home()},
+        {label: 'LINK_CART' | translate, url: url.cart()},
+        {label: 'LINK_CHECKOUT' | translate, url: url.checkout()}
     ]"
 ></app-block-header>
 
@@ -13,7 +13,7 @@
             <div *ngIf="(accountApi.user$|async) === null" class="col-12 mb-3">
                 <div
                     class="alert alert-lg alert-primary"
-                    [appSplitString]="'TEXT_ALERT_RETURNING_CUSTOMER'|translate"
+                    [appSplitString]="'TEXT_ALERT_RETURNING_CUSTOMER' | translate"
                     #string="splitString"
                 >
                     {{ string.getPart(0) }}
@@ -25,7 +25,7 @@
             <div class="col-12 col-lg-6 col-xl-7">
                 <div class="card mb-lg-0">
                     <div class="card-body card-body--padding--2">
-                        <h3 class="card-title">{{ 'HEADER_BILLING_DETAILS'|translate }}</h3>
+                        <h3 class="card-title">{{ 'HEADER_BILLING_DETAILS' | translate }}</h3>
 
                         <app-address-form
                             formControlName="billingAddress"
@@ -41,7 +41,7 @@
                                     #checkboxCreateAccount
                                 ></app-checkbox>
                                 <label class="form-check-label" [htmlFor]="checkboxCreateAccount.inputId">
-                                    {{ 'INPUT_CREATE_ACCOUNT_LABEL'|translate }}
+                                    {{ 'INPUT_CREATE_ACCOUNT_LABEL' | translate }}
                                 </label>
                             </div>
 
@@ -66,7 +66,7 @@
                                     #checkboxDifferentAddress
                                 ></app-checkbox>
                                 <label class="form-check-label" [htmlFor]="checkboxDifferentAddress.inputId">
-                                    {{ 'INPUT_SHIP_TO_DIFFERENT_ADDRESS_LABEL'|translate }}
+                                    {{ 'INPUT_SHIP_TO_DIFFERENT_ADDRESS_LABEL' | translate }}
                                 </label>
                             </div>
 
@@ -87,9 +87,9 @@
 
                         <div class="form-group">
                             <label for="checkout-comment">
-                                {{ 'INPUT_ORDER_NOTES_LABEL'|translate }}
+                                {{ 'INPUT_ORDER_NOTES_LABEL' | translate }}
                                 <span class="text-muted">
-                                    ({{ 'TEXT_OPTIONAL'|translate }})
+                                    ({{ 'TEXT_OPTIONAL' | translate }})
                                 </span>
                             </label>
                             <textarea
@@ -97,7 +97,7 @@
                                 class="form-control"
                                 rows="4"
                                 formControlName="comments"
-                            >{{ 'INPUT_ORDER_NOTES_PLACEHOLDER'|translate }}</textarea>
+                            >{{ 'INPUT_ORDER_NOTES_PLACEHOLDER' | translate }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -106,13 +106,13 @@
             <div class="col-12 col-lg-6 col-xl-5 mt-4 mt-lg-0">
                 <div class="card mb-0">
                     <div class="card-body card-body--padding--2">
-                        <h3 class="card-title">{{ 'HEADER_YOUR_ORDER'|translate }}</h3>
+                        <h3 class="card-title">{{ 'HEADER_YOUR_ORDER' | translate }}</h3>
 
                         <table class="checkout__totals">
                             <thead class="checkout__totals-header">
                             <tr>
-                                <th>{{ 'TABLE_PRODUCT'|translate }}</th>
-                                <th>{{ 'TABLE_TOTAL'|translate }}</th>
+                                <th>{{ 'TABLE_PRODUCT' | translate }}</th>
+                                <th>{{ 'TABLE_TOTAL' | translate }}</th>
                             </tr>
                             </thead>
                             <tbody class="checkout__totals-products">
@@ -123,7 +123,7 @@
                             </tbody>
                             <tbody *ngIf="(cart.totals$|async)?.length" class="checkout__totals-subtotals">
                             <tr>
-                                <th>{{ 'TABLE_SUBTOTAL'|translate }}</th>
+                                <th>{{ 'TABLE_SUBTOTAL' | translate }}</th>
                                 <td>{{ ((cart.subtotal$|async) || 0)|currencyFormat }}</td>
                             </tr>
                             <tr *ngFor="let total of cart.totals$|async">
@@ -133,7 +133,7 @@
                             </tbody>
                             <tfoot class="checkout__totals-footer">
                             <tr>
-                                <th>{{ 'TABLE_TOTAL'|translate }}</th>
+                                <th>{{ 'TABLE_TOTAL' | translate }}</th>
                                 <td>{{ ((cart.total$|async) || 0)|currencyFormat }}</td>
                             </tr>
                             </tfoot>
@@ -172,7 +172,7 @@
                                 <label
                                     class="form-check-label"
                                     [htmlFor]="termsCheckbox.inputId"
-                                    [appSplitString]="'INPUT_TERMS_AGREE_LABEL'|translate"
+                                    [appSplitString]="'INPUT_TERMS_AGREE_LABEL' | translate"
                                     #string="splitString"
                                 >
                                     {{ string.getPart(0) }}
@@ -196,7 +196,7 @@
                             [disabled]="form.controls.paymentMethod.value === 'paypal'"
                             [class.btn-loading]="form.controls.paymentMethod.value === 'paypal' || checkoutInProgress"
                             (click)="createOrder()"
-                        >{{ 'BUTTON_PLACE_ORDER'|translate }}</button>
+                        >{{ 'BUTTON_PLACE_ORDER' | translate }}</button>
                     </div>
                 </div>
             </div>

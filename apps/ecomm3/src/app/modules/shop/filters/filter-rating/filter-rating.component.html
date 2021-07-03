@@ -14,7 +14,7 @@
                 <app-rating [value]="item.rating"></app-rating>
             </span>
             <span class="filter-rating__item-title sr-only">
-                {{ 'TEXT_STARS'|translate:{stars: item.rating} }}
+                {{ 'TEXT_STARS' | translate:{stars: item.rating} }}
             </span>
             <span *ngIf="item.count" class="filter-rating__item-counter">{{ item.count }}</span>
         </label>

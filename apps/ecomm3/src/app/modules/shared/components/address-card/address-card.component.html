@@ -8,11 +8,11 @@
         {{ address.address1 }} {{ address.address2 }}
     </div>
     <div class="address-card__row">
-        <div class="address-card__row-title">{{ 'TEXT_PHONE_NUMBER'|translate }}</div>
+        <div class="address-card__row-title">{{ 'TEXT_PHONE_NUMBER' | translate }}</div>
         <div class="address-card__row-content">{{ address.phone }}</div>
     </div>
     <div class="address-card__row">
-        <div class="address-card__row-title">{{ 'TEXT_EMAIL_ADDRESS'|translate }}</div>
+        <div class="address-card__row-title">{{ 'TEXT_EMAIL_ADDRESS' | translate }}</div>
         <div class="address-card__row-content">{{ address.email }}</div>
     </div>
     <div class="address-card__footer" *ngIf="footer">

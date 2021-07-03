@@ -17,7 +17,7 @@
         <span class="filter-category__arrow">
             <app-icon icon="arrow-rounded-left-6x9"></app-icon>
         </span>
-        <a [routerLink]="url.allProducts()">{{ 'LINK_ALL_PRODUCTS'|translate }}</a>
+        <a [routerLink]="url.allProducts()">{{ 'LINK_ALL_PRODUCTS' | translate }}</a>
     </li>
     <ng-container *ngFor="let item of options.items">
         <ng-container *ngIf="item.parent">

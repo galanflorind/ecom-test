@@ -11,7 +11,7 @@
         ></app-widget-categories-list>
 
         <app-widget-products
-            [widgetTitle]="'HEADER_LATEST_PRODUCTS'|translate"
+            [widgetTitle]="'HEADER_LATEST_PRODUCTS' | translate"
             [products]="(latest$|async) || []"
         ></app-widget-products>
     </div>
@@ -39,7 +39,7 @@
                                             <div class="categories-list__item-name">{{ subcategory.name }}</div>
                                         </a>
                                         <div class="categories-list__item-products" *ngIf="subcategory.items">
-                                            {{ 'TEXT_PRODUCTS_COUNT'|translate:{count: subcategory.items} }}
+                                            {{ 'TEXT_PRODUCTS_COUNT' | translate:{count: subcategory.items} }}
                                         </div>
                                     </li>
                                     <li class="categories-list__divider"></li>
@@ -54,7 +54,7 @@
                 </ng-container>
 
                 <app-block-products-carousel
-                    [blockTitle]="'HEADER_BESTSELLERS'|translate"
+                    [blockTitle]="'HEADER_BESTSELLERS' | translate"
                     [layout]="hasSidebar ? 'grid-4-sidebar' : 'grid-5'"
                     [products]="(bestsellers.data$|async) || []"
                     [loading]="bestsellers.loading"
@@ -65,7 +65,7 @@
 
 
                 <app-block-products-carousel
-                    [blockTitle]="'HEADER_FEATURED_PRODUCTS'|translate"
+                    [blockTitle]="'HEADER_FEATURED_PRODUCTS' | translate"
                     [layout]="hasSidebar ? 'horizontal-sidebar' : 'horizontal'"
                     [rows]="2"
                     [products]="(featured.data$|async) || []"

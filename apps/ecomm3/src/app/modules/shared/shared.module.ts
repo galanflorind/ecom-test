@@ -27,13 +27,12 @@ import { InputNumberComponent } from './components/input-number/input-number.com
 import { LoadingBarComponent } from './components/loading-bar/loading-bar.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { ProductCardComponent } from './components/product-card/product-card.component';
-import { ProductFormComponent } from './components/product-form/product-form.component';
+import { ProductVariantsComponent } from './components/product-variants/product-variants.component';
 import { ProductGalleryComponent } from './components/product-gallery/product-gallery.component';
-import { QuickviewComponent } from './components/quickview/quickview.component';
+import { QuickViewComponent } from './components/quickview/quick-view.component';
 import { RatingComponent } from './components/rating/rating.component';
 import { RegisterFormComponent } from './components/register-form/register-form.component';
 import { SectionHeaderComponent } from './components/section-header/section-header.component';
-import { ShareLinksComponent } from './components/share-links/share-links.component';
 import { StatusBadgeComponent } from './components/status-badge/status-badge.component';
 import { TermsComponent } from './components/terms/terms.component';
 import { TermsModalComponent } from './components/terms-modal/terms-modal.component';
@@ -78,13 +77,12 @@ import { StockToStatusBadgeTypePipe } from './pipes/stock-to-status-badge-type.p
         LoadingBarComponent,
         PaginationComponent,
         ProductCardComponent,
-        ProductFormComponent,
+        ProductVariantsComponent,
         ProductGalleryComponent,
-        QuickviewComponent,
+        QuickViewComponent,
         RatingComponent,
         RegisterFormComponent,
         SectionHeaderComponent,
-        ShareLinksComponent,
         StatusBadgeComponent,
         TermsComponent,
         TermsModalComponent,
@@ -127,13 +125,12 @@ import { StockToStatusBadgeTypePipe } from './pipes/stock-to-status-badge-type.p
         LoadingBarComponent,
         PaginationComponent,
         ProductCardComponent,
-        ProductFormComponent,
+        ProductVariantsComponent,
         ProductGalleryComponent,
-        QuickviewComponent,
+        QuickViewComponent,
         RatingComponent,
         RegisterFormComponent,
         SectionHeaderComponent,
-        ShareLinksComponent,
         StatusBadgeComponent,
         TermsComponent,
         TimerComponent,

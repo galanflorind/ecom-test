@@ -6,31 +6,31 @@
         <div class="order-success__body">
             <div class="order-success__header">
                 <app-icon class="order-success__icon" icon="check-100"></app-icon>
-                <h1 class="order-success__title">{{ 'HEADER_ORDER_SUCCESS_TITLE'|translate }}</h1>
-                <div class="order-success__subtitle">{{ 'HEADER_ORDER_SUCCESS_SUBTITLE'|translate }}</div>
+                <h1 class="order-success__title">{{ 'HEADER_ORDER_SUCCESS_TITLE' | translate }}</h1>
+                <div class="order-success__subtitle">{{ 'HEADER_ORDER_SUCCESS_SUBTITLE' | translate }}</div>
                 <div class="order-success__actions">
-                    <a routerLink="/" class="btn btn-sm btn-secondary">{{ 'BUTTON_GO_TO_HOMEPAGE'|translate }}</a>
+                    <a routerLink="/" class="btn btn-sm btn-secondary">{{ 'BUTTON_GO_TO_HOMEPAGE' | translate }}</a>
                 </div>
             </div>
 
             <div class="card order-success__meta">
                 <ul class="order-success__meta-list">
                     <li class="order-success__meta-item">
-                        <span class="order-success__meta-title">{{ 'TEXT_ORDER_NUMBER'|translate }}:</span>
+                        <span class="order-success__meta-title">{{ 'TEXT_ORDER_NUMBER' | translate }}:</span>
                         <span class="order-success__meta-value">
-                            {{ 'FORMAT_ORDER_NUMBER'|translate:{number: order.number} }}
+                            {{ 'FORMAT_ORDER_NUMBER' | translate:{number: order.number} }}
                         </span>
                     </li>
                     <li class="order-success__meta-item">
-                        <span class="order-success__meta-title">{{ 'TEXT_CREATED_AT'|translate }}:</span>
-                        <span class="order-success__meta-value">{{ 'FORMAT_DATE_MEDIUM'|translate:{date: order.createdAt} }}</span>
+                        <span class="order-success__meta-title">{{ 'TEXT_CREATED_AT' | translate }}:</span>
+                        <span class="order-success__meta-value">{{ 'FORMAT_DATE_MEDIUM' | translate:{date: order.createdAt} }}</span>
                     </li>
                     <li class="order-success__meta-item">
-                        <span class="order-success__meta-title">{{ 'TEXT_TOTAL'|translate }}:</span>
+                        <span class="order-success__meta-title">{{ 'TEXT_TOTAL' | translate }}:</span>
                         <span class="order-success__meta-value">{{ order.total|currencyFormat }}</span>
                     </li>
                     <li class="order-success__meta-item">
-                        <span class="order-success__meta-title">{{ 'TEXT_PAYMENT_METHOD'|translate }}:</span>
+                        <span class="order-success__meta-title">{{ 'TEXT_PAYMENT_METHOD' | translate }}:</span>
                         <span class="order-success__meta-value">{{ order.payment }}</span>
                     </li>
                 </ul>
@@ -41,9 +41,9 @@
                     <table>
                         <thead class="order-list__header">
                         <tr>
-                            <th class="order-list__column-label" colspan="2">{{ 'TABLE_PRODUCT'|translate }}</th>
-                            <th class="order-list__column-quantity">{{ 'TABLE_QUANTITY'|translate }}</th>
-                            <th class="order-list__column-total">{{ 'TABLE_TOTAL'|translate }}</th>
+                            <th class="order-list__column-label" colspan="2">{{ 'TABLE_PRODUCT' | translate }}</th>
+                            <th class="order-list__column-quantity">{{ 'TABLE_QUANTITY' | translate }}</th>
+                            <th class="order-list__column-total">{{ 'TABLE_TOTAL' | translate }}</th>
                         </tr>
                         </thead>
                         <tbody class="order-list__products">
@@ -68,7 +68,7 @@
                             </td>
                             <td
                                 class="order-list__column-quantity"
-                                [attr.data-title]="('TABLE_QUANTITY'|translate) + ':'"
+                                [attr.data-title]="('TABLE_QUANTITY' | translate) + ':'"
                             >
                                 {{ item.quantity }}
                             </td>
@@ -77,7 +77,7 @@
                         </tbody>
                         <tbody *ngIf="order.totals?.length" class="order-list__subtotals">
                         <tr>
-                            <th class="order-list__column-label" colspan="3">{{ 'TABLE_SUBTOTAL'|translate }}</th>
+                            <th class="order-list__column-label" colspan="3">{{ 'TABLE_SUBTOTAL' | translate }}</th>
                             <td class="order-list__column-total">{{ order.subtotal|currencyFormat }}</td>
                         </tr>
                         <tr *ngFor="let total of order.totals">
@@ -89,7 +89,7 @@
                         </tbody>
                         <tfoot class="order-list__footer">
                         <tr>
-                            <th class="order-list__column-label" colspan="3">{{ 'TABLE_TOTAL'|translate }}</th>
+                            <th class="order-list__column-label" colspan="3">{{ 'TABLE_TOTAL' | translate }}</th>
                             <td class="order-list__column-total">{{ order.total|currencyFormat }}</td>
                         </tr>
                         </tfoot>
@@ -101,13 +101,13 @@
                 <app-address-card
                     class="order-success__address"
                     [address]="order.shippingAddress"
-                    [label]="'TEXT_SHIPPING_ADDRESS'|translate"
+                    [label]="'TEXT_SHIPPING_ADDRESS' | translate"
                 ></app-address-card>
 
                 <app-address-card
                     class="order-success__address"
                     [address]="order.billingAddress"
-                    [label]="'TEXT_BILLING_ADDRESS'|translate"
+                    [label]="'TEXT_BILLING_ADDRESS' | translate"
                 ></app-address-card>
             </div>
         </div>

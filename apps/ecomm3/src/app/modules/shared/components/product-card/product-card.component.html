@@ -11,8 +11,8 @@
             class="product-card__action product-card__action--quickview"
             type="button"
             [class.product-card__action--loading]="showingQuickview"
-            [attr.aria-label]="'BUTTON_QUICKVIEW'|translate"
-            (click)="showQuickview()"
+            [attr.aria-label]="'BUTTON_QUICKVIEW' | translate"
+            (click)="showQuickView()"
         >
             <app-icon icon="quickview-16"></app-icon>
         </button>
@@ -21,7 +21,7 @@
                 type="button"
                 class="product-card__action product-card__action--wishlist"
                 [class.product-card__action--loading]="wishlist.inProgress"
-                [attr.aria-label]="'BUTTON_ADD_TO_WISHLIST'|translate"
+                [attr.aria-label]="'BUTTON_ADD_TO_WISHLIST' | translate"
                 (click)="wishlist.add(product)"
             >
                 <app-icon icon="wishlist-16"></app-icon>
@@ -30,7 +30,7 @@
                 type="button"
                 class="product-card__action product-card__action--compare"
                 [class.product-card__action--loading]="compare.inProgress"
-                [attr.aria-label]="'BUTTON_ADD_TO_COMPARE'|translate"
+                [attr.aria-label]="'BUTTON_ADD_TO_COMPARE' | translate"
                 (click)="compare.add(product)"
             >
                 <app-icon icon="compare-16"></app-icon>
@@ -62,7 +62,7 @@
 
     <div class="product-card__info">
         <div *ngIf="!exclude.includes('meta')" class="product-card__meta">
-            <span class="product-card__meta-title">{{ 'TEXT_SKU'|translate }}:</span> {{ product.sku }}
+            <span class="product-card__meta-title">{{ 'TEXT_SKU' | translate }}:</span> {{ product.sku }}
         </div>
 
         <div class="product-card__name">
@@ -77,9 +77,9 @@
         <!--Show rating only if it's allowed in settings-->
         <!--This will have to be connected to ecomm in the future-->
         <div class="product-card__rating" *ngIf="appSettings?.rating">
-            <app-rating class="product-card__rating-stars" [value]="product.rating || 0"></app-rating>
+            <app-rating class="product-card__rating-stars" [value]="product?.data?.rating || 0"></app-rating>
             <div class="product-card__rating-label">
-                {{ 'TEXT_RATING_LABEL'|translate:{rating: product.rating, reviews: product.reviews} }}
+                {{ 'TEXT_RATING_LABEL' | translate:{rating: product?.data?.rating, reviews: product.reviews} }}
             </div>
         </div>
 
@@ -117,7 +117,7 @@
                 type="button"
                 class="product-card__addtocart-icon"
                 [class.product-card__addtocart-icon--loading]="cart.inProgress"
-                [attr.aria-label]="'BUTTON_ADD_TO_CART'|translate"
+                [attr.aria-label]="'BUTTON_ADD_TO_CART' | translate"
                 (click)="cart.add(product)"
             >
                 <app-icon icon="cart-20"></app-icon>
@@ -129,7 +129,7 @@
                     [class.product-card__addtocart-full--loading]="cart.inProgress"
                     (click)="cart.add(product)"
                 >
-                    {{ 'BUTTON_ADD_TO_CART'|translate }}
+                    {{ 'BUTTON_ADD_TO_CART' | translate }}
                 </button>
                 <button
                     type="button"
@@ -138,7 +138,7 @@
                     (click)="wishlist.add(product)"
                 >
                     <app-icon icon="wishlist-16"></app-icon>
-                    <span>{{ 'BUTTON_ADD_TO_WISHLIST'|translate }}</span>
+                    <span>{{ 'BUTTON_ADD_TO_WISHLIST' | translate }}</span>
                 </button>
                 <button
                     type="button"
@@ -147,7 +147,7 @@
                     (click)="compare.add(product)"
                 >
                     <app-icon icon="compare-16"></app-icon>
-                    <span>{{ 'BUTTON_ADD_TO_COMPARE'|translate }}</span>
+                    <span>{{ 'BUTTON_ADD_TO_COMPARE' | translate }}</span>
                 </button>
             </ng-container>
         </ng-container>

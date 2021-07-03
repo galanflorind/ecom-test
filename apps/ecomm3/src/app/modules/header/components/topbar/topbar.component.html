@@ -1,21 +1,21 @@
 <ng-container *ngIf="layout === 'spaceship-start'">
-    <div class="topbar__item-text d-none d-xxl-flex">{{ 'TEXT_TOPBAR_PHONE'|translate:{phone: '(800) 060-0730'} }}</div>
-    <div class="topbar__item-text"><a class="topbar__link" routerLink="/site/about-us">{{ 'LINK_ABOUT_US'|translate }}</a></div>
-    <div class="topbar__item-text"><a class="topbar__link" routerLink="/site/contact-us-v1">{{ 'LINK_CONTACTS'|translate }}</a></div>
-    <div class="topbar__item-text"><a class="topbar__link" routerLink="/shop/track-order">{{ 'LINK_TRACK_ORDER'|translate }}</a></div>
+    <div class="topbar__item-text d-none d-xxl-flex">{{ 'TEXT_TOPBAR_PHONE' | translate:{phone: '(800) 060-0730'} }}</div>
+    <div class="topbar__item-text"><a class="topbar__link" routerLink="/site/about-us">{{ 'LINK_ABOUT_US' | translate }}</a></div>
+    <div class="topbar__item-text"><a class="topbar__link" routerLink="/site/contact-us-v1">{{ 'LINK_CONTACTS' | translate }}</a></div>
+    <div class="topbar__item-text"><a class="topbar__link" routerLink="/shop/track-order">{{ 'LINK_TRACK_ORDER' | translate }}</a></div>
 </ng-container>
 <ng-container *ngIf="layout === 'classic'">
-    <div class="topbar__item-text"><a class="topbar__link" routerLink="/site/about-us">{{ 'LINK_ABOUT_US'|translate }}</a></div>
-    <div class="topbar__item-text"><a class="topbar__link" routerLink="/site/contact-us-v1">{{ 'LINK_CONTACTS'|translate }}</a></div>
-    <div class="topbar__item-text"><a class="topbar__link" routerLink="/">{{ 'LINK_STORE_LOCATION'|translate }}</a></div>
-    <div class="topbar__item-text"><a class="topbar__link" routerLink="/shop/track-order">{{ 'LINK_TRACK_ORDER'|translate }}</a></div>
-    <div class="topbar__item-text"><a class="topbar__link" routerLink="/blog">{{ 'LINK_BLOG'|translate }}</a></div>
+    <div class="topbar__item-text"><a class="topbar__link" routerLink="/site/about-us">{{ 'LINK_ABOUT_US' | translate }}</a></div>
+    <div class="topbar__item-text"><a class="topbar__link" routerLink="/site/contact-us-v1">{{ 'LINK_CONTACTS' | translate }}</a></div>
+    <div class="topbar__item-text"><a class="topbar__link" routerLink="/">{{ 'LINK_STORE_LOCATION' | translate }}</a></div>
+    <div class="topbar__item-text"><a class="topbar__link" routerLink="/shop/track-order">{{ 'LINK_TRACK_ORDER' | translate }}</a></div>
+    <div class="topbar__item-text"><a class="topbar__link" routerLink="/blog">{{ 'LINK_BLOG' | translate }}</a></div>
     <div class="topbar__item-spring"></div>
 </ng-container>
 <ng-container *ngIf="layout !== 'spaceship-start'">
     <div class="topbar__item-button">
         <a routerLink="/shop/compare" class="topbar__button">
-            <span class="topbar__button-label">{{ 'TEXT_TOPBAR_COMPARE'|translate }}:</span>
+            <span class="topbar__button-label">{{ 'TEXT_TOPBAR_COMPARE' | translate }}:</span>
             <span class="topbar__button-title">{{ compare.count$|async }}</span>
         </a>
     </div>
@@ -26,7 +26,7 @@
         #currencyMenu="appDropdown"
     >
         <button class="topbar__button topbar__button--has-arrow topbar__menu-button" type="button" (click)="currencyMenu.toggle()">
-            <span class="topbar__button-label">{{ 'TEXT_TOPBAR_CURRENCY'|translate }}:</span>
+            <span class="topbar__button-label">{{ 'TEXT_TOPBAR_CURRENCY' | translate }}:</span>
             <span class="topbar__button-title">{{ currency?.current?.code }}</span>
             <span class="topbar__button-arrow"><app-icon icon="arrow-down-sm-7x5"></app-icon></span>
         </button>
@@ -48,7 +48,7 @@
         #languageMenu="appDropdown"
     >
         <button class="topbar__button topbar__button--has-arrow topbar__menu-button" type="button" (click)="languageMenu.toggle()">
-            <span class="topbar__button-label">{{ 'TEXT_TOPBAR_LANGUAGE'|translate }}:</span>
+            <span class="topbar__button-label">{{ 'TEXT_TOPBAR_LANGUAGE' | translate }}:</span>
             <span class="topbar__button-title">{{ (language?.current?.code || '')|uppercase }}</span>
             <span class="topbar__button-arrow"><app-icon icon="arrow-down-sm-7x5"></app-icon></span>
         </button>

@@ -35,7 +35,8 @@ export interface ProductAttribute {
 
 export interface ProductOptionValueBase {
     name: string;
-    slug: string;
+    slug: string; // todo: remove this
+    id?: string;
     customFields?: CustomFields;
 }
 
@@ -46,7 +47,8 @@ export interface ProductOptionValueColor extends ProductOptionValueBase {
 export interface ProductOptionBase {
     type: string;
     name: string;
-    slug: string;
+    id?: string;
+    slug: string; // todo: remove this
     values: ProductOptionValueBase[];
     customFields?: CustomFields;
 }
@@ -74,6 +76,42 @@ export interface Category {
     parentId: number | string;
 }
 
+
+export interface Variant {
+    availability: string
+    available: boolean
+    cost: number
+    countryOfOrigin: string
+    currency: string
+    depth: string
+    description: string
+    dimensionUOM: string
+    height: string
+    id: string
+    manufacturerItemCode: string
+    manufacturerItemId: string
+    ndcFreightClass: string
+    ndcHarmonizedTariffCode: string
+    ndcItemCode: string
+    optionId: string
+    optionId1: string
+    optionId2: string
+    optionId3: string
+    optionValue: string
+    optionValue1: string
+    optionValue2: string
+    optionValue3: string
+    packaging: string
+    price: number
+    quantity: number
+    sku: string
+    volume: string
+    volumeUOM: string
+    weight: string
+    weightUOM: string
+    width: string
+}
+
 export interface Product {
     _id?: number;
     data?: {
@@ -83,16 +121,18 @@ export interface Product {
         categories: Category[]
         currency: string;
         description: string;
+        shortDescription: string;
         images: string[];
         isShippable: boolean;
         manufacturerId: string;
         name: string;
         options: any;
         price: number;
-        sky: string;
+        sku: string;
         quantity: number;
         status: string;
-        variants: any;
+        variants: Variant[];
+        rating?: any; // todo: this would be for future use
         vendorId;
     }
 

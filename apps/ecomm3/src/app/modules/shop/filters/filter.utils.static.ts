@@ -95,9 +95,6 @@ function buildManufacturerFilter(vendors: Vendor[], values: string[]): CheckFilt
 function buildPriceFilter(min: number, max: number, valueMin: number, valueMax: number): RangeFilter {
     // todo: checvk shit
 
-    // -->Round: values
-    min = Math.ceil(min);
-    max = Math.ceil(max);
 
     // todo: check if the current value is lower than min, than the valueMin is min
     // todo: same for max

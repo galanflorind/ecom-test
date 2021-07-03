@@ -11,9 +11,6 @@ import { PageShopComponent } from './pages/page-shop/page-shop.component';
 import { PageTrackOrderComponent } from './pages/page-track-order/page-track-order.component';
 import { PageWishlistComponent } from './pages/page-wishlist/page-wishlist.component';
 // resolvers
-import { CategoryResolver } from './resolvers/category.resolver';
-import { ProductResolver } from './resolvers/product.resolver';
-import { ProductsListResolver } from './resolvers/products-list.resolver';
 import { RootCategoriesResolver } from './resolvers/root-categories.resolver';
 // guards
 import { CheckoutGuard } from './guards/checkout.guard';
@@ -38,36 +35,15 @@ const routes: Routes = [
     {
         path: 'category/products',
         component: PageShopComponent,
-        resolve: {
-            productsList: ProductsListResolver,
-        },
         data: {
             layout: 'grid',
             gridLayout: 'grid-4-sidebar',
             sidebarPosition: 'start',
         },
     },
-    // {
-    //     path: 'category/:categorySlug/:categoryId',
-    //     component: PageCategoryComponent,
-    //     data: {
-    //         layout: 'columns-4-sidebar',
-    //     },
-    //     resolve: {
-    //         category: CategoryResolver,
-    //     },
-    // },
     {
         path: 'category/:categorySlug/:categoryId/products',
         component: PageShopComponent,
-        // todo: add resolve so we could get the data befor going to that route????
-        // todo: add resolve so we could get the data befor going to that route????
-        // todo: add resolve so we could get the data befor going to that route????
-        // todo: add resolve so we could get the data befor going to that route????
-        // resolve: {
-            // category: CategoryResolver,
-            // productsList: ProductsListResolver,
-        // },
         data: {
             layout: 'grid',
             gridLayout: 'grid-4-sidebar',
@@ -77,12 +53,8 @@ const routes: Routes = [
     {
         path: 'products/:productSlug/:productId',
         component: PageProductComponent,
-        resolve: {
-            product: ProductResolver,
-        },
         data: {
-            layout: 'full',
-            sidebarPosition: 'start',
+            layout: 'full'
         },
     },
     {
@@ -169,20 +141,20 @@ const routes: Routes = [
     //         categorySlug: 'headlights-lighting',
     //     },
     // })),
-    {
-        path: 'shop-list',
-        component: PageShopComponent,
-        resolve: {
-            category: CategoryResolver,
-            productsList: ProductsListResolver,
-        },
-        data: {
-            layout: 'list',
-            gridLayout: 'grid-4-sidebar',
-            sidebarPosition: 'start',
-            categorySlug: 'headlights-lighting',
-        },
-    },
+    // {
+    //     path: 'shop-list',
+    //     component: PageShopComponent,
+    //     resolve: {
+    //         category: CategoryResolver,
+    //         productsList: ProductsListResolver,
+    //     },
+    //     data: {
+    //         layout: 'list',
+    //         gridLayout: 'grid-4-sidebar',
+    //         sidebarPosition: 'start',
+    //         categorySlug: 'headlights-lighting',
+    //     },
+    // },
     // {
     //     path: 'shop-table',
     //     component: PageShopComponent,
@@ -212,30 +184,30 @@ const routes: Routes = [
     //     },
     // },
     // product
-    {
-        path: 'product-full',
-        component: PageProductComponent,
-        resolve: {
-            product: ProductResolver,
-        },
-        data: {
-            layout: 'full',
-            sidebarPosition: 'start',
-            productSlug: 'brandix-brake-kit-bdx-750z370-s',
-        },
-    },
-    {
-        path: 'product-sidebar',
-        component: PageProductComponent,
-        resolve: {
-            product: ProductResolver,
-        },
-        data: {
-            layout: 'sidebar',
-            sidebarPosition: 'start',
-            productSlug: 'brandix-brake-kit-bdx-750z370-s',
-        },
-    },
+    // {
+    //     path: 'product-full',
+    //     component: PageProductComponent,
+    //     resolve: {
+    //         product: ProductResolver,
+    //     },
+    //     data: {
+    //         layout: 'full',
+    //         sidebarPosition: 'start',
+    //         productSlug: 'brandix-brake-kit-bdx-750z370-s',
+    //     },
+    // },
+    // {
+    //     path: 'product-sidebar',
+    //     component: PageProductComponent,
+    //     resolve: {
+    //         product: ProductResolver,
+    //     },
+    //     data: {
+    //         layout: 'sidebar',
+    //         sidebarPosition: 'start',
+    //         productSlug: 'brandix-brake-kit-bdx-750z370-s',
+    //     },
+    // },
 ];
 
 
@@ -243,9 +215,6 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule],
     providers: [
-        CategoryResolver,
-        ProductResolver,
-        ProductsListResolver,
         RootCategoriesResolver,
     ],
 })

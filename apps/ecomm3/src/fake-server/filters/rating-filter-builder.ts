@@ -61,7 +61,7 @@ export class RatingFilterBuilder extends AbstractFilterBuilder {
     // noinspection JSMethodCanBeStatic
     private extractItem(product: Product): RatingFilterItem {
         return {
-            rating: Math.round(product.rating || 0),
+            rating: Math.round(product?.data?.rating || 0),
             count: 0,
         };
     }
