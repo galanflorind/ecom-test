@@ -63,7 +63,7 @@
                             </div>
                         </div>
                         <app-status-badge
-                            class="product__stock"
+                            class="quickview__product-stock"
                             [type]="product?.data?.variants[variantIndex]?.quantity | stockToStatusBadgeType"
                             [text]="product?.data?.variants[variantIndex]?.quantity | stockToStatusBadgeText | translate"
                         ></app-status-badge>

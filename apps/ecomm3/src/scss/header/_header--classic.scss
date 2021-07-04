@@ -148,7 +148,12 @@
 
         @if(map_get($header-scheme, main) == map_get($topbar-classic-scheme, main)) {
             .header {
-                grid-template-rows: 36px auto auto;
+                // todo: when you uncomment the header top part
+                // todo: when you uncomment the header top part
+                // todo: when you uncomment the header top part
+                // todo: when you uncomment the header top part
+                //grid-template-rows: 36px auto auto;
+                grid-template-rows: auto auto;
             }
             .header__topbar-classic-bg {
                 border-bottom: 1px solid map_get($header-scheme, divider);
