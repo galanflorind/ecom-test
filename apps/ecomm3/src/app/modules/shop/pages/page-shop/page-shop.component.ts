@@ -127,25 +127,18 @@ export class PageShopComponent implements OnInit, OnDestroy {
             )),
             takeUntil(this.destroy$),
         ).subscribe(options => {
+            console.error("1")
             this.refresh();
         });
 
-        // -->Subscribe: to router changes
+        // // -->Subscribe: to router changes
         this.router.events.subscribe(val => {
             if (val instanceof NavigationEnd) {
+                console.error("2")
+
                 this.refresh();
             }
         })
-
-        // todo: change this, this is a temp fix
-        this.appService.appInfo.subscribe(value => {
-            // -->If: the value changes refresh again, todo: change thsi to be on app.component and hide router-outlet
-            // console.log("appInfo >>", value)
-            if (value) {
-                this.refresh()
-            }
-        })
-
     }
 
 
@@ -199,6 +192,8 @@ export class PageShopComponent implements OnInit, OnDestroy {
                 query.maxPrice = maxPrice
             }
         }
+
+        console.log("before requesty >>>", query);
 
         // -->Execute
         this.refreshSubs = this.eCommerceService.productsFilter(query).subscribe((res) => {

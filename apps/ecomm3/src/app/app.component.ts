@@ -5,8 +5,8 @@ import { CartService } from './services/cart.service';
 import { CompareService } from './services/compare.service';
 import { WishlistService } from './services/wishlist.service';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { filter, first, takeUntil } from 'rxjs/operators';
-import { NavigationEnd, Router } from '@angular/router';
+import {filter, takeUntil} from 'rxjs/operators';
+import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { AppService } from "./app.service";
@@ -18,6 +18,7 @@ import { AppService } from "./app.service";
 })
 export class AppComponent implements OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
+    public infoLoading = true;
 
     constructor(
         @Inject(DOCUMENT) private document: Document,
@@ -46,10 +47,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
         if (isPlatformBrowser(this.platformId)) {
             this.zone.runOutsideAngular(() => {
-                this.router.events.pipe(
-                    filter(event => event instanceof NavigationEnd),
-                    first(),
+                this.appService.appInfo.pipe(
+                    filter(info => info),
                 ).subscribe(() => {
+                    // -->Set: loading
+                    this.infoLoading = false;
+
                     const preloader = document.querySelector('.site-preloader');
 
                     if (!preloader) {
