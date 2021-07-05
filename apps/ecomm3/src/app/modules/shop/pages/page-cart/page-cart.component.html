@@ -51,24 +51,25 @@
                             <td class="cart-table__column cart-table__column--image">
                                 <div class="image image--type--product">
                                     <a [routerLink]="url.product(item.product)" class="image__body">
-                                        <img class="image__tag" [src]="item.product|getProductImage" alt="">
+                                        <img class="image__tag" [src]="item.product | getProductImage" alt="">
                                     </a>
                                 </div>
                             </td>
                             <td class="cart-table__column cart-table__column--product">
-                                <a [routerLink]="url.product(item.product)" class="cart-table__product-name">{{ item.product.name }}</a>
-                                <ul *ngIf="item.options.length" class="cart-table__options">
-                                    <li *ngFor="let option of item.options">{{ option.name }}: {{ option.value }}</li>
-                                </ul>
+                                <a [routerLink]="url.product(item.product)" class="cart-table__product-name">{{ item.product.data?.name }}</a>
+                                <div class="cart-table__options">Variant: {{ item.variant.variantName }}</div>
+<!--                                <ul *ngIf="item.options.length" class="cart-table__options">-->
+<!--                                    <li *ngFor="let option of item.options">{{ option.name }}: {{ option.value }}</li>-->
+<!--                                </ul>-->
                             </td>
                             <td class="cart-table__column cart-table__column--price" [attr.data-title]="'TABLE_PRICE' | translate">
-                                {{ item.product.price|currencyFormat }}
+                                {{ item.variant.price | currencyFormat }}
                             </td>
                             <td class="cart-table__column cart-table__column--quantity" [attr.data-title]="'TABLE_QUANTITY' | translate">
                                 <app-input-number class="cart-table__quantity" [min]="1" [formControl]="quantityControls[i]"></app-input-number>
                             </td>
                             <td class="cart-table__column cart-table__column--total" [attr.data-title]="'TABLE_TOTAL' | translate">
-                                {{ item.product.price * item.quantity|currencyFormat }}
+                                {{ item.variant.price * item.quantity | currencyFormat }}
                             </td>
                             <td class="cart-table__column cart-table__column--remove">
                                 <button
@@ -85,16 +86,16 @@
                         <tfoot class="cart-table__foot">
                         <tr>
                             <td colspan="6">
-                                <div class="cart-table__actions">
-                                    <form class="cart-table__coupon-form form-row">
-                                        <div class="form-group mb-0 col flex-grow-1">
-                                            <label for="coupon-code" class="sr-only">{{ 'INPUT_COUPON_CODE_LABEL' | translate }}</label>
-                                            <input type="text" class="form-control form-control-sm" id="coupon-code" [placeholder]="'INPUT_COUPON_CODE_PLACEHOLDER' | translate">
-                                        </div>
-                                        <div class="form-group mb-0 col-auto">
-                                            <button type="button" class="btn btn-sm btn-primary">{{ 'BUTTON_APPLY_COUPON' | translate }}</button>
-                                        </div>
-                                    </form>
+                                <div class="cart-table__actions justify-content-end">
+<!--                                    <form class="cart-table__coupon-form form-row">-->
+<!--                                        <div class="form-group mb-0 col flex-grow-1">-->
+<!--                                            <label for="coupon-code" class="sr-only">{{ 'INPUT_COUPON_CODE_LABEL' | translate }}</label>-->
+<!--                                            <input type="text" class="form-control form-control-sm" id="coupon-code" [placeholder]="'INPUT_COUPON_CODE_PLACEHOLDER' | translate">-->
+<!--                                        </div>-->
+<!--                                        <div class="form-group mb-0 col-auto">-->
+<!--                                            <button type="button" class="btn btn-sm btn-primary">{{ 'BUTTON_APPLY_COUPON' | translate }}</button>-->
+<!--                                        </div>-->
+<!--                                    </form>-->
                                     <div class="cart-table__update-button">
                                         <button
                                             type="button"
@@ -121,14 +122,14 @@
                                 <thead *ngIf="(cart.totals$|async)?.length">
                                 <tr>
                                     <th>{{ 'TABLE_SUBTOTAL' | translate }}</th>
-                                    <td>{{ ((cart.subtotal$|async) || 0)|currencyFormat }}</td>
+                                    <td>{{ ((cart.subtotal$|async) || 0) | currencyFormat }}</td>
                                 </tr>
                                 </thead>
                                 <tbody *ngIf="(cart.totals$|async)?.length">
                                 <tr *ngFor="let total of cart.totals$|async">
                                     <th>{{ 'TABLE_TOTAL_' + total.title|translate }}</th>
                                     <td>
-                                        {{ total.price|currencyFormat }}
+                                        {{ total.price | currencyFormat }}
                                         <div *ngIf="total.type === 'shipping'">
                                             <a href="" (click)="$event.preventDefault()">{{ 'LINK_CALCULATE_SHIPPING' | translate }}</a>
                                         </div>
@@ -138,7 +139,7 @@
                                 <tfoot>
                                 <tr>
                                     <th>{{ 'TABLE_TOTAL' | translate }}</th>
-                                    <td>{{ ((cart.total$|async) || 0)|currencyFormat }}</td>
+                                    <td>{{ ((cart.total$|async) || 0) | currencyFormat }}</td>
                                 </tr>
                                 </tfoot>
                             </table>

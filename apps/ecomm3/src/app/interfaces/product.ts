@@ -101,6 +101,7 @@ export interface Variant {
     optionValue1: string
     optionValue2: string
     optionValue3: string
+    variantName: string
     packaging: string
     price: number
     quantity: number

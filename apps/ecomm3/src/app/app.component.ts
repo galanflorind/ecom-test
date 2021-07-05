@@ -80,13 +80,13 @@ export class AppComponent implements OnInit, OnDestroy {
         // -->Show: toaster when a product is added
         this.cart.onAdding$.subscribe(product => {
             this.toastr.success(
-                this.translate.instant('TEXT_TOAST_PRODUCT_ADDED_TO_CART', { productName: product.name }),
+                this.translate.instant('TEXT_TOAST_PRODUCT_ADDED_TO_CART', { productName: product.data?.name }),
             );
         });
         // -->Show: toaster when a product is added to compare
         this.compare.onAdding$.subscribe(product => {
             this.toastr.success(
-                this.translate.instant('TEXT_TOAST_PRODUCT_ADDED_TO_COMPARE', { productName: product.name }),
+                this.translate.instant('TEXT_TOAST_PRODUCT_ADDED_TO_COMPARE', { productName: product.data?.name }),
             );
         });
         // -->Show: toaster when a product is added to todo: my lists
@@ -95,7 +95,7 @@ export class AppComponent implements OnInit, OnDestroy {
         // -->Show: toaster when a product is added to todo: my lists
         this.wishlist.onAdding$.subscribe(product => {
             this.toastr.success(
-                this.translate.instant('TEXT_TOAST_PRODUCT_ADDED_TO_WISHLIST', { productName: product.name }),
+                this.translate.instant('TEXT_TOAST_PRODUCT_ADDED_TO_WISHLIST', { productName: product.data?.name }),
             );
         });
     }

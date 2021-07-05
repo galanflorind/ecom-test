@@ -55,7 +55,7 @@
                         </td>
                         <td class="wishlist__column wishlist__column--body wishlist__column--product">
                             <div class="wishlist__product-name">
-                                <a [routerLink]="url.product(product)">{{ product.name }}</a>
+                                <a [routerLink]="url.product(product)">{{ product.data?.name }}</a>
                             </div>
                             <!--Show rating only if it's allowed in settings-->
                             <!--This will have to be connected to ecomm in the future-->
@@ -76,19 +76,19 @@
 <!--                            ></app-status-badge>-->
                         </td>
                         <td class="wishlist__column wishlist__column--body wishlist__column--price">
-                            {{ product.price|currencyFormat }}
+                            {{ product.price | currencyFormat }}
                         </td>
                         <td class="wishlist__column wishlist__column--body wishlist__column--button">
-                            <button
-                                appAddToCart
-                                type="button"
-                                class="btn btn-sm btn-primary"
-                                [class.btn-loading]="addToCart.inProgress"
-                                (click)="addToCart.add(product)"
-                                #addToCart="addToCart"
-                            >
-                                {{ 'BUTTON_ADD_TO_CART' | translate }}
-                            </button>
+<!--                            <button-->
+<!--                                appAddToCart-->
+<!--                                type="button"-->
+<!--                                class="btn btn-sm btn-primary"-->
+<!--                                [class.btn-loading]="addToCart.inProgress"-->
+<!--                                (click)="addToCart.add(product)"-->
+<!--                                #addToCart="addToCart"-->
+<!--                            >-->
+<!--                                {{ 'BUTTON_ADD_TO_CART' | translate }}-->
+<!--                            </button>-->
                         </td>
                         <td class="wishlist__column wishlist__column--body wishlist__column--remove">
                             <button

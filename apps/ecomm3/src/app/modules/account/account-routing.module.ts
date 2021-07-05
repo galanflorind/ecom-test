@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuard } from './guards/auth.guard';
 import { LayoutComponent } from './components/layout/layout.component';
 // pages
 import { PageAddressesComponent } from './pages/page-addresses/page-addresses.component';
@@ -62,38 +61,24 @@ const routes: Routes = [
                 path: 'password',
                 component: PagePasswordComponent,
             },
-            // --- START ---
-            // The following routes are only needed to demonstrate possible layouts of some pages. You can delete them.
-            {
-                path: 'order-details',
-                component: PageOrderDetailsComponent,
-                data: {
-                    orderId: 1,
-                },
-            },
-            {
-                path: 'edit-address',
-                component: PageEditAddressComponent,
-            },
-            // --- END ---
         ],
-        canLoad: [NaoUserPermissionsGuard]
+        canActivate: [NaoUserPermissionsGuard]
     },
     {
         path: 'login',
         component: PageLoginComponent,
-        canActivate: [AuthGuard],
-        data: {
-            authGuardMode: 'redirectToDashboard',
-        },
+        // canActivate: [AuthGuard],
+        // data: {
+        //     authGuardMode: 'redirectToDashboard',
+        // },
     },
     {
         path: 'register',
         component: PageRegisterComponent,
-        canActivate: [AuthGuard],
-        data: {
-            authGuardMode: 'redirectToDashboard',
-        },
+        // canActivate: [AuthGuard],
+        // data: {
+        //     authGuardMode: 'redirectToDashboard',
+        // },
     },
 ];
 

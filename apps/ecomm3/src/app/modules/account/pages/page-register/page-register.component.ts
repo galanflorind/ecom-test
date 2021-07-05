@@ -26,10 +26,10 @@ export class PageRegisterComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.formGroup = this.fb.group({
             email: [null, [Validators.required, Validators.email]],
-            password: [null, [Validators.required]],
+            password: [null, [Validators.required, Validators.minLength(8)]],
             firstName: [null, [Validators.required]],
             lastName: [null, [Validators.required]],
-            confirmPassword: [null, [Validators.required]],
+            confirmPassword: [null, [Validators.required, Validators.minLength(8)]],
         }, { validators: [mustMatchValidator('password', 'confirmPassword')] });
     }
 

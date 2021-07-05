@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { ShopCategory } from '../../interfaces/category';
-import { Product } from '../../interfaces/product';
+import {Product, Variant} from '../../interfaces/product';
 import { Brand } from '../../interfaces/brand';
 import { ProductsList, ReviewsList } from '../../interfaces/list';
 import { Review } from '../../interfaces/review';
@@ -60,7 +60,7 @@ export interface CheckoutItemOptionData {
 
 export interface CheckoutItemData {
     productId: number;
-    options: CheckoutItemOptionData[];
+    variant: Variant;
     quantity: number;
 }
 
@@ -102,6 +102,4 @@ export abstract class ShopApi {
     abstract getLatestProducts(limit: number): Observable<Product[]>;
 
     abstract getSearchSuggestions(query: string, options?: GetSearchSuggestionsOptions): Observable<GetSearchSuggestionsResult>;
-
-    abstract checkout(data: CheckoutData): Observable<Order>;
 }

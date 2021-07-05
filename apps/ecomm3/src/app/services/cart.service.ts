@@ -1,15 +1,16 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { Product } from '../interfaces/product';
+import { Product, Variant } from '../interfaces/product';
 import { BehaviorSubject, Observable, Subject, timer } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 import { map } from 'rxjs/operators';
 
 export interface CartItem {
     product: Product;
-    options: {
-        name: string;
-        value: string;
-    }[];
+    variant: Variant;
+    // options: {
+    //     name: string;
+    //     value: string;
+    // }[];
     quantity: number;
 }
 
@@ -83,34 +84,42 @@ export class CartService {
         }
     }
 
-    add(product: Product, quantity: number, options: {name: string; value: string}[] = []): Observable<CartItem> {
+    add(product: Product, variant: Variant, quantity: number): Observable<CartItem> {
         // timer only for demo
         return timer(350).pipe(map(() => {
             this.onAddingSubject$.next(product);
 
+            console.log("product >>>", product)
+            console.log("variant >>>", variant)
             let item = this.items.find(eachItem => {
-                if (eachItem.product.id !== product.id || eachItem.options.length !== options.length) {
-                    return false;
+                console.log("eachItem", eachItem)
+
+                if (eachItem.product._id === product._id && eachItem.variant.id === variant.id) {
+                    return true;
                 }
 
-                if (eachItem.options.length) {
-                    for (const option of options) {
-                        if (!eachItem.options.find(itemOption => itemOption.name === option.name && itemOption.value === option.value)) {
-                            return false;
-                        }
-                    }
-                }
+                // if (eachItem.options.length) {
+                //     for (const option of options) {
+                //         if (!eachItem.options.find(itemOption => itemOption.name === option.name && itemOption.value === option.value)) {
+                //             return false;
+                //         }
+                //     }
+                // }
 
-                return true;
+                return false;
             });
 
+
+            console.log("PLM ???", item)
             if (item) {
                 item.quantity += quantity;
             } else {
-                item = { product, quantity, options };
+                item = { product, quantity, variant };
 
                 this.data.items.push(item);
             }
+
+
 
             this.save();
             this.calc();
@@ -119,7 +128,7 @@ export class CartService {
         }));
     }
 
-    update(updates: {item: CartItem, quantity: number}[]): Observable<void> {
+    public update(updates: {item: CartItem, quantity: number}[]): Observable<void> {
         // timer only for demo
         return timer(350).pipe(map(() => {
             updates.forEach(update => {
@@ -135,7 +144,7 @@ export class CartService {
         }));
     }
 
-    remove(item: CartItem): Observable<void> {
+    public remove(item: CartItem): Observable<void> {
         // timer only for demo
         return timer(350).pipe(map(() => {
             this.data.items = this.data.items.filter(eachItem => eachItem !== item);
@@ -151,7 +160,7 @@ export class CartService {
 
         this.data.items.forEach(item => {
             quantity += item.quantity;
-            subtotal += item.product.price * item.quantity;
+            subtotal += item.variant.price * item.quantity;
         });
 
         const totals: CartTotal[] = [];

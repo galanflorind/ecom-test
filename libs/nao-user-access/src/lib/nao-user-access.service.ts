@@ -49,10 +49,10 @@ export class NaoUserAccessService {
    * Redirect user according to the flags
    */
   public checkUserAndRedirect(): { ok: boolean, redirectTo: string, canLoad: boolean } {
-    const res = { redirectTo: '/login', ok: true, canLoad: true };
+    const res = { redirectTo: 'account/login', ok: true, canLoad: true };
     // -->Check: if user is logged in
     if (!this.isLoggedIn()) {
-      res.redirectTo = '/login';
+      res.redirectTo = 'account/login';
       res.ok = false;
       res.canLoad = false;
     } else {
@@ -61,10 +61,6 @@ export class NaoUserAccessService {
         case 'active':
           res.redirectTo = null; res.ok = true; res.canLoad = true;
           break;
-        // default:
-        //   // -->User: bad state
-        //   res.redirectTo = '/500'; res.ok = false; res.canLoad = false;
-        //   break;
       }
     }
     return res;

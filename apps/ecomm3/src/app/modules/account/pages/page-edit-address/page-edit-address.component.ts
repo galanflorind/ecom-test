@@ -30,7 +30,7 @@ export class PageEditAddressComponent implements OnInit, OnDestroy {
         private fb: FormBuilder,
     ) { }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this.form = this.fb.group({
             address: [],
             default: [false],
@@ -73,12 +73,8 @@ export class PageEditAddressComponent implements OnInit, OnDestroy {
         });
     }
 
-    ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
-    }
 
-    save(): void {
+    public save(): void {
         this.form.markAllAsTouched();
         this.addressForm.markAsTouched();
 
@@ -105,5 +101,11 @@ export class PageEditAddressComponent implements OnInit, OnDestroy {
             finalize(() => this.saveInProgress = false),
             takeUntil(this.destroy$),
         ).subscribe(() => this.router.navigateByUrl('/account/addresses'));
+    }
+
+
+    public ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 }

@@ -4,21 +4,18 @@ import {
     Product,
     ProductAttribute,
     ProductAttributeGroup,
-    ProductCompatibilityResult,
 } from '../../../../interfaces/product';
-import { ProductGalleryLayout } from '../../../shared/components/product-gallery/product-gallery.component';
 import { UrlService } from '../../../../services/url.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { CartService } from '../../../../services/cart.service';
-import { finalize, map, switchMap, takeUntil } from 'rxjs/operators';
-import {Observable, of, Subject, Subscription} from 'rxjs';
-import { getCategoryPath } from '../../../../functions/utils';
+import { finalize, map, switchMap } from 'rxjs/operators';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { LanguageService } from '../../../language/services/language.service';
 import { BreadcrumbItem } from '../../../shared/components/breadcrumb/breadcrumb.component';
-import {NaoSettingsInterface} from "@naologic/nao-interfaces";
-import {AppService} from "../../../../app.service";
-import {ECommerceService} from "../../../../e-commerce.service";
+import { NaoSettingsInterface} from "@naologic/nao-interfaces";
+import { AppService } from "../../../../app.service";
+import { ECommerceService } from "../../../../e-commerce.service";
 
 export type PageProductLayout = 'sidebar' | 'full';
 
@@ -211,28 +208,16 @@ export class PageProductComponent implements OnInit, OnDestroy {
             return;
         }
 
-        const options: {name: string; value: string}[] = [];
-        const formOptions = this.form.get('options')!.value;
 
-        Object.keys(formOptions).forEach(optionSlug => {
-            const option = this.product.options.find(x => x.slug === optionSlug);
-
-            if (!option) {
-                return;
-            }
-
-            const value = option.values.find(x => x.slug === formOptions[optionSlug]);
-
-            if (!value) {
-                return;
-            }
-
-            options.push({ name: option.name, value: value.name });
-        });
+        const variant = this.product.data.variants[this.variantIndex];
+        if (!variant) {
+            alert("Variant problem")
+            return;
+        }
 
         this.addToCartInProgress = true;
 
-        this.cart.add(this.product, this.form.get('quantity')!.value, options).pipe(
+        this.cart.add(this.product, variant, this.form.get('quantity')!.value).pipe(
             finalize(() => this.addToCartInProgress = false),
         ).subscribe();
     }
@@ -240,19 +225,14 @@ export class PageProductComponent implements OnInit, OnDestroy {
     /**
      * Compatibility
      */
-    public compatibility(): ProductCompatibilityResult {
-        if (this.product.compatibility === 'all') {
-            return 'all';
-        }
-        if (this.product.compatibility === 'unknown') {
-            return 'unknown';
-        }
-        // if (this.vehicle && this.product.compatibility.includes(this.vehicle.id)) {
-        //     return 'fit';
-        // } else {
-        //     return 'not-fit';
-        // }
-    }
+    // public compatibility(): ProductCompatibilityResult {
+    //     if (this.product.compatibility === 'all') {
+    //         return 'all';
+    //     }
+    //     if (this.product.compatibility === 'unknown') {
+    //         return 'unknown';
+    //     }
+    // }
 
     public ngOnDestroy() {
         this.subs.unsubscribe();

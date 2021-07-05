@@ -6,7 +6,7 @@ import { Product } from '../../../interfaces/product';
 })
 export class GetProductImagePipe implements PipeTransform {
     transform(value: Product): string {
-        const images = value?.images || [];
+        const images = value?.data?.images || [];
 
         return images[0] || '';
     }

@@ -55,7 +55,7 @@
             link="/shop/cart"
             icon="cart-32"
             [label]="'TEXT_INDICATOR_CART_LABEL' | translate"
-            [value]="(((cart.subtotal$|async) || 0)|currencyFormat) || ''"
+            [value]="(((cart.subtotal$|async) || 0) | currencyFormat) || ''"
             [counter]="(cart.quantity$|async) || 0"
             trigger="click"
             #cartIndicator="indicator"

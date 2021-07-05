@@ -12,14 +12,12 @@
                 </div>
                 <div class="dropcart__item-info">
                     <div class="dropcart__item-name">
-                        <a [routerLink]="url.product(item.product)" (click)="closeMenu.emit()">{{ item.product.name }}</a>
+                        <a [routerLink]="url.product(item.product)" (click)="closeMenu.emit()">{{ item.product?.data?.name }}</a>
                     </div>
-                    <ul *ngIf="item.options.length" class="dropcart__item-features">
-                        <li *ngFor="let option of item.options">{{ option.name }}: {{ option.value }}</li>
-                    </ul>
+                    <div class="dropcart__item-features">Variant: {{ item.variant.variantName }}</div>
                     <div class="dropcart__item-meta">
                         <div class="dropcart__item-quantity">{{ item.quantity }}</div>
-                        <div class="dropcart__item-price">{{ item.product.price|currencyFormat }}</div>
+                        <div class="dropcart__item-price">{{ item.product.price | currencyFormat }}</div>
                     </div>
                 </div>
                 <button
@@ -41,15 +39,15 @@
             <tbody>
             <tr *ngIf="(cart.totals$|async)?.length">
                 <th>{{ 'TABLE_SUBTOTAL' | translate }}</th>
-                <td>{{ ((cart.subtotal$|async) || 0)|currencyFormat }}</td>
+                <td>{{ ((cart.subtotal$|async) || 0) | currencyFormat }}</td>
             </tr>
             <tr *ngFor="let total of cart.totals$|async">
                 <th>{{ 'TABLE_TOTAL_' + total.title|translate }}</th>
-                <td>{{ total.price|currencyFormat  }}</td>
+                <td>{{ total.price | currencyFormat  }}</td>
             </tr>
             <tr>
                 <th>{{ 'TABLE_TOTAL' | translate }}</th>
-                <td>{{ ((cart.total$|async) || 0)|currencyFormat }}</td>
+                <td>{{ ((cart.total$|async) || 0) | currencyFormat }}</td>
             </tr>
             </tbody>
         </table>

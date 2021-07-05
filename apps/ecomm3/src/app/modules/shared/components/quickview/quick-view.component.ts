@@ -117,28 +117,14 @@ export class QuickViewComponent implements OnDestroy, AfterViewInit, OnInit {
             return;
         }
 
-        const options: { name: string; value: string }[] = [];
-        const formOptions = this.form.get('options')!.value;
-
-        Object.keys(formOptions).forEach(optionSlug => {
-            const option = product.options.find(x => x.slug === optionSlug);
-
-            if (!option) {
-                return;
-            }
-
-            const value = option.values.find(x => x.slug === formOptions[optionSlug]);
-
-            if (!value) {
-                return;
-            }
-
-            options.push({name: option.name, value: value.name});
-        });
+        const variant = this.product?.data?.variants[this.variantIndex];
+        if (!variant) {
+            return;
+        }
 
         this.addToCartInProgress = true;
 
-        this.cart.add(product, this.form.get('quantity')!.value, options).pipe(
+        this.cart.add(product, variant, this.form.get('quantity')!.value).pipe(
             finalize(() => this.addToCartInProgress = false),
         ).subscribe();
     }

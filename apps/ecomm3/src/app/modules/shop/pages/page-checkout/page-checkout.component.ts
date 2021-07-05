@@ -1,7 +1,7 @@
 import { Component, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { filter, finalize, map, pairwise, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { ICreateOrderRequest, IPayPalConfig } from 'ngx-paypal';
+// import { ICreateOrderRequest, IPayPalConfig } from 'ngx-paypal';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { TermsModalComponent } from '../../../shared/components/terms-modal/terms-modal.component';
 import { CartService } from '../../../../services/cart.service';
@@ -11,8 +11,7 @@ import { AddressFormComponent } from '../../../shared/components/address-form/ad
 import { RegisterFormComponent } from '../../../shared/components/register-form/register-form.component';
 import { TranslateService } from '@ngx-translate/core';
 import { AccountApi, CheckoutData, ShopApi } from '../../../../api';
-import { environment } from '../../../../../environments/environment';
-import { AddressData } from '../../../../interfaces/address';
+// import { AddressData } from '../../../../interfaces/address';
 import { UrlService } from '../../../../services/url.service';
 
 @Component({
@@ -25,14 +24,14 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
 
     private checkout$: Subject<CheckoutData> = new Subject<CheckoutData>();
 
-    form: FormGroup;
+    public form: FormGroup;
 
-    payPalConfig!: IPayPalConfig;
-    payPalInit = false;
+    // payPalConfig!: IPayPalConfig;
+    public payPalInit = false;
 
-    checkoutInProgress = false;
+    public checkoutInProgress = false;
 
-    payments = [
+    public payments = [
         {
             name: 'bank',
             label: 'TEXT_PAYMENT_BANK_LABEL',
@@ -55,14 +54,14 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
         },
     ];
 
-    @ViewChild('billingAddressForm', { read: AddressFormComponent }) billingAddressForm!: AddressFormComponent;
+    @ViewChild('billingAddressForm', { read: AddressFormComponent }) public billingAddressForm!: AddressFormComponent;
 
-    @ViewChild('shippingAddressForm', { read: AddressFormComponent }) shippingAddressForm!: AddressFormComponent;
+    @ViewChild('shippingAddressForm', { read: AddressFormComponent }) public shippingAddressForm!: AddressFormComponent;
 
-    @ViewChild('registerForm', { read: RegisterFormComponent }) registerForm!: RegisterFormComponent;
+    @ViewChild('registerForm', { read: RegisterFormComponent }) public registerForm!: RegisterFormComponent;
 
-    enablePaypalButton = () => {};
-    disablePaypalButton = () => {};
+    public enablePaypalButton = () => {};
+    public disablePaypalButton = () => {};
 
     constructor(
         private fb: FormBuilder,
@@ -70,7 +69,7 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
         private router: Router,
         private translate: TranslateService,
         private shopApi: ShopApi,
-        private zone: NgZone,
+        // private zone: NgZone,
         public url: UrlService,
         public accountApi: AccountApi,
         public cart: CartService,
@@ -116,7 +115,7 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
         });
     }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this.initConfig();
 
         this.cart.quantity$.pipe(
@@ -124,34 +123,31 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
             takeUntil(this.destroy$),
         ).subscribe(() => this.router.navigateByUrl('/shop/cart').then());
 
-        this.checkout$.pipe(
-            tap(() => this.checkoutInProgress = true),
-            switchMap(checkoutData => {
-                const value = this.form.value;
-
-                if (value.createAccount) {
-                    return this.accountApi.signUp(value.account.email, value.account.password).pipe(
-                        map(() => checkoutData),
-                    );
-                }
-
-                return of(checkoutData);
-            }),
-            switchMap(checkoutData => this.shopApi.checkout(checkoutData)),
-            tap(() => this.checkoutInProgress = false),
-            finalize(() => this.checkoutInProgress = false),
-            takeUntil(this.destroy$),
-        ).subscribe(order => {
-            this.router.navigateByUrl(`/shop/checkout/${order.token}`).then();
-        });
+        alert("TODO: shop checkout")
+        // this.checkout$.pipe(
+        //     tap(() => this.checkoutInProgress = true),
+        //     switchMap(checkoutData => {
+        //         const value = this.form.value;
+        //
+        //         if (value.createAccount) {
+        //             return this.accountApi.signUp(value.account.email, value.account.password).pipe(
+        //                 map(() => checkoutData),
+        //             );
+        //         }
+        //
+        //         return of(checkoutData);
+        //     }),
+        //     switchMap(checkoutData => this.shopApi.checkout(checkoutData)),
+        //     tap(() => this.checkoutInProgress = false),
+        //     finalize(() => this.checkoutInProgress = false),
+        //     takeUntil(this.destroy$),
+        // ).subscribe(order => {
+        //     this.router.navigateByUrl(`/shop/checkout/${order.token}`).then();
+        // });
     }
 
-    ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
-    }
 
-    toggleFormControl(controlName: string, isEnabled: boolean): void {
+    public toggleFormControl(controlName: string, isEnabled: boolean): void {
         const control = this.form.get(controlName);
 
         if (!control) {
@@ -165,13 +161,13 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
         }
     }
 
-    showTerms(event: MouseEvent): void {
+    public showTerms(event: MouseEvent): void {
         event.preventDefault();
 
         this.modalService.show(TermsModalComponent, { class: 'modal-lg' });
     }
 
-    createOrder(): void {
+    public createOrder(): void {
         if (!this.checkData()) {
             return;
         }
@@ -206,7 +202,7 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
             payment: value.paymentMethod,
             items: this.cart.items.map(item => ({
                 productId: item.product.id,
-                options: item.options,
+                variant: item.variant,
                 quantity: item.quantity,
             })),
             billingAddress,
@@ -252,74 +248,79 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
         // };
     }
 
-    private createPayPalOrderRequest(): ICreateOrderRequest {
-        const value = this.form.value;
+    // private createPayPalOrderRequest(): ICreateOrderRequest {
+    //     const value = this.form.value;
+    //
+    //     const billingAddress: AddressData = value.billingAddress;
+    //     const shippingAddress: AddressData = value.shipToDifferentAddress ? value.shippingAddress : value.billingAddress;
+    //
+    //     const shipping = this.cart.totals.filter(x => x.type === 'shipping').reduce((acc, total) => acc + total.price, 0);
+    //     const taxes = this.cart.totals.filter(x => x.type === 'tax').reduce((acc, total) => acc + total.price, 0);
+    //
+    //     return {
+    //         intent: 'CAPTURE',
+    //         purchase_units: [
+    //             {
+    //                 amount: {
+    //                     currency_code: 'USD',
+    //                     value: this.cart.total.toFixed(2),
+    //                     breakdown: {
+    //                         item_total: {
+    //                             currency_code: 'USD',
+    //                             value: this.cart.subtotal.toFixed(2),
+    //                         },
+    //                         shipping: {
+    //                             currency_code: 'USD',
+    //                             value: shipping.toFixed(2),
+    //                         },
+    //                         tax_total: {
+    //                             currency_code: 'USD',
+    //                             value: taxes.toFixed(2),
+    //                         },
+    //                     },
+    //                 },
+    //                 items: this.cart.items.map(item => ({
+    //                     category: 'PHYSICAL_GOODS',
+    //                     name: item.product.name,
+    //                     quantity: item.quantity.toString(),
+    //                     sku: item.product.sku,
+    //                     unit_amount: {
+    //                         currency_code: 'USD',
+    //                         value: item.product.price.toFixed(2),
+    //                     },
+    //                 })),
+    //                 shipping: {
+    //                     address: {
+    //                         country_code: shippingAddress.country,
+    //                         admin_area_1: shippingAddress.state,
+    //                         admin_area_2: shippingAddress.city,
+    //                         address_line_1: shippingAddress.address1,
+    //                         address_line_2: shippingAddress.address2,
+    //                         postal_code: shippingAddress.postcode,
+    //                     },
+    //                 },
+    //             },
+    //         ],
+    //         payer: {
+    //             address: {
+    //                 country_code: billingAddress.country,
+    //                 admin_area_1: billingAddress.state,
+    //                 admin_area_2: billingAddress.city,
+    //                 address_line_1: billingAddress.address1,
+    //                 address_line_2: billingAddress.address2,
+    //                 postal_code: billingAddress.postcode,
+    //             },
+    //             name: {
+    //                 given_name: billingAddress.firstName,
+    //                 surname: billingAddress.lastName,
+    //             },
+    //             email_address: billingAddress.email,
+    //         },
+    //     };
+    // }
 
-        const billingAddress: AddressData = value.billingAddress;
-        const shippingAddress: AddressData = value.shipToDifferentAddress ? value.shippingAddress : value.billingAddress;
-
-        const shipping = this.cart.totals.filter(x => x.type === 'shipping').reduce((acc, total) => acc + total.price, 0);
-        const taxes = this.cart.totals.filter(x => x.type === 'tax').reduce((acc, total) => acc + total.price, 0);
-
-        return {
-            intent: 'CAPTURE',
-            purchase_units: [
-                {
-                    amount: {
-                        currency_code: 'USD',
-                        value: this.cart.total.toFixed(2),
-                        breakdown: {
-                            item_total: {
-                                currency_code: 'USD',
-                                value: this.cart.subtotal.toFixed(2),
-                            },
-                            shipping: {
-                                currency_code: 'USD',
-                                value: shipping.toFixed(2),
-                            },
-                            tax_total: {
-                                currency_code: 'USD',
-                                value: taxes.toFixed(2),
-                            },
-                        },
-                    },
-                    items: this.cart.items.map(item => ({
-                        category: 'PHYSICAL_GOODS',
-                        name: item.product.name,
-                        quantity: item.quantity.toString(),
-                        sku: item.product.sku,
-                        unit_amount: {
-                            currency_code: 'USD',
-                            value: item.product.price.toFixed(2),
-                        },
-                    })),
-                    shipping: {
-                        address: {
-                            country_code: shippingAddress.country,
-                            admin_area_1: shippingAddress.state,
-                            admin_area_2: shippingAddress.city,
-                            address_line_1: shippingAddress.address1,
-                            address_line_2: shippingAddress.address2,
-                            postal_code: shippingAddress.postcode,
-                        },
-                    },
-                },
-            ],
-            payer: {
-                address: {
-                    country_code: billingAddress.country,
-                    admin_area_1: billingAddress.state,
-                    admin_area_2: billingAddress.city,
-                    address_line_1: billingAddress.address1,
-                    address_line_2: billingAddress.address2,
-                    postal_code: billingAddress.postcode,
-                },
-                name: {
-                    given_name: billingAddress.firstName,
-                    surname: billingAddress.lastName,
-                },
-                email_address: billingAddress.email,
-            },
-        };
+    public ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 }

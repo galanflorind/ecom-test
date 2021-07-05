@@ -24,7 +24,7 @@
                         </td>
                         <td>{{ 'FORMAT_DATE_MEDIUM' | translate:{date: order.createdAt} }}</td>
                         <td>{{ 'TEXT_ORDER_STATUS_' + order.status|translate }}</td>
-                        <td>{{ 'TEXT_ORDER_TOTAL' | translate:{total: order.total|currencyFormat, quantity: order.quantity} }}</td>
+                        <td>{{ 'TEXT_ORDER_TOTAL' | translate:{total: order.total | currencyFormat, quantity: order.quantity} }}</td>
                     </tr>
                     </tbody>
                 </table>

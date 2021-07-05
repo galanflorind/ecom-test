@@ -125,23 +125,24 @@
                         <tr class="compare-table__row">
                             <th class="compare-table__column compare-table__column--header">{{ 'TABLE_PRICE' | translate }}</th>
                             <td *ngFor="let product of products$|async" class="compare-table__column compare-table__column--product">
-                                {{ product.price|currencyFormat }}
+                                {{ product.price | currencyFormat }}
                             </td>
                             <td class="compare-table__column compare-table__column--fake"></td>
                         </tr>
                         <tr class="compare-table__row">
                             <th class="compare-table__column compare-table__column--header"></th>
                             <td *ngFor="let product of products$|async" class="compare-table__column compare-table__column--product">
-                                <button
-                                    appAddToCart
-                                    type="button"
-                                    class="btn btn-sm btn-primary"
-                                    [class.btn-loading]="addToCart.inProgress"
-                                    (click)="addToCart.add(product)"
-                                    #addToCart="addToCart"
-                                >
-                                    {{ 'BUTTON_ADD_TO_CART' | translate }}
-                                </button>
+                                <!--TODO: add variant-->
+<!--                                <button-->
+<!--                                    appAddToCart-->
+<!--                                    type="button"-->
+<!--                                    class="btn btn-sm btn-primary"-->
+<!--                                    [class.btn-loading]="addToCart.inProgress"-->
+<!--                                    (click)="addToCart.add(product)"-->
+<!--                                    #addToCart="addToCart"-->
+<!--                                >-->
+<!--                                    {{ 'BUTTON_ADD_TO_CART' | translate }}-->
+<!--                                </button>-->
                             </td>
                             <td class="compare-table__column compare-table__column--fake"></td>
                         </tr>

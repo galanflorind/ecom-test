@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { AccountApi } from '../../../../api';
 import { Router } from '@angular/router';
+import { NaoUserAccessService } from "@naologic/nao-user-access";
 
 
 @Component({
@@ -14,29 +14,24 @@ import { Router } from '@angular/router';
 export class LayoutComponent implements OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
 
-    navigation: {
+    public navigation: {
         label: string;
         url: string;
     }[] = [];
 
     constructor(
-        private account: AccountApi,
         private translate: TranslateService,
         private router: Router,
+        private naoUsersService: NaoUserAccessService,
     ) { }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this.initNavigation();
         this.translate.onLangChange.pipe(takeUntil(this.destroy$)).subscribe(() => this.initNavigation());
     }
 
-    ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
-    }
-
-    logout(): void {
-        this.account.signOut().pipe(takeUntil(this.destroy$)).subscribe(() => {
+    public logout(): void {
+        this.naoUsersService.logout().then(() => {
             this.router.navigateByUrl('/account/login').then();
         });
     }
@@ -44,11 +39,15 @@ export class LayoutComponent implements OnInit, OnDestroy {
     private initNavigation(): void {
         this.navigation = [
             { label: this.translate.instant('LINK_ACCOUNT_DASHBOARD'), url: '/account/dashboard' },
-            { label: this.translate.instant('LINK_ACCOUNT_GARAGE'), url: '/account/garage' },
             { label: this.translate.instant('LINK_ACCOUNT_PROFILE'), url: '/account/profile' },
             { label: this.translate.instant('LINK_ACCOUNT_ORDERS'), url: '/account/orders' },
             { label: this.translate.instant('LINK_ACCOUNT_ADDRESSES'), url: '/account/addresses' },
             { label: this.translate.instant('LINK_ACCOUNT_PASSWORD'), url: '/account/password' },
         ];
+    }
+
+    public ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 }

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { NgxPermissionsGuard, NgxPermissionsService, NgxRolesService } from 'ngx-permissions';
 import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, CanLoad, Route, Router, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 import { NaoUserAccessService } from './nao-user-access.service';
@@ -10,16 +9,13 @@ import { NaoUserAccessService } from './nao-user-access.service';
 @Injectable({
   providedIn: 'root'
 })
-export class NaoUserPermissionsGuard extends NgxPermissionsGuard implements CanActivate, CanLoad, CanActivateChild {
+export class NaoUserPermissionsGuard implements CanActivate, CanLoad, CanActivateChild {
   private readonly router$: Router;
 
   constructor(
-    permissionsService: NgxPermissionsService,
-    rolesService: NgxRolesService,
     router: Router,
     private readonly naoUserAccessService: NaoUserAccessService
   ) {
-    super(permissionsService, rolesService, router);
     this.router$ = router;
   }
 
@@ -30,7 +26,7 @@ export class NaoUserPermissionsGuard extends NgxPermissionsGuard implements CanA
     // -->Check: if user is logged in
     const res = this.naoUserAccessService.checkUserAndRedirect();
     if (res.canLoad) {
-      return super.canActivate(route, state);
+        return true;
     } else {
       // -->Redirect: to login
       return this.router$.navigateByUrl(res.redirectTo);
@@ -44,7 +40,7 @@ export class NaoUserPermissionsGuard extends NgxPermissionsGuard implements CanA
     // -->Check: if user is logged in
     const res = this.naoUserAccessService.checkUserAndRedirect();
     if (res.canLoad) {
-      return super.canActivateChild(childRoute, state);
+        return true;
     } else {
       // -->Redirect: to login
       return this.router$.navigateByUrl(res.redirectTo);
@@ -58,7 +54,7 @@ export class NaoUserPermissionsGuard extends NgxPermissionsGuard implements CanA
     // -->Check: if user is logged in
     const res = this.naoUserAccessService.checkUserAndRedirect();
     if (res.canLoad) {
-      return super.canLoad(route);
+      return true;
     } else {
       // -->Redirect: to login
       return this.router$.navigateByUrl(res.redirectTo);

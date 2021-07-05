@@ -20,7 +20,6 @@ import {
 } from '../base';
 import {
     addProductReview,
-    checkout,
     getCategories,
     getCategoryBySlug,
     getFeaturedProducts,
@@ -98,9 +97,5 @@ export class FakeShopApi extends ShopApi {
 
     getSearchSuggestions(query: string, options?: GetSearchSuggestionsOptions): Observable<GetSearchSuggestionsResult> {
         return getSearchSuggestions(query, options);
-    }
-
-    checkout(data: CheckoutData): Observable<Order> {
-        return checkout(data);
     }
 }

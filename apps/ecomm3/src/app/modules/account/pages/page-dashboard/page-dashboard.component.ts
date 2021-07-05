@@ -13,22 +13,20 @@ import { Order } from '../../../../interfaces/order';
 })
 export class PageDashboardComponent implements OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
-
-    address!: Address;
-
-    orders: Order[] = [];
+    public address!: Address;
+    public orders: Order[] = [];
 
     constructor(
         public account: AccountApi,
         public url: UrlService,
     ) { }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this.account.getDefaultAddress().pipe(takeUntil(this.destroy$)).subscribe(x => this.address = x);
         this.account.getOrdersList({ limit: 3 }).pipe(takeUntil(this.destroy$)).subscribe(x => this.orders = x.items);
     }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();
     }
