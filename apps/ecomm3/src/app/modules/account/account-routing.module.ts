@@ -12,6 +12,7 @@ import { PageOrdersComponent } from './pages/page-orders/page-orders.component';
 import { PagePasswordComponent } from './pages/page-password/page-password.component';
 import { PageProfileComponent } from './pages/page-profile/page-profile.component';
 import { PageRegisterComponent } from "./pages/page-register/page-register.component";
+import {NaoUserPermissionsGuard} from "../../../../../../libs/nao-user-access/src";
 
 const routes: Routes = [
     {
@@ -76,7 +77,7 @@ const routes: Routes = [
             },
             // --- END ---
         ],
-        canActivate: [AuthGuard],
+        canLoad: [NaoUserPermissionsGuard]
     },
     {
         path: 'login',

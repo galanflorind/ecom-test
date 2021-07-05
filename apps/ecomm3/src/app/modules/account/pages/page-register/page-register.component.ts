@@ -75,25 +75,6 @@ export class PageRegisterComponent implements OnInit, OnDestroy {
                 this.formGroup.enable();
             }
         );
-
-        // this.account.signUp(
-        //     this.formGroup.value.email,
-        //     this.formGroup.value.password,
-        // ).pipe(
-        //     finalize(() => this.registerInProgress = false),
-        //     takeUntil(this.destroy$),
-        // ).subscribe(
-        //     () => this.router.navigateByUrl('/account/dashboard'),
-        //     error => {
-        //         if (error instanceof HttpErrorResponse) {
-        //             this.formGroup.setErrors({
-        //                 server: `ERROR_API_${error.error.message}`,
-        //             });
-        //         } else {
-        //             alert(error);
-        //         }
-        //     },
-        // );
     }
 
 
