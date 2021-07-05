@@ -17,11 +17,16 @@ import {
 } from '@angular/core';
 import { MobileMenuService } from '../../../../services/mobile-menu.service';
 import { MobileMenuPanelComponent } from '../mobile-menu-panel/mobile-menu-panel.component';
-import { fromEvent, Subject } from 'rxjs';
+import {fromEvent, Subject, Subscription} from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
 import { mobileMenuLinks } from '../../../../../data/mobile-menu';
 import { MobileMenuLink } from '../../../../interfaces/mobile-menu-link';
+import {DepartmentsLink} from "../../../../interfaces/departments-link";
+import {nameToSlug} from "../../../../../fake-server/utils";
+import {MegamenuColumn} from "../../../../interfaces/menu";
+import {NestedLink} from "../../../../interfaces/link";
+import {AppService} from "../../../../app.service";
 
 interface StackItem {
     content: TemplateRef<any>;
@@ -34,17 +39,6 @@ interface StackItem {
     styleUrls: ['./mobile-menu.component.scss'],
 })
 export class MobileMenuComponent implements OnInit, OnDestroy, AfterViewInit, AfterViewChecked {
-    private destroy$: Subject<void> = new Subject<void>();
-
-    links = mobileMenuLinks;
-
-    currentLevel = 0;
-
-    panelsStack: StackItem[] = [];
-    panelsBin: StackItem[] = [];
-
-    forceConveyorTransition = false;
-
     @HostBinding('class.mobile-menu') classMobileMenu = true;
 
     @HostBinding('class.mobile-menu--open') get classMobileMenuOpen() {
@@ -57,14 +51,58 @@ export class MobileMenuComponent implements OnInit, OnDestroy, AfterViewInit, Af
 
     @ViewChild('panelsContainer', { read: ViewContainerRef }) panelsContainer!: ViewContainerRef;
 
+
+    private destroy$: Subject<void> = new Subject<void>();
+    public links = [];
+    public currentLevel = 0;
+    public panelsStack: StackItem[] = [];
+    public panelsBin: StackItem[] = [];
+    public forceConveyorTransition = false;
+    private subs = new Subscription();
+
     constructor(
         @Inject(PLATFORM_ID) private platformId: any,
         private cfr: ComponentFactoryResolver,
         private zone: NgZone,
         public menu: MobileMenuService,
+        public appService: AppService,
     ) { }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
+        // -->Calculate: categories and set them
+        this.subs.add(
+            this.appService.appInfo.subscribe(value => {
+                // -->Set: categories
+                const categories = this.mapCategories(value?.categories?.items)
+
+                // -->Add: other links here!!!!
+                this.links = [
+                    {
+                        title: 'Categories',
+                        url: '/shop/category/products',
+                        submenu: categories
+                    },
+                    {
+                        title: 'Pages',
+                        url: '/site/about-us',
+                        submenu: [
+                            { title: 'About Us', url: '/site/about-us' },
+                            { title: 'Contact Us v1', url: '/site/contact-us-v1' },
+                            { title: 'Contact Us v2', url: '/site/contact-us-v2' },
+                            { title: '404', url: '/site/not-found' },
+                            { title: 'Terms And Conditions', url: '/site/terms' },
+                            { title: 'FAQ', url: '/site/faq' },
+                            { title: 'Components', url: '/site/components' },
+                            { title: 'Typography', url: '/site/typography' },
+                        ],
+                    }
+                ]
+
+            })
+        )
+        // -->Set: menu
+
+
         this.menu.onOpenPanel.pipe(takeUntil(this.destroy$)).subscribe(({ content, label }) => {
             if (this.panelsStack.findIndex(x => x.content === content) !== -1) {
                 return;
@@ -98,12 +136,12 @@ export class MobileMenuComponent implements OnInit, OnDestroy, AfterViewInit, Af
         });
     }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();
     }
 
-    ngAfterViewInit(): void {
+    public ngAfterViewInit(): void {
         if (isPlatformBrowser(this.platformId)) {
             this.zone.runOutsideAngular(() => {
                 fromEvent<TransitionEvent>(this.body.nativeElement, 'transitionend').pipe(
@@ -125,7 +163,7 @@ export class MobileMenuComponent implements OnInit, OnDestroy, AfterViewInit, Af
         }
     }
 
-    ngAfterViewChecked(): void {
+    public ngAfterViewChecked(): void {
         if (this.forceConveyorTransition) {
             this.forceConveyorTransition = false;
 
@@ -137,7 +175,7 @@ export class MobileMenuComponent implements OnInit, OnDestroy, AfterViewInit, Af
         }
     }
 
-    onMenuClosed(): void {
+    public onMenuClosed(): void {
         let panel: StackItem|undefined;
 
         while (panel = this.panelsStack.pop()) {
@@ -149,11 +187,11 @@ export class MobileMenuComponent implements OnInit, OnDestroy, AfterViewInit, Af
         this.forceConveyorTransition = true;
     }
 
-    onConveyorStopped(): void {
+    public onConveyorStopped(): void {
         this.removeUnusedPanels();
     }
 
-    removeUnusedPanels(): void {
+    public removeUnusedPanels(): void {
         let panel: StackItem|undefined;
 
         while (panel = this.panelsBin.pop()) {
@@ -161,9 +199,68 @@ export class MobileMenuComponent implements OnInit, OnDestroy, AfterViewInit, Af
         }
     }
 
-    onLinkClick(item: MobileMenuLink): void {
+    public onLinkClick(item: MobileMenuLink): void {
         if (!item.submenu || item.submenu.length < 1) {
             this.menu.close();
         }
+    }
+
+
+    /**
+     * Map categories for mobile menu
+     */
+    public mapCategories(categories: any[]): MobileMenuLink[] {
+        // -->Check:
+        if (!Array.isArray(categories)) {
+            categories = [];
+        }
+        // -->Init
+        const items: MobileMenuLink[] = [];
+
+        // -->Get: route level categories
+        const rootLevelCategories = categories.filter(c => (c.parentId === 0 || c.parentId === '0') && c.level === 0);
+        // -->Iterate: over categories and set the root level ones
+        rootLevelCategories.forEach(category => {
+            // -->Create: category
+            const item: MobileMenuLink = {
+                title: category.name,
+                url: `/shop/category/${nameToSlug(category.name)}/${category.id}/products`
+            }
+            // -->Get: all second level categories for this parent
+            const subCategories = categories.filter(c => c.parentId === category.id && c.level === 1);
+            if (subCategories.length) {
+                // -->Init: submenu
+                item.submenu = [];
+                // -->Iterate: over subcategories and check if there are any other links inside
+                subCategories.forEach(subCategory => {
+                    // -->Get: links for sub category
+                    const links = categories.filter(c => c.parentId === subCategory.id && c.level === 2);
+                    // -->Create: sub category
+                    const subCategory$: MobileMenuLink = {
+                        title: subCategory.name,
+                        url: `/shop/category/${nameToSlug(subCategory.name)}/${subCategory.id}/products`
+                    }
+                    // -->Check
+                    if (links.length) {
+                        subCategory$.submenu = links.map(link => {
+                            return {
+                                title: link.name,
+                                url: `/shop/category/${nameToSlug(link.name)}/${link.id}/products`
+                            }
+                        })
+                    }
+
+                    // -->Push: column
+                    item.submenu.push(subCategory$);
+                })
+
+            }
+            // -->Push: category
+            items.push(item)
+
+        });
+
+
+        return items;
     }
 }

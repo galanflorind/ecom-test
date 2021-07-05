@@ -25,7 +25,7 @@ export class QuickViewComponent implements OnDestroy, AfterViewInit, OnInit {
     public form!: FormGroup;
     public addToCartInProgress = false;
     public variantIndex = 0;
-    public subs = new Subscription();
+    private subs = new Subscription();
 
     @ViewChild('modal') modal!: ModalDirective;
 

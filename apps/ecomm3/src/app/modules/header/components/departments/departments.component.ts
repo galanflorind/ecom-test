@@ -9,7 +9,6 @@ import {
     OnInit,
     PLATFORM_ID,
 } from '@angular/core';
-import { departments } from '../../../../../data/header-departments';
 import { DepartmentsLink } from '../../../../interfaces/departments-link';
 import { fromOutsideClick } from '../../../../functions/rxjs/from-outside-click';
 import { Subject } from 'rxjs';
@@ -22,21 +21,20 @@ import { isPlatformBrowser } from '@angular/common';
     styleUrls: ['./departments.component.scss'],
 })
 export class DepartmentsComponent implements OnInit, OnDestroy {
-    private destroy$: Subject<void> = new Subject<void>();
+    @Input() public items: DepartmentsLink[] = [];
+    @Input() public label: string = '';
 
-    isOpen = false;
-
-    items: DepartmentsLink[] = departments;
-
-    currentItem: DepartmentsLink|null = null;
-
-    @Input() label: string = '';
-
-    @HostBinding('class.departments') classDepartments = true;
+    @HostBinding('class.departments') public classDepartments = true;
 
     @HostBinding('class.departments--open') get classDepartmentsOpen() {
         return this.isOpen;
     }
+
+    private destroy$: Subject<void> = new Subject<void>();
+    public isOpen = false;
+    public currentItem: DepartmentsLink|null = null;
+
+
 
     constructor(
         @Inject(PLATFORM_ID) private platformId: any,
@@ -44,7 +42,7 @@ export class DepartmentsComponent implements OnInit, OnDestroy {
         private zone: NgZone,
     ) { }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         if (!isPlatformBrowser(this.platformId)) {
             return;
         }
@@ -59,24 +57,24 @@ export class DepartmentsComponent implements OnInit, OnDestroy {
         });
     }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();
     }
 
-    onClick() {
+    public onClick() {
         this.isOpen = !this.isOpen;
     }
 
-    onMouseenter(item: DepartmentsLink) {
+    public onMouseenter(item: DepartmentsLink) {
         this.currentItem = item;
     }
 
-    onMouseleave() {
+    public onMouseleave() {
         this.currentItem = null;
     }
 
-    onItemClick(): void {
+    public onItemClick(): void {
         this.isOpen = false;
         this.currentItem = null;
     }

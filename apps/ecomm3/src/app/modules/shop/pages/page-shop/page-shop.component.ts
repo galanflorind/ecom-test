@@ -2,12 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ShopSidebarService } from '../../services/shop-sidebar.service';
 import { PageShopService } from '../../services/page-shop.service';
-import {ActivatedRoute, NavigationEnd, Params, Router} from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ShopApi } from '../../../../api';
-import {BehaviorSubject, merge, Observable, of, Subject, Subscription} from 'rxjs';
-import {map, switchMap, takeUntil, tap, throttleTime} from 'rxjs/operators';
+import { merge, Observable, of, Subject, Subscription } from 'rxjs';
+import { debounceTime, map, switchMap, takeUntil } from 'rxjs/operators';
 import { UrlService } from '../../../../services/url.service';
-import { getCategoryPath } from '../../../../functions/utils';
 import { ShopCategory } from '../../../../interfaces/category';
 import { LanguageService } from '../../../language/services/language.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -23,7 +22,7 @@ import {
     buildManufacturerFilter,
     buildPriceFilter
 } from "../../filters/filter.utils.static";
-import {getBreadcrumbs} from "../../../../../fake-server/utils";
+import { getBreadcrumbs } from "../../../../../fake-server/utils";
 
 
 export type PageShopLayout =
@@ -111,12 +110,10 @@ export class PageShopComponent implements OnInit, OnDestroy {
             this.sidebarPosition = data.sidebarPosition;
         });
 
-        // todo: subscribe to router
-
         data$.pipe(
-            throttleTime(400),
             switchMap((data: PageShopData) => merge(
                 of(data.productsList),
+                this.router.events,
                 this.page.optionsChange$.pipe(
                     map(() => {
                         // todo: fix the update url
@@ -125,20 +122,11 @@ export class PageShopComponent implements OnInit, OnDestroy {
                     }),
                 ),
             )),
+            debounceTime(100),
             takeUntil(this.destroy$),
         ).subscribe(options => {
-            console.error("1")
             this.refresh();
         });
-
-        // // -->Subscribe: to router changes
-        this.router.events.subscribe(val => {
-            if (val instanceof NavigationEnd) {
-                console.error("2")
-
-                this.refresh();
-            }
-        })
     }
 
 
@@ -163,9 +151,9 @@ export class PageShopComponent implements OnInit, OnDestroy {
                 category: categoryId,
             },
         } as any;
+
         // -->Get: Selected manufacturers
         const selectedManufacturerIds = options?.filters?.manufacturer?.split(',')?.filter(f => f) || [];
-
 
 
         // -->Create: query
@@ -193,8 +181,6 @@ export class PageShopComponent implements OnInit, OnDestroy {
             }
         }
 
-        console.log("before requesty >>>", query);
-
         // -->Execute
         this.refreshSubs = this.eCommerceService.productsFilter(query).subscribe((res) => {
             // -->Check: res
@@ -219,7 +205,7 @@ export class PageShopComponent implements OnInit, OnDestroy {
                     total: res.data?.count || 0,
                     pages: Math.ceil(res.data?.count / query.pageSize),
                     from: (options.page - 1) * query.pageSize + 1,
-                    to: options.page * query.pageSize
+                    to: (options.page * query.pageSize) < res.data?.count ? (options.page * query.pageSize) : res.data?.count
                 };
 
                 // -->Get: breadcrumbs

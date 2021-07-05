@@ -19,13 +19,25 @@ export interface LayoutButton {
     styleUrls: ['./products-view.component.scss'],
 })
 export class ProductsViewComponent implements OnInit, OnDestroy {
+    @Input() public layout: PageShopLayout = 'grid';
+
+    @Input() public gridLayout: PageShopGridLayout = 'grid-4-sidebar';
+
+    @Input() public offCanvasSidebar: 'always' | 'mobile' = 'mobile';
+
+    @HostBinding('class.products-view') classProductsView = true;
+
+    @HostBinding('class.products-view--loading') get classProductsViewLoading(): boolean {
+        return this.page.isLoading;
+    }
+
     private destroy$: Subject<void> = new Subject<void>();
     public appSettings: NaoSettingsInterface.Settings;
-    isEmptyList$!: Observable<boolean>;
+    public isEmptyList$!: Observable<boolean>;
 
-    currentFiltersCount$!: Observable<number>;
+    public currentFiltersCount$!: Observable<number>;
 
-    hasActiveFilters$!: Observable<boolean>;
+    public hasActiveFilters$!: Observable<boolean>;
 
     /**
      * Change the view of the products from grid to table
@@ -37,21 +49,10 @@ export class ProductsViewComponent implements OnInit, OnDestroy {
         { layout: 'table', icon: 'layout-table-16' },
     ];
 
-    pageControl!: FormControl;
-    limitControl!: FormControl;
-    sortControl!: FormControl;
+    public pageControl!: FormControl;
+    public limitControl!: FormControl;
+    public sortControl!: FormControl;
 
-    @Input() layout: PageShopLayout = 'grid';
-
-    @Input() gridLayout: PageShopGridLayout = 'grid-4-sidebar';
-
-    @Input() offCanvasSidebar: 'always' | 'mobile' = 'mobile';
-
-    @HostBinding('class.products-view') classProductsView = true;
-
-    @HostBinding('class.products-view--loading') get classProductsViewLoading(): boolean {
-        return this.page.isLoading;
-    }
 
     constructor(
         public sidebar: ShopSidebarService,

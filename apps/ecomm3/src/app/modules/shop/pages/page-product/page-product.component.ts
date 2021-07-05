@@ -50,7 +50,7 @@ export class PageProductComponent implements OnInit, OnDestroy {
     public docId;
     // -->Based on this index we show specifications and price
     public variantIndex = 0;
-    public subs = new Subscription();
+    private subs = new Subscription();
 
     get tabsElement(): HTMLElement {
         return this.tabsElementRef.nativeElement;

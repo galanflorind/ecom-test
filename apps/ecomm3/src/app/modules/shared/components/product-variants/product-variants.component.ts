@@ -49,7 +49,7 @@ export class ProductVariantsComponent implements OnChanges, ControlValueAccessor
     @Input() public options: ProductOption[] = [];
     public form: FormGroup = this.fb.group({});
     public optionsMapped: ProductOption[] = [];
-    public subs = new Subscription();
+    private subs = new Subscription();
 
 
     public changeFn: (_: any) => void = () => {};
