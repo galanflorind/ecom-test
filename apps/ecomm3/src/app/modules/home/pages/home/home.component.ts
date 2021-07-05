@@ -98,7 +98,6 @@ export class HomeComponent implements OnInit {
             .limit(10)
             .returnDataModel({ _id: 1, data: 1 })
             .done();
-        console.log("query >>>", query)
         // -->Start: loading
         this.featuredProducts.loading = true;
         this.ecommerceService.productsList(query).subscribe(res => {

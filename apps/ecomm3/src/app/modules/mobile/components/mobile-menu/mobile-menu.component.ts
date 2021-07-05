@@ -78,6 +78,10 @@ export class MobileMenuComponent implements OnInit, OnDestroy, AfterViewInit, Af
                 // -->Add: other links here!!!!
                 this.links = [
                     {
+                        title: 'Shop',
+                        url: '/shop/category/products',
+                    },
+                    {
                         title: 'Categories',
                         url: '/shop/category/products',
                         submenu: categories

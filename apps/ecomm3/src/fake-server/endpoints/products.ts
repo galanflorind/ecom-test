@@ -82,9 +82,6 @@ export function getProductsList(options?: GetProductsListOptions): Observable<Pr
 
     const items = products.slice(from - 1, to) as unknown as Array<Product>;
 
-    console.error("products.ts filters")
-    console.log(filters.map(x => x.build()));
-
     return delayResponse(of({
         items,
         page,

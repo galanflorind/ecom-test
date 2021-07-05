@@ -23,6 +23,7 @@ import { environment } from '../environments/environment';
 import { ECommerceService } from "./e-commerce.service";
 import {AppService} from "./app.service";
 import {PageShopService} from "./modules/shop/services/page-shop.service";
+import {NaoUserAccessModule, NaoUserAccessService} from "@naologic/nao-user-access";
 
 @NgModule({
     declarations: [
@@ -40,7 +41,13 @@ import {PageShopService} from "./modules/shop/services/page-shop.service";
         ToastrModule.forRoot(),
         TooltipModule.forRoot(),
         TranslateModule.forChild(),
+
+
         NaoHttp2Module.forRoot(environment.API),
+        NaoUserAccessModule.forRoot(environment.naoUsers),
+
+
+
         // modules
         AppRoutingModule,
         CurrencyModule.config({
@@ -114,7 +121,7 @@ import {PageShopService} from "./modules/shop/services/page-shop.service";
     providers: [
         ECommerceService,
         PageShopService,
-        AppService
+        AppService,
     ]
 })
 export class AppModule {

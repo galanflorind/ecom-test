@@ -1,9 +1,10 @@
 import {ModuleWithProviders, NgModule, Optional, SkipSelf} from '@angular/core';
 import { NaoHttp2ApiService } from './nao-http2-api.service';
 import { NaoHttp2Service } from './nao-http2.service';
-// import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 // import { NaoHttp2ApiInterceptor } from './nao-http2-api.interceptor';
 import { RouterModule } from '@angular/router';
+import {NaoHttp2ApiInterceptor} from "./nao-http2-api.interceptor";
 // import { NaoSocketService } from './nao-socket.service';
 
 @NgModule({

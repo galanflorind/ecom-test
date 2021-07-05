@@ -21,6 +21,7 @@ import { PageOrderDetailsComponent } from './pages/page-order-details/page-order
 import { PageOrdersComponent } from './pages/page-orders/page-orders.component';
 import { PagePasswordComponent } from './pages/page-password/page-password.component';
 import { PageProfileComponent } from './pages/page-profile/page-profile.component';
+import { PageRegisterComponent } from "./pages/page-register/page-register.component";
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import { PageProfileComponent } from './pages/page-profile/page-profile.componen
         PageOrdersComponent,
         PagePasswordComponent,
         PageProfileComponent,
+        PageRegisterComponent
     ],
     imports: [
         // modules (angular)

@@ -11,6 +11,7 @@ import { PageOrderDetailsComponent } from './pages/page-order-details/page-order
 import { PageOrdersComponent } from './pages/page-orders/page-orders.component';
 import { PagePasswordComponent } from './pages/page-password/page-password.component';
 import { PageProfileComponent } from './pages/page-profile/page-profile.component';
+import { PageRegisterComponent } from "./pages/page-register/page-register.component";
 
 const routes: Routes = [
     {
@@ -80,6 +81,14 @@ const routes: Routes = [
     {
         path: 'login',
         component: PageLoginComponent,
+        canActivate: [AuthGuard],
+        data: {
+            authGuardMode: 'redirectToDashboard',
+        },
+    },
+    {
+        path: 'register',
+        component: PageRegisterComponent,
         canActivate: [AuthGuard],
         data: {
             authGuardMode: 'redirectToDashboard',

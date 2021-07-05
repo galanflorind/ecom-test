@@ -67,7 +67,6 @@ export class AppService implements OnDestroy {
                 // -->Fresh: the data
                 this.eCommerceService.getInfo().subscribe(info$ => {
                     if (info$ && info$.ok) {
-                        console.log("info$ >>>", info$)
                         // -->Set: app info
                         this.appInfo.next(info$.data);
                         // todo: -->Get: featured products

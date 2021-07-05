@@ -50,7 +50,6 @@ export class QuickViewComponent implements OnDestroy, AfterViewInit, OnInit {
             switchMap(product => {
                 this.modal.show();
                 this.product = product;
-                console.log("product in quick view >>>>", product)
 
                 this.form = this.fb.group({
                     options: [{}],

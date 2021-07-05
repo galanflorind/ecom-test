@@ -7,7 +7,6 @@ import { checkSessionData, NaoUserAccessData } from './nao-user-access.static';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, share } from 'rxjs/operators';
 import { NaoCompanyInterface, NaoUserAccessInterface, NaoUsersInterface } from './nao-user-access.interface';
-// import { CurrencyData, naoAccessToken$ } from '@naologic/nao-utils';
 import { naoAccessToken$ } from '@naologic/nao-utils';
 
 
@@ -38,8 +37,6 @@ export class NaoUserAccessService {
     @Inject('localeData') public readonly localeData,
     @Inject('userAccessOptions') private readonly userAccessOptions,
     private readonly naoHttp2ApiService: NaoHttp2ApiService,
-    public readonly ngxPermissionsService: NgxPermissionsService,
-    public readonly ngxRolesService: NgxRolesService,
     private readonly translateService: TranslateService,
     private readonly bsLocaleService: BsLocaleService,
   ) {
@@ -100,7 +97,7 @@ export class NaoUserAccessService {
         // todo: check this
         // todo: check this
         // todo: check this
-      // NaoUserAccessData.sessionStorage.setObject(NaoUserAccessData.sessionDataKey, sessionData);
+      NaoUserAccessData.sessionStorage.setObject(NaoUserAccessData.sessionDataKey, sessionData);
       // -->Set: locale @NOTE: commented this until we add the locale settings as they match the ones below!
       // NaoUserAccessData.locale.next(sessionData.userData?.data?.locale);
       // -->Set: locale
@@ -375,8 +372,8 @@ export class NaoUserAccessService {
    * @private
    */
   private clearLoginData(): void {
-    // NaoUserAccessData.userStorage.clear();
-    // NaoUserAccessData.sessionStorage.clear();
+    NaoUserAccessData.userStorage.clear();
+    NaoUserAccessData.sessionStorage.clear();
     // -->Flush: again
     NaoUserAccessData.isLoggedIn$.next(false);
     NaoUserAccessData.userId.next(null);

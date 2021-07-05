@@ -120,7 +120,6 @@ export class PageProductComponent implements OnInit, OnDestroy {
 
         this.route.params
         .subscribe(params => {
-            console.log("params>>>", params); // { orderby: "price" }
             // -->Set: docId
             this.docId = params.productId;
             // -->Refresh
@@ -147,7 +146,6 @@ export class PageProductComponent implements OnInit, OnDestroy {
         }
         this.eCommerceService.productsGet(this.docId).subscribe(res =>{
             // todo; validate
-            console.log("res >>>", res)
             this.product = res?.data[0] || null;
 
             if (!this.product || !this.product.data) {
@@ -163,7 +161,6 @@ export class PageProductComponent implements OnInit, OnDestroy {
             // -->Subscribe: to options change and change the variant id
             this.subs.add(
                 this.form.get('options').valueChanges.subscribe(value => {
-                    console.log("valueeee", value)
                     // -->Match: search for variant index
                     const index = this.product.data.variants.findIndex(v => v.id === value?.variantId);
                     // -->Set: variant index
