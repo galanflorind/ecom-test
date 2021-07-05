@@ -12,6 +12,7 @@ import { PagePasswordComponent } from './pages/page-password/page-password.compo
 import { PageProfileComponent } from './pages/page-profile/page-profile.component';
 import { PageRegisterComponent } from "./pages/page-register/page-register.component";
 import {NaoUserPermissionsGuard} from "../../../../../../libs/nao-user-access/src";
+import {PageForgotPasswordComponent} from "./pages/page-forgot-password/page-forgot-password.component";
 
 const routes: Routes = [
     {
@@ -75,6 +76,14 @@ const routes: Routes = [
     {
         path: 'register',
         component: PageRegisterComponent,
+        // canActivate: [AuthGuard],
+        // data: {
+        //     authGuardMode: 'redirectToDashboard',
+        // },
+    },
+    {
+        path: 'forgot-password',
+        component: PageForgotPasswordComponent,
         // canActivate: [AuthGuard],
         // data: {
         //     authGuardMode: 'redirectToDashboard',

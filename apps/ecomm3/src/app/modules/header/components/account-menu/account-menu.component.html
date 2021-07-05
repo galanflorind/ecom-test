@@ -37,7 +37,7 @@
                     [placeholder]="'INPUT_PASSWORD_PLACEHOLDER' | translate"
                     [class.is-invalid]="formGroup.controls.password|isInvalid"
                 >
-                <a routerLink="/" class="account-menu__form-forgot-link">{{ 'LINK_FORGOT' | translate }}</a>
+                <a routerLink="/account/forgot-password" class="account-menu__form-forgot-link">{{ 'LINK_FORGOT' | translate }}</a>
             </div>
             <div class="invalid-feedback">
                 <div *ngIf="formGroup.controls.password|hasError:'required'">

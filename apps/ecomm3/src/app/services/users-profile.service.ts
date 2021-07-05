@@ -61,10 +61,10 @@ export class UserProfileService<T = any> {
     /**
      * Send the email for password reset
      */
-    // public sendResetPasswordEmail(email: string): Observable<T> {
-    //   // -->Check: this invite
-    //   return this.naoHttp2ApiService.postJson<T>(`users-auth-sso/password/forgot/now`, { data: { email }, naoQueryOptions: this.naoUsersService.userOptions.naoQueryOptions });
-    // }
+    public sendResetPasswordEmail(email: string): Observable<T> {
+      // -->Check: this invite
+      return this.naoHttp2ApiService.postJson<T>(`users-auth-sso/password/forgot/now`, { data: { email }, naoQueryOptions: this.naoUsersService.userAccessOptions.naoQueryOptions });
+    }
     //
     // /**
     //  * Check the token for password reset
