@@ -49,7 +49,7 @@ export const environment = {
             userUpdates: true,
         },
         // api: { root: 'users-guests-auth' },
-        api: { root: 'users-auth' },
+        api: { root: 'users-auth/auth' },
         cfpPath: 'ecommerce-api/ecommerce-api',
         naoQueryOptions: {
             docName: 'guest-external-ecommerce',

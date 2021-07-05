@@ -43,12 +43,7 @@ export class PageRegisterComponent implements OnInit, OnDestroy {
 
         // -->Get: data
         const data = this.formGroup.getRawValue();
-        // -->Delete: fields taht we don't need
-        delete data.confirm_password;
-        delete data.company;
-
         this.registerInProgress = true;
-
         // -->Update: doc
         this.naoUsersAuthService.createUser(data).subscribe(
             (ok) => {
