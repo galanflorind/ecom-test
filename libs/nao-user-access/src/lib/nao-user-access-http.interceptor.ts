@@ -9,7 +9,7 @@ import { NaoUserAccessService } from './nao-user-access.service';
 @Injectable()
 export class NaoUserAccessHttpInterceptor implements HttpInterceptor {
   constructor(
-    private readonly naoUserAccessService: NaoUserAccessService,
+    // private readonly naoUserAccessService: NaoUserAccessService,
     private readonly router: Router
   ) { }
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -25,44 +25,44 @@ export class NaoUserAccessHttpInterceptor implements HttpInterceptor {
     //   },
     // });
     // -->Check: if there's a user already logged in
-    if (this.naoUserAccessService.isLoggedIn() && this.naoUserAccessService.status) {
-      let url: string;
-      switch (this.naoUserAccessService.status) {
-        case 'suspended':
-          /**
-           * Suspended access from My Account > Team
-           */
-          url = '/suspended';
-          break;
-        case 'blocked':
-          /**
-           * Blocked user
-           */
-          url = '/blocked';
-          break;
-        case 'restricted':
-          /**
-           * When the account isn't paid, the super admin becomes unpaid and everybody else is restricted
-           */
-          url = '/restricted';
-          break;
-        case 'unpaid':
-          /**
-           * When the super admin didn't pay, is late on billing or credit card expired
-           */
-          url = '/unpaid';
-          break;
-        case 'deleted':
-          /**
-           * A deleted user (this should never happen, but we might enable it in the future)
-           */
-          url = '/deleted';
-          break;
-      }
-      if (typeof url === 'string') {
-        this.router.navigateByUrl(url, { replaceUrl: true }).then(() => {});
-      }
-    }
+    // if (this.naoUserAccessService.isLoggedIn() && this.naoUserAccessService.status) {
+    //   let url: string;
+    //   switch (this.naoUserAccessService.status) {
+    //     case 'suspended':
+    //       /**
+    //        * Suspended access from My Account > Team
+    //        */
+    //       url = '/suspended';
+    //       break;
+    //     case 'blocked':
+    //       /**
+    //        * Blocked user
+    //        */
+    //       url = '/blocked';
+    //       break;
+    //     case 'restricted':
+    //       /**
+    //        * When the account isn't paid, the super admin becomes unpaid and everybody else is restricted
+    //        */
+    //       url = '/restricted';
+    //       break;
+    //     case 'unpaid':
+    //       /**
+    //        * When the super admin didn't pay, is late on billing or credit card expired
+    //        */
+    //       url = '/unpaid';
+    //       break;
+    //     case 'deleted':
+    //       /**
+    //        * A deleted user (this should never happen, but we might enable it in the future)
+    //        */
+    //       url = '/deleted';
+    //       break;
+    //   }
+    //   if (typeof url === 'string') {
+    //     this.router.navigateByUrl(url, { replaceUrl: true }).then(() => {});
+    //   }
+    // }
     // -->Handle: errors
     return next.handle(request).pipe(
       catchError((err: HttpErrorResponse) => {

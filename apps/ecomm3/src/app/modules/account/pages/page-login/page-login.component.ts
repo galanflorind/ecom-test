@@ -1,11 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AccountApi } from '../../../../api';
 import { Subject } from 'rxjs';
-import { finalize, takeUntil } from 'rxjs/operators';
-import { HttpErrorResponse } from '@angular/common/http';
-import {NaoUserAccessService} from "../../../../../../../../libs/nao-user-access/src";
+import { NaoUserAccessService } from "@naologic/nao-user-access";
 
 @Component({
     selector: 'app-page-login',
@@ -26,8 +23,8 @@ export class PageLoginComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.loginForm = this.fb.group({
-            email: ['contact@naologic.com', [Validators.required, Validators.email]],
-            password: ['123456', [Validators.required]],
+            email: [null, [Validators.required, Validators.email]],
+            password: [null, [Validators.required]],
             rememberMe: [false],
         });
     }
@@ -45,32 +42,19 @@ export class PageLoginComponent implements OnInit, OnDestroy {
         // -->Execute: a login
         this.naoUsersService
             .loginWithEmail(fd.email, fd.password, fd.rememberMe)
-            .then((ok) => {
-                return this.router.navigateByUrl('/account/dashboard');
+            .then((res) => {
+                console.log("res >>>", res)
+                this.loginInProgress = false;
+                // -->Redirect
+                return this.router.navigate(['/', 'account', 'dashboard']);
             })
             .catch((err) => {
+                this.loginInProgress = false;
+                // todo: show toaster with error
+                // todo: show toaster with error
                 // todo: show toaster with error
                 this.loginForm.reset();
             });
-
-        // this.account.signIn(
-        //     this.loginForm.value.email,
-        //     this.loginForm.value.password,
-        // ).pipe(
-        //     finalize(() => this.loginInProgress = false),
-        //     takeUntil(this.destroy$),
-        // ).subscribe(
-        //     () => this.router.navigateByUrl('/account/dashboard'),
-        //     error => {
-        //         if (error instanceof HttpErrorResponse) {
-        //             this.loginForm.setErrors({
-        //                 server: `ERROR_API_${error.error.message}`,
-        //             });
-        //         } else {
-        //             alert(error);
-        //         }
-        //     },
-        // );
     }
 
     public ngOnDestroy(): void {

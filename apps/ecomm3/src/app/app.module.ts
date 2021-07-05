@@ -21,9 +21,12 @@ import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.com
 import { NaoHttp2Module } from "@naologic/nao-http2";
 import { environment } from '../environments/environment';
 import { ECommerceService } from "./e-commerce.service";
-import {AppService} from "./app.service";
-import {PageShopService} from "./modules/shop/services/page-shop.service";
-import {NaoUserAccessModule, NaoUserAccessService} from "@naologic/nao-user-access";
+import { AppService } from "./app.service";
+import { PageShopService } from "./modules/shop/services/page-shop.service";
+import { NaoUserAccessModule } from "@naologic/nao-user-access";
+import { ActiveCountryList, ActiveCurrencyList, ActiveLanguageList } from "./app.locale";
+import { NaoLocaleModule } from "@naologic/nao-locale";
+import {NaoUsersAuthService} from "./services/nao-users-auth.service";
 
 @NgModule({
     declarations: [
@@ -45,11 +48,23 @@ import {NaoUserAccessModule, NaoUserAccessService} from "@naologic/nao-user-acce
 
         NaoHttp2Module.forRoot(environment.API),
         NaoUserAccessModule.forRoot(environment.naoUsers),
-
+        NaoLocaleModule.forRoot({
+            activeCountryList: ActiveCountryList,
+            activeCurrencyList: ActiveCurrencyList,
+            activeLanguageList: ActiveLanguageList,
+            defaultCountry: 'USA',
+            defaultCurrency: 'USD',
+            defaultLanguage: 'en-us',
+            defaultLocaleDate: 'en-ie'
+        }),
 
 
         // modules
         AppRoutingModule,
+        // todo: remove this and use or locale???
+        // todo: remove this and use or locale???
+        // todo: remove this and use or locale???
+        // todo: remove this and use or locale???
         CurrencyModule.config({
             default: 'USD',
             currencies: [
@@ -92,6 +107,7 @@ import {NaoUserAccessModule, NaoUserAccessService} from "@naologic/nao-user-acce
         FakeApiModule,
         FooterModule,
         HeaderModule,
+        // todo: remove and use our type of language files?
         LanguageModule.config({
             default: 'en',
             languages: [
@@ -122,6 +138,7 @@ import {NaoUserAccessModule, NaoUserAccessService} from "@naologic/nao-user-acce
         ECommerceService,
         PageShopService,
         AppService,
+        NaoUsersAuthService
     ]
 })
 export class AppModule {

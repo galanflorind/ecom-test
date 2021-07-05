@@ -8,9 +8,9 @@
                 <div class="card flex-grow-1 mb-0 ml-0 ml-lg-3 mr-0 mr-lg-4">
                     <div class="card-body card-body--padding--2">
                         <h3 class="card-title">{{ 'HEADER_REGISTER' | translate }}</h3>
-                        <form [formGroup]="registerForm">
-                            <div *ngIf="registerForm.errors?.server" class="alert alert-sm alert-danger">
-                                {{ registerForm.errors?.server|translate }}
+                        <form [formGroup]="formGroup">
+                            <div *ngIf="formGroup.errors?.server" class="alert alert-sm alert-danger">
+                                {{ formGroup.errors?.server|translate }}
                             </div>
                             <div class="form-group">
                                 <label for="signup-email">{{ 'INPUT_EMAIL_ADDRESS_LABEL' | translate }}</label>
@@ -18,15 +18,15 @@
                                     id="signup-email"
                                     type="email"
                                     class="form-control"
-                                    [class.is-invalid]="registerForm.controls.email|isInvalid"
+                                    [class.is-invalid]="formGroup.controls.email|isInvalid"
                                     placeholder="elon@spacex.com"
                                     formControlName="email"
                                 >
                                 <div class="invalid-feedback">
-                                    <div *ngIf="registerForm.controls.email|hasError:'required'">
+                                    <div *ngIf="formGroup.controls.email|hasError:'required'">
                                         {{ 'ERROR_FORM_REQUIRED' | translate }}
                                     </div>
-                                    <div *ngIf="registerForm.controls.email|hasError:'email'">
+                                    <div *ngIf="formGroup.controls.email|hasError:'email'">
                                         {{ 'ERROR_FORM_INCORRECT_EMAIL' | translate }}
                                     </div>
                                 </div>
@@ -37,12 +37,12 @@
                                     id="signup-firstName"
                                     type="text"
                                     class="form-control"
-                                    [class.is-invalid]="registerForm.controls.firstName|isInvalid"
+                                    [class.is-invalid]="formGroup.controls.firstName|isInvalid"
                                     placeholder="Elon"
                                     formControlName="firstName"
                                 >
                                 <div class="invalid-feedback">
-                                    <div *ngIf="registerForm.controls.firstName|hasError:'required'">
+                                    <div *ngIf="formGroup.controls.firstName|hasError:'required'">
                                         {{ 'ERROR_FORM_REQUIRED' | translate }}
                                     </div>
                                 </div>
@@ -53,12 +53,12 @@
                                     id="signup-lastName"
                                     type="text"
                                     class="form-control"
-                                    [class.is-invalid]="registerForm.controls.lastName|isInvalid"
+                                    [class.is-invalid]="formGroup.controls.lastName|isInvalid"
                                     placeholder="Musk"
                                     formControlName="lastName"
                                 >
                                 <div class="invalid-feedback">
-                                    <div *ngIf="registerForm.controls.lastName|hasError:'required'">
+                                    <div *ngIf="formGroup.controls.lastName|hasError:'required'">
                                         {{ 'ERROR_FORM_REQUIRED' | translate }}
                                     </div>
                                 </div>
@@ -69,12 +69,12 @@
                                     id="signup-password"
                                     type="password"
                                     class="form-control"
-                                    [class.is-invalid]="registerForm.controls.password|isInvalid"
+                                    [class.is-invalid]="formGroup.controls.password|isInvalid"
                                     [placeholder]="'INPUT_PASSWORD_PLACEHOLDER' | translate"
                                     formControlName="password"
                                 >
                                 <div class="invalid-feedback">
-                                    <div *ngIf="registerForm.controls.password|hasError:'required'">
+                                    <div *ngIf="formGroup.controls.password|hasError:'required'">
                                         {{ 'ERROR_FORM_REQUIRED' | translate }}
                                     </div>
                                 </div>
@@ -85,15 +85,15 @@
                                     id="signup-confirm"
                                     type="password"
                                     class="form-control"
-                                    [class.is-invalid]="registerForm.controls.confirmPassword|isInvalid"
+                                    [class.is-invalid]="formGroup.controls.confirmPassword|isInvalid"
                                     [placeholder]="'INPUT_PASSWORD_REPEAT_PLACEHOLDER' | translate"
                                     formControlName="confirmPassword"
                                 >
                                 <div class="invalid-feedback">
-                                    <div *ngIf="registerForm.controls.confirmPassword|hasError:'required'">
+                                    <div *ngIf="formGroup.controls.confirmPassword|hasError:'required'">
                                         {{ 'ERROR_FORM_REQUIRED' | translate }}
                                     </div>
-                                    <div *ngIf="registerForm.controls.confirmPassword|hasError:'mustMatch'">
+                                    <div *ngIf="formGroup.controls.confirmPassword|hasError:'mustMatch'">
                                         {{ 'ERROR_FORM_PASSWORD_DOES_NOT_MATCH' | translate }}
                                     </div>
                                 </div>

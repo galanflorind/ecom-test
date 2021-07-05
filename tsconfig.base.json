@@ -25,6 +25,7 @@
       "@naologic/nao-user-access": ["libs/nao-user-access/src/index.ts"],
       "@naologic/nao-http2": ["libs/nao-http2/src/index.ts"],
       "@naologic/nao-interfaces": ["libs/nao-interfaces/src/index.ts"],
+      "@naologic/nao-locale": ["libs/nao-locale/src/index.ts"],
       "@naologic/nao-utils": ["libs/nao-utils/src/index.ts"]
     },
     "rootDir": "."

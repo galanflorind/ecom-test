@@ -1,13 +1,12 @@
 import { Inject, Injectable } from '@angular/core';
 import { NaoHttp2ApiService } from '@naologic/nao-http2';
-import { NgxPermissionsService, NgxRolesService } from 'ngx-permissions';
 import { TranslateService } from '@ngx-translate/core';
-import { BsLocaleService } from 'ngx-bootstrap/datepicker';
+// import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { checkSessionData, NaoUserAccessData } from './nao-user-access.static';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, share } from 'rxjs/operators';
-import { NaoCompanyInterface, NaoUserAccessInterface, NaoUsersInterface } from './nao-user-access.interface';
-import { naoAccessToken$ } from '@naologic/nao-utils';
+import { NaoUserAccessInterface, NaoUsersInterface } from './nao-user-access.interface';
+import { CurrencyData, naoAccessToken$ } from '@naologic/nao-utils';
 
 
 
@@ -35,11 +34,15 @@ export class NaoUserAccessService {
 
   constructor(
     @Inject('localeData') public readonly localeData,
-    @Inject('userAccessOptions') private readonly userAccessOptions,
+    @Inject('userAccessOptions') public readonly userAccessOptions,
     private readonly naoHttp2ApiService: NaoHttp2ApiService,
     private readonly translateService: TranslateService,
-    private readonly bsLocaleService: BsLocaleService,
+    // private readonly bsLocaleService: BsLocaleService,
   ) {
+      if (this.userAccessOptions.naoQueryOptions) {
+          // -->Set: default query options
+          NaoUserAccessData.defaultNaoQueryOptions = this.userAccessOptions.naoQueryOptions;
+      }
   }
 
   /**
@@ -138,7 +141,7 @@ export class NaoUserAccessService {
         throw new Error(`Language with code ${locale.lang} was not found!`);
       }
       // -->Set: datepicker language
-      this.bsLocaleService.use(language.localeDate);
+      // this.bsLocaleService.use(language.localeDate);
       // -->Update: language
       this.translateService.use(language.lang);
     }
@@ -164,15 +167,15 @@ export class NaoUserAccessService {
     }
   }
 
-  // /**
-  //  * Find currency
-  //  */
-  // public findCurrency(currencyCode: string): CurrencyData {
-  //   if (this.localeData && Array.isArray(this.localeData.activeCurrencyList)) {
-  //     return this.localeData.activeCurrencyList.filter(c => c.currencyCode === currencyCode)[0] || null;
-  //   }
-  //   return null;
-  // }
+  /**
+   * Find currency
+   */
+  public findCurrency(currencyCode: string): CurrencyData {
+    if (this.localeData && Array.isArray(this.localeData.activeCurrencyList)) {
+      return this.localeData.activeCurrencyList.filter(c => c.currencyCode === currencyCode)[0] || null;
+    }
+    return null;
+  }
 
   /**
    * Set a locale setting

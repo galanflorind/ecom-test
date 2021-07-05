@@ -243,6 +243,23 @@
         }
       }
     },
+    "nao-locale": {
+      "projectType": "library",
+      "root": "libs/nao-locale",
+      "sourceRoot": "libs/nao-locale/src",
+      "prefix": "naologic",
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/nao-locale/src/**/*.ts",
+              "libs/nao-locale/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
     "nao-interfaces": {
       "projectType": "library",
       "root": "libs/nao-interfaces",
