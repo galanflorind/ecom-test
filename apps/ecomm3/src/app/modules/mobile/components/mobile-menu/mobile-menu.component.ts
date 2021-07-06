@@ -17,16 +17,12 @@ import {
 } from '@angular/core';
 import { MobileMenuService } from '../../../../services/mobile-menu.service';
 import { MobileMenuPanelComponent } from '../mobile-menu-panel/mobile-menu-panel.component';
-import {fromEvent, Subject, Subscription} from 'rxjs';
+import { fromEvent, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
-import { mobileMenuLinks } from '../../../../../data/mobile-menu';
 import { MobileMenuLink } from '../../../../interfaces/mobile-menu-link';
-import {DepartmentsLink} from "../../../../interfaces/departments-link";
-import {nameToSlug} from "../../../../../fake-server/utils";
-import {MegamenuColumn} from "../../../../interfaces/menu";
-import {NestedLink} from "../../../../interfaces/link";
-import {AppService} from "../../../../app.service";
+import { nameToSlug } from "../../../../../fake-server/utils";
+import { AppService } from "../../../../app.service";
 
 interface StackItem {
     content: TemplateRef<any>;
@@ -59,6 +55,7 @@ export class MobileMenuComponent implements OnInit, OnDestroy, AfterViewInit, Af
     public panelsBin: StackItem[] = [];
     public forceConveyorTransition = false;
     private subs = new Subscription();
+    public infoSupport = null;
 
     constructor(
         @Inject(PLATFORM_ID) private platformId: any,
@@ -69,9 +66,11 @@ export class MobileMenuComponent implements OnInit, OnDestroy, AfterViewInit, Af
     ) { }
 
     public ngOnInit(): void {
-        // -->Calculate: categories and set them
+        // -->Subscribe: to info changes
         this.subs.add(
             this.appService.appInfo.subscribe(value => {
+                // -->Set: info
+                this.infoSupport = value?.support?.supportInfo;
                 // -->Set: categories
                 const categories = this.mapCategories(value?.categories?.items)
 
@@ -87,19 +86,27 @@ export class MobileMenuComponent implements OnInit, OnDestroy, AfterViewInit, Af
                         submenu: categories
                     },
                     {
-                        title: 'Pages',
+                        title: 'About Us',
                         url: '/site/about-us',
-                        submenu: [
-                            { title: 'About Us', url: '/site/about-us' },
-                            { title: 'Contact Us v1', url: '/site/contact-us-v1' },
-                            { title: 'Contact Us v2', url: '/site/contact-us-v2' },
-                            { title: '404', url: '/site/not-found' },
-                            { title: 'Terms And Conditions', url: '/site/terms' },
-                            { title: 'FAQ', url: '/site/faq' },
-                            { title: 'Components', url: '/site/components' },
-                            { title: 'Typography', url: '/site/typography' },
-                        ],
-                    }
+                    },
+                    {
+                        title: 'Terms And Conditions',
+                        url: '/site/terms',
+                    },
+                    // {
+                    //     title: 'About Us',
+                    //     url: '/site/about-us',
+                    //     submenu: [
+                    //         { title: 'About Us', url: '/site/about-us' },
+                    //         { title: 'Contact Us v1', url: '/site/contact-us-v1' },
+                    //         { title: 'Contact Us v2', url: '/site/contact-us-v2' },
+                    //         { title: '404', url: '/site/not-found' },
+                    //         { title: 'Terms And Conditions', url: '/site/terms' },
+                    //         { title: 'FAQ', url: '/site/faq' },
+                    //         { title: 'Components', url: '/site/components' },
+                    //         { title: 'Typography', url: '/site/typography' },
+                    //     ],
+                    // }
                 ]
 
             })

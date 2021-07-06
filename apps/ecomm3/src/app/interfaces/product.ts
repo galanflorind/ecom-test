@@ -29,6 +29,7 @@ export interface ProductAttribute {
     name: string;
     slug: string;
     featured: boolean;
+    value?: string;
     values: ProductAttributeValue[];
     customFields?: CustomFields;
 }

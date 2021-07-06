@@ -4,7 +4,32 @@
         <div class="container">
             <div class="row">
                 <div class="col-12 col-xl-4">
-                    <app-contacts class="site-footer__widget"></app-contacts>
+                    <h5 class="footer-contacts__title">{{ 'HEADER_CONTACT_US' | translate }}</h5>
+
+                    <div class="footer-contacts__text">{{ 'TEXT_CONTACT_US_MESSAGE' | translate }}</div>
+
+                    <address class="footer-contacts__contacts">
+                        <dl>
+                            <dt>{{ 'TEXT_PHONE_NUMBER' | translate }}</dt>
+                            <dd>{{ infoSupport?.supportPhoneNumber }}</dd>
+                        </dl>
+                        <dl>
+                            <dt>{{ 'TEXT_EMAIL_ADDRESS' | translate }}</dt>
+                            <dd *ngIf="infoSupport?.supportEmailAddress">
+                                <a [href]="'mailto:' + infoSupport.supportEmailAddress">{{ infoSupport.supportEmailAddress }}</a>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>{{ 'TEXT_OUR_LOCATION' | translate }}</dt>
+                            <dd>Address: P.O. Box 1129
+                                Westhampton Beach, NY 11978
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>{{ 'TEXT_WORKING_HOURS' | translate }}</dt>
+                            <dd >9am-5pm</dd>
+                        </dl>
+                    </address>
                 </div>
                 <div class="col-6 col-md-3 col-xl-2">
                     <app-links
@@ -47,13 +72,12 @@
             <div class="site-footer__bottom-row">
                 <div class="site-footer__copyright">
                     <!-- copyright -->
-                    Powered by <a href="https://angular.io/" target="_blank">Angular</a> —
-                    Designed by <a href="{{ theme.author.profile_url }}" target="_blank">{{ theme.author.name }}</a>
+                    Powered by <a href="https://naologic.com/" target="_blank">Naologic</a>
                     <!-- copyright / end -->
                 </div>
-                <div class="site-footer__payments">
-                    <img src="assets/images/payments.png" alt="">
-                </div>
+<!--                <div class="site-footer__payments">-->
+<!--                    <img src="assets/images/payments.png" alt="">-->
+<!--                </div>-->
             </div>
         </div>
     </div>

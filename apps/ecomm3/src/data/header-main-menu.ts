@@ -180,21 +180,23 @@ export const mainMenu: MainMenuLink[] = [
     //         ],
     //     },
     // },
-    {
-        title: 'Pages',
-        url: '/site/about-us',
-        submenu: {
-            type: 'menu',
-            links: [
-                { title: 'About Us', url: '/site/about-us' },
-                { title: 'Contact Us v1', url: '/site/contact-us-v1' },
-                { title: 'Contact Us v2', url: '/site/contact-us-v2' },
-                { title: '404', url: '/site/not-found' },
-                { title: 'Terms And Conditions', url: '/site/terms' },
-                { title: 'FAQ', url: '/site/faq' },
-                { title: 'Components', url: '/site/components' },
-                { title: 'Typography', url: '/site/typography' },
-            ],
-        },
-    },
+    { title: 'About Us', url: '/site/about-us' },
+    { title: 'FAQ', url: '/site/faq' },
+    // {
+    //     title: 'Pages',
+    //     url: '/site/about-us',
+    //     submenu: {
+    //         type: 'menu',
+    //         links: [
+    //             { title: 'About Us', url: '/site/about-us' },
+    //             { title: 'Contact Us v1', url: '/site/contact-us-v1' },
+    //             { title: 'Contact Us v2', url: '/site/contact-us-v2' },
+    //             { title: '404', url: '/site/not-found' },
+    //             { title: 'Terms And Conditions', url: '/site/terms' },
+    //             { title: 'FAQ', url: '/site/faq' },
+    //             { title: 'Components', url: '/site/components' },
+    //             { title: 'Typography', url: '/site/typography' },
+    //         ],
+    //     },
+    // },
 ];

@@ -25,9 +25,9 @@
             <app-main-menu></app-main-menu>
         </div>
         <div *ngIf="header.desktopLayout === 'classic'" class="header__navbar-phone phone">
-            <a [routerLink]="url.contacts()" class="phone__body">
+            <a href="javascript:void(0)" class="phone__body">
                 <div class="phone__title">{{ 'TEXT_CALL_US' | translate }}</div>
-                <div class="phone__number">800 060-0730</div>
+                <div class="phone__number">{{ infoSupport.supportPhoneNumber }}</div>
             </a>
         </div>
     </div>
@@ -36,15 +36,15 @@
         <app-search></app-search>
     </div>
     <div class="header__indicators">
-        <app-indicator
-            link="/shop/wishlist"
-            icon="heart-32"
-            [counter]="(wishlist.count$|async) || 0"
-        ></app-indicator>
+<!--        <app-indicator-->
+<!--            link="/shop/wishlist"-->
+<!--            icon="heart-32"-->
+<!--            [counter]="(wishlist.count$|async) || 0"-->
+<!--        ></app-indicator>-->
         <app-indicator
             link="/account"
             icon="person-32"
-            [label]="(email$|async) || ('TEXT_INDICATOR_ACCOUNT_LABEL' | translate)"
+            [label]="userData?.email || ('TEXT_INDICATOR_ACCOUNT_LABEL' | translate)"
             [value]="'TEXT_INDICATOR_ACCOUNT_VALUE' | translate"
             trigger="click"
             #accountIndicator="indicator"

@@ -1,26 +1,26 @@
 <div class="products-view__body">
     <div class="products-view__loader"></div>
 
-    <div *ngIf="(isEmptyList$|async) && (hasActiveFilters$|async)" class="products-view__empty">
-        <div class="products-view__empty-title">
-            {{ 'TEXT_NO_MATCHING_ITEMS_TITLE' | translate }}
-        </div>
-        <div class="products-view__empty-subtitle">
-            {{ 'TEXT_NO_MATCHING_ITEMS_SUBTITLE' | translate }}
-        </div>
-        <div class="products-view__empty-actions">
-            <button type="button" class="btn btn-primary btn-sm" (click)="page.resetAllFilters()">
-                {{ 'BUTTON_RESET_FILTERS' | translate }}
-            </button>
-        </div>
-    </div>
+<!--    <div *ngIf="(isEmptyList$|async) && (hasActiveFilters$|async)" class="products-view__empty">-->
+<!--        <div class="products-view__empty-title">-->
+<!--            {{ 'TEXT_NO_MATCHING_ITEMS_TITLE' | translate }}-->
+<!--        </div>-->
+<!--        <div class="products-view__empty-subtitle">-->
+<!--            {{ 'TEXT_NO_MATCHING_ITEMS_SUBTITLE' | translate }}-->
+<!--        </div>-->
+<!--        <div class="products-view__empty-actions">-->
+<!--            <button type="button" class="btn btn-primary btn-sm" (click)="page.resetAllFilters()">-->
+<!--                {{ 'BUTTON_RESET_FILTERS' | translate }}-->
+<!--            </button>-->
+<!--        </div>-->
+<!--    </div>-->
 
-    <div *ngIf="(isEmptyList$|async) && (hasActiveFilters$|async) === false" class="products-view__empty">
-        <div class="products-view__empty-title">{{ 'TEXT_CATEGORY_IS_EMPTY_TITLE' | translate }}</div>
-        <div class="products-view__empty-subtitle">{{ 'TEXT_CATEGORY_IS_EMPTY_SUBTITLE' | translate }}</div>
-    </div>
-
-    <ng-container *ngIf="(isEmptyList$|async) === false">
+<!--    <div *ngIf="(isEmptyList$|async) && (hasActiveFilters$|async) === false" class="products-view__empty">-->
+<!--        <div class="products-view__empty-title">{{ 'TEXT_CATEGORY_IS_EMPTY_TITLE' | translate }}</div>-->
+<!--        <div class="products-view__empty-subtitle">{{ 'TEXT_CATEGORY_IS_EMPTY_SUBTITLE' | translate }}</div>-->
+<!--    </div>-->
+<!--    <ng-container *ngIf="(isEmptyList$|async) === false">-->
+    <ng-container >
         <div
             class="products-view__options view-options"
             [class.view-options--offcanvas--always]="offCanvasSidebar === 'always'"
@@ -102,7 +102,31 @@
             </div>
         </div>
 
+
+        <!--Empty state-->
+        <div *ngIf="(isEmptyList$|async) && (hasActiveFilters$|async)" class="products-view__empty">
+            <div class="products-view__empty-title">
+                {{ 'TEXT_NO_MATCHING_ITEMS_TITLE' | translate }}
+            </div>
+            <div class="products-view__empty-subtitle">
+                {{ 'TEXT_NO_MATCHING_ITEMS_SUBTITLE' | translate }}
+            </div>
+            <div class="products-view__empty-actions">
+                <button type="button" class="btn btn-primary btn-sm" (click)="page.resetAllFilters()">
+                    {{ 'BUTTON_RESET_FILTERS' | translate }}
+                </button>
+            </div>
+        </div>
+
+        <div *ngIf="(isEmptyList$|async) && (hasActiveFilters$|async) === false" class="products-view__empty">
+            <div class="products-view__empty-title">{{ 'TEXT_CATEGORY_IS_EMPTY_TITLE' | translate }}</div>
+            <div class="products-view__empty-subtitle">{{ 'TEXT_CATEGORY_IS_EMPTY_SUBTITLE' | translate }}</div>
+        </div>
+
+        <!--View products-->
+
         <div class="products-view__list products-list products-list--grid--4"
+             *ngIf="(isEmptyList$|async) === false"
             [attr.data-layout]="layout === 'grid-with-features' ? 'grid' : layout"
             [attr.data-with-features]="layout === 'grid-with-features' ? 'true' : 'false'">
             <div class="products-list__head">
@@ -124,7 +148,7 @@
             </div>
         </div>
 
-        <div class="products-view__pagination">
+        <div class="products-view__pagination"  *ngIf="(isEmptyList$|async) === false">
             <nav aria-label="Page navigation example">
                 <app-pagination [formControl]="pageControl" [siblings]="2" [total]="page.pages"></app-pagination>
             </nav>

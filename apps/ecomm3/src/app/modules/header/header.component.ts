@@ -1,16 +1,15 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import { WishlistService } from '../../services/wishlist.service';
-import { AccountApi } from '../../api';
-import {Observable, Subscription} from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { CartService } from '../../services/cart.service';
 import { HeaderService } from '../../services/header.service';
 import { UrlService } from '../../services/url.service';
 import { AppService } from "../../app.service";
 import { DepartmentsLink } from "../../interfaces/departments-link";
-import {nameToSlug} from "../../../fake-server/utils";
-import {MegamenuColumn} from "../../interfaces/menu";
-import {NestedLink} from "../../interfaces/link";
+import { nameToSlug } from "../../../fake-server/utils";
+import { MegamenuColumn } from "../../interfaces/menu";
+import { NestedLink } from "../../interfaces/link";
+import {NaoUserAccessService} from "@naologic/nao-user-access";
 
 
 @Component({
@@ -19,28 +18,40 @@ import {NestedLink} from "../../interfaces/link";
     styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-    email$: Observable<string | null> = this.account.user$.pipe(map(x => x ? x.email : null));
+    // email$: Observable<string | null> = this.account.user$.pipe(map(x => x ? x.email : null));
     public categories: DepartmentsLink[] = [];
     private subs = new Subscription();
+    public infoSupport = null;
+    public userData = null;
 
     constructor(
-        private account: AccountApi,
+        // private account: AccountApi,
         public wishlist: WishlistService,
         public cart: CartService,
         public header: HeaderService,
         public url: UrlService,
         public appService: AppService,
+        private naoUsersService: NaoUserAccessService
     ) { }
 
     public ngOnInit(): void {
-        // -->Calculate: categories and set them
+        // -->Subscribe: to appInfo changes
         this.subs.add(
             this.appService.appInfo.subscribe(value => {
+                // -->Set: info
+                this.infoSupport = value?.support?.supportInfo;
                 // -->Set: categories
                 this.categories = this.mapCategories(value?.categories?.items)
 
             })
-        )
+        );
+
+        // -->Subscribe: to user data
+        this.naoUsersService.userData.subscribe(userData => {
+            // -->Set: user data
+            this.userData = userData;
+        })
+
     }
 
     /**

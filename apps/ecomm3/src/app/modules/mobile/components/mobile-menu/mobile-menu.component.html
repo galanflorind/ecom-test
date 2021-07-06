@@ -16,7 +16,7 @@
             <div class="mobile-menu__divider"></div>
             <a class="mobile-menu__contacts" href="">
                 <div class="mobile-menu__contacts-subtitle">{{ 'TEXT_MOBILE_MENU_PHONE_TITLE' | translate }}</div>
-                <div class="mobile-menu__contacts-title">800 060-0730</div>
+                <div class="mobile-menu__contacts-title" *ngIf="infoSupport">{{ infoSupport.supportPhoneNumber }}</div>
             </a>
         </app-mobile-menu-panel>
 

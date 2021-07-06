@@ -125,28 +125,28 @@
                                         </div>
                                         <div class="product__actions-divider"></div>
                                     </ng-container>
-                                    <button
-                                        appAddToWishlist
-                                        type="button"
-                                        class="product__actions-item product__actions-item--wishlist"
-                                        [class.product__actions-item--loading]="addToWishlist.inProgress"
-                                        (click)="addToWishlist.add(this.product)"
-                                        #addToWishlist="addToWishlist"
-                                    >
-                                        <app-icon icon="wishlist-16"></app-icon>
-                                        <span>{{ 'BUTTON_ADD_TO_WISHLIST' | translate }}</span>
-                                    </button>
-                                    <button
-                                        appAddToCompare
-                                        type="button"
-                                        class="product__actions-item product__actions-item--compare"
-                                        [class.product__actions-item--loading]="addToCompare.inProgress"
-                                        (click)="addToCompare.add(this.product)"
-                                        #addToCompare="addToCompare"
-                                    >
-                                        <app-icon icon="compare-16"></app-icon>
-                                        <span>{{ 'BUTTON_ADD_TO_COMPARE' | translate }}</span>
-                                    </button>
+<!--                                    <button-->
+<!--                                        appAddToWishlist-->
+<!--                                        type="button"-->
+<!--                                        class="product__actions-item product__actions-item&#45;&#45;wishlist"-->
+<!--                                        [class.product__actions-item&#45;&#45;loading]="addToWishlist.inProgress"-->
+<!--                                        (click)="addToWishlist.add(this.product)"-->
+<!--                                        #addToWishlist="addToWishlist"-->
+<!--                                    >-->
+<!--                                        <app-icon icon="wishlist-16"></app-icon>-->
+<!--                                        <span>{{ 'BUTTON_ADD_TO_WISHLIST' | translate }}</span>-->
+<!--                                    </button>-->
+<!--                                    <button-->
+<!--                                        appAddToCompare-->
+<!--                                        type="button"-->
+<!--                                        class="product__actions-item product__actions-item&#45;&#45;compare"-->
+<!--                                        [class.product__actions-item&#45;&#45;loading]="addToCompare.inProgress"-->
+<!--                                        (click)="addToCompare.add(this.product)"-->
+<!--                                        #addToCompare="addToCompare"-->
+<!--                                    >-->
+<!--                                        <app-icon icon="compare-16"></app-icon>-->
+<!--                                        <span>{{ 'BUTTON_ADD_TO_COMPARE' | translate }}</span>-->
+<!--                                    </button>-->
                                 </div>
 
 <!--                                <div class="product__tags-and-share-links">-->

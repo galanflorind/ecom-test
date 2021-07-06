@@ -180,9 +180,42 @@ export class PageProductComponent implements OnInit, OnDestroy {
      * Refresh: specifications based on new variant
      */
     public refreshSpecifications(): void {
-        // -->Set: featuredAttributes
-
         // -->Set: spec
+        let variant = this.product?.data?.variants[this.variantIndex > -1 ? this.variantIndex : 0];
+        if (variant) {
+            const dimensionAttributes = [];
+
+            // -->Check: height
+            if (variant.height) {
+                dimensionAttributes.push({name: 'Height', value: `${variant.height} ${variant.dimensionUOM}`})
+            }
+            // -->Check: width
+            if (variant.width) {
+                dimensionAttributes.push({name: 'Width', value: `${variant.width} ${variant.dimensionUOM}`})
+            }
+            // -->Check: depth
+            if (variant.depth) {
+                dimensionAttributes.push({name: 'Depth', value: `${variant.depth} ${variant.dimensionUOM}`})
+            }
+            // -->Check: weight
+            if (variant.weight) {
+                dimensionAttributes.push({name: 'Weight', value: `${variant.weight} ${variant.weightUOM}`})
+            }
+            // -->Check: volume
+            if (variant.volume) {
+                dimensionAttributes.push({name: 'Volume', value: `${variant.volume} ${variant.volumeUOM}`})
+            }
+
+            // -->Set: weight spec
+            this.spec = [
+                {
+                    name: "Dimensions",
+                    slug: "dimensions",
+                    attributes: dimensionAttributes
+                }
+            ]
+        }
+
     }
 
     /**
