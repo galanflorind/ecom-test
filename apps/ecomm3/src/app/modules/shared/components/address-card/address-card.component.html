@@ -41,7 +41,7 @@
     </div>
     <div class="address-card__row">
         <div class="address-card__row-title">Type</div>
-        <div class="address-card__row-content">{{ address.type }}</div>
+        <div class="address-card__row-content">{{ address.type | titlecase }}</div>
     </div>
     <div class="address-card__footer" *ngIf="footer">
         <ng-container *ngTemplateOutlet="footer"></ng-container>

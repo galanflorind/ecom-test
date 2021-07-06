@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header">
-        <h5>{{ 'HEADER_ORDER_HISTORY' | translate }}</h5>
+        <h5>{{ 'HEADER_INVOICES_HISTORY' | translate }}</h5>
     </div>
     <ng-container *ngIf="list">
         <div class="card-divider"></div>
@@ -18,9 +18,9 @@
                     <tbody>
                     <tr *ngFor="let order of list.items">
                         <td>
-                            <a [routerLink]="url.order(order)">
-                                {{ 'FORMAT_ORDER_NUMBER' | translate:{number: order.number} }}
-                            </a>
+<!--                            <a [routerLink]="url.order(order)">-->
+                            {{ 'FORMAT_ORDER_NUMBER' | translate:{number: order.number} }}
+<!--                            </a>-->
                         </td>
                         <td>{{ 'FORMAT_DATE_MEDIUM' | translate:{date: order.createdAt} }}</td>
                         <td>{{ 'TEXT_ORDER_STATUS_' + order.status|translate }}</td>

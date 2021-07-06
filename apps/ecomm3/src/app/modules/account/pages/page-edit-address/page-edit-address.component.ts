@@ -1,11 +1,14 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { combineLatest, Observable, of, Subject } from 'rxjs';
-import { finalize, map, switchMap, takeUntil } from 'rxjs/operators';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { AddressFormComponent } from '../../../shared/components/address-form/address-form.component';
-import { AccountApi, EditAddressData } from '../../../../api';
-import { Address } from '../../../../interfaces/address';
+import { Subject, Subscription } from 'rxjs';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AccountApi } from '../../../../api';
+import { generateRandomString } from "@naologic/nao-utils";
+import { NaoUserAccessService, NaoUsersInterface } from "@naologic/nao-user-access";
+import { ActiveCountryList } from "../../../../app.locale";
+import { TranslateService } from "@ngx-translate/core";
+import { UserProfileService } from "../../../../services/users-profile.service";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
     selector: 'app-page-edit-address',
@@ -14,97 +17,124 @@ import { Address } from '../../../../interfaces/address';
 })
 export class PageEditAddressComponent implements OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
-
-    form!: FormGroup;
-
-    @ViewChild(AddressFormComponent) addressForm!: AddressFormComponent;
-
-    addressId: number|null = null;
-    saveInProgress = false;
-    firstOrDefaultAddress: boolean = false;
+    private subs = new Subscription();
+    public addressId: string | null = null;
+    public saveInProgress = false;
+    public firstOrDefaultAddress: boolean = false;
+    public addresses: NaoUsersInterface.Address[] = [];
+    // -->Set: countries
+    public countries = ActiveCountryList;
+    public formGroup: FormGroup = new FormGroup({
+        city: new FormControl("", {validators: [Validators.required]}),
+        country: new FormControl('USA', {validators: [Validators.required]}),
+        id: new FormControl(generateRandomString(12)),
+        line_1: new FormControl("", {validators: [Validators.required]}),
+        line_2: new FormControl(""),
+        state: new FormControl("", {validators: [Validators.required]}),
+        type: new FormControl('shipping', {validators: [Validators.required]}),
+        zip: new FormControl(null, {validators: [Validators.required]}),
+    });
 
     constructor(
         private accountApi: AccountApi,
         private router: Router,
         private route: ActivatedRoute,
-        private fb: FormBuilder,
-    ) { }
+        private naoUsersService: NaoUserAccessService,
+        private toastr: ToastrService,
+        private translate: TranslateService,
+        private userProfileService: UserProfileService,
+    ) {
+    }
 
     public ngOnInit(): void {
-        this.form = this.fb.group({
-            address: [],
-            default: [false],
-        });
+        // -->Set: addresses
+        this.addresses = this.naoUsersService.linkedDoc.getValue()?.data?.addresses || [];
 
-        this.route.params.pipe(
-            map(x => x.id ? parseFloat(x.id) : null),
-            switchMap(addressId => combineLatest([
-                addressId ? this.accountApi.getAddress(addressId) : of(null),
-                this.accountApi.getDefaultAddress(),
-            ])),
-            takeUntil(this.destroy$),
-        ).subscribe(([address, defaultAddress]) => {
-            if (address) {
-                this.addressId = address.id;
+        // -->Subscribe: on route change
+        this.subs.add(
+            this.route.params
+                .subscribe(params => {
+                        // -->Set: address id
+                        this.addressId = params.id;
+                        // -->Search: for address
+                        const address = this.addresses.find(item => item.id === this.addressId);
+                        if (address) {
+                            // -->Update: form group
+                            this.formGroup.setValue({
+                                id: address.id,
+                                country: address.country,
+                                line_1: address.line_1,
+                                line_2: address.line_2,
+                                city: address.city,
+                                state: address.state,
+                                type: address.type,
+                                zip: address.zip,
+                            });
+                        }
+                    }
+                )
+        );
 
-                this.form.get('address')!.setValue({
-                    firstName: address.firstName,
-                    lastName: address.lastName,
-                    company: address.company,
-                    country: address.country,
-                    address1: address.address1,
-                    address2: address.address2,
-                    city: address.city,
-                    state: address.state,
-                    postcode: address.postcode,
-                    email: address.email,
-                    phone: address.phone,
-                });
-            }
-
-            this.firstOrDefaultAddress = !defaultAddress || (address !== null && address.default);
-            this.form.get('default')!.setValue(this.firstOrDefaultAddress);
-
-            if (this.firstOrDefaultAddress) {
-                this.form.get('default')!.disable();
-            } else {
-                this.form.get('default')!.enable();
-            }
-        });
     }
 
 
     public save(): void {
-        this.form.markAllAsTouched();
-        this.addressForm.markAsTouched();
+        this.formGroup.markAllAsTouched();
 
-        if (this.saveInProgress || this.form.invalid){
+        if (this.saveInProgress || this.formGroup.invalid) {
             return;
         }
-
-        const addressData: EditAddressData = {
-            ...this.form.value.address,
-            default: this.form.value.default || this.firstOrDefaultAddress,
-        };
-
+        // -->Start: loading
         this.saveInProgress = true;
+        // -->Get: address
+        const address = this.formGroup.getRawValue();
 
-        let saveMethod: Observable<Address>;
-
+        // -->Check: if it's edit or create
         if (this.addressId) {
-            saveMethod = this.accountApi.editAddress(this.addressId, addressData);
+            // -->Find: index
+            const index = this.addresses.findIndex(item => item.id === this.addressId);
+            if (index > -1) {
+                this.addresses[index] = address;
+            }
         } else {
-            saveMethod = this.accountApi.addAddress(addressData);
+            // -->Insert: new address
+            this.addresses.unshift(address);
         }
 
-        saveMethod.pipe(
-            finalize(() => this.saveInProgress = false),
-            takeUntil(this.destroy$),
-        ).subscribe(() => this.router.navigateByUrl('/account/addresses'));
+        const data = {
+            addresses: this.addresses
+        }
+        // -->Update
+        this.userProfileService.update('data', data).subscribe(res => {
+            if (res && res.ok) {
+                // -->Refresh: session data
+                this.naoUsersService.refreshSessionData().then(res => {
+                    // -->Done: loading
+                    this.saveInProgress = false;
+                    // -->Show: toaster
+                }).catch(err => {
+                    // -->Done: loading
+                    this.saveInProgress = false;
+                    // -->Show: toaster
+                    this.toastr.error(this.translate.instant('ERROR_API_REQUEST'));
+                })
+            } else {
+                // -->Done: loading
+                this.saveInProgress = false;
+                // -->Show: toaster
+                this.toastr.error(this.translate.instant('ERROR_API_REQUEST'));
+            }
+        }, error => {
+            // -->Done: loading
+            this.saveInProgress = false;
+            // -->Show: toaster
+            this.toastr.error(this.translate.instant('ERROR_API_REQUEST'));
+        })
     }
 
 
     public ngOnDestroy(): void {
+        this.subs.unsubscribe();
         this.destroy$.next();
         this.destroy$.complete();
     }

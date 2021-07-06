@@ -18,7 +18,7 @@ import { PageDashboardComponent } from './pages/page-dashboard/page-dashboard.co
 import { PageEditAddressComponent } from './pages/page-edit-address/page-edit-address.component';
 import { PageLoginComponent } from './pages/page-login/page-login.component';
 import { PageOrderDetailsComponent } from './pages/page-order-details/page-order-details.component';
-import { PageOrdersComponent } from './pages/page-orders/page-orders.component';
+import { PageInvoicesComponent } from './pages/page-invoices/page-invoices.component';
 import { PagePasswordComponent } from './pages/page-password/page-password.component';
 import { PageProfileComponent } from './pages/page-profile/page-profile.component';
 import { PageRegisterComponent } from "./pages/page-register/page-register.component";
@@ -35,7 +35,7 @@ import {PageForgotPasswordComponent} from "./pages/page-forgot-password/page-for
         PageEditAddressComponent,
         PageLoginComponent,
         PageOrderDetailsComponent,
-        PageOrdersComponent,
+        PageInvoicesComponent,
         PagePasswordComponent,
         PageProfileComponent,
         PageRegisterComponent,

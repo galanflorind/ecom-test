@@ -8,14 +8,14 @@ import { QuickMongoQuery } from "@naologic/nao-utils";
 
 @Component({
     selector: 'app-page-orders',
-    templateUrl: './page-orders.component.html',
-    styleUrls: ['./page-orders.component.scss'],
+    templateUrl: './page-invoices.component.html',
+    styleUrls: ['./page-invoices.component.scss'],
 })
-export class PageOrdersComponent implements OnInit, OnDestroy {
+export class PageInvoicesComponent implements OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
     public currentPage: FormControl = new FormControl(1);
     public list!: OrdersList;
-    public perPage = 20;
+    public perPage = 1;
 
     constructor(
         public url: UrlService,

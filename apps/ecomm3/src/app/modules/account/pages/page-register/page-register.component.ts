@@ -29,6 +29,7 @@ export class PageRegisterComponent implements OnInit, OnDestroy {
             password: [null, [Validators.required, Validators.minLength(8)]],
             firstName: [null, [Validators.required]],
             lastName: [null, [Validators.required]],
+            companyName: [null, [Validators.required]],
             confirmPassword: [null, [Validators.required, Validators.minLength(8)]],
         }, { validators: [mustMatchValidator('password', 'confirmPassword')] });
     }
@@ -36,13 +37,14 @@ export class PageRegisterComponent implements OnInit, OnDestroy {
 
     public register(): void {
         this.formGroup.markAllAsTouched();
-
+        // -->Check
         if (this.registerInProgress || this.formGroup.invalid) {
             return;
         }
 
         // -->Get: data
         const data = this.formGroup.getRawValue();
+        // -->Start: loading
         this.registerInProgress = true;
         // -->Update: doc
         this.naoUsersAuthService.createUser(data).subscribe(
@@ -56,17 +58,12 @@ export class PageRegisterComponent implements OnInit, OnDestroy {
                         return this.router.navigate(['/', 'account', 'dashboard']);
                     })
                     .catch((err) => {
-                        // this.status.error();
+                        this.registerInProgress = false
                         this.formGroup.reset();
                     });
-                // this.status.done();
-                // this.formGroup.enableDelay(800);
-                // this.formGroup.markAllAsPristine();
             },
             (err) => {
                 this.registerInProgress = false
-                // this.formGroup.enableDelay(800);
-                // this.formGroup.markAllAsPristine();
                 this.formGroup.enable();
             }
         );

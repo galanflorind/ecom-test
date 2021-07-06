@@ -10,7 +10,6 @@ import {
     Validator,
     Validators,
 } from '@angular/forms';
-import { AddressFormValue } from '../address-form/address-form.component';
 import { mustMatchValidator } from '../../../../functions/validators/must-match';
 
 let uniqueId = 0;
@@ -41,7 +40,7 @@ export class RegisterFormComponent implements ControlValueAccessor, Validator {
         return `app-register-form-id-${this.dataId}`;
     }
 
-    changeFn: (_: AddressFormValue) => void = () => {};
+    changeFn: (_: any) => void = () => {};
 
     touchedFn: () => void = () => {};
 

@@ -2,7 +2,7 @@ import { Component, forwardRef, OnDestroy, OnInit } from '@angular/core';
 import {
     AbstractControl,
     ControlValueAccessor,
-    FormBuilder,
+    FormControl,
     FormGroup,
     NG_VALIDATORS,
     NG_VALUE_ACCESSOR,
@@ -10,26 +10,10 @@ import {
     Validator,
     Validators,
 } from '@angular/forms';
-import { Country } from '../../../../interfaces/country';
-import { CountriesApi } from '../../../../api';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-
-let uniqueId = 0;
-
-export interface AddressFormValue {
-    firstName: string;
-    lastName: string;
-    company: string;
-    country: string;
-    address1: string;
-    address2: string;
-    city: string;
-    state: string;
-    postcode: string;
-    email: string;
-    phone: string;
-}
+import { ActiveCountryList } from "../../../../app.locale";
+import { generateRandomString } from "@naologic/nao-utils";
+import { NaoUsersInterface } from "@naologic/nao-user-access";
 
 @Component({
     selector: 'app-address-form',
@@ -50,46 +34,34 @@ export interface AddressFormValue {
 })
 export class AddressFormComponent implements OnInit, OnDestroy, ControlValueAccessor, Validator {
     private destroy$: Subject<void> = new Subject<void>();
-    private readonly dataId: number = ++uniqueId;
+    public formGroup: FormGroup = new FormGroup({
+        city: new FormControl("", { validators: [Validators.required] }),
+        country: new FormControl('USA', { validators: [Validators.required] }),
+        id: new FormControl(generateRandomString(12)),
+        line_1: new FormControl("", { validators: [Validators.required] }),
+        line_2: new FormControl(""),
+        state: new FormControl("", { validators: [Validators.required] }),
+        type: new FormControl('shipping', { validators: [Validators.required] }),
+        zip: new FormControl(null, { validators: [Validators.required] }),
+    });
 
-    form!: FormGroup;
+    // -->Set: countries
+    public countries = ActiveCountryList;
 
-    countries: Country[] = [];
 
-    get formId(): string {
-        return `app-address-form-id-${this.dataId}`;
-    }
-
-    changeFn: (_: AddressFormValue) => void = () => {};
+    changeFn: (_: NaoUsersInterface.Address) => void = () => {};
 
     touchedFn: () => void = () => {};
 
     constructor(
-        private fb: FormBuilder,
-        private countriesService: CountriesApi,
     ) { }
 
     ngOnInit(): void {
-        this.form = this.fb.group({
-            firstName: ['', Validators.required],
-            lastName:  ['', Validators.required],
-            company:   [''],
-            country:   ['', Validators.required],
-            address1:  ['', Validators.required],
-            address2:  [''],
-            city:      ['', Validators.required],
-            state:     ['', Validators.required],
-            postcode:  ['', Validators.required],
-            email:     ['', [Validators.required, Validators.email]],
-            phone:     ['', Validators.required],
-        });
-
-        this.form.valueChanges.subscribe(value => {
+        this.formGroup.valueChanges.subscribe(value => {
+            console.log("address form formGroup.valueChanges >>>", value)
             this.changeFn(value);
             this.touchedFn();
         });
-
-        this.countriesService.getCountries().pipe(takeUntil(this.destroy$)).subscribe(x => this.countries = x);
     }
 
     ngOnDestroy(): void {
@@ -107,30 +79,28 @@ export class AddressFormComponent implements OnInit, OnDestroy, ControlValueAcce
 
     setDisabledState(isDisabled: boolean): void {
         if (isDisabled) {
-            this.form.disable({ emitEvent: false });
+            this.formGroup.disable({ emitEvent: false });
         } else {
-            this.form.enable({ emitEvent: false });
+            this.formGroup.enable({ emitEvent: false });
         }
     }
 
     writeValue(value: any): void {
+        console.log("value change >>>", value)
         if (typeof value !== 'object') {
             value = {};
         }
 
-        this.form.setValue(
+        this.formGroup.setValue(
             {
-                firstName: '',
-                lastName: '',
-                company: '',
-                country: '',
-                address1: '',
-                address2: '',
                 city: '',
+                country: 'USA',
+                id: '',
+                line_1: '',
+                line_2: '',
                 state: '',
-                postcode: '',
-                email: '',
-                phone: '',
+                type: 'shipping',
+                zip: '',
                 ...value,
             },
             { emitEvent: false },
@@ -138,10 +108,10 @@ export class AddressFormComponent implements OnInit, OnDestroy, ControlValueAcce
     }
 
     validate(control: AbstractControl): ValidationErrors | null {
-        return this.form.valid ? null : { addressForm: this.form.errors };
+        return this.formGroup.valid ? null : { addressForm: this.formGroup.errors };
     }
 
     markAsTouched(): void {
-        this.form.markAllAsTouched();
+        this.formGroup.markAllAsTouched();
     }
 }
