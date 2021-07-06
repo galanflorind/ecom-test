@@ -8,7 +8,7 @@ import { NaoUserAccessService } from "@naologic/nao-user-access";
     providedIn: 'root'
 })
 export class NaoUsersAuthService<T = any> {
-    public readonly api = { root: 'users-guests' };
+    public readonly api = { root: 'users' };
     public readonly userAccessOptions;
 
     constructor(
@@ -22,9 +22,9 @@ export class NaoUsersAuthService<T = any> {
     /**
      * Create a new user
      */
-    public createUser(data, naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault()) {
+    public createUser(data, naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault({ docName: 'guest-external-ecommerce', userMode: 'guest-external' })) {
         // -->Request: user login
-        return this.naoHttp2ApiService.postJson<any>(`${this.api.root}-public/guest-register/create/${naoQueryOptions.docName}/new`, {
+        return this.naoHttp2ApiService.postJson<any>(`${this.api.root}-public/guest/create/${naoQueryOptions.docName}/new`, {
             data: { data, naoQueryOptions: this.userAccessOptions.naoQueryOptions, cfpPath: this.userAccessOptions.cfpPath }, naoQueryOptions
         });
     }
@@ -32,7 +32,7 @@ export class NaoUsersAuthService<T = any> {
     /**
      * Send the email for password reset
      */
-    public sendResetPasswordEmail(email: string, naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault()): Observable<T> {
+    public sendResetPasswordEmail(email: string, naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault({ docName: 'guest-external-ecommerce' })): Observable<T> {
         // -->Check: this invite
         return this.naoHttp2ApiService.postJson<T>(`${this.api.root}/password/${this.userAccessOptions.naoQueryOptions.docName}/forgot`, { data: { email }, naoQueryOptions: this.userAccessOptions.naoQueryOptions });
     }
