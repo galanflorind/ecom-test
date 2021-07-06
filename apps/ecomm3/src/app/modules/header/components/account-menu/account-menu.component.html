@@ -62,9 +62,7 @@
 <ng-container *ngIf="userData">
     <a routerLink="/account/dashboard" class="account-menu__user" (click)="closeMenu.emit()">
         <div class="account-menu__user-avatar">
-            {{ userData.firstName[0] }}
-            {{ userData.lastName[0] }}
-<!--            <img [src]="avatar$|async" alt="">-->
+            <app-avatar-icon [userData]="userData"></app-avatar-icon>
         </div>
         <div class="account-menu__user-info">
             <div class="account-menu__user-name">{{ userData.firstName }} {{ userData.lastName }}</div>

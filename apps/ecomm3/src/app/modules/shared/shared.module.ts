@@ -61,6 +61,7 @@ import { HasErrorPipe } from './pipes/has-error.pipe';
 import { IsInvalidPipe } from './pipes/is-invalid.pipe';
 import { StockToStatusBadgeTextPipe } from './pipes/stock-to-status-badge-text.pipe';
 import { StockToStatusBadgeTypePipe } from './pipes/stock-to-status-badge-type.pipe';
+import {AvatarIconComponent} from "./components/avatar-icon/avatar-icon.component";
 
 
 @NgModule({
@@ -109,6 +110,7 @@ import { StockToStatusBadgeTypePipe } from './pipes/stock-to-status-badge-type.p
         IsInvalidPipe,
         StockToStatusBadgeTextPipe,
         StockToStatusBadgeTypePipe,
+        AvatarIconComponent
     ],
     exports: [
         // modules
@@ -156,6 +158,7 @@ import { StockToStatusBadgeTypePipe } from './pipes/stock-to-status-badge-type.p
         IsInvalidPipe,
         StockToStatusBadgeTextPipe,
         StockToStatusBadgeTypePipe,
+        AvatarIconComponent
     ],
     imports: [
         // modules (angular)

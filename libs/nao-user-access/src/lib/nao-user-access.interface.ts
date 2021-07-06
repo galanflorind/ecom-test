@@ -68,6 +68,25 @@ export namespace NaoUsersInterface {
     permissions: string[];
   }
 
+  export interface LinkedDoc {
+      data: {
+          addresses: Address[];
+          phoneNo: string;
+      }
+
+  }
+
+export interface Address {
+        city: string
+        country: string
+        id: string
+        line_1: string
+        line_2?: string
+        state: string
+        type?: string
+        zip: string | number
+    }
+
   /**
    * @deprecated > what do we do with this?
    */

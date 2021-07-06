@@ -36,12 +36,9 @@
                         class="site-footer__widget"
                         [header]="'HEADER_INFORMATION' | translate"
                         [links]="[
-                            {title: 'LINK_ABOUT_US' | translate},
-                            {title: 'LINK_DELIVERY_INFORMATION' | translate},
-                            {title: 'LINK_PRIVACY_POLICY' | translate},
-                            {title: 'LINK_BRANDS' | translate},
-                            {title: 'LINK_CONTACT_US' | translate},
-                            {title: 'LINK_RETURNS' | translate},
+                            {title: 'LINK_ABOUT_US' | translate, url: '/site/about-us'},
+                            {title: 'LINK_FAQ' | translate, url: '/site/faq'},
+                            {title: 'LINK_TERMS_AND_CONDITIONS' | translate, url: '/site/terms'},
                             {title: 'LINK_SITE_MAP' | translate}
                         ]"
                     ></app-links>
@@ -51,15 +48,21 @@
                         class="site-footer__widget"
                         [header]="'HEADER_MY_ACCOUNT' | translate"
                         [links]="[
-                            {title: 'LINK_STORE_LOCATION' | translate},
-                            {title: 'LINK_ORDER_HISTORY' | translate},
-                            {title: 'LINK_WISH_LIST' | translate},
-                            {title: 'LINK_NEWSLETTER' | translate},
-                            {title: 'LINK_SPECIAL_OFFERS' | translate},
-                            {title: 'LINK_GIFT_CERTIFICATES' | translate},
-                            {title: 'LINK_AFFILIATE' | translate}
                         ]"
                     ></app-links>
+<!--                    <app-links-->
+<!--                        class="site-footer__widget"-->
+<!--                        [header]="'HEADER_MY_ACCOUNT' | translate"-->
+<!--                        [links]="[-->
+<!--                            {title: 'LINK_STORE_LOCATION' | translate},-->
+<!--                            {title: 'LINK_ORDER_HISTORY' | translate},-->
+<!--                            {title: 'LINK_WISH_LIST' | translate},-->
+<!--                            {title: 'LINK_NEWSLETTER' | translate},-->
+<!--                            {title: 'LINK_SPECIAL_OFFERS' | translate},-->
+<!--                            {title: 'LINK_GIFT_CERTIFICATES' | translate},-->
+<!--                            {title: 'LINK_AFFILIATE' | translate}-->
+<!--                        ]"-->
+<!--                    ></app-links>-->
                 </div>
                 <div class="col-12 col-md-6 col-xl-4">
                     <app-newsletter class="site-footer__widget"></app-newsletter>

@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { checkSessionData, NaoUserAccessData } from './nao-user-access.static';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, share } from 'rxjs/operators';
-import { NaoUserAccessInterface, NaoUsersInterface } from './nao-user-access.interface';
+import { NaoUserAccessInterface, NaoUsersInterface} from './nao-user-access.interface';
 import { CurrencyData, naoAccessToken$ } from '@naologic/nao-utils';
 
 @Injectable({
@@ -18,6 +18,7 @@ export class NaoUserAccessService {
     get accessToken(): BehaviorSubject<string> { return naoAccessToken$; }
     get userId(): BehaviorSubject<string> { return NaoUserAccessData.userId; }
     get userData(): BehaviorSubject<NaoUsersInterface.UserData> { return NaoUserAccessData.userData; }
+    get linkedDoc(): BehaviorSubject<NaoUsersInterface.LinkedDoc> { return NaoUserAccessData.linkedDoc; }
     get roleData(): BehaviorSubject<NaoUsersInterface.Role> { return NaoUserAccessData.roleData; }
     get ads(): BehaviorSubject<any> { return NaoUserAccessData.ads; }
     get oldRoleData(): BehaviorSubject<NaoUsersInterface.Role> { return NaoUserAccessData.oldRoleData; }
@@ -107,6 +108,8 @@ export class NaoUserAccessService {
             NaoUserAccessData.roleData.next(sessionData.roleData?.data);
             // -->Set: ads data
             NaoUserAccessData.ads.next(sessionData.ads);
+            // -->Set: Linkedin account
+            NaoUserAccessData.linkedDoc.next(sessionData.linkedDoc);
             // -->Apply: locale
             await this.applyLocale();
             // -->Return

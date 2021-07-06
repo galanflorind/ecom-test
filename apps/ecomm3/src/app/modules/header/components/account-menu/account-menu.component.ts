@@ -14,15 +14,8 @@ export class AccountMenuComponent implements OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
     private subs = new Subscription();
     public userData = null;
-    // isAuth$: Observable<boolean>;
-    // firstName$: Observable<string|null>;
-    // lastName$: Observable<string|null>;
-    // email$: Observable<string|null>;
-    // avatar$: Observable<string|null>;
-
-    formGroup!: FormGroup;
-
-    loginInProgress = false;
+    public formGroup!: FormGroup;
+    public loginInProgress = false;
 
     @Output() closeMenu: EventEmitter<void> = new EventEmitter<void>();
 
@@ -39,7 +32,6 @@ export class AccountMenuComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.subs.add(
             this.naoUsersService.userData.subscribe(userData => {
-                console.log("userdata >>>", userData)
                 // -->Set: user data
                 this.userData = userData;
             })

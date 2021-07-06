@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AccountApi } from '../../../../api';
-import { merge, of, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { OrdersList } from '../../../../interfaces/list';
-import { distinctUntilChanged, mergeMap, takeUntil } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import { UrlService } from '../../../../services/url.service';
+import { ECommerceService } from "../../../../e-commerce.service";
+import { QuickMongoQuery } from "@naologic/nao-utils";
 
 @Component({
     selector: 'app-page-orders',
@@ -13,30 +13,51 @@ import { UrlService } from '../../../../services/url.service';
 })
 export class PageOrdersComponent implements OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
-
-    currentPage: FormControl = new FormControl(1);
-    list!: OrdersList;
+    public currentPage: FormControl = new FormControl(1);
+    public list!: OrdersList;
+    public perPage = 20;
 
     constructor(
-        private accountApi: AccountApi,
         public url: UrlService,
+        public eCommerceService: ECommerceService,
     ) { }
 
-    ngOnInit(): void {
-        merge(
-            of(this.currentPage.value),
-            this.currentPage.valueChanges,
-        ).pipe(
-            distinctUntilChanged(),
-            mergeMap(page => this.accountApi.getOrdersList({
-                limit: 5,
-                page,
-            })),
-            takeUntil(this.destroy$),
-        ).subscribe(x => this.list = x);
+    public ngOnInit(): void {
+        // -->Refresh
+        this.refresh();
+        // -->Subscribe: to value changes
+        this.currentPage.valueChanges.subscribe(page => {
+            this.refresh();
+        })
     }
 
-    ngOnDestroy(): void {
+
+    /**
+     * Refresh
+     */
+    public refresh(): void {
+        // todo: add loading
+        // todo: add loading
+        // todo: add loading
+        // todo: add loading
+        // -->Create: query
+        const query = new QuickMongoQuery()
+            .limit(this.perPage)
+            .skip((this.currentPage.value - 1) * this.perPage)
+            .returnDataModel({ _id: 1, data: 1 })
+            .done();
+        // -->Execute
+        this.eCommerceService.listInvoices(query).subscribe(res => {
+            console.log("res >>>")
+            if (res && Array.isArray(res.data)) {
+                this.list = res.data
+            }
+        }, err => {
+            console.log("err")
+        })
+    }
+
+    public ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();
     }

@@ -1,10 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AccountApi } from '../../../../api';
-import {Subject, Subscription} from 'rxjs';
-import { Address } from '../../../../interfaces/address';
-import { finalize, mergeMap, takeUntil } from 'rxjs/operators';
+import { Subject, Subscription } from 'rxjs';
 import { UrlService } from '../../../../services/url.service';
-import {NaoUserAccessService} from "../../../../../../../../libs/nao-user-access/src";
+import { NaoUserAccessService, NaoUsersInterface } from "@naologic/nao-user-access";
 
 @Component({
     selector: 'app-page-addresses',
@@ -13,8 +10,8 @@ import {NaoUserAccessService} from "../../../../../../../../libs/nao-user-access
 })
 export class PageAddressesComponent implements OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
-    public addresses: Address[] = [];
-    public removeInProgress: number[] = [];
+    public addresses: NaoUsersInterface.Address[] = [];
+    public removeInProgress: string[] = [];
     public subs = new Subscription();
 
     constructor(
@@ -38,7 +35,7 @@ export class PageAddressesComponent implements OnInit, OnDestroy {
         this.destroy$.complete();
     }
 
-    public remove(address: Address): void {
+    public remove(address: NaoUsersInterface.Address): void {
         // todo: when you remove an address, you need to save the whole address rows
         // if (this.removeInProgress.indexOf(address.id) !== -1) {
         //     return;

@@ -1,5 +1,5 @@
 import { Component, HostBinding, Input, TemplateRef } from '@angular/core';
-import { AddressData } from '../../../../interfaces/address';
+import { NaoUsersInterface } from "@naologic/nao-user-access";
 
 @Component({
     selector: 'app-address-card',
@@ -7,7 +7,7 @@ import { AddressData } from '../../../../interfaces/address';
     styleUrls: ['./address-card.component.scss'],
 })
 export class AddressCardComponent {
-    @Input() address!: AddressData;
+    @Input() address!: NaoUsersInterface.Address;
 
     @Input() label: string = '';
 

@@ -14,7 +14,6 @@
         <app-address-card
             class="addresses-list__item"
             [address]="address"
-            [label]="address.default ? ('TEXT_DEFAULT_ADDRESS' | translate) : ''"
             [footer]="footer"
             [loading]="removeInProgress.includes(address.id)"
         ></app-address-card>

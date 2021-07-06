@@ -90,8 +90,8 @@ export class MobileMenuComponent implements OnInit, OnDestroy, AfterViewInit, Af
                         url: '/site/about-us',
                     },
                     {
-                        title: 'Terms And Conditions',
-                        url: '/site/terms',
+                        title: 'FAQ',
+                        url: '/site/faq',
                     },
                     // {
                     //     title: 'About Us',
