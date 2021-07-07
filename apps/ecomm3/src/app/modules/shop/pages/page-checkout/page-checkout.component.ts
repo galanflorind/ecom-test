@@ -1,18 +1,17 @@
-import { Component, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { filter, finalize, map, pairwise, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
-// import { ICreateOrderRequest, IPayPalConfig } from 'ngx-paypal';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { filter, takeUntil } from 'rxjs/operators';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { TermsModalComponent } from '../../../shared/components/terms-modal/terms-modal.component';
 import { CartService } from '../../../../services/cart.service';
-import { of, Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { AddressFormComponent } from '../../../shared/components/address-form/address-form.component';
-import { RegisterFormComponent } from '../../../shared/components/register-form/register-form.component';
 import { TranslateService } from '@ngx-translate/core';
-import { AccountApi, CheckoutData, ShopApi } from '../../../../api';
-// import { AddressData } from '../../../../interfaces/address';
+import { AccountApi, CheckoutData } from '../../../../api';
 import { UrlService } from '../../../../services/url.service';
+import { NaoUserAccessService, NaoUsersInterface } from "@naologic/nao-user-access";
+import { ECommerceService } from "../../../../e-commerce.service";
+import { AppService } from "../../../../app.service";
 
 @Component({
     selector: 'app-page-checkout',
@@ -21,16 +20,11 @@ import { UrlService } from '../../../../services/url.service';
 })
 export class PageCheckoutComponent implements OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
-
-    private checkout$: Subject<CheckoutData> = new Subject<CheckoutData>();
-
-    public form: FormGroup;
-
-    // payPalConfig!: IPayPalConfig;
-    public payPalInit = false;
-
+    private subs = new Subscription();
+    public formGroup: FormGroup;
     public checkoutInProgress = false;
-
+    public addresses: NaoUsersInterface.Address[] = [];
+    public shippingMethods: any[] = []
     public payments = [
         {
             name: 'bank',
@@ -46,121 +40,57 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
             name: 'cash',
             label: 'TEXT_PAYMENT_CASH_LABEL',
             description: 'TEXT_PAYMENT_CASH_DESCRIPTION',
-        },
-        {
-            name: 'paypal',
-            label: 'TEXT_PAYMENT_PAYPAL_LABEL',
-            description: 'TEXT_PAYMENT_PAYPAL_DESCRIPTION',
-        },
+        }
     ];
 
-    @ViewChild('billingAddressForm', { read: AddressFormComponent }) public billingAddressForm!: AddressFormComponent;
 
-    @ViewChild('shippingAddressForm', { read: AddressFormComponent }) public shippingAddressForm!: AddressFormComponent;
-
-    @ViewChild('registerForm', { read: RegisterFormComponent }) public registerForm!: RegisterFormComponent;
-
-    public enablePaypalButton = () => {};
-    public disablePaypalButton = () => {};
 
     constructor(
         private fb: FormBuilder,
         private modalService: BsModalService,
         private router: Router,
         private translate: TranslateService,
-        private shopApi: ShopApi,
-        // private zone: NgZone,
         public url: UrlService,
         public accountApi: AccountApi,
+        public eCommerceService: ECommerceService,
         public cart: CartService,
+        public appService: AppService,
+        private naoUsersService: NaoUserAccessService
     ) {
-        this.form = this.fb.group({
-            billingAddress: [{}],
-
-            createAccount: [false],
-            account: [{}],
-
-            shipToDifferentAddress: [false],
-            shippingAddress: [{}],
-
-            comments: [''],
-
-            paymentMethod: ['bank'],
-
-            agree: [false, [Validators.requiredTrue]],
+        this.formGroup = new FormGroup({
+            billingAddressId: new FormControl(null, {validators: [Validators.required]}),
+            shippingAddressId: new FormControl(null, {validators: [Validators.required]}),
+            shippingMethod: new FormControl(null, {validators: [Validators.required]}),
+            agree: new FormControl(false, {validators: [Validators.requiredTrue]}),
         });
 
-        this.form.get('account')!.disable({ emitEvent: false });
-        this.form.get('shippingAddress')!.disable({ emitEvent: false });
-
-        this.form.valueChanges.pipe(
-            startWith(of(this.form.value)),
-            pairwise(),
-        ).subscribe(([oldValue, newValue]) => {
-            if (oldValue.shipToDifferentAddress !== newValue.shipToDifferentAddress) {
-                this.toggleFormControl('shippingAddress', newValue.shipToDifferentAddress);
-            }
-            if (oldValue.createAccount !== newValue.createAccount) {
-                this.toggleFormControl('account', newValue.createAccount);
-            }
-            if (oldValue.paymentMethod !== newValue.paymentMethod && newValue.paymentMethod === 'paypal') {
-                this.payPalInit = false;
-            }
-
-            if (this.form.valid) {
-                this.enablePaypalButton();
-            } else {
-                this.disablePaypalButton();
-            }
-        });
     }
 
     public ngOnInit(): void {
-        this.initConfig();
+        // -->Set: addresses
+        this.addresses = this.naoUsersService.linkedDoc.getValue()?.data?.addresses || [];
+        // -->Set: info
+        const appInfo = this.appService.appInfo.getValue();
+        // -->Set: shipping methods
+        this.shippingMethods = appInfo?.shippingMethods || [];
+
+        // -->Set: billingAddressId default
+        this.formGroup.get('billingAddressId').patchValue(this.addresses.length ? this.addresses[0].id: null);
+        // -->Set: billingAddressId default
+        this.formGroup.get('shippingAddressId').patchValue(this.addresses.length ? this.addresses[0].id: null);
+        // -->Set: shippingMethod default
+        this.formGroup.get('shippingMethod').patchValue(this.shippingMethods.length ? this.shippingMethods[0].id: null);
 
         this.cart.quantity$.pipe(
             filter(x => x === 0),
             takeUntil(this.destroy$),
         ).subscribe(() => this.router.navigateByUrl('/shop/cart').then());
 
-        alert("TODO: shop checkout")
-        // this.checkout$.pipe(
-        //     tap(() => this.checkoutInProgress = true),
-        //     switchMap(checkoutData => {
-        //         const value = this.form.value;
-        //
-        //         if (value.createAccount) {
-        //             return this.accountApi.signUp(value.account.email, value.account.password).pipe(
-        //                 map(() => checkoutData),
-        //             );
-        //         }
-        //
-        //         return of(checkoutData);
-        //     }),
-        //     switchMap(checkoutData => this.shopApi.checkout(checkoutData)),
-        //     tap(() => this.checkoutInProgress = false),
-        //     finalize(() => this.checkoutInProgress = false),
-        //     takeUntil(this.destroy$),
-        // ).subscribe(order => {
-        //     this.router.navigateByUrl(`/shop/checkout/${order.token}`).then();
-        // });
     }
 
-
-    public toggleFormControl(controlName: string, isEnabled: boolean): void {
-        const control = this.form.get(controlName);
-
-        if (!control) {
-            throw new Error('Control not found');
-        }
-
-        if (isEnabled) {
-            control.enable({ emitEvent: false });
-        } else {
-            control.disable({ emitEvent: false });
-        }
-    }
-
+    /**
+     * open modal with terms
+     */
     public showTerms(event: MouseEvent): void {
         event.preventDefault();
 
@@ -176,150 +106,41 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
     }
 
     private markAllAsTouched(): void {
-        this.form.markAllAsTouched();
-        this.billingAddressForm.markAsTouched();
-        this.shippingAddressForm.markAsTouched();
-        this.registerForm.markAsTouched();
+        this.formGroup.markAllAsTouched();
     }
 
     private checkData(): boolean {
         this.markAllAsTouched();
 
-        if (this.form.invalid) {
+        if (this.formGroup.invalid) {
             alert(this.translate.instant('ERROR_CHECKOUT'));
         }
 
-        return this.form.valid;
+        return this.formGroup.valid;
     }
 
     private checkout(): void {
-        const value = this.form.value;
+        const value = this.formGroup.value;
 
-        const billingAddress = value.billingAddress;
-        const shippingAddress = value.shipToDifferentAddress ? value.shippingAddress : value.billingAddress;
-
-        const checkoutData: CheckoutData = {
-            payment: value.paymentMethod,
-            items: this.cart.items.map(item => ({
-                productId: item.product.id,
-                variant: item.variant,
-                quantity: item.quantity,
-            })),
-            billingAddress,
-            shippingAddress,
-            comment: value.comment,
-        };
-
-        this.checkout$.next(checkoutData);
-    }
-
-    private initConfig(): void {
-        // this.payPalConfig = {
-        //     currency: 'USD',
-        //     clientId: environment.paypalClientId,
-        //     createOrderOnClient: (): ICreateOrderRequest => this.createPayPalOrderRequest(),
-        //     advanced: {
-        //         commit: 'true',
-        //     },
-        //     style: {
-        //         label: 'paypal',
-        //         layout: 'horizontal',
-        //         tagline: false,
-        //     },
-        //     onInit: (data, actions) => {
-        //         this.payPalInit = true;
-        //         this.enablePaypalButton = actions.enable;
-        //         this.disablePaypalButton = actions.disable;
-        //
-        //         if (this.form.invalid) {
-        //             this.disablePaypalButton();
-        //         }
-        //     },
-        //     onApprove: () => {},
-        //     onClientAuthorization: () => {
-        //         this.zone.run(() => this.checkout());
-        //     },
-        //     onError: err => {
-        //         alert(err);
-        //     },
-        //     onClick: () => {
-        //         this.zone.run(() => this.checkData());
-        //     },
+        console.log("checkout >>>", value)
+        // const checkoutData: CheckoutData = {
+        //     payment: value.paymentMethod,
+        //     items: this.cart.items.map(item => ({
+        //         productId: item.product.id,
+        //         variant: item.variant,
+        //         quantity: item.quantity,
+        //     })),
+        //     billingAddress,
+        //     shippingAddress,
+        //     comment: value.comment,
         // };
+
+        // this.checkout$.next(checkoutData);
     }
 
-    // private createPayPalOrderRequest(): ICreateOrderRequest {
-    //     const value = this.form.value;
-    //
-    //     const billingAddress: AddressData = value.billingAddress;
-    //     const shippingAddress: AddressData = value.shipToDifferentAddress ? value.shippingAddress : value.billingAddress;
-    //
-    //     const shipping = this.cart.totals.filter(x => x.type === 'shipping').reduce((acc, total) => acc + total.price, 0);
-    //     const taxes = this.cart.totals.filter(x => x.type === 'tax').reduce((acc, total) => acc + total.price, 0);
-    //
-    //     return {
-    //         intent: 'CAPTURE',
-    //         purchase_units: [
-    //             {
-    //                 amount: {
-    //                     currency_code: 'USD',
-    //                     value: this.cart.total.toFixed(2),
-    //                     breakdown: {
-    //                         item_total: {
-    //                             currency_code: 'USD',
-    //                             value: this.cart.subtotal.toFixed(2),
-    //                         },
-    //                         shipping: {
-    //                             currency_code: 'USD',
-    //                             value: shipping.toFixed(2),
-    //                         },
-    //                         tax_total: {
-    //                             currency_code: 'USD',
-    //                             value: taxes.toFixed(2),
-    //                         },
-    //                     },
-    //                 },
-    //                 items: this.cart.items.map(item => ({
-    //                     category: 'PHYSICAL_GOODS',
-    //                     name: item.product.name,
-    //                     quantity: item.quantity.toString(),
-    //                     sku: item.product.sku,
-    //                     unit_amount: {
-    //                         currency_code: 'USD',
-    //                         value: item.product.price.toFixed(2),
-    //                     },
-    //                 })),
-    //                 shipping: {
-    //                     address: {
-    //                         country_code: shippingAddress.country,
-    //                         admin_area_1: shippingAddress.state,
-    //                         admin_area_2: shippingAddress.city,
-    //                         address_line_1: shippingAddress.address1,
-    //                         address_line_2: shippingAddress.address2,
-    //                         postal_code: shippingAddress.postcode,
-    //                     },
-    //                 },
-    //             },
-    //         ],
-    //         payer: {
-    //             address: {
-    //                 country_code: billingAddress.country,
-    //                 admin_area_1: billingAddress.state,
-    //                 admin_area_2: billingAddress.city,
-    //                 address_line_1: billingAddress.address1,
-    //                 address_line_2: billingAddress.address2,
-    //                 postal_code: billingAddress.postcode,
-    //             },
-    //             name: {
-    //                 given_name: billingAddress.firstName,
-    //                 surname: billingAddress.lastName,
-    //             },
-    //             email_address: billingAddress.email,
-    //         },
-    //     };
-    // }
 
     public ngOnDestroy(): void {
+        this.subs.unsubscribe();
         this.destroy$.next();
         this.destroy$.complete();
     }

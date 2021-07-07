@@ -1,18 +1,10 @@
 import { NgModule } from '@angular/core';
-
-// modules (angular)
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-// modules (third-party)
 import { TranslateModule } from '@ngx-translate/core';
-// modules
 import { AccountRoutingModule } from './account-routing.module';
 import { SharedModule } from '../shared/shared.module';
-
-// components
 import { LayoutComponent } from './components/layout/layout.component';
-
-// pages
 import { PageAddressesComponent } from './pages/page-addresses/page-addresses.component';
 import { PageDashboardComponent } from './pages/page-dashboard/page-dashboard.component';
 import { PageEditAddressComponent } from './pages/page-edit-address/page-edit-address.component';
@@ -22,14 +14,12 @@ import { PageInvoicesComponent } from './pages/page-invoices/page-invoices.compo
 import { PagePasswordComponent } from './pages/page-password/page-password.component';
 import { PageProfileComponent } from './pages/page-profile/page-profile.component';
 import { PageRegisterComponent } from "./pages/page-register/page-register.component";
-import {PageForgotPasswordComponent} from "./pages/page-forgot-password/page-forgot-password.component";
+import { PageForgotPasswordComponent } from "./pages/page-forgot-password/page-forgot-password.component";
 
 
 @NgModule({
     declarations: [
-        // components
         LayoutComponent,
-        // pages
         PageAddressesComponent,
         PageDashboardComponent,
         PageEditAddressComponent,
@@ -42,13 +32,10 @@ import {PageForgotPasswordComponent} from "./pages/page-forgot-password/page-for
         PageForgotPasswordComponent
     ],
     imports: [
-        // modules (angular)
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        // modules (third-party)
         TranslateModule.forChild(),
-        // modules
         AccountRoutingModule,
         SharedModule,
     ],

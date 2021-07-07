@@ -116,6 +116,13 @@ export interface Variant {
 
 export interface Product {
     _id?: number;
+    manufacturer?: {
+        data: {
+            name: string;
+            manufacturerId: string;
+        },
+        _id: string;
+    }
     data?: {
         availability: string;
         available: true;

@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {NaoUserAccessService} from "@naologic/nao-user-access";
-import {NaoHttp2ApiService} from "@naologic/nao-http2";
-import {NaoDocumentInterface} from "@naologic/nao-interfaces";
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { NaoUserAccessService } from "@naologic/nao-user-access";
+import { NaoHttp2ApiService } from "@naologic/nao-http2";
+import { NaoDocumentInterface } from "@naologic/nao-interfaces";
 
 @Injectable({
     providedIn: 'root'

@@ -49,9 +49,9 @@
 
                 <div class="view-options__legend">
                     {{ 'TEXT_SHOWING_PRODUCTS' | translate:{
-                        from: page.from,
-                        to: page.to,
-                        total: page.total
+                        from: page.from || 0,
+                        to: page.to || 0,
+                        total: page.total || 0
                     } }}
                 </div>
 

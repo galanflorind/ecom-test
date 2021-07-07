@@ -36,9 +36,9 @@
                                     <th>{{ 'TABLE_SKU' | translate }}</th>
                                     <td>{{ product?.data?.variants[variantIndex]?.sku || product.data?.sku }}</td>
                                 </tr>
-                                <tr>
+                                <tr *ngIf="product?.manufacturer?.data?.name">
                                     <th>{{ 'TABLE_BRAND' | translate }}</th>
-                                    <td>{{ product?.data?.manufacturerId }}</td>
+                                    <td>{{ product?.manufacturer.data.name }}</td>
                                 </tr>
                                 <tr *ngIf="product?.data?.variants[variantIndex]?.countryOfOrigin">
                                     <th>{{ 'TABLE_COUNTRY' | translate }}</th>
@@ -90,30 +90,30 @@
                                 {{ 'BUTTON_ADD_TO_CART' | translate }}
                             </button>
                         </div>
-                        <div class="quickview__product-actions-item quickview__product-actions-item--wishlist">
-                            <button
-                                appAddToWishlist
-                                type="button"
-                                class="btn btn-muted btn-icon"
-                                [class.btn-loading]="addToWishlist.inProgress"
-                                (click)="addToWishlist.add(product)"
-                                #addToWishlist="addToWishlist"
-                            >
-                                <app-icon icon="wishlist-16"></app-icon>
-                            </button>
-                        </div>
-                        <div class="quickview__product-actions-item quickview__product-actions-item--compare">
-                            <button
-                                appAddToCompare
-                                type="button"
-                                class="btn btn-muted btn-icon"
-                                [class.btn-loading]="addToCompare.inProgress"
-                                (click)="addToCompare.add(product)"
-                                #addToCompare="addToCompare"
-                            >
-                                <app-icon icon="compare-16"></app-icon>
-                            </button>
-                        </div>
+<!--                        <div class="quickview__product-actions-item quickview__product-actions-item&#45;&#45;wishlist">-->
+<!--                            <button-->
+<!--                                appAddToWishlist-->
+<!--                                type="button"-->
+<!--                                class="btn btn-muted btn-icon"-->
+<!--                                [class.btn-loading]="addToWishlist.inProgress"-->
+<!--                                (click)="addToWishlist.add(product)"-->
+<!--                                #addToWishlist="addToWishlist"-->
+<!--                            >-->
+<!--                                <app-icon icon="wishlist-16"></app-icon>-->
+<!--                            </button>-->
+<!--                        </div>-->
+<!--                        <div class="quickview__product-actions-item quickview__product-actions-item&#45;&#45;compare">-->
+<!--                            <button-->
+<!--                                appAddToCompare-->
+<!--                                type="button"-->
+<!--                                class="btn btn-muted btn-icon"-->
+<!--                                [class.btn-loading]="addToCompare.inProgress"-->
+<!--                                (click)="addToCompare.add(product)"-->
+<!--                                #addToCompare="addToCompare"-->
+<!--                            >-->
+<!--                                <app-icon icon="compare-16"></app-icon>-->
+<!--                            </button>-->
+<!--                        </div>-->
                     </div>
                 </div>
             </div>
