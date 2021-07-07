@@ -29,3 +29,23 @@
         font-size: 20px;
     }
 }
+
+.home-showcase-primary-product {
+    .showcase-product-name {
+        font-size: 45px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+    .showcase-product-description {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 20px;
+        color: #6c7177;
+    }
+
+    .primary-image {
+        max-height: 475px;
+        width: 100%;
+        object-fit: cover;
+    }
+}
