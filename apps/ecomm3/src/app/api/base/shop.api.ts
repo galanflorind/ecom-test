@@ -58,19 +58,8 @@ export interface CheckoutItemOptionData {
     value: string;
 }
 
-export interface CheckoutItemData {
-    productId: number;
-    variant: Variant;
-    quantity: number;
-}
 
-export interface CheckoutData {
-    payment: string;
-    items: CheckoutItemData[];
-    billingAddress: AddressData;
-    shippingAddress: AddressData;
-    comment: string;
-}
+
 
 export abstract class ShopApi {
     abstract getCategoryBySlug(slug: string, options?: GetCategoryBySlugOptions): Observable<ShopCategory>;

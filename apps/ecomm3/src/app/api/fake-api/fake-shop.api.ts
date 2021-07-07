@@ -5,10 +5,8 @@ import { Product } from '../../interfaces/product';
 import { Brand } from '../../interfaces/brand';
 import { ProductsList, ReviewsList } from '../../interfaces/list';
 import { Review } from '../../interfaces/review';
-import { Order } from '../../interfaces/order';
 import {
     AddProductReviewData,
-    CheckoutData,
     GetBrandsOptions,
     GetCategoriesOptions,
     GetCategoryBySlugOptions,

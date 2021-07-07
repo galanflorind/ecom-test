@@ -1,8 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
-import { AccountApi } from '../../../../api';
 import { ActivatedRoute } from '@angular/router';
-import { map, mergeMap, takeUntil } from 'rxjs/operators';
 import { Order } from '../../../../interfaces/order';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -22,16 +20,15 @@ export class PageOrderDetailsComponent implements OnInit, OnDestroy {
 
     constructor(
         private route: ActivatedRoute,
-        private accountApi: AccountApi,
         private translate: TranslateService,
     ) { }
 
     ngOnInit(): void {
-        this.route.params.pipe(
-            map(x => x.id ? parseFloat(x.id) : this.route.snapshot.data.orderId ),
-            mergeMap(orderId => this.accountApi.getOrderById(orderId)),
-            takeUntil(this.destroy$),
-        ).subscribe(order => this.order = order);
+        // this.route.params.pipe(
+        //     map(x => x.id ? parseFloat(x.id) : this.route.snapshot.data.orderId ),
+        //     mergeMap(orderId => this.accountApi.getOrderById(orderId)),
+        //     takeUntil(this.destroy$),
+        // ).subscribe(order => this.order = order);
     }
 
     ngOnDestroy(): void {

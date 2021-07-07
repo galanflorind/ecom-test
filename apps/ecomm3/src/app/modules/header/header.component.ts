@@ -9,7 +9,7 @@ import { DepartmentsLink } from "../../interfaces/departments-link";
 import { nameToSlug } from "../../../fake-server/utils";
 import { MegamenuColumn } from "../../interfaces/menu";
 import { NestedLink } from "../../interfaces/link";
-import {NaoUserAccessService} from "@naologic/nao-user-access";
+import { NaoUserAccessService } from "@naologic/nao-user-access";
 
 
 @Component({
@@ -25,7 +25,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     public userData = null;
 
     constructor(
-        // private account: AccountApi,
         public wishlist: WishlistService,
         public cart: CartService,
         public header: HeaderService,

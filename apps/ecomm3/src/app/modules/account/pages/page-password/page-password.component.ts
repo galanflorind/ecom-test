@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { mustMatchValidator } from '../../../../functions/validators/must-match';
 import { Subject } from 'rxjs';
-import { AccountApi } from '../../../../api';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from "@angular/router";
@@ -19,7 +18,6 @@ export class PagePasswordComponent implements OnInit, OnDestroy {
     public saveInProgress = false;
 
     constructor(
-        private account: AccountApi,
         private toastr: ToastrService,
         private translate: TranslateService,
         private fb: FormBuilder,

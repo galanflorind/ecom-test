@@ -1,7 +1,6 @@
 import { Component, EventEmitter, HostBinding, OnDestroy, OnInit, Output } from '@angular/core';
 import { Subject, Subscription} from 'rxjs';
 import { Router } from '@angular/router';
-import { AccountApi } from '../../../../api';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NaoUserAccessService } from "@naologic/nao-user-access";
 
@@ -23,7 +22,6 @@ export class AccountMenuComponent implements OnInit, OnDestroy {
 
     constructor(
         private fb: FormBuilder,
-        public account: AccountApi,
         public router: Router,
         private naoUsersService: NaoUserAccessService,
     ) {

@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AccountApi } from '../../../../api';
 import { Subject, Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
@@ -21,7 +20,6 @@ export class PageProfileComponent implements OnInit, OnDestroy {
     public userData;
 
     constructor(
-        private account: AccountApi,
         private fb: FormBuilder,
         private toastr: ToastrService,
         private router: Router,

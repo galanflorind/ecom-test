@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AccountApi } from '../../../../api';
 import { generateRandomString } from "@naologic/nao-utils";
 import { NaoUserAccessService, NaoUsersInterface } from "@naologic/nao-user-access";
 import { ActiveCountryList } from "../../../../app.locale";
@@ -36,7 +35,6 @@ export class PageEditAddressComponent implements OnInit, OnDestroy {
     });
 
     constructor(
-        private accountApi: AccountApi,
         private router: Router,
         private route: ActivatedRoute,
         private naoUsersService: NaoUserAccessService,
