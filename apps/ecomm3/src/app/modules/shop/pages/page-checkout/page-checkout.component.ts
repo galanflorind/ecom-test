@@ -25,6 +25,7 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
     public checkoutInProgress = false;
     public addresses: NaoUsersInterface.Address[] = [];
     public shippingMethods: any[] = []
+    public successOrder = false;
     public payments = [
         {
             name: 'bank',
@@ -67,6 +68,7 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
+        this.successOrder = false;
         // -->Set: addresses
         this.addresses = this.naoUsersService.linkedDoc.getValue()?.data?.addresses || [];
         // -->Set: info
@@ -134,6 +136,7 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
         //     shippingAddress,
         //     comment: value.comment,
         // };
+        this.successOrder = true;
 
         // this.checkout$.next(checkoutData);
     }

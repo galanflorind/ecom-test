@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { PageCartComponent } from './pages/page-cart/page-cart.component';
 import { PageCheckoutComponent } from './pages/page-checkout/page-checkout.component';
 import { PageCompareComponent } from './pages/page-compare/page-compare.component';
-import { PageOrderSuccessComponent } from './pages/page-order-success/page-order-success.component';
 import { PageProductComponent } from './pages/page-product/page-product.component';
 import { PageShopComponent } from './pages/page-shop/page-shop.component';
 import { PageTrackOrderComponent } from './pages/page-track-order/page-track-order.component';
@@ -62,10 +61,6 @@ const routes: Routes = [
         pathMatch: 'full',
         component: PageCheckoutComponent,
         canActivate: [NaoUserPermissionsGuard]
-    },
-    {
-        path: 'checkout/:orderToken',
-        component: PageOrderSuccessComponent,
     },
     {
         path: 'wishlist',
