@@ -114,13 +114,12 @@ export class CartService {
             if (item) {
                 item.quantity += quantity;
             } else {
-                item = { product, quantity, variant };
+                item = {product, quantity, variant};
 
                 this.data.items.push(item);
             }
 
-
-
+            // -->Save and calculate
             this.save();
             this.calc();
 
@@ -152,6 +151,16 @@ export class CartService {
             this.save();
             this.calc();
         }));
+    }
+
+    /**
+     * Reset: cart
+     */
+    public clearCart(): void {
+        this.data.items = [];
+        // -->Save and calculate
+        this.save();
+        this.calc();
     }
 
     private calc(): void {

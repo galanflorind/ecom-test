@@ -12,6 +12,7 @@ import { UrlService } from '../../../../services/url.service';
 import { NaoUserAccessService, NaoUsersInterface } from "@naologic/nao-user-access";
 import { ECommerceService } from "../../../../e-commerce.service";
 import { AppService } from "../../../../app.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
     selector: 'app-page-checkout',
@@ -47,16 +48,15 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
 
 
     constructor(
-        private fb: FormBuilder,
         private modalService: BsModalService,
         private router: Router,
         private translate: TranslateService,
         public url: UrlService,
-        public accountApi: AccountApi,
         public eCommerceService: ECommerceService,
         public cart: CartService,
         public appService: AppService,
-        private naoUsersService: NaoUserAccessService
+        private naoUsersService: NaoUserAccessService,
+        private toastr: ToastrService,
     ) {
         this.formGroup = new FormGroup({
             billingAddressId: new FormControl(null, {validators: [Validators.required]}),
@@ -122,9 +122,9 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
     }
 
     private checkout(): void {
-        const value = this.formGroup.value;
+        const order = this.formGroup.value;
 
-        console.log("checkout >>>", value)
+        console.log("order >>>", order)
         // const checkoutData: CheckoutData = {
         //     payment: value.paymentMethod,
         //     items: this.cart.items.map(item => ({
@@ -136,9 +136,48 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
         //     shippingAddress,
         //     comment: value.comment,
         // };
-        this.successOrder = true;
 
-        // this.checkout$.next(checkoutData);
+        console.log("cart >>>", this.cart.items)
+        // -->Set: cart
+        const cart = this.cart.items.map(item => {
+            return {
+                productId: item.product._id,
+                variantID: item.variant.id,
+                quantity: item.quantity
+            }
+        })
+
+        // -->Start: Send support message
+        this.eCommerceService.verifyCheckout({ order, cart }).toPromise()
+            .then((data) => {
+                console.warn(`verifyCheckout() result: `, data, `\n\n`);
+                // -->Enable
+                if (data && data.ok) {
+                    // -->Complete: checkout
+                    return this.eCommerceService.completeCheckout({ order, cart }).toPromise();
+                } else {
+                    // -->Show: toaster
+                    this.toastr.error(this.translate.instant('ERROR_API_REQUEST'));
+                }
+            })
+            .then((res) => {
+                console.warn(`executeCheckout > `, res);
+                console.warn(`executeCheckout > `, res.data.invoiceId);
+                if (res && res.ok && res.data?.invoiceId) {
+                    // -->Clear: cart
+                    this.cart.clearCart();
+                    // -->Show: success order
+                    this.successOrder = true;
+
+                } else {
+                    // -->Show: toaster
+                    this.toastr.error(this.translate.instant('ERROR_API_REQUEST'));
+                }
+            })
+            .catch((err) => {
+                // -->Show: toaster
+                this.toastr.error(this.translate.instant('ERROR_API_REQUEST'));
+            });
     }
 
 
