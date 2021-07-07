@@ -7,12 +7,13 @@ import { CartService } from '../../../../services/cart.service';
 import { Subject, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { AccountApi, CheckoutData } from '../../../../api';
 import { UrlService } from '../../../../services/url.service';
 import { NaoUserAccessService, NaoUsersInterface } from "@naologic/nao-user-access";
 import { ECommerceService } from "../../../../e-commerce.service";
 import { AppService } from "../../../../app.service";
-import {ToastrService} from "ngx-toastr";
+import { ToastrService } from "ngx-toastr";
+
+export type paymentMethods = 'cheque' | 'card' | 'wire' | 'online-bank-payment';
 
 @Component({
     selector: 'app-page-checkout',
@@ -27,23 +28,10 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
     public addresses: NaoUsersInterface.Address[] = [];
     public shippingMethods: any[] = []
     public successOrder = false;
-    public payments = [
-        {
-            name: 'bank',
-            label: 'TEXT_PAYMENT_BANK_LABEL',
-            description: 'TEXT_PAYMENT_BANK_DESCRIPTION',
-        },
-        {
-            name: 'check',
-            label: 'TEXT_PAYMENT_CHECK_LABEL',
-            description: 'TEXT_PAYMENT_CHECK_DESCRIPTION',
-        },
-        {
-            name: 'cash',
-            label: 'TEXT_PAYMENT_CASH_LABEL',
-            description: 'TEXT_PAYMENT_CASH_DESCRIPTION',
-        }
-    ];
+    public allowedPaymentMethodsForRedirect: paymentMethods[] = ['card', 'wire', 'online-bank-payment'];
+    public payments = [];
+
+
 
 
 
@@ -62,6 +50,7 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
             billingAddressId: new FormControl(null, {validators: [Validators.required]}),
             shippingAddressId: new FormControl(null, {validators: [Validators.required]}),
             shippingMethod: new FormControl(null, {validators: [Validators.required]}),
+            paymentMethod: new FormControl(null),
             agree: new FormControl(false, {validators: [Validators.requiredTrue]}),
         });
 
@@ -69,8 +58,12 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.successOrder = false;
+        // -->Get: linked doc
+        const linkedDoc = this.naoUsersService.linkedDoc.getValue();
+        // -->Set: allowed payment methods
+        const allowedPaymentMethods = Array.isArray(linkedDoc?.data?.allowedPaymentMethods) ? linkedDoc?.data?.allowedPaymentMethods : [];
         // -->Set: addresses
-        this.addresses = this.naoUsersService.linkedDoc.getValue()?.data?.addresses || [];
+        this.addresses = linkedDoc?.data?.addresses || [];
         // -->Set: info
         const appInfo = this.appService.appInfo.getValue();
         // -->Set: shipping methods
@@ -82,6 +75,54 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
         this.formGroup.get('shippingAddressId').patchValue(this.addresses.length ? this.addresses[0].id: null);
         // -->Set: shippingMethod default
         this.formGroup.get('shippingMethod').patchValue(this.shippingMethods.length ? this.shippingMethods[0].id: null);
+
+        // -->Check: payment methods
+        if (allowedPaymentMethods.length) {
+            // -->Set: a default payment method
+            this.formGroup.get('paymentMethod').setValue(allowedPaymentMethods[0]);
+            // -->Set: payments
+            allowedPaymentMethods.forEach(method => {
+                switch (method as paymentMethods) {
+                    case 'cheque':
+                        this.payments.push(
+                            {
+                                name: 'cheque',
+                                label: 'TEXT_PAYMENT_CHECK_LABEL',
+                                description: 'TEXT_PAYMENT_CHECK_DESCRIPTION',
+                            }
+                        );
+                        break;
+                    case 'card':
+                        this.payments.push(
+                            {
+                                name: 'card',
+                                label: 'TEXT_PAYMENT_CARD_LABEL',
+                                description: 'TEXT_PAYMENT_CARD_DESCRIPTION',
+                            }
+                        );
+                        break;
+                    case 'online-bank-payment':
+                        this.payments.push(
+                            {
+                                name: 'online-bank-payment',
+                                label: 'TEXT_PAYMENT_BANK_LABEL',
+                                description: 'TEXT_PAYMENT_BANK_DESCRIPTION',
+                            }
+                        );
+                        break;
+                    case 'wire':
+                        this.payments.push(
+                            {
+                                name: 'wire',
+                                label: 'TEXT_PAYMENT_WIRE_LABEL',
+                                description: 'TEXT_PAYMENT_WIRE_DESCRIPTION',
+                            }
+                        );
+                        break;
+                }
+               })
+        }
+
 
         this.cart.quantity$.pipe(
             filter(x => x === 0),
@@ -122,22 +163,14 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
     }
 
     private checkout(): void {
+        // -->Get: payment method
+        const paymentMethod: paymentMethods = this.formGroup.get('paymentMethod').value;
+        // -->Get: order
         const order = this.formGroup.value;
 
+        console.log("paymentMethod >>>", paymentMethod)
         console.log("order >>>", order)
-        // const checkoutData: CheckoutData = {
-        //     payment: value.paymentMethod,
-        //     items: this.cart.items.map(item => ({
-        //         productId: item.product.id,
-        //         variant: item.variant,
-        //         quantity: item.quantity,
-        //     })),
-        //     billingAddress,
-        //     shippingAddress,
-        //     comment: value.comment,
-        // };
 
-        console.log("cart >>>", this.cart.items)
         // -->Set: cart
         const cart = this.cart.items.map(item => {
             return {
@@ -145,7 +178,9 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
                 variantID: item.variant.id,
                 quantity: item.quantity
             }
-        })
+        });
+        console.log("cart >>>", cart)
+
 
         // -->Start: Send support message
         this.eCommerceService.verifyCheckout({ order, cart }).toPromise()
@@ -168,6 +203,18 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
                     this.cart.clearCart();
                     // -->Show: success order
                     this.successOrder = true;
+                    // -->Check: if the payment method needs redirect
+                    if (this.allowedPaymentMethodsForRedirect.includes(paymentMethod)) {
+                        // -->TODO: Redirect: to the public invoice
+                        // -->TODO: Redirect: to the public invoice
+                        // -->TODO: Redirect: to the public invoice
+                        // -->TODO: Redirect: to the public invoice
+                        // -->TODO: Redirect: to the public invoice
+                        // -->TODO: Redirect: to the public invoice
+                        // -->TODO: Redirect: to the public invoice
+                        // -->TODO: Redirect: to the public invoice
+                        // -->TODO: Redirect: to the public invoice
+                    }
 
                 } else {
                     // -->Show: toaster

@@ -72,6 +72,7 @@ export namespace NaoUsersInterface {
       data: {
           addresses: Address[];
           phoneNo: string;
+          allowedPaymentMethods: string[];
       }
 
   }

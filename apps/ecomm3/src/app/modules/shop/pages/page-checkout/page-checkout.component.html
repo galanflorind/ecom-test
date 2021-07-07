@@ -133,27 +133,27 @@
                                 </tfoot>
                             </table>
 
-                            <!--                        <div class="checkout__payment-methods payment-methods">-->
-                            <!--                            <ul class="payment-methods__list" formControlName="paymentMethod" appRadioGroup>-->
-                            <!--                                <li-->
-                            <!--                                    *ngFor="let payment of payments" class="payment-methods__item"-->
-                            <!--                                    appCollapseItem="payment-methods__item&#45;&#45;active"-->
-                            <!--                                    [appCollapseItemIsOpen]="formGroup.controls.paymentMethod.value === payment.name"-->
-                            <!--                                >-->
-                            <!--                                    <label class="payment-methods__item-header">-->
-                            <!--                                        <app-radio-button class="payment-methods__item-radio" [value]="payment.name"></app-radio-button>-->
-                            <!--                                        <span class="payment-methods__item-title">-->
-                            <!--                                            {{ payment.label|translate }}-->
-                            <!--                                        </span>-->
-                            <!--                                    </label>-->
-                            <!--                                    <div class="payment-methods__item-container" appCollapseContent>-->
-                            <!--                                        <div class="payment-methods__item-details text-muted">-->
-                            <!--                                            {{ payment.description|translate }}-->
-                            <!--                                        </div>-->
-                            <!--                                    </div>-->
-                            <!--                                </li>-->
-                            <!--                            </ul>-->
-                            <!--                        </div>-->
+                                <div class="checkout__payment-methods payment-methods" *ngIf="payments?.length">
+                                    <ul class="payment-methods__list" formControlName="paymentMethod" appRadioGroup>
+                                        <li
+                                            *ngFor="let payment of payments" class="payment-methods__item"
+                                            appCollapseItem="payment-methods__item--active"
+                                            [appCollapseItemIsOpen]="formGroup.controls.paymentMethod.value === payment.name"
+                                        >
+                                            <label class="payment-methods__item-header">
+                                                <app-radio-button class="payment-methods__item-radio" [value]="payment.name"></app-radio-button>
+                                                <span class="payment-methods__item-title">
+                                                    {{ payment.label|translate }}
+                                                </span>
+                                            </label>
+                                            <div class="payment-methods__item-container" appCollapseContent>
+                                                <div class="payment-methods__item-details text-muted">
+                                                    {{ payment.description|translate }}
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
 
                             <!--Checkbox for terms-->
                             <div class="checkout__agree form-group">
@@ -182,8 +182,9 @@
                                 class="btn btn-primary btn-xl btn-block"
                                 [disabled]="checkoutInProgress || formGroup.invalid"
                                 [class.btn-loading]="checkoutInProgress"
-                                (click)="createOrder()"
-                            >{{ 'BUTTON_PLACE_ORDER' | translate }}</button>
+                                (click)="createOrder()">
+                                {{ (allowedPaymentMethodsForRedirect.includes(formGroup.get('paymentMethod').value) ? 'BUTTON_PROCEED_TO_PAYMENT' : 'BUTTON_PLACE_ORDER') | translate }}
+                            </button>
                         </div>
                     </div>
                 </div>
