@@ -2,11 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { mustMatchValidator } from '../../../../functions/validators/must-match';
 import { Subject } from 'rxjs';
-import { finalize, takeUntil } from 'rxjs/operators';
 import { AccountApi } from '../../../../api';
-import { HttpErrorResponse } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
+import { Router } from "@angular/router";
+import { UserProfileService } from "../../../../services/users-profile.service";
 
 @Component({
     selector: 'app-page-password',
@@ -15,59 +15,56 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class PagePasswordComponent implements OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
-
-    form!: FormGroup;
-
-    saveInProgress = false;
+    public form!: FormGroup;
+    public saveInProgress = false;
 
     constructor(
         private account: AccountApi,
         private toastr: ToastrService,
         private translate: TranslateService,
         private fb: FormBuilder,
+        private router: Router,
+        private userProfileService: UserProfileService,
     ) { }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this.form = this.fb.group({
-            currentPassword: ['', [Validators.required]],
-            newPassword: ['', [Validators.required]],
-            confirmPassword: ['', [Validators.required]],
+            currentPassword: ['', [Validators.required, Validators.minLength(8)]],
+            newPassword: ['', [Validators.required, Validators.minLength(8)]],
+            confirmPassword: ['', [Validators.required, Validators.minLength(8)]],
         }, { validators: [mustMatchValidator('newPassword', 'confirmPassword')] });
     }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();
     }
 
-    save(): void {
+    public save(): void {
         this.form.markAllAsTouched();
 
         if (this.saveInProgress || this.form.invalid) {
             return;
         }
 
+        // -->Start: loading
         this.saveInProgress = true;
 
-        this.account.changePassword(
-            this.form.value.currentPassword,
-            this.form.value.newPassword,
-        ).pipe(
-            finalize(() => this.saveInProgress = false),
-            takeUntil(this.destroy$),
-        ).subscribe(
-            () => {
-                this.toastr.success(this.translate.instant('TEXT_TOAST_PASSWORD_CHANGED'));
-            },
-            error => {
-                if (error instanceof HttpErrorResponse) {
-                    this.form.setErrors({
-                        server: `ERROR_API_${error.error.message}`,
-                    });
-                } else {
-                    alert(error);
-                }
-            },
-        );
+        // -->Update
+        this.userProfileService.updatePassword(this.form.value.currentPassword, this.form.value.newPassword).subscribe(res => {
+            if (res && res.ok) {
+                return this.router.navigate(['/', 'account', 'dashboard']);
+            } else {
+                // -->Done: loading
+                this.saveInProgress = false;
+                // -->Show: toaster
+                this.toastr.error(this.translate.instant('ERROR_API_REQUEST'));
+            }
+        }, error => {
+            // -->Done: loading
+            this.saveInProgress = false;
+            // -->Show: toaster
+            this.toastr.error(this.translate.instant('ERROR_API_REQUEST'));
+        })
     }
 }

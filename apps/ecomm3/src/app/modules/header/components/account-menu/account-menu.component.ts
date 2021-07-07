@@ -38,8 +38,8 @@ export class AccountMenuComponent implements OnInit, OnDestroy {
         );
 
         this.formGroup = this.fb.group({
-            email: ['contact@naologic.com', [Validators.required, Validators.email]],
-            password: ['123456', [Validators.required]],
+            email: [null, [Validators.required, Validators.email]],
+            password: [null, [Validators.required]],
         });
     }
 

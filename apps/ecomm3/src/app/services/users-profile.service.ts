@@ -41,9 +41,9 @@ export class UserProfileService<T = any> {
     /**
      * Update user password
      */
-    public updatePassword(docId: string, data: Partial<T>, naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault()): Observable<T> {
+    public updatePassword(currentPassword: string, newPassword: string, naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault()): Observable<T> {
         // -->Request: data browse
-        return this.naoHttp2ApiService.patchJson<T>(`${this.api.root}/password/update/id`, { data: {  data, docId }, naoQueryOptions });
+        return this.naoHttp2ApiService.patchJson<T>(`${this.api.root}/password/update/id`, { data: { currentPassword, newPassword }, naoQueryOptions });
     }
 
     /**

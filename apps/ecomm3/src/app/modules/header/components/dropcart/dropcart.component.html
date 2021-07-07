@@ -41,10 +41,10 @@
                 <th>{{ 'TABLE_SUBTOTAL' | translate }}</th>
                 <td>{{ ((cart.subtotal$|async) || 0) | currencyFormat }}</td>
             </tr>
-            <tr *ngFor="let total of cart.totals$|async">
-                <th>{{ 'TABLE_TOTAL_' + total.title|translate }}</th>
-                <td>{{ total.price | currencyFormat  }}</td>
-            </tr>
+<!--            <tr *ngFor="let total of cart.totals$|async">-->
+<!--                <th>{{ 'TABLE_TOTAL_' + total.title|translate }}</th>-->
+<!--                <td>{{ total.price | currencyFormat  }}</td>-->
+<!--            </tr>-->
             <tr>
                 <th>{{ 'TABLE_TOTAL' | translate }}</th>
                 <td>{{ ((cart.total$|async) || 0) | currencyFormat }}</td>

@@ -49,8 +49,8 @@ export class RegisterFormComponent implements ControlValueAccessor, Validator {
     ) {
         this.form = this.fb.group({
             email:           ['', [Validators.required, Validators.email]],
-            password:        ['', Validators.required],
-            confirmPassword: ['', Validators.required],
+            password:        ['', Validators.required, Validators.minLength(8)],
+            confirmPassword: ['', Validators.required, Validators.minLength(8)],
         }, { validators: [mustMatchValidator('password', 'confirmPassword')] });
 
         this.form.valueChanges.subscribe(value => {
