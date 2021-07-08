@@ -55,7 +55,7 @@ export class PageAddressesComponent implements OnInit, OnDestroy {
             addresses: this.addresses.filter(item => item.id !== address.id)
         }
         // -->Update
-        this.userProfileService.update('data', data).subscribe(res => {
+        this.userProfileService.update('addresses', data).subscribe(res => {
             if (res && res.ok) {
                 // -->Refresh: session data
                 this.naoUsersService.refreshSessionData().then(res => {

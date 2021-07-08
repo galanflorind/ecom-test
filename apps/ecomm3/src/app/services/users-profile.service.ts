@@ -8,7 +8,7 @@ import { NaoDocumentInterface } from "@naologic/nao-interfaces";
     providedIn: 'root'
 })
 export class UserProfileService<T = any> {
-    public readonly api = { root: 'users-guests/guest-profile' };
+    public readonly api = { root: 'users' };
     public readonly userAccessOptions;
 
     constructor(
@@ -32,9 +32,9 @@ export class UserProfileService<T = any> {
      *    @example
      *      this.update('data', { addresses: [] })
      */
-    public update(mode: 'data'|'payment'|'order'|'password', data: Partial<T>, naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault()): Observable<T> {
+    public update(mode: 'profile'|'addresses'|'order'|'password', data: Partial<T>, naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault()): Observable<T> {
         // -->Request: data browse
-        return this.naoHttp2ApiService.postJson<T>(`${this.api.root}/update/${naoQueryOptions.docName}/data`, {
+        return this.naoHttp2ApiService.postJson<T>(`${this.api.root}/guest/update/${naoQueryOptions.docName}/data`, {
             data: { data, mode, naoQueryOptions: this.userAccessOptions.naoQueryOptions, cfpPath: this.userAccessOptions.cfpPath }, naoQueryOptions });
     }
 
@@ -43,14 +43,14 @@ export class UserProfileService<T = any> {
      */
     public updatePassword(currentPassword: string, newPassword: string, naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault()): Observable<T> {
         // -->Request: data browse
-        return this.naoHttp2ApiService.patchJson<T>(`${this.api.root}/password/update/id`, { data: { currentPassword, newPassword }, naoQueryOptions });
+        return this.naoHttp2ApiService.patchJson<T>(`${this.api.root}/guest/password/update/id`, { data: { currentPassword, newPassword }, naoQueryOptions });
     }
 
     /**
      * Delete my user account
      */
     public deleteAccount(password: string, naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault()): Observable<any> {
-        return this.naoHttp2ApiService.postJson(`${this.api.root}/delete/document/account`, { data: { password }, naoQueryOptions });
+        return this.naoHttp2ApiService.postJson(`${this.api.root}/guest/delete/document/account`, { data: { password }, naoQueryOptions });
     }
 
     /**
@@ -63,7 +63,7 @@ export class UserProfileService<T = any> {
      */
     public sendResetPasswordEmail(email: string): Observable<T> {
       // -->Check: this invite
-      return this.naoHttp2ApiService.postJson<T>(`users-auth-sso/password/forgot/now`, { data: { email }, naoQueryOptions: this.naoUsersService.userAccessOptions.naoQueryOptions });
+      return this.naoHttp2ApiService.postJson<T>(`${this.api.root}/guest/password/forgot/now`, { data: { email }, naoQueryOptions: this.naoUsersService.userAccessOptions.naoQueryOptions });
     }
     //
     // /**

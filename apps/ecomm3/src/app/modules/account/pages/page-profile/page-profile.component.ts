@@ -64,7 +64,7 @@ export class PageProfileComponent implements OnInit, OnDestroy {
         // -->Get: value
         const data = this.formGroup.getRawValue();
         // -->Update
-        this.userProfileService.update('data', data).subscribe(res => {
+        this.userProfileService.update('profile', data).subscribe(res => {
             if (res && res.ok) {
                 // -->Refresh: session data
                 this.naoUsersService.refreshSessionData().then(res => {
