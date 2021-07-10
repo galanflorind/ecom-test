@@ -48,7 +48,6 @@ export class PageInvoicesComponent implements OnInit, OnDestroy {
             .done();
         // -->Execute
         this.eCommerceService.listInvoices(query).subscribe(res => {
-            console.log("res >>>")
             if (res && Array.isArray(res.data)) {
                 this.list = res.data
             }

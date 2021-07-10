@@ -28,9 +28,9 @@ export class PagePasswordComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.form = this.fb.group({
             currentPassword: ['', [Validators.required, Validators.minLength(8)]],
-            newPassword: ['', [Validators.required, Validators.minLength(8)]],
+            password: ['', [Validators.required, Validators.minLength(8)]],
             confirmPassword: ['', [Validators.required, Validators.minLength(8)]],
-        }, { validators: [mustMatchValidator('newPassword', 'confirmPassword')] });
+        }, { validators: [mustMatchValidator('password', 'confirmPassword')] });
     }
 
     public ngOnDestroy(): void {
@@ -49,7 +49,7 @@ export class PagePasswordComponent implements OnInit, OnDestroy {
         this.saveInProgress = true;
 
         // -->Update
-        this.userProfileService.updatePassword(this.form.value.currentPassword, this.form.value.newPassword).subscribe(res => {
+        this.userProfileService.updatePassword(this.form.value).subscribe(res => {
             if (res && res.ok) {
                 return this.router.navigate(['/', 'account', 'dashboard']);
             } else {

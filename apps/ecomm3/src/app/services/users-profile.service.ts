@@ -32,7 +32,7 @@ export class UserProfileService<T = any> {
      *    @example
      *      this.update('data', { addresses: [] })
      */
-    public update(mode: 'profile'|'addresses'|'order'|'password', data: Partial<T>, naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault()): Observable<T> {
+    public update(mode: 'profile'|'addresses'|'order', data: Partial<T>, naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault({ docName: 'guest-external-ecommerce', userMode: 'guest-external' })): Observable<T> {
         // -->Request: data browse
         return this.naoHttp2ApiService.postJson<T>(`${this.api.root}/guest/update/${naoQueryOptions.docName}/data`, {
             data: { data, mode, naoQueryOptions: this.userAccessOptions.naoQueryOptions, cfpPath: this.userAccessOptions.cfpPath }, naoQueryOptions });
@@ -41,15 +41,15 @@ export class UserProfileService<T = any> {
     /**
      * Update user password
      */
-    public updatePassword(currentPassword: string, newPassword: string, naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault()): Observable<T> {
+    public updatePassword(data: {currentPassword: string, password: string, confirmPassword: string}, naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault({ docName: 'guest-external-ecommerce', userMode: 'guest-external' })): Observable<T> {
         // -->Request: data browse
-        return this.naoHttp2ApiService.patchJson<T>(`${this.api.root}/guest/password/update/id`, { data: { currentPassword, newPassword }, naoQueryOptions });
+        return this.naoHttp2ApiService.patchJson<T>(`${this.api.root}/guest/password/${naoQueryOptions.docName}/update`, { data: {data}, naoQueryOptions });
     }
 
     /**
      * Delete my user account
      */
-    public deleteAccount(password: string, naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault()): Observable<any> {
+    public deleteAccount(password: string, naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault({ docName: 'guest-external-ecommerce', userMode: 'guest-external' })): Observable<any> {
         return this.naoHttp2ApiService.postJson(`${this.api.root}/guest/delete/document/account`, { data: { password }, naoQueryOptions });
     }
 
