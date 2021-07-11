@@ -172,24 +172,26 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
         console.log("order >>>", order)
 
         // -->Set: cart
-        const cart = this.cart.items.map(item => {
+        const orderLines = this.cart.items.map(item => {
             return {
                 productId: item.product._id,
-                variantID: item.variant.id,
+                variantId: item.variant.id,
                 quantity: item.quantity
             }
         });
-        console.log("cart >>>", cart)
+        console.log("cart >>>", orderLines)
+
+        const data$ = { ...order, orderLines }
 
 
         // -->Start: Send support message
-        this.eCommerceService.verifyCheckout({ order, cart }).toPromise()
+        this.eCommerceService.verifyCheckout(data$).toPromise()
             .then((data) => {
                 console.warn(`verifyCheckout() result: `, data, `\n\n`);
                 // -->Enable
                 if (data && data.ok) {
                     // -->Complete: checkout
-                    return this.eCommerceService.completeCheckout({ order, cart }).toPromise();
+                    return this.eCommerceService.completeCheckout(data$).toPromise();
                 } else {
                     // -->Show: toaster
                     this.toastr.error(this.translate.instant('ERROR_API_REQUEST'));
