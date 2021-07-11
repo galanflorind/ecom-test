@@ -95,27 +95,21 @@ export class ECommerceService<T = any> {
      * todo: @experimental. must test
      * todo: @experimental. must test
      */
-    public getOrder(docId: string, naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault()): Observable<T> {
+    public getOrder(docId: string, naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault({ userMode: 'guest-external' })): Observable<T> {
         return this.naoHttp2ApiService.postJson<T>(`${this.apiRoot}/orders/get/${naoQueryOptions.docName}/data`, { data: { docId }, naoQueryOptions });
     }
 
     /**
      *  Verify if a checkout can be made with the current cart items
-     *  todo: gabi will do
-     *  todo: gabi will do
-     *  todo: gabi will do
      */
-    public verifyCheckout(data: T, naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault()): Observable<T> {
-        return this.naoHttp2ApiService.postJson<T>(`${this.apiRoot}/checkout/${naoQueryOptions.docName}/verify`, { data: { data }, naoQueryOptions });
+    public verifyCheckout(data: T, naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault({ userMode: 'guest-external' })): Observable<T> {
+        return this.naoHttp2ApiService.postJson<T>(`${this.apiRoot}/checkout/verify/${naoQueryOptions.docName}/order`, { data: { data }, naoQueryOptions });
     }
 
     /**
      *  Execute a checkout
-     *  todo: gabi will do
-     *  todo: gabi will do
-     *  todo: gabi will do
      */
-    public completeCheckout(data: T, naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault()): Observable<T> {
-        return this.naoHttp2ApiService.postJson<T>(`${this.apiRoot}/checkout/${naoQueryOptions.docName}/execute`, { data: { data }, naoQueryOptions });
+    public completeCheckout(data: T, naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault({ userMode: 'guest-external' })): Observable<T> {
+        return this.naoHttp2ApiService.postJson<T>(`${this.apiRoot}/checkout/checkout/${naoQueryOptions.docName}/order`, { data: { data }, naoQueryOptions });
     }
 }

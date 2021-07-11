@@ -200,7 +200,6 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
             })
             .then((res) => {
                 console.warn(`executeCheckout > `, res);
-                console.warn(`executeCheckout > `, res.data.invoiceId);
                 if (res && res.ok && res.data?.invoiceId) {
                     // -->Clear: cart
                     this.cart.clearCart();
