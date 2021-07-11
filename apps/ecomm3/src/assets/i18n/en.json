@@ -298,7 +298,7 @@
   "TEXT_ORDER_STATUS_PENDING": "Pending",
   "TEXT_ORDER_STATUS_SHIPPED": "Shipped",
   "TEXT_ORDER_SUMMARY": "Was placed on <mark>{date, date, long}</mark> and is currently <mark>{status}</mark>.",
-  "TEXT_ORDER_TOTAL": "{total} for {quantity} {quantity, plural, one {item} other {items}}",
+  "TEXT_ORDER_TOTAL": "{total}",
   "TEXT_ORDER_WITH_NUMBER": "Order {number}",
   "TEXT_OUR_LOCATION": "Our Location",
   "TEXT_PAYMENT_BANK_DESCRIPTION": "Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.",

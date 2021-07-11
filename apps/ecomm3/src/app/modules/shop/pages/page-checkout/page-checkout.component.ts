@@ -51,6 +51,7 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
             shippingAddressId: new FormControl(null, {validators: [Validators.required]}),
             shippingMethod: new FormControl(null, {validators: [Validators.required]}),
             paymentMethod: new FormControl(null),
+            customerPurchaseOrder: new FormControl(null),
             agree: new FormControl(false, {validators: [Validators.requiredTrue]}),
         });
 

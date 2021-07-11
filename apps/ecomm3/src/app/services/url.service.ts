@@ -36,8 +36,11 @@ export class UrlService {
     }
 
     public product(product: Product): string {
+        if (!product.data?.name) {
+            return '';
+        }
         // -->Slugify: the product name
-        const productSlug = nameToSlug(product.data?.name);
+        const productSlug = nameToSlug(product.data.name);
         // -->Return: product url
         return `/shop/products/${productSlug}/${product._id}`;
     }

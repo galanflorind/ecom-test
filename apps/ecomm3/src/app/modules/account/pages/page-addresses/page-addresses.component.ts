@@ -61,6 +61,8 @@ export class PageAddressesComponent implements OnInit, OnDestroy {
                 this.naoUsersService.refreshSessionData().then(res => {
                     // -->Done: loading
                     const index = this.removeInProgress.indexOf(address.id);
+                    // -->Filter: addresses
+                    this.addresses = this.addresses.filter(item => item.id !== address.id);
 
                     if (index !== -1) {
                         this.removeInProgress.splice(index, 1);

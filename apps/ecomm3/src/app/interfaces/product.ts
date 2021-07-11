@@ -116,13 +116,6 @@ export interface Variant {
 
 export interface Product {
     _id?: number;
-    manufacturer?: {
-        data: {
-            name: string;
-            manufacturerId: string;
-        },
-        _id: string;
-    }
     data?: {
         availability: string;
         available: true;
@@ -143,6 +136,21 @@ export interface Product {
         variants: Variant[];
         rating?: any; // todo: this would be for future use
         vendorId;
+        manufacturer?: {
+            data: {
+                name: string;
+                manufacturerId: string;
+            },
+            _id: string;
+        }
+    }
+    // When you do a filter, the manufacturer comes at data level
+    manufacturer?: {
+        data: {
+            name: string;
+            manufacturerId: string;
+        },
+        _id: string;
     }
 
     /**

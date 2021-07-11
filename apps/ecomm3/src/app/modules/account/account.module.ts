@@ -9,7 +9,6 @@ import { PageAddressesComponent } from './pages/page-addresses/page-addresses.co
 import { PageDashboardComponent } from './pages/page-dashboard/page-dashboard.component';
 import { PageEditAddressComponent } from './pages/page-edit-address/page-edit-address.component';
 import { PageLoginComponent } from './pages/page-login/page-login.component';
-import { PageOrderDetailsComponent } from './pages/page-order-details/page-order-details.component';
 import { PageInvoicesComponent } from './pages/page-invoices/page-invoices.component';
 import { PagePasswordComponent } from './pages/page-password/page-password.component';
 import { PageProfileComponent } from './pages/page-profile/page-profile.component';
@@ -24,7 +23,6 @@ import { PageForgotPasswordComponent } from "./pages/page-forgot-password/page-f
         PageDashboardComponent,
         PageEditAddressComponent,
         PageLoginComponent,
-        PageOrderDetailsComponent,
         PageInvoicesComponent,
         PagePasswordComponent,
         PageProfileComponent,

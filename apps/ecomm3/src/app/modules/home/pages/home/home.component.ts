@@ -1,62 +1,45 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Product } from '../../../../interfaces/product';
-import { ECommerceService } from "../../../../e-commerce.service";
-import { QuickMongoQuery } from "@naologic/nao-utils";
-import {AppService} from "../../../../app.service";
-import {NaoSettingsInterface} from "../../../../../../../../libs/nao-interfaces/src";
+import { AppService } from "../../../../app.service";
+import { UrlService } from "../../../../services/url.service";
+
 
 interface ProductsCarouselData {
     products: Product[];
     loading: boolean;
 }
-//
-// interface DeferredData<T> {
-//     loading: boolean;
-//     data$: Observable<T>;
-// }
 
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
+    private subs = new Subscription();
     public featuredProducts: ProductsCarouselData = {
         loading: false,
         products: []
     };
     public dataSub = new Subscription();
-
+    public primaryFeaturedProduct: Product;
 
     constructor(
-        private ecommerceService: ECommerceService,
+        private appService: AppService,
+        public url: UrlService,
     ) { }
 
     public ngOnInit(): void {
-
-
-        this.refreshFeaturedProducts();
-
-        // this.featuredProducts = this.makeCarouselData([
-        //     {
-        //         label: 'All',
-        //         products$: this.shopApi.getFeaturedProducts(null, 8),
-        //     },
-        //     {
-        //         label: 'Power Tools',
-        //         products$: this.shopApi.getFeaturedProducts('power-tools', 8),
-        //     },
-        //     {
-        //         label: 'Hand Tools',
-        //         products$: this.shopApi.getFeaturedProducts('hand-tools', 8),
-        //     },
-        //     {
-        //         label: 'Plumbing',
-        //         products$: this.shopApi.getFeaturedProducts('plumbing', 8),
-        //     },
-        // ]);
-
+        // -->Subscribe: to appInfo changes
+        this.subs.add(
+            this.appService.appInfo.subscribe(value => {
+                console.log("value >>>", value)
+                // -->Set: Primary featured product
+                this.primaryFeaturedProduct = value?.primaryFeaturedProduct || {};
+                // -->Set: featured products
+                this.featuredProducts.products = value?.featuredProducts || [];
+            })
+        )
     }
 
     /**
@@ -79,31 +62,35 @@ export class HomeComponent implements OnInit {
     //     return carouselData;
     // }
 
-    /**
-     * Get products
-     * @WIP
-     * TODO: get featured products and let user pick up to 10 featured products
-     */
-    public refreshFeaturedProducts(): void{
-        // // -->Prepare: query
-        // const query = this.search.searchQuery$.getValue();
-        // // -->Set: pagination options
-        // query.options = {
-        //     ...query.options,
-        //     ...this.search.pageQuery$.getValue().options,
-        //     sort: this.sort.sorts.getValue()
-        // };
-        // todo: add fetch
-        const query = new QuickMongoQuery()
-            .limit(10)
-            .returnDataModel({ _id: 1, data: 1 })
-            .done();
-        // -->Start: loading
-        this.featuredProducts.loading = true;
-        this.ecommerceService.productsList(query).subscribe(res => {
-            this.featuredProducts.products = res.data;
-            this.featuredProducts.loading = false;
-        }, err => err)
+    // /**
+    //  * Get products
+    //  * @WIP
+    //  * TODO: get featured products and let user pick up to 10 featured products
+    //  */
+    // public refreshFeaturedProducts(): void{
+    //     // // -->Prepare: query
+    //     // const query = this.search.searchQuery$.getValue();
+    //     // // -->Set: pagination options
+    //     // query.options = {
+    //     //     ...query.options,
+    //     //     ...this.search.pageQuery$.getValue().options,
+    //     //     sort: this.sort.sorts.getValue()
+    //     // };
+    //     // todo: add fetch
+    //     const query = new QuickMongoQuery()
+    //         .limit(10)
+    //         .returnDataModel({ _id: 1, data: 1 })
+    //         .done();
+    //     // -->Start: loading
+    //     this.featuredProducts.loading = true;
+    //     this.ecommerceService.productsList(query).subscribe(res => {
+    //         this.featuredProducts.products = res.data;
+    //         this.featuredProducts.loading = false;
+    //     }, err => err)
+    //
+    // }
 
+    public ngOnDestroy(): void {
+        this.subs.unsubscribe();
     }
 }

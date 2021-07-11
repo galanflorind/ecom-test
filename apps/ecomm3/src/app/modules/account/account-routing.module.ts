@@ -1,18 +1,16 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LayoutComponent } from './components/layout/layout.component';
-// pages
 import { PageAddressesComponent } from './pages/page-addresses/page-addresses.component';
 import { PageDashboardComponent } from './pages/page-dashboard/page-dashboard.component';
 import { PageEditAddressComponent } from './pages/page-edit-address/page-edit-address.component';
 import { PageLoginComponent } from './pages/page-login/page-login.component';
-import { PageOrderDetailsComponent } from './pages/page-order-details/page-order-details.component';
 import { PageInvoicesComponent } from './pages/page-invoices/page-invoices.component';
 import { PagePasswordComponent } from './pages/page-password/page-password.component';
 import { PageProfileComponent } from './pages/page-profile/page-profile.component';
 import { PageRegisterComponent } from "./pages/page-register/page-register.component";
-import {NaoUserPermissionsGuard} from "../../../../../../libs/nao-user-access/src";
-import {PageForgotPasswordComponent} from "./pages/page-forgot-password/page-forgot-password.component";
+import { NaoUserPermissionsGuard } from "@naologic/nao-user-access";
+import { PageForgotPasswordComponent } from "./pages/page-forgot-password/page-forgot-password.component";
 
 const routes: Routes = [
     {
@@ -42,10 +40,6 @@ const routes: Routes = [
                 path: 'invoices',
                 component: PageInvoicesComponent,
             },
-            // {
-            //     path: 'invoices/:id',
-            //     component: PageOrderDetailsComponent,
-            // },
             {
                 path: 'addresses',
                 component: PageAddressesComponent,
@@ -81,14 +75,15 @@ const routes: Routes = [
         //     authGuardMode: 'redirectToDashboard',
         // },
     },
-    {
-        path: 'forgot-password',
-        component: PageForgotPasswordComponent,
-        // canActivate: [AuthGuard],
-        // data: {
-        //     authGuardMode: 'redirectToDashboard',
-        // },
-    },
+    // todo: uncomment this when we have the API ready for forgot password
+    // {
+    //     path: 'forgot-password',
+    //     component: PageForgotPasswordComponent,
+    //     // canActivate: [AuthGuard],
+    //     // data: {
+    //     //     authGuardMode: 'redirectToDashboard',
+    //     // },
+    // },
 ];
 
 @NgModule({
