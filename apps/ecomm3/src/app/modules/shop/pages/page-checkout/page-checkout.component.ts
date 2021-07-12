@@ -176,7 +176,7 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
         });
         // -->Set: data
         const data$ = { ...order, orderLines }
-        // -->Start: Send support message
+        // -->Start: verify the order
         this.checkOrderSubs = this.eCommerceService.verifyCheckout(data$).subscribe(
             (data) => {
                 // -->Enable
@@ -219,7 +219,7 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
         });
         // -->Set: data
         const data$ = { ...order, orderLines }
-        // -->Start: Complete checkout order
+        // -->Complete: checkout order
         this.eCommerceService.completeCheckout(data$).toPromise()
             .then((res) => {
                 if (res && res.ok && res.data?.invoiceId) {
