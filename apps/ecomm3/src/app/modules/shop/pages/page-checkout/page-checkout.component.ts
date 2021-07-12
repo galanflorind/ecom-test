@@ -1,6 +1,6 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { filter, takeUntil } from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { TermsModalComponent } from '../../../shared/components/terms-modal/terms-modal.component';
 import { CartService } from '../../../../services/cart.service';
@@ -29,6 +29,7 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
     public addresses: NaoUsersInterface.Address[] = [];
     public shippingMethods: any[] = []
     public successOrder = false;
+    public checkOrderProgress = false;
     public allowedPaymentMethodsForRedirect: paymentMethods[] = ['card', 'wire', 'online-bank-payment'];
     public payments = [];
     private checkOrderSubs = new Subscription();
@@ -139,7 +140,10 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
                 this.formGroup.get('billingAddressId').valueChanges,
                 this.formGroup.get('shippingAddressId').valueChanges,
                 this.formGroup.get('shippingMethod').valueChanges
-            ).subscribe(() => {
+            ).pipe(
+                debounceTime(100),
+                distinctUntilChanged())
+                .subscribe(() => {
                 this.checkOrder();
             })
         )
@@ -158,6 +162,8 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
         if (this.checkOrderSubs) {
             this.checkOrderSubs.unsubscribe();
         }
+        // -->Start: progress
+        this.checkOrderProgress = true;
         // -->Get: order
         const order = this.formGroup.value;
         // -->Set: orderLines
@@ -181,9 +187,13 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
                     // -->Show: toaster
                     this.toastr.error(this.translate.instant('ERROR_API_REQUEST'));
                 }
+                // -->Start: progress
+                this.checkOrderProgress = false;
             }, (err) => {
                 // -->Show: toaster
                 this.toastr.error(this.translate.instant('ERROR_API_REQUEST'));
+                // -->Start: progress
+                this.checkOrderProgress = false;
             });
     }
 

@@ -194,8 +194,8 @@
                             <button
                                 type="submit"
                                 class="btn btn-primary btn-xl btn-block"
-                                [disabled]="checkoutInProgress || formGroup.invalid"
-                                [class.btn-loading]="checkoutInProgress"
+                                [disabled]="checkoutInProgress || formGroup.invalid || checkOrderProgress"
+                                [class.btn-loading]="checkoutInProgress || checkOrderProgress"
                                 (click)="createOrder()">
                                 {{ (allowedPaymentMethodsForRedirect.includes(formGroup.get('paymentMethod').value) ? 'BUTTON_PROCEED_TO_PAYMENT' : 'BUTTON_PLACE_ORDER') | translate }}
                             </button>
