@@ -43,7 +43,6 @@ export class PageLoginComponent implements OnInit, OnDestroy {
         this.naoUsersService
             .loginWithEmail(fd.email, fd.password, fd.rememberMe)
             .then((res) => {
-                console.log("res >>>", res)
                 this.loginInProgress = false;
                 // -->Redirect
                 return this.router.navigate(['/', 'account', 'dashboard']);

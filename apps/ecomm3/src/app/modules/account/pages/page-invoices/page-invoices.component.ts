@@ -50,7 +50,7 @@ export class PageInvoicesComponent implements OnInit, OnDestroy {
         const query = new QuickMongoQuery()
             .limit(this.perPage)
             .skip((this.currentPage.value - 1) * this.perPage)
-            .returnDataModel({_id: 1, data: 1, info: 1})
+            .returnDataModel({_id: 1, data: 1, info: 1, fullData: 1})
             .done();
         // -->Execute
         this.refreshSubs = this.eCommerceService.listInvoices(query).subscribe(res => {

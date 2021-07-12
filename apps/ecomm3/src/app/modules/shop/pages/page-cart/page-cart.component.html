@@ -58,9 +58,6 @@
                             <td class="cart-table__column cart-table__column--product">
                                 <a [routerLink]="url.product(item.product)" class="cart-table__product-name">{{ item.product.data?.name }}</a>
                                 <div class="cart-table__options">Variant: {{ item.variant.variantName }}</div>
-<!--                                <ul *ngIf="item.options.length" class="cart-table__options">-->
-<!--                                    <li *ngFor="let option of item.options">{{ option.name }}: {{ option.value }}</li>-->
-<!--                                </ul>-->
                             </td>
                             <td class="cart-table__column cart-table__column--price" [attr.data-title]="'TABLE_PRICE' | translate">
                                 {{ item.variant.price | currencyFormat }}
@@ -119,29 +116,29 @@
                             <h3 class="card-title">{{ 'HEADER_CART_TOTALS' | translate }}</h3>
 
                             <table class="cart__totals-table">
-                                <thead *ngIf="(cart.totals$|async)?.length">
-                                <tr>
-                                    <th>{{ 'TABLE_SUBTOTAL' | translate }}</th>
-                                    <td>{{ ((cart.subtotal$|async) || 0) | currencyFormat }}</td>
-                                </tr>
+                                <thead>
+                                    <tr>
+                                        <th>{{ 'TABLE_TOTAL' | translate }}</th>
+                                        <td>{{ ((cart.total$|async) || 0) | currencyFormat }}</td>
+                                    </tr>
                                 </thead>
-                                <tbody *ngIf="(cart.totals$|async)?.length">
-                                <tr *ngFor="let total of cart.totals$|async">
-                                    <th>{{ 'TABLE_TOTAL_' + total.title|translate }}</th>
-                                    <td>
-                                        {{ total.price | currencyFormat }}
-                                        <div *ngIf="total.type === 'shipping'">
-                                            <a href="" (click)="$event.preventDefault()">{{ 'LINK_CALCULATE_SHIPPING' | translate }}</a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                </tbody>
-                                <tfoot>
-                                <tr>
-                                    <th>{{ 'TABLE_TOTAL' | translate }}</th>
-                                    <td>{{ ((cart.total$|async) || 0) | currencyFormat }}</td>
-                                </tr>
-                                </tfoot>
+<!--                                <tbody *ngIf="(cart.totals$|async)?.length">-->
+<!--                                <tr *ngFor="let total of cart.totals$|async">-->
+<!--                                    <th>{{ 'TABLE_TOTAL_' + total.title|translate }}</th>-->
+<!--                                    <td>-->
+<!--                                        {{ total.price | currencyFormat }}-->
+<!--                                        <div *ngIf="total.type === 'shipping'">-->
+<!--                                            <a href="" (click)="$event.preventDefault()">{{ 'LINK_CALCULATE_SHIPPING' | translate }}</a>-->
+<!--                                        </div>-->
+<!--                                    </td>-->
+<!--                                </tr>-->
+<!--                                </tbody>-->
+<!--                                <tfoot>-->
+<!--                                <tr>-->
+<!--                                    <th>{{ 'TABLE_TOTAL' | translate }}</th>-->
+<!--                                    <td>{{ ((cart.total$|async) || 0) | currencyFormat }}</td>-->
+<!--                                </tr>-->
+<!--                                </tfoot>-->
                             </table>
 
                             <a class="btn btn-primary btn-xl btn-block" [routerLink]="url.checkout()">

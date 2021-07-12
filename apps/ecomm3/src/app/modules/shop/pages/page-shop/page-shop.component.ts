@@ -67,7 +67,7 @@ export class PageShopComponent implements OnInit, OnDestroy {
 
     public sidebarPosition: PageShopSidebarPosition = 'start';
 
-    public pageTitle$!: Observable<string>;
+    public pageTitle$!: string;
 
     public breadcrumbs: BreadcrumbItem[];
     private refreshSubs = new Subscription();
@@ -91,13 +91,8 @@ export class PageShopComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         const data$: Observable<PageShopData> = this.route.data as Observable<PageShopData>;
-
-        const category$: Observable<ShopCategory> = data$.pipe(map(data => data.category));
-        // -->Page: todo: title
-        this.pageTitle$ = category$.pipe(
-            switchMap(category => category ? of(category.name) : this.translate.stream('HEADER_SHOP')),
-        );
-
+        // -->Set: title
+        this.pageTitle$ = this.translate.instant('HEADER_SHOP');
         // -->Set: breadcrumb
         this.breadcrumbs = [
             { label: this.translate.instant('LINK_HOME'), url: this.url.home() },
@@ -216,6 +211,12 @@ export class PageShopComponent implements OnInit, OnDestroy {
                     { label: this.translate.instant('LINK_SHOP'), url: this.url.shop() },
                     ...breadcrumbs.map(x => ({ label: x.name, url: this.url.category(x) })),
                 ]
+                if (breadcrumbs.length) {
+                    this.pageTitle$ = breadcrumbs[breadcrumbs.length - 1].name;
+                } else {
+                    // -->Set: title
+                    this.pageTitle$ = this.translate.instant('HEADER_SHOP');
+                }
 
                 // -->Set: data
                 this.page.isLoading = false;

@@ -145,13 +145,13 @@ export interface Product {
         }
     }
     // When you do a filter, the manufacturer comes at data level
-    manufacturer?: {
-        data: {
-            name: string;
-            manufacturerId: string;
-        },
-        _id: string;
-    }
+    // manufacturer?: {
+    //     data: {
+    //         name: string;
+    //         manufacturerId: string;
+    //     },
+    //     _id: string;
+    // }
 
     /**
      * @deprecated !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! everything below

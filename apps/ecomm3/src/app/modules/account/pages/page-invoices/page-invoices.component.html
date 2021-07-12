@@ -24,7 +24,7 @@
                         </td>
                         <td>{{ 'FORMAT_DATE_MEDIUM' | translate:{date: invoice?.info?.createdAt} }}</td>
                         <td>{{ invoice?.data?.status | titlecase }}</td>
-                        <td>{{ invoice.summary?.total | currencyFormat }}</td>
+                        <td>{{ invoice?.fullData?.summary?.total | currencyFormat }}</td>
                     </tr>
                     </tbody>
                 </table>

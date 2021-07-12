@@ -43,7 +43,6 @@ export class PageForgotPasswordComponent implements OnInit, OnDestroy {
         this.userProfileService
             .sendResetPasswordEmail(fd.email)
             .subscribe((res) => {
-                console.log("sendResetPasswordEmail >>>", res)
                 this.resetInProgress = false;
                 // -->Redirect
                 // return this.router.navigate(['/', 'account', 'dashboard']);

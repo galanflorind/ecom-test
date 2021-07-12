@@ -1,10 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { filter, takeUntil } from 'rxjs/operators';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { TermsModalComponent } from '../../../shared/components/terms-modal/terms-modal.component';
 import { CartService } from '../../../../services/cart.service';
-import { Subject, Subscription } from 'rxjs';
+import { merge, Subject, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { UrlService } from '../../../../services/url.service';
@@ -12,6 +12,7 @@ import { NaoUserAccessService, NaoUsersInterface } from "@naologic/nao-user-acce
 import { ECommerceService } from "../../../../e-commerce.service";
 import { AppService } from "../../../../app.service";
 import { ToastrService } from "ngx-toastr";
+import { DOCUMENT } from "@angular/common";
 
 export type paymentMethods = 'cheque' | 'card' | 'wire' | 'online-bank-payment';
 
@@ -30,8 +31,13 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
     public successOrder = false;
     public allowedPaymentMethodsForRedirect: paymentMethods[] = ['card', 'wire', 'online-bank-payment'];
     public payments = [];
-
-
+    private checkOrderSubs = new Subscription();
+    public summary = {
+        count: 0,
+        shipping: 0,
+        taxes: 0,
+        total: 0
+    }
 
 
 
@@ -45,6 +51,7 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
         public appService: AppService,
         private naoUsersService: NaoUserAccessService,
         private toastr: ToastrService,
+        @Inject(DOCUMENT) private document: Document
     ) {
         this.formGroup = new FormGroup({
             billingAddressId: new FormControl(null, {validators: [Validators.required]}),
@@ -124,16 +131,119 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
                })
         }
 
-
+        // -->Check: order
+        this.checkOrder()
+        // -->Subscribe: to formGroup changes and check order again
+        this.subs.add(
+            merge(
+                this.formGroup.get('billingAddressId').valueChanges,
+                this.formGroup.get('shippingAddressId').valueChanges,
+                this.formGroup.get('shippingMethod').valueChanges
+            ).subscribe(() => {
+                this.checkOrder();
+            })
+        )
+        // -->Check: if cart is empty and redirect
         this.cart.quantity$.pipe(
-            filter(x => x === 0),
+            filter(x => x === 0 && this.successOrder === false),
             takeUntil(this.destroy$),
         ).subscribe(() => this.router.navigateByUrl('/shop/cart').then());
 
     }
 
     /**
-     * open modal with terms
+     * Check: order and set taxes
+     */
+    public checkOrder(): void {
+        if (this.checkOrderSubs) {
+            this.checkOrderSubs.unsubscribe();
+        }
+        // -->Get: order
+        const order = this.formGroup.value;
+        // -->Set: orderLines
+        const orderLines = this.cart.items.map(item => {
+            return {
+                productId: item.product._id,
+                variantId: item.variant.id,
+                quantity: item.quantity
+            }
+        });
+        // -->Set: data
+        const data$ = { ...order, orderLines }
+        // -->Start: Send support message
+        this.checkOrderSubs = this.eCommerceService.verifyCheckout(data$).subscribe(
+            (data) => {
+                // -->Enable
+                if (data && data.ok) {
+                    // -->Set: summary
+                    this.summary = data.data?.summary
+                } else {
+                    // -->Show: toaster
+                    this.toastr.error(this.translate.instant('ERROR_API_REQUEST'));
+                }
+            }, (err) => {
+                // -->Show: toaster
+                this.toastr.error(this.translate.instant('ERROR_API_REQUEST'));
+            });
+    }
+
+    /**
+     * Checkout
+     */
+    private checkout(): void {
+        // -->Start: progress
+        this.checkoutInProgress = true;
+        // -->Get: payment method
+        const paymentMethod: paymentMethods = this.formGroup.get('paymentMethod').value;
+        // -->Get: order
+        const order = this.formGroup.value;
+
+
+        // -->Set: orderLines
+        const orderLines = this.cart.items.map(item => {
+            return {
+                productId: item.product._id,
+                variantId: item.variant.id,
+                quantity: item.quantity
+            }
+        });
+        // -->Set: data
+        const data$ = { ...order, orderLines }
+        // -->Start: Complete checkout order
+        this.eCommerceService.completeCheckout(data$).toPromise()
+            .then((res) => {
+                if (res && res.ok && res.data?.invoiceId) {
+                    setTimeout(() => {
+                        // -->Check: if the payment method needs redirect
+                        if (this.allowedPaymentMethodsForRedirect.includes(paymentMethod)) {
+                            // -->Redirect: to the invoice link with target blank
+                            this.document.location.href = res.data.invoiceLink
+                        }
+                    }, 1200);
+                    // -->Show: success order
+                    this.successOrder = true;
+                    // -->Clear: cart
+                    this.cart.clearCart();
+                    // -->Done: progress
+                    this.checkoutInProgress = false;
+
+                } else {
+                    // -->Show: toaster
+                    this.toastr.error(this.translate.instant('ERROR_API_REQUEST'));
+                    // -->Done: progress
+                    this.checkoutInProgress = false;
+                }
+            })
+            .catch((err) => {
+                // -->Show: toaster
+                this.toastr.error(this.translate.instant('ERROR_API_REQUEST'));
+                // -->Done: progress
+                this.checkoutInProgress = false;
+            });
+    }
+
+    /**
+     * Open modal with terms
      */
     public showTerms(event: MouseEvent): void {
         event.preventDefault();
@@ -141,6 +251,9 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
         this.modalService.show(TermsModalComponent, { class: 'modal-lg' });
     }
 
+    /**
+     * Create: order
+     */
     public createOrder(): void {
         if (!this.checkData()) {
             return;
@@ -149,10 +262,16 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
         this.checkout();
     }
 
+    /**
+     * Mark all as touched
+     */
     private markAllAsTouched(): void {
         this.formGroup.markAllAsTouched();
     }
 
+    /**
+     * Check data
+     */
     private checkData(): boolean {
         this.markAllAsTouched();
 
@@ -161,72 +280,6 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
         }
 
         return this.formGroup.valid;
-    }
-
-    private checkout(): void {
-        // -->Get: payment method
-        const paymentMethod: paymentMethods = this.formGroup.get('paymentMethod').value;
-        // -->Get: order
-        const order = this.formGroup.value;
-
-        console.log("paymentMethod >>>", paymentMethod)
-        console.log("order >>>", order)
-
-        // -->Set: cart
-        const orderLines = this.cart.items.map(item => {
-            return {
-                productId: item.product._id,
-                variantId: item.variant.id,
-                quantity: item.quantity
-            }
-        });
-        console.log("cart >>>", orderLines)
-
-        const data$ = { ...order, orderLines }
-
-
-        // -->Start: Send support message
-        this.eCommerceService.verifyCheckout(data$).toPromise()
-            .then((data) => {
-                console.warn(`verifyCheckout() result: `, data, `\n\n`);
-                // -->Enable
-                if (data && data.ok) {
-                    // -->Complete: checkout
-                    return this.eCommerceService.completeCheckout(data$).toPromise();
-                } else {
-                    // -->Show: toaster
-                    this.toastr.error(this.translate.instant('ERROR_API_REQUEST'));
-                }
-            })
-            .then((res) => {
-                console.warn(`executeCheckout > `, res);
-                if (res && res.ok && res.data?.invoiceId) {
-                    // -->Clear: cart
-                    this.cart.clearCart();
-                    // -->Show: success order
-                    this.successOrder = true;
-                    // -->Check: if the payment method needs redirect
-                    if (this.allowedPaymentMethodsForRedirect.includes(paymentMethod)) {
-                        // -->TODO: Redirect: to the public invoice
-                        // -->TODO: Redirect: to the public invoice
-                        // -->TODO: Redirect: to the public invoice
-                        // -->TODO: Redirect: to the public invoice
-                        // -->TODO: Redirect: to the public invoice
-                        // -->TODO: Redirect: to the public invoice
-                        // -->TODO: Redirect: to the public invoice
-                        // -->TODO: Redirect: to the public invoice
-                        // -->TODO: Redirect: to the public invoice
-                    }
-
-                } else {
-                    // -->Show: toaster
-                    this.toastr.error(this.translate.instant('ERROR_API_REQUEST'));
-                }
-            })
-            .catch((err) => {
-                // -->Show: toaster
-                this.toastr.error(this.translate.instant('ERROR_API_REQUEST'));
-            });
     }
 
 

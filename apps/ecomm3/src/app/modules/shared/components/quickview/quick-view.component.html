@@ -36,9 +36,9 @@
                                     <th>{{ 'TABLE_SKU' | translate }}</th>
                                     <td>{{ product?.data?.variants[variantIndex]?.sku || product.data?.sku }}</td>
                                 </tr>
-                                <tr *ngIf="product?.manufacturer?.data?.name">
+                                <tr *ngIf="product?.data?.manufacturer?.data?.name">
                                     <th>{{ 'TABLE_BRAND' | translate }}</th>
-                                    <td>{{ product?.manufacturer.data.name }}</td>
+                                    <td>{{ product?.data?.manufacturer.data.name }}</td>
                                 </tr>
                                 <tr *ngIf="product?.data?.variants[variantIndex]?.countryOfOrigin">
                                     <th>{{ 'TABLE_COUNTRY' | translate }}</th>

@@ -89,10 +89,7 @@ export class CartService {
         return timer(350).pipe(map(() => {
             this.onAddingSubject$.next(product);
 
-            console.log("product >>>", product)
-            console.log("variant >>>", variant)
             let item = this.items.find(eachItem => {
-                console.log("eachItem", eachItem)
 
                 if (eachItem.product._id === product._id && eachItem.variant.id === variant.id) {
                     return true;
@@ -110,7 +107,6 @@ export class CartService {
             });
 
 
-            console.log("PLM ???", item)
             if (item) {
                 item.quantity += quantity;
             } else {
@@ -163,6 +159,10 @@ export class CartService {
         this.calc();
     }
 
+    /**
+     * Function to calculate the total
+     * todo: taxes and shipping if you are not logged in
+     */
     private calc(): void {
         let quantity = 0;
         let subtotal = 0;
@@ -174,18 +174,18 @@ export class CartService {
 
         const totals: CartTotal[] = [];
 
-        totals.push({
-            title: 'SHIPPING',
-            price: 25,
-            type: 'shipping',
-        });
-        totals.push({
-            title: 'TAX',
-            price: subtotal * 0.20,
-            type: 'tax',
-        });
+        // totals.push({
+        //     title: 'SHIPPING',
+        //     price: 25,
+        //     type: 'shipping',
+        // });
+        // totals.push({
+        //     title: 'TAX',
+        //     price: subtotal * 0.20,
+        //     type: 'tax',
+        // });
 
-        const total = subtotal + totals.reduce((acc, eachTotal) => acc + eachTotal.price, 0);
+        const total = subtotal;
 
         this.data.quantity = quantity;
         this.data.subtotal = subtotal;

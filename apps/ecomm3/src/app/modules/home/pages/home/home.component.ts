@@ -33,7 +33,6 @@ export class HomeComponent implements OnInit, OnDestroy {
         // -->Subscribe: to appInfo changes
         this.subs.add(
             this.appService.appInfo.subscribe(value => {
-                console.log("value >>>", value)
                 // -->Set: Primary featured product
                 this.primaryFeaturedProduct = value?.primaryFeaturedProduct || {};
                 // -->Set: featured products

@@ -14,7 +14,7 @@ import { PagePasswordComponent } from './pages/page-password/page-password.compo
 import { PageProfileComponent } from './pages/page-profile/page-profile.component';
 import { PageRegisterComponent } from "./pages/page-register/page-register.component";
 import { PageForgotPasswordComponent } from "./pages/page-forgot-password/page-forgot-password.component";
-
+//component
 
 @NgModule({
     declarations: [

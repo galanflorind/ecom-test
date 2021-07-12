@@ -60,7 +60,6 @@ export class AccountMenuComponent implements OnInit, OnDestroy {
         this.naoUsersService
             .loginWithEmail(fd.email, fd.password, true)
             .then((res) => {
-                console.log("res >>>", res)
                 this.loginInProgress = false;
                 this.closeMenu.emit();
                 // -->Redirect

@@ -58,7 +58,6 @@ export class AddressFormComponent implements OnInit, OnDestroy, ControlValueAcce
 
     ngOnInit(): void {
         this.formGroup.valueChanges.subscribe(value => {
-            console.log("address form formGroup.valueChanges >>>", value)
             this.changeFn(value);
             this.touchedFn();
         });
@@ -86,7 +85,6 @@ export class AddressFormComponent implements OnInit, OnDestroy, ControlValueAcce
     }
 
     writeValue(value: any): void {
-        console.log("value change >>>", value)
         if (typeof value !== 'object') {
             value = {};
         }
