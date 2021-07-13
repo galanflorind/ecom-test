@@ -42,7 +42,9 @@ import {UserProfileService} from "./services/users-profile.service";
         BrowserModule.withServerTransition({ appId: 'serverApp' }),
         // modules (third-party)
         ModalModule.forRoot(),
-        ToastrModule.forRoot(),
+        ToastrModule.forRoot({
+            positionClass: 'toast-bottom-left',
+        }),
         TooltipModule.forRoot(),
         TranslateModule.forChild(),
 
@@ -74,35 +76,7 @@ import {UserProfileService} from "./services/users-profile.service";
                     name: 'US Dollar',
                     code: 'USD',
                     rate: 1,
-                },
-                {
-                    symbol: '£',
-                    name: 'Pound Sterling',
-                    code: 'GBP',
-                    rate: 0.78,
-                },
-                {
-                    symbol: '€',
-                    name: 'Euro',
-                    code: 'EUR',
-                    rate: 0.92,
-                },
-                {
-                    symbol: '₽',
-                    name: 'Russian Ruble',
-                    code: 'RUB',
-                    rate: 64,
-                    formatFn: (value) => {
-                        const digits = [].slice.call(Math.round(value).toFixed()).reverse();
-                        const parts = [];
-
-                        while (digits.length) {
-                            parts.push(digits.splice(0, 3).reverse().join(''));
-                        }
-
-                        return parts.reverse().join(' ') + ' руб';
-                    },
-                },
+                }
             ],
         }),
         FakeApiModule,

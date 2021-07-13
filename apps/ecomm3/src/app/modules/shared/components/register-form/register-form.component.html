@@ -22,6 +22,7 @@
             class="form-control"
             id="{{ formId }}-password"
             formControlName="password"
+            placeholder="********"
             [class.is-invalid]="form.controls.password|isInvalid"
         >
         <div class="invalid-feedback">
@@ -39,7 +40,7 @@
             id="{{ formId }}-confirm-password"
             formControlName="confirmPassword"
             [class.is-invalid]="form.controls.confirmPassword|isInvalid"
-            [placeholder]="'INPUT_PASSWORD_REPEAT_PLACEHOLDER' | translate"
+            placeholder="********"
         >
         <div class="invalid-feedback">
             <div *ngIf="form.controls.confirmPassword|hasError:'required'">

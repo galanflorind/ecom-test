@@ -34,7 +34,7 @@
                     type="password"
                     class="form-control form-control-sm"
                     formControlName="password"
-                    [placeholder]="'INPUT_PASSWORD_PLACEHOLDER' | translate"
+                    placeholder="********"
                     [class.is-invalid]="formGroup.controls.password|isInvalid"
                 >
 <!--                <a routerLink="/account/forgot-password" class="account-menu__form-forgot-link">{{ 'LINK_FORGOT' | translate }}</a>-->
@@ -74,7 +74,7 @@
         <li><a routerLink="/account/dashboard" (click)="closeMenu.emit()">{{ 'LINK_ACCOUNT_DASHBOARD' | translate }}</a></li>
 <!--        <li><a routerLink="/account/garage" (click)="closeMenu.emit()">{{ 'LINK_ACCOUNT_GARAGE' | translate }}</a></li>-->
         <li><a routerLink="/account/profile" (click)="closeMenu.emit()">{{ 'LINK_ACCOUNT_PROFILE' | translate }}</a></li>
-        <li><a routerLink="/account/invoices" (click)="closeMenu.emit()">{{ 'LINK_ACCOUNT_INVOICES' | translate }}</a></li>
+        <li><a routerLink="/account/invoices" (click)="closeMenu.emit()">{{ 'LINK_ACCOUNT_INVOICE' | translate }}</a></li>
         <li><a routerLink="/account/addresses" (click)="closeMenu.emit()">{{ 'LINK_ACCOUNT_ADDRESSES' | translate }}</a></li>
     </ul>
     <div class="account-menu__divider"></div>

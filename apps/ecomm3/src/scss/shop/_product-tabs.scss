@@ -39,16 +39,6 @@
             box-shadow: 0 -1px $product-tabs-active-border-color inset;
         }
     }
-    &:first-child {
-        @include direction {
-            #{$margin-inline-start}: auto;
-        }
-    }
-    &:last-child {
-        @include direction {
-            #{$margin-inline-end}: auto;
-        }
-    }
 }
 .product-tabs__item-counter {
     color: $product-tabs-counter-color;

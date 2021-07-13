@@ -34,7 +34,7 @@ export class WidgetFiltersComponent implements OnInit, OnDestroy {
     }
 
     constructor(
-        private page: PageShopService,
+        public page: PageShopService,
         private fb: FormBuilder,
         private cd: ChangeDetectorRef,
     ) { }

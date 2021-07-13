@@ -68,6 +68,10 @@ export class PageAddressesComponent implements OnInit, OnDestroy {
                         this.removeInProgress.splice(index, 1);
                     }
                     // -->Show: toaster
+                    this.toastr.success(
+                        this.translate.instant('TOASTER_ADDRESS_DELETED'),
+                    );
+                    // -->Show: toaster
                 }).catch(err => {
                     // -->Show: toaster
                     this.toastr.error(this.translate.instant('ERROR_API_REQUEST'));

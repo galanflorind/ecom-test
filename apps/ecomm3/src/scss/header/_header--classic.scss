@@ -121,6 +121,7 @@
 
             @include direction {
                 #{$margin-inline-end}: 24px;
+                #{$padding-inline-end}: 50px;
             }
         }
         .header__indicators {

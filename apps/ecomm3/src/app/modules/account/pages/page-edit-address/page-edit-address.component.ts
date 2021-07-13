@@ -109,7 +109,20 @@ export class PageEditAddressComponent implements OnInit, OnDestroy {
                 this.naoUsersService.refreshSessionData().then(res => {
                     // -->Done: loading
                     this.saveInProgress = false;
-                    // -->Show: toaster
+
+                    // -->Check: if it's edit or create
+                    if (this.addressId) {
+                        // -->Show: toaster
+                        this.toastr.success(
+                            this.translate.instant('TOASTER_ADDRESS_UPDATED'),
+                        );
+                    } else {
+                        // -->Show: toaster
+                        this.toastr.success(
+                            this.translate.instant('TOASTER_ADDRESS_CREATED'),
+                        );
+                    }
+
                 }).catch(err => {
                     // -->Done: loading
                     this.saveInProgress = false;

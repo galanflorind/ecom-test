@@ -4,8 +4,8 @@
 <div class="block">
     <div class="container container--max--lg">
         <div class="row">
-            <div class="col-md-6 d-flex mx-auto">
-                <div class="card flex-grow-1 mb-md-0 mr-0 mr-lg-3 ml-0 ml-lg-4">
+            <div class="col-md-6 d-flex flex-column mx-auto">
+                <div class="card flex-grow-1">
                     <div class="card-body card-body--padding--2">
                         <h3 class="card-title">{{ 'HEADER_LOGIN' | translate }}</h3>
                         <form [formGroup]="loginForm">
@@ -38,7 +38,7 @@
                                     type="password"
                                     class="form-control"
                                     [class.is-invalid]="loginForm.controls.password|isInvalid"
-                                    [placeholder]="'INPUT_PASSWORD_PLACEHOLDER' | translate"
+                                    placeholder="********"
                                     formControlName="password"
                                 >
                                 <div class="invalid-feedback">
@@ -50,18 +50,18 @@
 <!--                                    <a routerLink="/account/forgot-password">{{ 'LINK_FORGOT_PASSWORD' | translate }}</a>-->
 <!--                                </small>-->
                             </div>
-                            <div class="form-group">
-                                <div class="form-check">
-                                    <app-checkbox
-                                        class="form-check-input"
-                                        formControlName="rememberMe"
-                                        #cbSignInRemember="appCheckbox"
-                                    ></app-checkbox>
-                                    <label class="form-check-label" [htmlFor]="cbSignInRemember.inputId">
-                                        {{ 'INPUT_REMEMBER_ME_LABEL' | translate }}
-                                    </label>
-                                </div>
-                            </div>
+<!--                            <div class="form-group">-->
+<!--                                <div class="form-check">-->
+<!--                                    <app-checkbox-->
+<!--                                        class="form-check-input"-->
+<!--                                        formControlName="rememberMe"-->
+<!--                                        #cbSignInRemember="appCheckbox"-->
+<!--                                    ></app-checkbox>-->
+<!--                                    <label class="form-check-label" [htmlFor]="cbSignInRemember.inputId">-->
+<!--                                        {{ 'INPUT_REMEMBER_ME_LABEL' | translate }}-->
+<!--                                    </label>-->
+<!--                                </div>-->
+<!--                            </div>-->
                             <div class="form-group mb-0">
                                 <button
                                     type="submit"
@@ -74,6 +74,10 @@
                             </div>
                         </form>
                     </div>
+                </div>
+
+                <div class="mt-2">
+                    <a routerLink="/account/register" class="create-an-account-link">{{ 'LINK_CREATE_ACCOUNT' | translate }}</a>
                 </div>
             </div>
         </div>

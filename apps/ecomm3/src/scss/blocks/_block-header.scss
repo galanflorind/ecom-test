@@ -31,9 +31,9 @@ $local-breadcrumb-padding-y: $local-breadcrumb-padding-top + $local-breadcrumb-p
 
 
 @include media-breakpoint-up(xl) {
-    .block-header__title {
-        margin: 0 auto;
-    }
+    //.block-header__title {
+    //    margin: 0 auto;
+    //}
     .block-header__breadcrumb + .block-header__title {
         margin-top: -($local-breadcrumb-height + $local-breadcrumb-padding-y);
     }

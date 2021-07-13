@@ -30,7 +30,7 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
     public shippingMethods: any[] = []
     public successOrder = false;
     public checkOrderProgress = false;
-    public allowedPaymentMethodsForRedirect: paymentMethods[] = ['card', 'wire', 'online-bank-payment'];
+    public allowedPaymentMethodsForRedirect: paymentMethods[] = ['card', 'online-bank-payment'];
     public payments = [];
     private checkOrderSubs = new Subscription();
     public summary = {
@@ -229,7 +229,7 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
                             // -->Redirect: to the invoice link with target blank
                             this.document.location.href = res.data.invoiceLink
                         }
-                    }, 1200);
+                    }, 1500);
                     // -->Show: success order
                     this.successOrder = true;
                     // -->Clear: cart

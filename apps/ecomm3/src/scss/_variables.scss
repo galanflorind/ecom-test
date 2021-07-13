@@ -676,7 +676,7 @@
       $form-control-default-scheme: () !default;
       $form-control-default-scheme: map_merge((
          // normal
-         normal-bg-color:          #ebebeb,
+         normal-bg-color:          #fff,
          normal-border-color:      #ebebeb,
          normal-font-color:        #262626,
          normal-placeholder-color: #6c757d,
@@ -802,10 +802,10 @@
       // styles
       $alerts: () !default;
       $alerts: map_merge((
-         primary:   (main: #b2d9ff, opposite: #36414d),
+         primary:   (main: #323338, opposite: #fff),
          secondary: (main: #d9d9d9, opposite: #4d4d4d),
          info:      (main: #b8e2e5, opposite: #2d3e40),
-         success:   (main: #bde5a1, opposite: #34402d),
+         success:   (main: #323338, opposite: #fff),
          danger:    (main: #ffb8b8, opposite: #473333),
          warning:   (main: #f2e291, opposite: #4d472e),
       ), $alerts);
