@@ -18,6 +18,9 @@ function clone(data: any): any {
  * Convert name to slug
  */
 function nameToSlug(name: string): string {
+    if (!name) {
+        return ""
+    }
     name = name.replace(/^\s+|\s+$/g, ''); // trim
     name = name.toLowerCase();
 
