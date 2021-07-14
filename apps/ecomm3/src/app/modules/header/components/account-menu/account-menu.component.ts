@@ -67,10 +67,10 @@ export class AccountMenuComponent implements OnInit, OnDestroy {
             })
             .catch((err) => {
                 this.loginInProgress = false;
-                // todo: show toaster with error
-                // todo: show toaster with error
-                // todo: show toaster with error
-                this.formGroup.reset();
+                // -->Reset:
+                this.formGroup.get('password').reset();
+                this.formGroup.get('password').markAllAsTouched();
+                this.formGroup.get('password').updateValueAndValidity();
             });
     }
 

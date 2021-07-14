@@ -166,7 +166,7 @@
       name:         accent,
       // colors
       main:         #ffdf40,
-      opposite:     #262626,
+      opposite:     #030929,
       opposite-alt: #734c3f,
       muted:        #99752e,
       // states
@@ -202,7 +202,7 @@
       name:         light,
       // colors
       main:         #fff,
-      opposite:     #262626,
+      opposite:     #030929,
       opposite-alt: #6c757d,
       muted:        #999,
       // states
@@ -223,7 +223,6 @@
    $body-font-weight:  $font-weight-normal    !default;
    $body-line-height:  1.5                    !default;
    $body-loader-color: #000                   !default;
-
    // scheme
    $body-scheme-based-on: light !default;
    $body-scheme: () !default;
@@ -352,7 +351,7 @@
       $search-spaceship-input-scheme: map_merge((
          // normal
          normal-bg-color:          rgba(#f0f0f0, 0),
-         normal-font-color:        #262626,
+         normal-font-color:        #030929,
          normal-placeholder-color: #999,
          // hover
          hover-bg-color:           #f0f0f0,
@@ -380,7 +379,7 @@
          // normal
          normal-bg-color:          #ededed,
          normal-border-color:      #ededed,
-         normal-font-color:        #262626,
+         normal-font-color:        #030929,
          normal-placeholder-color: #6c757d,
          normal-icon-scheme: (
             normal-font-color: #b2b2b2,
@@ -398,7 +397,7 @@
       $search-classic-button-scheme: map_merge((
          // normal
          normal-bg-color:    map_get($accent-scheme, main),
-         normal-font-color:  #262626,
+         normal-font-color:  #030929,
          normal-icon-color:  rgba(#000, .75),
          normal-arrow-color: rgba(#000, .35),
          // hover
@@ -445,7 +444,7 @@
          // normal
          normal-bg-color:          #f0f0f0,
          normal-border-color:      #f0f0f0,
-         normal-font-color:        #262626,
+         normal-font-color:        #030929,
          normal-placeholder-color: #6c757d,
          normal-icon-scheme: (
             normal-font-color: #b2b2b2,
@@ -466,7 +465,7 @@
          // normal
          normal-bg-color:          #fff,
          normal-border-color:      #ebebeb,
-         normal-font-color:        #262626,
+         normal-font-color:        #030929,
          normal-placeholder-color: #6c757d,
          normal-icon-scheme: (
             normal-font-color: #b2b2b2,
@@ -678,7 +677,7 @@
          // normal
          normal-bg-color:          #fff,
          normal-border-color:      #ebebeb,
-         normal-font-color:        #262626,
+         normal-font-color:        #030929,
          normal-placeholder-color: #6c757d,
          // hover
          hover-border-color:       #d9d9d9,
@@ -871,13 +870,13 @@
       $pagination-scheme: map_merge((
          // normal
          normal-bg-color:     #f0f0f0,
-         normal-font-color:   #262626,
+         normal-font-color:   #030929,
          // hover
          hover-bg-color:      #e5e5e5,
-         hover-font-color:    #262626,
+         hover-font-color:    #030929,
          // active
          active-bg-color:     #e0e0e0,
-         active-font-color:   #262626,
+         active-font-color:   #030929,
          // current
          current-bg-color:    map_get($theme-scheme, main),
          current-font-color:  map_get($theme-scheme, opposite),
@@ -1180,7 +1179,7 @@
       $block-finder-font-shadow:                0 1px 3px rgba(#000, .2) !default;
       // select
       $block-finder-select-bg-color:            #fff                     !default;
-      $block-finder-select-font-color:          #262626                  !default;
+      $block-finder-select-font-color:          #030929                  !default;
       $block-finder-select-arrow-color:         #4d4d4d                  !default;
       $block-finder-select-disabled-font-color: #999                     !default;
 
@@ -1206,7 +1205,7 @@
    // ----------------------------------------
    // -- .block-sale
    // ----------------------------------------
-      $block-sale-overlay-bg:        rgba(#262626, .8)            !default;
+      $block-sale-overlay-bg:        rgba(#030929, .8)            !default;
       // dots
       $block-sale-dot-normal-color:  rgba(#fff, .3)               !default;
       $block-sale-dot-hover-color:   rgba(#fff, .5)               !default;

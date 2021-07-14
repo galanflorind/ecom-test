@@ -36,10 +36,9 @@
     @if(map_has_key($input-scheme, $border-color-key)) {
         border-color: map_get($input-scheme, $border-color-key);
     }
-    @if(map_has_key($input-scheme, $placeholder-color-key)) {
-        &::placeholder {
-            color: map_get($input-scheme, $placeholder-color-key);
-        }
+
+    &::placeholder {
+        color: #a3a9c0;
     }
 }
 

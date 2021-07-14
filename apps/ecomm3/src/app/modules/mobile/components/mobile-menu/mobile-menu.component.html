@@ -14,10 +14,10 @@
 
             <div class="mobile-menu__spring"></div>
             <div class="mobile-menu__divider"></div>
-            <a class="mobile-menu__contacts" href="">
+            <div class="mobile-menu__contacts">
                 <div class="mobile-menu__contacts-subtitle">{{ 'TEXT_MOBILE_MENU_PHONE_TITLE' | translate }}</div>
                 <div class="mobile-menu__contacts-title" *ngIf="infoSupport">{{ infoSupport.supportPhoneNumber }}</div>
-            </a>
+            </div>
         </app-mobile-menu-panel>
 
         <ng-container #panelsContainer></ng-container>

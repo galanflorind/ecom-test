@@ -8,9 +8,9 @@
                 <div class="card flex-grow-1">
                     <div class="card-body card-body--padding--2">
                         <h3 class="card-title">{{ 'HEADER_LOGIN' | translate }}</h3>
-                        <form [formGroup]="loginForm">
-                            <div *ngIf="loginForm.errors?.server" class="alert alert-sm alert-danger">
-                                {{ loginForm.errors?.server|translate }}
+                        <form [formGroup]="formGroup" #loginForm="ngForm" (submit)="login()">
+                            <div *ngIf="formGroup.errors?.server" class="alert alert-sm alert-danger">
+                                {{ formGroup.errors?.server|translate }}
                             </div>
                             <div class="form-group">
                                 <label for="signin-email">{{ 'INPUT_EMAIL_ADDRESS_LABEL' | translate }}</label>
@@ -18,15 +18,15 @@
                                     id="signin-email"
                                     type="email"
                                     class="form-control"
-                                    [class.is-invalid]="loginForm.controls.email|isInvalid"
+                                    [class.is-invalid]="formGroup.controls.email|isInvalid"
                                     placeholder="customer@example.com"
                                     formControlName="email"
                                 >
                                 <div class="invalid-feedback">
-                                    <div *ngIf="loginForm.controls.email|hasError:'required'">
+                                    <div *ngIf="formGroup.controls.email|hasError:'required'">
                                         {{ 'ERROR_FORM_REQUIRED' | translate }}
                                     </div>
-                                    <div *ngIf="loginForm.controls.email|hasError:'email'">
+                                    <div *ngIf="formGroup.controls.email|hasError:'email'">
                                         {{ 'ERROR_FORM_INCORRECT_EMAIL' | translate }}
                                     </div>
                                 </div>
@@ -37,12 +37,12 @@
                                     id="signin-password"
                                     type="password"
                                     class="form-control"
-                                    [class.is-invalid]="loginForm.controls.password|isInvalid"
+                                    [class.is-invalid]="formGroup.controls.password|isInvalid"
                                     placeholder="********"
                                     formControlName="password"
                                 >
                                 <div class="invalid-feedback">
-                                    <div *ngIf="loginForm.controls.password|hasError:'required'">
+                                    <div *ngIf="formGroup.controls.password|hasError:'required'">
                                         {{ 'ERROR_FORM_REQUIRED' | translate }}
                                     </div>
                                 </div>
@@ -65,12 +65,15 @@
                             <div class="form-group mb-0">
                                 <button
                                     type="submit"
-                                    class="btn btn-primary mt-3"
+                                    class="btn btn-primary"
                                     [class.btn-loading]="loginInProgress"
-                                    (click)="login()"
                                 >
                                     {{ 'BUTTON_LOGIN' | translate }}
                                 </button>
+                            </div>
+
+                            <div class="font-size-13 text-danger mt-3" [hidden]="!loginForm.submitted || !formGroup.get('password').pristine || loginInProgress">
+                                {{ 'INVALID_LOGIN' | translate }}
                             </div>
                         </form>
                     </div>

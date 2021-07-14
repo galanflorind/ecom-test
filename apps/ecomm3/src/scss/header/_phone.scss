@@ -10,9 +10,9 @@
 
 @mixin local-define-scheme($scheme) {
     .phone__body {
-        &:hover {
-            background: map_get($scheme, hover);
-        }
+        //&:hover {
+        //    background: map_get($scheme, hover);
+        //}
     }
     .phone__title {
         color: map_get($scheme, muted);

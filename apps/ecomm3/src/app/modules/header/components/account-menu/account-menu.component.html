@@ -1,5 +1,5 @@
 <form *ngIf="!userData" class="account-menu__form">
-    <ng-container [formGroup]="formGroup">
+    <form [formGroup]="formGroup" #loginForm="ngForm" (submit)="login()">
         <div class="account-menu__form-title">
             {{ 'HEADER_LOGIN_TO_YOUR_ACCOUNT' | translate }}
         </div>
@@ -19,9 +19,6 @@
             <div class="invalid-feedback">
                 <div *ngIf="formGroup.controls.email|hasError:'required'">
                     {{ 'ERROR_FORM_REQUIRED' | translate }}
-                </div>
-                <div *ngIf="formGroup.controls.email|hasError:'email'">
-                    {{ 'ERROR_FORM_INCORRECT_EMAIL' | translate }}
                 </div>
             </div>
         </div>
@@ -51,13 +48,15 @@
                 type="submit"
                 class="btn btn-primary btn-sm"
                 [class.btn-loading]="loginInProgress"
-                (click)="login()"
             >{{ 'BUTTON_LOGIN' | translate }}</button>
+        </div>
+        <div class="font-size-13 text-danger mt-3 mb-2" [hidden]="!loginForm.submitted || !formGroup.get('password').pristine || loginInProgress">
+            {{ 'INVALID_LOGIN' | translate }}
         </div>
         <div class="account-menu__form-link">
             <a routerLink="/account/register" (click)="closeMenu.emit()">{{ 'LINK_CREATE_ACCOUNT' | translate }}</a>
         </div>
-    </ng-container>
+    </form>
 </form>
 <ng-container *ngIf="userData">
     <a routerLink="/account/dashboard" class="account-menu__user" (click)="closeMenu.emit()">

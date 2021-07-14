@@ -22,7 +22,9 @@
         </div>
 
         <div class="col-lg">
-            <img class="primary-image" [src]="primaryFeaturedProduct?.data.images[0]" [alt]="primaryFeaturedProduct?.data?.name" *ngIf="primaryFeaturedProduct?.data?.images?.length">
+            <div class="d-flex">
+                <img class="ml-lg-auto featured-product-image" [src]="primaryFeaturedProduct?.data.images[0]" [alt]="primaryFeaturedProduct?.data?.name" *ngIf="primaryFeaturedProduct?.data?.images?.length">
+            </div>
         </div>
 
     </div>

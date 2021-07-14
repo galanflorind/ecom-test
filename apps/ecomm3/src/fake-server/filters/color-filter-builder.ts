@@ -10,7 +10,7 @@ const colors = [
     { code: 'gray', color: '#808080' },
     { code: 'dark-gray', color: '#666' },
     { code: 'coal', color: '#4d4d4d' },
-    { code: 'black', color: '#262626' },
+    { code: 'black', color: '#030929' },
     { code: 'red', color: '#ff4040' },
     { code: 'orange', color: '#ff8126' },
     { code: 'yellow', color: '#ffd333' },

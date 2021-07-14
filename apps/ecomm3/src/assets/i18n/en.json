@@ -41,7 +41,7 @@
   "BUTTON_UPDATE_CART": "Update Cart",
   "BUTTON_VIEW_CART": "View Cart",
   "TOASTER_ADDRESS_UPDATED": "Address was successfully updated",
-  "TOASTER_ADDRESS_CREATED": "Address was successfully created",
+  "TOASTER_ADDRESS_CREATED": "The address was successfully saved",
   "TOASTER_ADDRESS_DELETED": "Address was successfully deleted",
 
   "COUNTRY_NAME_LAND": "RandomLand",
@@ -366,5 +366,6 @@
   "TEXT_VEHICLE_ENGINE": "Engine {engine}",
   "TEXT_VEHICLE_FILTER_HELP": "Select a vehicle to filter out only exact fit parts.",
   "TEXT_WORKING_HOURS": "Working Hours",
-  "TEXT_YOUR_SHOPPING_CART_IS_EMPTY": "Your shopping cart is empty!"
+  "TEXT_YOUR_SHOPPING_CART_IS_EMPTY": "Your shopping cart is empty!",
+  "INVALID_LOGIN": "It seems you've entered an incorrect email and/or password. Please give it another go."
 }

@@ -11,7 +11,7 @@ import { NaoUserAccessService } from "@naologic/nao-user-access";
 })
 export class PageLoginComponent implements OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
-    public loginForm!: FormGroup;
+    public formGroup!: FormGroup;
     public loginInProgress = false;
 
 
@@ -22,7 +22,7 @@ export class PageLoginComponent implements OnInit, OnDestroy {
     ) { }
 
     public ngOnInit(): void {
-        this.loginForm = this.fb.group({
+        this.formGroup = this.fb.group({
             email: [null, [Validators.required, Validators.email]],
             password: [null, [Validators.required, Validators.minLength(8)]],
             rememberMe: [false],
@@ -30,13 +30,13 @@ export class PageLoginComponent implements OnInit, OnDestroy {
     }
 
     public login(): void {
-        this.loginForm.markAllAsTouched();
+        this.formGroup.markAllAsTouched();
 
-        if (this.loginInProgress || this.loginForm.invalid) {
+        if (this.loginInProgress || this.formGroup.invalid) {
             return;
         }
         // -->Get: formGroup data
-        const fd = this.loginForm.getRawValue();
+        const fd = this.formGroup.getRawValue();
 
         this.loginInProgress = true;
         // -->Execute: a login
@@ -48,11 +48,11 @@ export class PageLoginComponent implements OnInit, OnDestroy {
                 return this.router.navigate(['/', 'account', 'dashboard']);
             })
             .catch((err) => {
+                // -->Reset:
+                this.formGroup.get('password').reset();
+                this.formGroup.get('password').markAllAsTouched();
+                this.formGroup.get('password').updateValueAndValidity();
                 this.loginInProgress = false;
-                // todo: show toaster with error
-                // todo: show toaster with error
-                // todo: show toaster with error
-                this.loginForm.reset();
             });
     }
 

@@ -144,8 +144,8 @@
 
             @include direction {
                 #{$inset-inline-start}: 0;
-                transform: skewX(#{-20deg * $transform-direction});
-                transform-origin: $inline-start bottom;
+                //transform: skewX(#{-20deg * $transform-direction});
+                //transform-origin: $inline-start bottom;
             }
         }
     }
