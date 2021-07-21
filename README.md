@@ -8,14 +8,18 @@ Run `nx serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 
 ## Deployment on Vercel
 
-The first step is to set up the Environment Variables listed below:
+[comment]: <> (The first step is to set up the Environment Variables listed below:)
 
-Navigate to `Project Settings` > `Environment Variables`
+[comment]: <> (Navigate to `Project Settings` > `Environment Variables`)
 
- 1. Add  `API_URL` : api-v2-xxx.naologic.com
- 2. Add `NAO_TOKEN` : naoprodxxxxxxxxxxxxxxxxxxxxx
+[comment]: <> ( 1. Add  `API_URL` : api-v2-xxx.naologic.com)
 
-Then you need to go in the `Build & Development Settings` and change the `OUTPUT DIRECTORY` to `dist/apps/ecomm3`
+[comment]: <> ( 2. Add `NAO_TOKEN` : naoprodxxxxxxxxxxxxxxxxxxxxx)
 
+[comment]: <> (Then you need to go in the `Build & Development Settings` and change the `OUTPUT DIRECTORY` to `dist/apps/ecomm3`)
+
+[comment]: <> (That's it, your ecommerce store is up and running :rocket:)
+
+You need to go in the `Build & Development Settings` and change the `OUTPUT DIRECTORY` to `dist/apps/ecomm3`
 That's it, your ecommerce store is up and running :rocket:
 
