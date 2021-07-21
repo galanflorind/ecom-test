@@ -29,11 +29,7 @@ export const environment = {
         basicAuth: {
             user: 'gabriel',
             password: 'gabriel',
-        },
-        chargebee: {
-            site: 'naologic-test',
-            publishableKey: 'test_X1FcQ8U5O90FSlpacuDmVpJTPiEnnTKrr',
-        },
+        }
     },
     naoUsers: {
         ws: {
@@ -46,7 +42,6 @@ export const environment = {
             companyUpdates: true,
             userUpdates: true,
         },
-        // api: { root: 'users-guests-auth' },
         api: { root: 'users-auth/auth' },
         cfpPath: 'ecommerce-api/ecommerce-api',
         naoQueryOptions: {

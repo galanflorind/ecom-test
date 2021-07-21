@@ -20,21 +20,17 @@ export const environment = {
             $id: 'server',
             protocol: 'https',
             port: 443,
-            url: 'api-v2-bee11.naologic.com',
+            url: process.env.API_URL,
             prefix: 'api/v2/',
             ssl: true
         },
-        naoToken: 'naoprodvlhauavvm9kslfbynan6bu2a8',
+        naoToken: process.env.NAO_TOKEN,
         webSocket: {
             enabled: false
         },
         basicAuth: {
             user: 'gabriel',
             password: 'gabriel'
-        },
-        chargebee: {
-            site: 'naologic-test',
-            publishableKey: 'test_X1FcQ8U5O90FSlpacuDmVpJTPiEnnTKrr'
         }
     },
     naoUsers: {
@@ -48,7 +44,6 @@ export const environment = {
             companyUpdates: true,
             userUpdates: true,
         },
-        // api: { root: 'users-guests-auth' },
         api: { root: 'users-auth/auth' },
         cfpPath: 'ecommerce-api/ecommerce-api',
         naoQueryOptions: {
