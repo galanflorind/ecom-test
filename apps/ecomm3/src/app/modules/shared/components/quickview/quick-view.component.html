@@ -9,7 +9,7 @@
                     *ngIf="showGallery"
                     class="quickview__gallery"
                     layout="quickview"
-                    [images]="product.data?.images || []"
+                    [images]="(product?.data?.variants[variantIndex]?.images?.length ? product?.data?.variants[variantIndex]?.images : product?.data?.images) || []"
                 ></app-product-gallery>
 
                 <div class="quickview__product">

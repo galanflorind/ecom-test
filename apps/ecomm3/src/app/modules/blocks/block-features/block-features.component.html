@@ -1,6 +1,6 @@
 <div class="container">
     <ul class="block-features__list">
-        <li class="block-features__item">
+        <li class="block-features__item" *ngIf="appSettings?.freeShipping">
             <div class="block-features__item-icon">
                 <app-icon icon="fi-free-delivery-48"></app-icon>
             </div>
@@ -27,7 +27,7 @@
                 <div class="block-features__item-subtitle">{{ 'TEXT_SHOP_FEATURE_SECURITY_SUBTITLE' | translate }}</div>
             </div>
         </li>
-        <li class="block-features__item">
+        <li class="block-features__item" *ngIf="appSettings?.hotOffers">
             <div class="block-features__item-icon">
                 <app-icon icon="fi-tag-48"></app-icon>
             </div>

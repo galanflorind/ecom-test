@@ -14,7 +14,9 @@ export class AppService implements OnDestroy {
      * Global settings for ecommerce
      */
     public readonly settings = new BehaviorSubject<NaoSettingsInterface.Settings>({
-        rating: false
+        rating: false,
+        freeShipping: false,
+        hotOffers: false
     });
 
     /**

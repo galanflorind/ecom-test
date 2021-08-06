@@ -1,4 +1,6 @@
-import { Component, HostBinding, Input } from '@angular/core';
+import { Component, HostBinding, Input, OnInit } from '@angular/core';
+import { AppService } from "../../../app.service";
+import { NaoSettingsInterface } from "@naologic/nao-interfaces";
 
 export type BlockFeaturesLayout = 'top-strip' | 'bottom-strip';
 
@@ -7,8 +9,9 @@ export type BlockFeaturesLayout = 'top-strip' | 'bottom-strip';
     templateUrl: './block-features.component.html',
     styleUrls: ['./block-features.component.scss'],
 })
-export class BlockFeaturesComponent {
+export class BlockFeaturesComponent implements OnInit {
     @Input() layout: BlockFeaturesLayout = 'top-strip';
+    public appSettings: NaoSettingsInterface.Settings;
 
     @HostBinding('class.block') classBlock = true;
 
@@ -22,5 +25,10 @@ export class BlockFeaturesComponent {
         return this.layout === 'bottom-strip';
     }
 
-    constructor() { }
+    constructor(private appService: AppService,) { }
+
+    public ngOnInit(): void {
+        // -->Set: app settings
+        this.appSettings = this.appService.settings.getValue();
+    }
 }

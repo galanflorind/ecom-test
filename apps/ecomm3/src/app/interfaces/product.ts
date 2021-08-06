@@ -79,39 +79,40 @@ export interface Category {
 
 
 export interface Variant {
-    availability: string
-    available: boolean
-    cost: number
-    countryOfOrigin: string
-    currency: string
-    depth: string
-    description: string
-    dimensionUOM: string
-    height: string
-    id: string
-    manufacturerItemCode: string
-    manufacturerItemId: string
-    ndcFreightClass: string
-    ndcHarmonizedTariffCode: string
-    ndcItemCode: string
-    optionId: string
-    optionId1: string
-    optionId2: string
-    optionId3: string
-    optionValue: string
-    optionValue1: string
-    optionValue2: string
-    optionValue3: string
-    variantName: string
-    packaging: string
-    price: number
-    quantity: number
-    sku: string
-    volume: string
-    volumeUOM: string
-    weight: string
-    weightUOM: string
-    width: string
+    availability: string;
+    available: boolean;
+    cost: number;
+    countryOfOrigin: string;
+    currency: string;
+    depth: string;
+    description: string;
+    dimensionUOM: string;
+    height: string;
+    id: string;
+    manufacturerItemCode: string;
+    manufacturerItemId: string;
+    ndcFreightClass: string;
+    ndcHarmonizedTariffCode: string;
+    ndcItemCode: string;
+    images: string[];
+    optionId: string;
+    optionId1: string;
+    optionId2: string;
+    optionId3: string;
+    optionValue: string;
+    optionValue1: string;
+    optionValue2: string;
+    optionValue3: string;
+    variantName: string;
+    packaging: string;
+    price: number;
+    quantity: number;
+    sku: string;
+    volume: string;
+    volumeUOM: string;
+    weight: string;
+    weightUOM: string;
+    width: string;
 }
 
 export interface Product {

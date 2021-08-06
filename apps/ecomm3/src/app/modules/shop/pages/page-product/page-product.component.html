@@ -16,7 +16,7 @@
                         <div class="product__card product__card--one"></div>
                         <div class="product__card product__card--two"></div>
 
-                        <app-product-gallery class="product__gallery" [images]="product.data?.images || []" layout="product-full"></app-product-gallery>
+                        <app-product-gallery class="product__gallery" [images]="(product?.data?.variants[variantIndex]?.images?.length ? product?.data?.variants[variantIndex]?.images : product?.data?.images) || []" layout="product-full"></app-product-gallery>
 
                         <div class="product__header">
                             <h1 class="product__title">{{ product.data?.name }}</h1>
@@ -165,16 +165,19 @@
 
                             <div class="product__shop-features shop-features">
                                 <ul class="shop-features__list">
-                                    <li class="shop-features__item">
-                                        <div class="shop-features__item-icon">
-                                            <app-icon icon="fi-free-delivery-48"></app-icon>
-                                        </div>
-                                        <div class="shop-features__info">
-                                            <div class="shop-features__item-title">{{ 'TEXT_SHOP_FEATURE_FREE_SHIPPING_TITLE' | translate }}</div>
-                                            <div class="shop-features__item-subtitle">{{ 'TEXT_SHOP_FEATURE_FREE_SHIPPING_SUBTITLE' | translate }}</div>
-                                        </div>
-                                    </li>
-                                    <li class="shop-features__divider" role="presentation"></li>
+                                    <ng-container *ngIf="appSettings?.hotOffers">
+                                        <li class="shop-features__item" >
+                                            <div class="shop-features__item-icon">
+                                                <app-icon icon="fi-free-delivery-48"></app-icon>
+                                            </div>
+                                            <div class="shop-features__info">
+                                                <div class="shop-features__item-title">{{ 'TEXT_SHOP_FEATURE_FREE_SHIPPING_TITLE' | translate }}</div>
+                                                <div class="shop-features__item-subtitle">{{ 'TEXT_SHOP_FEATURE_FREE_SHIPPING_SUBTITLE' | translate }}</div>
+                                            </div>
+                                        </li>
+                                        <li class="shop-features__divider" role="presentation"></li>
+                                    </ng-container>
+
                                     <li class="shop-features__item">
                                         <div class="shop-features__item-icon">
                                             <app-icon icon="fi-24-hours-48"></app-icon>
@@ -195,16 +198,20 @@
                                         </div>
                                     </li>
                                     <li class="shop-features__divider" role="presentation"></li>
-                                    <li class="shop-features__item">
-                                        <div class="shop-features__item-icon">
-                                            <app-icon icon="fi-tag-48"></app-icon>
-                                        </div>
-                                        <div class="shop-features__info">
-                                            <div class="shop-features__item-title">{{ 'TEXT_SHOP_FEATURE_HOT_OFFERS_TITLE' | translate }}</div>
-                                            <div class="shop-features__item-subtitle">{{ 'TEXT_SHOP_FEATURE_HOT_OFFERS_SUBTITLE' | translate }}</div>
-                                        </div>
-                                    </li>
-                                    <li class="shop-features__divider" role="presentation"></li>
+
+                                    <ng-container *ngIf="appSettings?.hotOffers">
+                                        <li class="shop-features__item">
+                                            <div class="shop-features__item-icon">
+                                                <app-icon icon="fi-tag-48"></app-icon>
+                                            </div>
+                                            <div class="shop-features__info">
+                                                <div class="shop-features__item-title">{{ 'TEXT_SHOP_FEATURE_HOT_OFFERS_TITLE' | translate }}</div>
+                                                <div class="shop-features__item-subtitle">{{ 'TEXT_SHOP_FEATURE_HOT_OFFERS_SUBTITLE' | translate }}</div>
+                                            </div>
+                                        </li>
+                                        <li class="shop-features__divider" role="presentation"></li>
+                                    </ng-container>
+
                                 </ul>
                             </div>
                         </div>

@@ -51,7 +51,7 @@
                             <td class="cart-table__column cart-table__column--image">
                                 <div class="image image--type--product">
                                     <a [routerLink]="url.product(item.product)" class="image__body">
-                                        <img class="image__tag" [src]="item.product | getProductImage" alt="">
+                                        <img class="image__tag" [src]="item.product | getProductImage: item.variant" alt="">
                                     </a>
                                 </div>
                             </td>
