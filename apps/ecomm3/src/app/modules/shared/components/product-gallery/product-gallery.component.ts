@@ -39,6 +39,10 @@ export interface ProductGalleryItem {
 })
 export class ProductGalleryComponent implements OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
+    private fallbackImage: ProductGalleryItem = {
+        id: 'fallback',
+        image: 'assets/images/image-not-available.png'
+    }
 
     items: ProductGalleryItem[] = [];
 
@@ -52,7 +56,12 @@ export class ProductGalleryComponent implements OnInit, OnDestroy {
 
     @Input() set images(images: string[]) {
         this.items = images.map((image, index) => ({ id: `image-${index}`, image }));
-        this.currentItem = this.items[0] || null;
+        // -->Check: length
+        if (!this.items.length) {
+            // -->Set: fallback image
+            this.items[0] = this.fallbackImage
+        }
+        this.currentItem = this.items[0];
     }
 
     @Input() @HostBinding('attr.data-layout') layout!: ProductGalleryLayout;
@@ -97,7 +106,7 @@ export class ProductGalleryComponent implements OnInit, OnDestroy {
             takeUntil(this.destroy$),
         ).subscribe(() => {
             this.initOptions();
-            this.currentItem = this.items[0] || null;
+            this.currentItem = this.items[0] || this.fallbackImage;
 
             this.showGallery = false;
             this.cd.detectChanges();
@@ -114,7 +123,7 @@ export class ProductGalleryComponent implements OnInit, OnDestroy {
         if (event.slides?.length) {
             const activeImageId = event.slides[0].id;
 
-            this.currentItem = this.items.find(x => x.id === activeImageId) || this.items[0] || null;
+            this.currentItem = this.items.find(x => x.id === activeImageId) || this.items[0] || this.fallbackImage;
 
             if (!this.thumbnailsCarousel.slidesData.find(slide => slide.id === activeImageId && slide.isActive)) {
                 this.thumbnailsCarousel.to(activeImageId);

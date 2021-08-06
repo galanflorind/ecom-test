@@ -5,10 +5,20 @@ import { StatusBadgeType } from '../components/status-badge/status-badge.compone
     name: 'stockToStatusBadgeType',
 })
 export class StockToStatusBadgeTypePipe implements PipeTransform {
-    transform(value: string): StatusBadgeType {
-        // -->Check: if the product is available
-        return value === 'available' ? 'success' : 'failure';
-        // todo: we need to check if an item is on backorder and show `warning`
-        // return !isNaN(value) && value > 0 ? 'success' : 'failure'
+    public transform(value: string): StatusBadgeType {
+        // -->Check: Availability
+        if (value === 'available') {
+            return 'success';
+        } else if (value === 'request') {
+            return 'success';
+        } else if (value === 'next-day') {
+            return 'success'
+        } else if (value === 'drop-ship-from-manufacturer') {
+            return 'warning'
+        } else if (value && value.endsWith('Days')) {
+            return 'success'
+        } else {
+            return 'failure';
+        }
     }
 }

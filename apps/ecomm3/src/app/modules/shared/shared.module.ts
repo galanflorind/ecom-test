@@ -63,6 +63,7 @@ import { StockToStatusBadgeTextPipe } from './pipes/stock-to-status-badge-text.p
 import { StockToStatusBadgeTypePipe } from './pipes/stock-to-status-badge-type.pipe';
 import { AvatarIconComponent } from "./components/avatar-icon/avatar-icon.component";
 import {ShowIfLoggedInDirective} from "./directives/show-if-logged-in.directive";
+import {CheckImageFallbackPipe} from "./pipes/check-image-fallback.pipe";
 
 
 @NgModule({
@@ -111,7 +112,8 @@ import {ShowIfLoggedInDirective} from "./directives/show-if-logged-in.directive"
         StockToStatusBadgeTextPipe,
         StockToStatusBadgeTypePipe,
         AvatarIconComponent,
-        ShowIfLoggedInDirective
+        ShowIfLoggedInDirective,
+        CheckImageFallbackPipe
     ],
     exports: [
         // modules
@@ -160,7 +162,8 @@ import {ShowIfLoggedInDirective} from "./directives/show-if-logged-in.directive"
         StockToStatusBadgeTextPipe,
         StockToStatusBadgeTypePipe,
         AvatarIconComponent,
-        ShowIfLoggedInDirective
+        ShowIfLoggedInDirective,
+        CheckImageFallbackPipe
     ],
     imports: [
         // modules (angular)

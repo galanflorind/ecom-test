@@ -4,9 +4,20 @@ import { Pipe, PipeTransform } from '@angular/core';
     name: 'stockToStatusBadgeText',
 })
 export class StockToStatusBadgeTextPipe implements PipeTransform {
-    transform(value: string): string {
-        return value === 'available' ? 'TEXT_STOCK_IN_STOCK' : 'TEXT_STOCK_OUT_OF_STOCK'
-        // todo: we need to check if an item is on backorder and show `TEXT_STOCK_ON_BACKORDER`
-        // return !isNaN(value) && value > 0 ? 'TEXT_STOCK_IN_STOCK' : 'TEXT_STOCK_OUT_OF_STOCK'
+    public transform(value: string): string {
+        // -->Check: Availability
+        if (value === 'available') {
+            return 'TEXT_STOCK_IN_STOCK';
+        } else if (value === 'request') {
+            return 'TEXT_STOCK_ON_REQUEST';
+        } else if (value === 'next-day') {
+            return 'TEXT_STOCK_NEXT_DAY'
+        } else if (value === 'drop-ship-from-manufacturer') {
+            return 'TEXT_STOCK_DROP_SHIP_MANUFACTURER'
+        } else if (value && value.endsWith('Days')) {
+            return value
+        } else {
+            return 'TEXT_STOCK_OUT_OF_STOCK';
+        }
     }
 }
