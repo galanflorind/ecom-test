@@ -113,8 +113,10 @@
 <!--            <ng-container *ngIf="!product.compareAtPrice">-->
 <!--                <div class="product-card__price product-card__price&#45;&#45;current">{{ product.price | currencyFormat }}</div>-->
 <!--            </ng-container>-->
-            <div class="product-card__price product-card__price&#45;&#45;current" *ngIf="product.minPrice === product.maxPrice">{{ product.minPrice | currencyFormat }}</div>
-            <div class="product-card__price product-card__price&#45;&#45;current" *ngIf="product.minPrice !== product.maxPrice">{{ product.minPrice | currencyFormat }} - {{ product.maxPrice | currencyFormat }}</div>
+            <ng-container *showIfLoggedIn>
+                <div class="product-card__price product-card__price&#45;&#45;current" *ngIf="product.minPrice === product.maxPrice">{{ product.minPrice | currencyFormat }}</div>
+                <div class="product-card__price product-card__price&#45;&#45;current" *ngIf="product.minPrice !== product.maxPrice">{{ product.minPrice | currencyFormat }} - {{ product.maxPrice | currencyFormat }}</div>
+            </ng-container>
         </div>
         <ng-container *ngIf="!exclude.includes('buttons')">
             <button
@@ -122,6 +124,7 @@
                 class="product-card__addtocart-icon"
                 [class.product-card__addtocart-icon--loading]="cart.inProgress"
                 [attr.aria-label]="'BUTTON_ADD_TO_CART' | translate"
+                [disabled]="!(product.data?.variants[0]?.price >= 0)"
                 (click)="cart.add(product, product.data?.variants[0])"
             >
                 <app-icon icon="cart-20"></app-icon>
@@ -131,6 +134,7 @@
                     type="button"
                     class="product-card__addtocart-full"
                     [class.product-card__addtocart-full--loading]="cart.inProgress"
+                    [disabled]="!(product.data?.variants[0]?.price >= 0)"
                     (click)="cart.add(product, product.data?.variants[0])"
                 >
                     {{ 'BUTTON_ADD_TO_CART' | translate }}

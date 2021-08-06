@@ -61,12 +61,12 @@ import { HasErrorPipe } from './pipes/has-error.pipe';
 import { IsInvalidPipe } from './pipes/is-invalid.pipe';
 import { StockToStatusBadgeTextPipe } from './pipes/stock-to-status-badge-text.pipe';
 import { StockToStatusBadgeTypePipe } from './pipes/stock-to-status-badge-type.pipe';
-import {AvatarIconComponent} from "./components/avatar-icon/avatar-icon.component";
+import { AvatarIconComponent } from "./components/avatar-icon/avatar-icon.component";
+import {ShowIfLoggedInDirective} from "./directives/show-if-logged-in.directive";
 
 
 @NgModule({
     declarations: [
-        // components
         AddressCardComponent,
         AddressFormComponent,
         ArrowComponent,
@@ -110,7 +110,8 @@ import {AvatarIconComponent} from "./components/avatar-icon/avatar-icon.componen
         IsInvalidPipe,
         StockToStatusBadgeTextPipe,
         StockToStatusBadgeTypePipe,
-        AvatarIconComponent
+        AvatarIconComponent,
+        ShowIfLoggedInDirective
     ],
     exports: [
         // modules
@@ -158,7 +159,8 @@ import {AvatarIconComponent} from "./components/avatar-icon/avatar-icon.componen
         IsInvalidPipe,
         StockToStatusBadgeTextPipe,
         StockToStatusBadgeTypePipe,
-        AvatarIconComponent
+        AvatarIconComponent,
+        ShowIfLoggedInDirective
     ],
     imports: [
         // modules (angular)

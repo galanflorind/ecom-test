@@ -3,6 +3,7 @@ import { BehaviorSubject, forkJoin, Subscription } from "rxjs";
 import { NaoSettingsInterface } from "@naologic/nao-interfaces";
 import { ECommerceService } from "./e-commerce.service";
 import { StorageMap } from "@ngx-pwa/local-storage";
+import {NaoUserAccessService} from "@naologic/nao-user-access";
 
 @Injectable({
     providedIn: 'root',
@@ -24,6 +25,7 @@ export class AppService implements OnDestroy {
     constructor(
         private eCommerceService: ECommerceService,
         private readonly storageMap: StorageMap,
+        private naoUsersService: NaoUserAccessService,
     ) {
         this.subs.add(
             // @ts-ignore
@@ -33,48 +35,36 @@ export class AppService implements OnDestroy {
                 }
             })
         );
-        // this.subs.add(
-        //     this.appProducts.subscribe(products$ => {
-        //         if (products$) {
-        //             return this.storageMap.set('sdf7tsef76t7wg4ufwiufs', products$).subscribe(() => {});
-        //         }
-        //     })
-        // );
+        // -->We: need to refresh the info data based if the user is logged in
+        this.subs.add(
+            this.naoUsersService.isLoggedIn$.subscribe(isLoggedIn => {
+                if (isLoggedIn) {
+                    this.refreshInfo();
+                }
+            })
+        );
     }
-
-    // todo: cache the getInfo request
-
-    // todo:
 
     /**
      * Refresh: info
      */
-    public refresh(): void {
+    public refreshInfo(): void {
         // -->Initial: check
-        // todo: do we use StorageMap or something else?
-        forkJoin([
-            this.storageMap.get('uygsdf67ts76fguysdfsdf'),
-            /* todo:Why do we need to 2 storage maps???*/
-            this.storageMap.get('sdf7tsef76t7wg4ufwiufs')
-        ])
-            .subscribe((info$: any) => {
-                if (Array.isArray(info$)) {
+        this.storageMap.get('uygsdf67ts76fguysdfsdf').subscribe((info$: any) => {
+            if (Array.isArray(info$)) {
+                // -->Set: app info
+                this.appInfo.next(info$);
+            }
+            // -->Fresh: the data
+            this.eCommerceService.getInfo().subscribe(info$ => {
+                if (info$ && info$.ok) {
                     // -->Set: app info
-                    this.appInfo.next(info$[0]);
-                    // -->Set: products
-                    // this.appProducts.next(info$[1]);
+                    this.appInfo.next(info$.data);
+                } else {
+                    // todo-->Error: the request didn't resolve correctly
                 }
-                // -->Fresh: the data
-                this.eCommerceService.getInfo().subscribe(info$ => {
-                    if (info$ && info$.ok) {
-                        // -->Set: app info
-                        this.appInfo.next(info$.data);
-                        // todo: -->Get: featured products
-                    } else {
-                        // todo-->Error: the request didn't resolve correctly
-                    }
-                });
             });
+        });
     }
 
     public ngOnDestroy() {

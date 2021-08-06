@@ -332,6 +332,7 @@
   "TEXT_SHOP_FEATURE_SECURITY_TITLE": "100% Safety",
   "TEXT_SHOP_FEATURE_SUPPORT_SUBTITLE": "Call us anytime",
   "TEXT_SHOP_FEATURE_SUPPORT_TITLE": "Support 24/7",
+  "TEXT_YOU_NEED_TO_LOGIN_FOR_PRICE": "You must be logged in to view the price for this item",
   "TEXT_SHOWING_PRODUCTS": "Showing {from}–{to} of {total} {total, plural, one {product} other {products}}",
   "TEXT_SKU": "SKU",
   "TEXT_SLOGAN": "Auto parts for Cars, trucks and motorcycles",

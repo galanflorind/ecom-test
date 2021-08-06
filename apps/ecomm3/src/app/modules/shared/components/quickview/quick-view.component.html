@@ -64,8 +64,8 @@
                         </div>
                         <app-status-badge
                             class="quickview__product-stock"
-                            [type]="product?.data?.variants[variantIndex]?.quantity | stockToStatusBadgeType"
-                            [text]="product?.data?.variants[variantIndex]?.quantity | stockToStatusBadgeText | translate"
+                            [type]="product?.data?.availability | stockToStatusBadgeType"
+                            [text]="product?.data?.availability | stockToStatusBadgeText | translate"
                         ></app-status-badge>
                     </div>
 
@@ -85,10 +85,14 @@
                             <button
                                 class="btn btn-primary btn-block"
                                 [class.btn-loading]="addToCartInProgress"
+                                [disabled]="!(product?.data?.variants[variantIndex]?.price >= 0)"
                                 (click)="addToCart()"
                             >
                                 {{ 'BUTTON_ADD_TO_CART' | translate }}
                             </button>
+                        </div>
+                        <div class="message-text-not-logged" *ngIf="!isLoggedIn">
+                            {{ 'TEXT_YOU_NEED_TO_LOGIN_FOR_PRICE' | translate }}
                         </div>
 <!--                        <div class="quickview__product-actions-item quickview__product-actions-item&#45;&#45;wishlist">-->
 <!--                            <button-->

@@ -11,6 +11,7 @@ import { CartService } from '../../../../services/cart.service';
 import { NavigationStart, Router } from '@angular/router';
 import { AppService } from "../../../../app.service";
 import { NaoSettingsInterface } from "@naologic/nao-interfaces";
+import { NaoUserAccessService } from "@naologic/nao-user-access";
 
 @Component({
     selector: 'app-quickview',
@@ -26,6 +27,7 @@ export class QuickViewComponent implements OnDestroy, AfterViewInit, OnInit {
     public addToCartInProgress = false;
     public variantIndex = 0;
     private subs = new Subscription();
+    public isLoggedIn = false;
 
     @ViewChild('modal') modal!: ModalDirective;
 
@@ -37,12 +39,16 @@ export class QuickViewComponent implements OnDestroy, AfterViewInit, OnInit {
         private router: Router,
         public url: UrlService,
         private appService: AppService,
+        private naoUsersService: NaoUserAccessService,
     ) {
     }
 
     public ngOnInit(): void {
         // -->Set: app settings
         this.appSettings = this.appService.settings.getValue();
+        // -->Check: if the user is logged in
+        this.isLoggedIn = this.naoUsersService.isLoggedIn();
+
     }
 
     public ngAfterViewInit(): void {

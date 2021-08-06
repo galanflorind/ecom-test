@@ -69,8 +69,8 @@
                                         </div>
                                         <app-status-badge
                                             class="product__stock"
-                                            [type]="product?.data?.variants[variantIndex]?.quantity | stockToStatusBadgeType"
-                                            [text]="product?.data?.variants[variantIndex]?.quantity | stockToStatusBadgeText | translate"
+                                            [type]="product?.data?.availability | stockToStatusBadgeType"
+                                            [text]="product?.data?.availability | stockToStatusBadgeText | translate"
                                         ></app-status-badge>
                                     </div>
 
@@ -116,12 +116,16 @@
                                             <button
                                                 class="btn btn-primary btn-lg btn-block"
                                                 [class.btn-loading]="addToCartInProgress"
+                                                [disabled]="!(product?.data?.variants[variantIndex]?.price >= 0)"
                                                 (click)="addToCart()"
                                             >
                                                 {{ 'BUTTON_ADD_TO_CART' | translate }}
                                             </button>
                                         </div>
                                         <div class="product__actions-divider"></div>
+                                        <div class="message-text-not-logged" *ngIf="!isLoggedIn">
+                                            {{ 'TEXT_YOU_NEED_TO_LOGIN_FOR_PRICE' | translate }}
+                                        </div>
                                     </ng-container>
 <!--                                    <button-->
 <!--                                        appAddToWishlist-->
@@ -155,6 +159,8 @@
 <!--                                    </div>-->
 <!--&lt;!&ndash;                                    <app-share-links class="product__share-links"></app-share-links>&ndash;&gt;-->
 <!--                                </div>-->
+
+
                             </div>
 
                             <div class="product__shop-features shop-features">

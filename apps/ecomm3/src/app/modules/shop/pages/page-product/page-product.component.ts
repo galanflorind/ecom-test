@@ -16,6 +16,7 @@ import { BreadcrumbItem } from '../../../shared/components/breadcrumb/breadcrumb
 import { NaoSettingsInterface} from "@naologic/nao-interfaces";
 import { AppService } from "../../../../app.service";
 import { ECommerceService } from "../../../../e-commerce.service";
+import {NaoUserAccessService} from "../../../../../../../../libs/nao-user-access/src";
 
 export type PageProductLayout = 'sidebar' | 'full';
 
@@ -43,6 +44,7 @@ export class PageProductComponent implements OnInit, OnDestroy {
     public spec: ProductAttributeGroup[] = [];
     public form!: FormGroup;
     public addToCartInProgress = false;
+    public isLoggedIn = false;
 
     public docId;
     // -->Based on this index we show specifications and price
@@ -64,6 +66,7 @@ export class PageProductComponent implements OnInit, OnDestroy {
         public url: UrlService,
         private appService: AppService,
         private eCommerceService: ECommerceService,
+        private naoUsersService: NaoUserAccessService,
     ) { }
 
     ngOnInit(): void {
@@ -72,6 +75,8 @@ export class PageProductComponent implements OnInit, OnDestroy {
 
         const data$ = this.route.data as Observable<PageProductData>;
         const product$ = data$.pipe(map((data: PageProductData) => data.product));
+        // -->Check: if the user is logged in
+        this.isLoggedIn = this.naoUsersService.isLoggedIn();
 
         // data$.subscribe((data: PageProductData) => {
         //     this.layout = data.layout;

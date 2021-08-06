@@ -5,8 +5,8 @@ import { PageShopService } from '../../services/page-shop.service';
 import { FormControl } from '@angular/forms';
 import { merge, Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-import {NaoSettingsInterface} from "../../../../../../../../libs/nao-interfaces/src";
-import {AppService} from "../../../../app.service";
+import { NaoSettingsInterface } from "@naologic/nao-interfaces";
+import { AppService } from "../../../../app.service";
 
 export interface LayoutButton {
     layout: PageShopLayout;

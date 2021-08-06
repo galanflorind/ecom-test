@@ -87,6 +87,11 @@ export class CartService {
     add(product: Product, variant: Variant, quantity: number): Observable<CartItem> {
         // timer only for demo
         return timer(350).pipe(map(() => {
+            // -->Check: if variant has a price key
+            if (!variant.hasOwnProperty('price')) {
+                return
+            }
+
             this.onAddingSubject$.next(product);
 
             let item = this.items.find(eachItem => {
