@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Product } from '../../../../interfaces/product';
-import { ShopApi } from '../../../../api';
 import { ShopCategory } from '../../../../interfaces/category';
 
 @Component({
@@ -14,12 +13,10 @@ export class ProductSidebarComponent implements OnInit {
 
     latestProducts$!: Observable<Product[]>;
 
-    constructor(
-        private shop: ShopApi,
-    ) { }
+    constructor() { }
 
     ngOnInit(): void {
-        this.categories$ = this.shop.getCategories({ depth: 1 });
-        this.latestProducts$ = this.shop.getLatestProducts(5);
+        // this.categories$ = this.shop.getCategories({ depth: 1 });
+        // this.latestProducts$ = this.shop.getLatestProducts(5);
     }
 }

@@ -21,7 +21,7 @@ import { fromEvent, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
 import { MobileMenuLink } from '../../../../interfaces/mobile-menu-link';
-import { nameToSlug } from "../../../../../fake-server/utils";
+import { nameToSlug } from "../../../shared/functions/utils";
 import { AppService } from "../../../../app.service";
 
 interface StackItem {

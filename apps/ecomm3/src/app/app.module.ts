@@ -9,7 +9,6 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
 import { AppRoutingModule } from './app-routing.module';
 import { CurrencyModule } from './modules/currency/currency.module';
-import { FakeApiModule } from './api';
 import { FooterModule } from './modules/footer/footer.module';
 import { HeaderModule } from './modules/header/header.module';
 import { LanguageModule } from './modules/language/language.module';
@@ -79,7 +78,6 @@ import {UserProfileService} from "./services/users-profile.service";
                 }
             ],
         }),
-        FakeApiModule,
         FooterModule,
         HeaderModule,
         // todo: remove and use our type of language files?

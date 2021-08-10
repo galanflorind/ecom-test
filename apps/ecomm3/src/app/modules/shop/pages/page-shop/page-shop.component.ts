@@ -3,7 +3,6 @@ import { Location } from '@angular/common';
 import { ShopSidebarService } from '../../services/shop-sidebar.service';
 import { PageShopService } from '../../services/page-shop.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { ShopApi } from '../../../../api';
 import { merge, Observable, of, Subject, Subscription } from 'rxjs';
 import { debounceTime, map, switchMap, takeUntil } from 'rxjs/operators';
 import { UrlService } from '../../../../services/url.service';
@@ -22,7 +21,7 @@ import {
     buildManufacturerFilter,
     buildPriceFilter
 } from "../../filters/filter.utils.static";
-import { getBreadcrumbs } from "../../../../../fake-server/utils";
+import { getBreadcrumbs } from "../../../shared/functions/utils";
 
 
 export type PageShopLayout =
@@ -80,7 +79,6 @@ export class PageShopComponent implements OnInit, OnDestroy {
         private router: Router,
         private route: ActivatedRoute,
         private page: PageShopService,
-        private shop: ShopApi,
         private location: Location,
         private url: UrlService,
         private language: LanguageService,

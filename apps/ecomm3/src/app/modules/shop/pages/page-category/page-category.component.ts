@@ -5,7 +5,6 @@ import { UrlService } from '../../../../services/url.service';
 import { Observable, of } from 'rxjs';
 import { map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { Product } from '../../../../interfaces/product';
-import { ShopApi } from '../../../../api';
 import { Brand } from '../../../../interfaces/brand';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../language/services/language.service';
@@ -80,7 +79,6 @@ export class PageCategoryComponent implements OnInit {
 
     constructor(
         private route: ActivatedRoute,
-        private shop: ShopApi,
         private translate: TranslateService,
         private language: LanguageService,
         public url: UrlService,
@@ -119,14 +117,14 @@ export class PageCategoryComponent implements OnInit {
             )),
         );
 
-        this.bestsellers = asyncData(this.shop.getPopularProducts(null, 8));
+        // this.bestsellers = asyncData(this.shop.getPopularProducts(null, 8));
 
-        this.featured = asyncData(this.shop.getFeaturedProducts(null, 8));
+        // this.featured = asyncData(this.shop.getFeaturedProducts(null, 8));
 
-        this.brands$ = this.shop.getBrands({ limit: (this.hasSidebar ? 7 : 8) * 2 });
+        // this.brands$ = this.shop.getBrands({ limit: (this.hasSidebar ? 7 : 8) * 2 });
 
-        if (this.hasSidebar) {
-            this.latest$ = this.shop.getLatestProducts(5);
-        }
+        // if (this.hasSidebar) {
+        //     this.latest$ = this.shop.getLatestProducts(5);
+        // }
     }
 }

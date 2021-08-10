@@ -1,6 +1,5 @@
 import { Component, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
 import { BehaviorSubject, of, Subject } from 'rxjs';
-import { ShopApi } from '../../../../api';
 import { switchMap, takeUntil } from 'rxjs/operators';
 import { Product } from '../../../../interfaces/product';
 import { UrlService } from '../../../../services/url.service';
@@ -28,7 +27,6 @@ export class AnalogsTableComponent implements OnInit, OnDestroy {
     @HostBinding('class.analogs-table') classAnalogsTable = true;
 
     constructor(
-        private shop: ShopApi,
         public url: UrlService,
         private appService: AppService,
     ) { }
@@ -37,16 +35,16 @@ export class AnalogsTableComponent implements OnInit, OnDestroy {
         // -->Set: app settings
         this.appSettings = this.appService.settings.getValue();
 
-        this.productId$.pipe(
-            switchMap(productId => {
-                if (!productId) {
-                    return of([]);
-                }
+        // this.productId$.pipe(
+        //     switchMap(productId => {
+        //         if (!productId) {
+        //             return of([]);
+        //         }
 
-                return this.shop.getProductAnalogs(productId);
-            }),
-            takeUntil(this.destroy$),
-        ).subscribe(x => this.analogs = x);
+        //         return this.shop.getProductAnalogs(productId);
+        //     }),
+        //     takeUntil(this.destroy$),
+        // ).subscribe(x => this.analogs = x);
     }
 
     ngOnDestroy(): void {

@@ -7,7 +7,6 @@ import { PageProductComponent } from './pages/page-product/page-product.componen
 import { PageShopComponent } from './pages/page-shop/page-shop.component';
 import { PageTrackOrderComponent } from './pages/page-track-order/page-track-order.component';
 import { PageWishlistComponent } from './pages/page-wishlist/page-wishlist.component';
-import { RootCategoriesResolver } from './resolvers/root-categories.resolver';
 import { NaoUserPermissionsGuard } from "@naologic/nao-user-access";
 
 
@@ -205,8 +204,6 @@ const routes: Routes = [
 @NgModule({
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule],
-    providers: [
-        RootCategoriesResolver,
-    ],
+    providers: [ ],
 })
 export class ShopRoutingModule { }

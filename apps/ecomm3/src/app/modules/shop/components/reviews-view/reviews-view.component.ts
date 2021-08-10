@@ -1,7 +1,6 @@
 import { Component, HostBinding, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { PageProductLayout } from '../../pages/page-product/page-product.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ShopApi } from '../../../../api';
 import { Subject } from 'rxjs';
 import { finalize, takeUntil } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
@@ -30,7 +29,6 @@ export class ReviewsViewComponent implements OnInit, OnDestroy {
 
     constructor(
         private fb: FormBuilder,
-        private shop: ShopApi,
         private toastr: ToastrService,
         private translate: TranslateService,
     ) { }
@@ -56,27 +54,27 @@ export class ReviewsViewComponent implements OnInit, OnDestroy {
             return;
         }
 
-        this.submitInProgress = true;
+        // this.submitInProgress = true;
 
-        const formValue = this.form.value;
+        // const formValue = this.form.value;
 
-        this.shop.addProductReview(this.productId, {
-            rating: parseFloat(formValue.rating),
-            author: formValue.author,
-            email: formValue.email,
-            content: formValue.content,
-        }).pipe(
-            finalize(() => this.submitInProgress = false),
-            takeUntil(this.destroy$),
-        ).subscribe(() => {
-            this.form.reset({
-                rating: '',
-                author: '',
-                email: '',
-                content: '',
-            });
-            this.list.reload();
-            this.toastr.success(this.translate.instant('TEXT_TOAST_REVIEW_ADDED'));
-        });
+        // this.shop.addProductReview(this.productId, {
+        //     rating: parseFloat(formValue.rating),
+        //     author: formValue.author,
+        //     email: formValue.email,
+        //     content: formValue.content,
+        // }).pipe(
+        //     finalize(() => this.submitInProgress = false),
+        //     takeUntil(this.destroy$),
+        // ).subscribe(() => {
+        //     this.form.reset({
+        //         rating: '',
+        //         author: '',
+        //         email: '',
+        //         content: '',
+        //     });
+        //     this.list.reload();
+        //     this.toastr.success(this.translate.instant('TEXT_TOAST_REVIEW_ADDED'));
+        // });
     }
 }

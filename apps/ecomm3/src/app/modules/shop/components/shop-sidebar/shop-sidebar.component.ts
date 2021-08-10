@@ -5,27 +5,28 @@ import { takeUntil } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
 import { fromMatchMedia } from '../../../../functions/rxjs/from-match-media';
 import { Product } from '../../../../interfaces/product';
-import { ShopApi } from '../../../../api';
 
 @Component({
     selector: 'app-shop-sidebar',
     templateUrl: './shop-sidebar.component.html',
     styleUrls: ['./shop-sidebar.component.scss'],
 })
-export class ShopSidebarComponent implements OnInit, OnDestroy {
+export class ShopSidebarComponent implements OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
 
-    latestProducts$: Observable<Product[]> = of([]);
+    //latestProducts$: Observable<Product[]> = of([]);
 
     @Input() offcanvas: 'always' | 'mobile' = 'always';
 
     @HostBinding('class.sidebar') classSidebar = true;
 
-    @HostBinding('class.sidebar--offcanvas--always') get classSidebarOffcanvasAlways(): boolean {
+    @HostBinding('class.sidebar--offcanvas--always')
+    get classSidebarOffcanvasAlways(): boolean {
         return this.offcanvas === 'always';
     }
 
-    @HostBinding('class.sidebar--offcanvas--mobile') get classSidebarOffcanvasMobile(): boolean {
+    @HostBinding('class.sidebar--offcanvas--mobile')
+    get classSidebarOffcanvasMobile(): boolean {
         return this.offcanvas === 'mobile';
     }
 
@@ -34,32 +35,38 @@ export class ShopSidebarComponent implements OnInit, OnDestroy {
     }
 
     constructor(
-        private shop: ShopApi,
+        //private shop: ShopApi,
         public sidebar: ShopSidebarService,
-        @Inject(PLATFORM_ID) private platformId: any,
+        @Inject(PLATFORM_ID) private platformId: any
     ) {
-        this.sidebar.isOpen$.pipe(
-            takeUntil(this.destroy$),
-        ).subscribe(isOpen => {
-            if (isOpen) {
-                this.open();
-            } else {
-                this.close();
-            }
-        });
-
-        if (isPlatformBrowser(this.platformId)) {
-            fromMatchMedia('(max-width: 991px)').pipe(takeUntil(this.destroy$)).subscribe(media => {
-                if (this.offcanvas === 'mobile' && this.sidebar.isOpen && !media.matches) {
-                    this.sidebar.close();
+        this.sidebar.isOpen$
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((isOpen) => {
+                if (isOpen) {
+                    this.open();
+                } else {
+                    this.close();
                 }
             });
+
+        if (isPlatformBrowser(this.platformId)) {
+            fromMatchMedia('(max-width: 991px)')
+                .pipe(takeUntil(this.destroy$))
+                .subscribe((media) => {
+                    if (
+                        this.offcanvas === 'mobile' &&
+                        this.sidebar.isOpen &&
+                        !media.matches
+                    ) {
+                        this.sidebar.close();
+                    }
+                });
         }
     }
 
-    ngOnInit(): void {
-        this.latestProducts$ = this.shop.getLatestProducts(5);
-    }
+    // ngOnInit(): void {
+    //     this.latestProducts$ = this.shop.getLatestProducts(5);
+    // }
 
     ngOnDestroy(): void {
         this.destroy$.next();
@@ -71,7 +78,8 @@ export class ShopSidebarComponent implements OnInit, OnDestroy {
             const bodyWidth = document.body.offsetWidth;
 
             document.body.style.overflow = 'hidden';
-            document.body.style.paddingRight = (document.body.offsetWidth - bodyWidth) + 'px';
+            document.body.style.paddingRight =
+                document.body.offsetWidth - bodyWidth + 'px';
         }
     }
 

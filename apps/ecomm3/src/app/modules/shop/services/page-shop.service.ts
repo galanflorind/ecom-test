@@ -2,11 +2,11 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { ProductsList } from '../../../interfaces/list';
 import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { Product } from '../../../interfaces/product';
-import { GetProductsListOptions } from '../../../api';
 import { ActiveFilter, Filter } from '../../../interfaces/filter';
 import { filterHandlers } from '../filters/filter-handlers';
 import { FilterHandler } from '../filters/filter.handler';
 import {Router} from "@angular/router";
+import { GetProductsListOptions } from '../../../interfaces/shop';
 
 
 @Injectable()

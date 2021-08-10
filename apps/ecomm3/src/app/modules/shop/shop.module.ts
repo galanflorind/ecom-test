@@ -10,17 +10,12 @@ import { CollapseModule } from '../collapse';
 import { RadioModule } from '../radio/radio.module';
 import { SharedModule } from '../shared/shared.module';
 import { ShopRoutingModule } from './shop-routing.module';
-import { AnalogsTableComponent } from './components/analogs-table/analogs-table.component';
-import { ProductSidebarComponent } from './components/product-sidebar/product-sidebar.component';
 import { ProductsViewComponent } from './components/products-view/products-view.component';
 import { ProductTabComponent } from './components/product-tab/product-tab.component';
 import { ProductTabsComponent } from './components/product-tabs/product-tabs.component';
-import { ReviewsListComponent } from './components/reviews-list/reviews-list.component';
-import { ReviewsViewComponent } from './components/reviews-view/reviews-view.component';
 import { ShopSidebarComponent } from './components/shop-sidebar/shop-sidebar.component';
 import { SpecComponent } from './components/spec/spec.component';
 import { PageCartComponent } from './pages/page-cart/page-cart.component';
-import { PageCategoryComponent } from './pages/page-category/page-category.component';
 import { PageCheckoutComponent } from './pages/page-checkout/page-checkout.component';
 import { PageCompareComponent } from './pages/page-compare/page-compare.component';
 import { PageProductComponent } from './pages/page-product/page-product.component';
@@ -41,18 +36,13 @@ import { NaoLoadingComponent } from "./components/nao-loading/nao-loading.compon
 
 @NgModule({
     declarations: [
-        AnalogsTableComponent,
-        ProductSidebarComponent,
         ProductsViewComponent,
         ProductTabComponent,
         ProductTabsComponent,
-        ReviewsListComponent,
-        ReviewsViewComponent,
         ShopSidebarComponent,
         SpecComponent,
         NaoLoadingComponent,
         PageCartComponent,
-        PageCategoryComponent,
         PageCheckoutComponent,
         PageCompareComponent,
         PageProductComponent,

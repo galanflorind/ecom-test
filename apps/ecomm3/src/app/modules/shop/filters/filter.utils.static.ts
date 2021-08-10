@@ -1,5 +1,5 @@
 import {CategoryFilter, CheckFilter, RadioFilter, RangeFilter} from "../../../interfaces/filter";
-import { nameToSlug } from "../../../../fake-server/utils";
+import { nameToSlug } from "../../shared/functions/utils";
 import {BaseCategory} from "../../../interfaces/category";
 
 
