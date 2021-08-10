@@ -1,8 +1,7 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Product, Variant } from '../interfaces/product';
-import { BehaviorSubject, Observable, Subject, timer } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of, Subject, timer } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
-import { map } from 'rxjs/operators';
 
 export interface CartItem {
     product: Product;
@@ -76,7 +75,7 @@ export class CartService {
     readonly onAdding$: Observable<Product> = this.onAddingSubject$.asObservable();
 
     constructor(
-        @Inject(PLATFORM_ID) private platformId: any,
+        @Inject(PLATFORM_ID) private platformId: any
     ) {
         if (isPlatformBrowser(this.platformId)) {
             this.load();
@@ -85,73 +84,71 @@ export class CartService {
     }
 
     add(product: Product, variant: Variant, quantity: number): Observable<CartItem> {
-        // timer only for demo
-        return timer(350).pipe(map(() => {
-            // -->Check: if variant has a price key
-            if (!variant.hasOwnProperty('price')) {
-                return
+        // -->Check: if variant has a price key
+        if (!variant.hasOwnProperty('price')) {
+            return;
+        }
+
+        this.onAddingSubject$.next(product);
+
+        let item = this.items.find((eachItem) => {
+            if (eachItem.product._id === product._id && eachItem.variant.id === variant.id)
+            {
+                return true;
             }
 
-            this.onAddingSubject$.next(product);
+            // if (eachItem.options.length) {
+            //     for (const option of options) {
+            //         if (!eachItem.options.find(itemOption => itemOption.name === option.name && itemOption.value === option.value)) {
+            //             return false;
+            //         }
+            //     }
+            // }
 
-            let item = this.items.find(eachItem => {
+            return false;
+        });
 
-                if (eachItem.product._id === product._id && eachItem.variant.id === variant.id) {
-                    return true;
-                }
+        if (item) {
+            item.quantity += quantity;
+        } else {
+            item = { product, quantity, variant };
 
-                // if (eachItem.options.length) {
-                //     for (const option of options) {
-                //         if (!eachItem.options.find(itemOption => itemOption.name === option.name && itemOption.value === option.value)) {
-                //             return false;
-                //         }
-                //     }
-                // }
+            this.data.items.push(item);
+        }
 
-                return false;
-            });
+        // -->Save and calculate
+        this.save();
+        this.calc();
 
-
-            if (item) {
-                item.quantity += quantity;
-            } else {
-                item = {product, quantity, variant};
-
-                this.data.items.push(item);
-            }
-
-            // -->Save and calculate
-            this.save();
-            this.calc();
-
-            return item;
-        }));
+        return of(item);
     }
 
-    public update(updates: {item: CartItem, quantity: number}[]): Observable<void> {
-        // timer only for demo
-        return timer(350).pipe(map(() => {
-            updates.forEach(update => {
-                const item = this.items.find(eachItem => eachItem === update.item);
+    public update(updates: { item: CartItem; quantity: number }[]): Observable<void> {
+        updates.forEach((update) => {
+            const item = this.items.find(
+                (eachItem) => eachItem === update.item
+            );
 
-                if (item) {
-                    item.quantity = update.quantity;
-                }
-            });
+            if (item) {
+                item.quantity = update.quantity;
+            }
+        });
 
-            this.save();
-            this.calc();
-        }));
+        this.save();
+        this.calc();
+
+        return EMPTY;
     }
 
     public remove(item: CartItem): Observable<void> {
-        // timer only for demo
-        return timer(350).pipe(map(() => {
-            this.data.items = this.data.items.filter(eachItem => eachItem !== item);
+        this.data.items = this.data.items.filter(
+            (eachItem) => eachItem !== item
+        );
 
-            this.save();
-            this.calc();
-        }));
+        this.save();
+        this.calc();
+
+        return EMPTY;
     }
 
     /**

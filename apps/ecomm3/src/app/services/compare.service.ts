@@ -1,5 +1,5 @@
 import { Inject, Injectable, OnDestroy, PLATFORM_ID } from '@angular/core';
-import { BehaviorSubject, Observable, Subject, timer } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, Subject, timer } from 'rxjs';
 import { Product } from '../interfaces/product';
 import { map, takeUntil } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
@@ -27,36 +27,38 @@ export class CompareService implements OnDestroy {
     }
 
     add(product: Product): Observable<void> {
-        // timer only for demo
-        return timer(350).pipe(map(() => {
-            this.onAddingSubject$.next(product);
+        this.onAddingSubject$.next(product);
 
-            const index = this.dataItems.findIndex(item => item.id === product.id);
+        const index = this.dataItems.findIndex(
+            (item) => item.id === product.id
+        );
 
-            if (index === -1) {
-                this.dataItems.push(product);
-                this.save();
-            }
-        }));
+        if (index === -1) {
+            this.dataItems.push(product);
+            this.save();
+        }
+
+        return EMPTY;
     }
 
     remove(product: Product): Observable<void> {
-        // timer only for demo
-        return timer(350).pipe(map(() => {
-            const index = this.dataItems.findIndex(item => item.id === product.id);
+        const index = this.dataItems.findIndex(
+            (item) => item.id === product.id
+        );
 
-            if (index !== -1) {
-                this.dataItems.splice(index, 1);
-                this.save();
-            }
-        }));
+        if (index !== -1) {
+            this.dataItems.splice(index, 1);
+            this.save();
+        }
+
+        return EMPTY;
     }
 
     clear(): Observable<void> {
-        return timer(350).pipe(map(() => {
-            this.dataItems = [];
-            this.save();
-        }));
+        this.dataItems = [];
+        this.save();
+
+        return EMPTY;
     }
 
     private save(): void {
