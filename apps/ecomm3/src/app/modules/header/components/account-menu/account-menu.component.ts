@@ -15,6 +15,7 @@ export class AccountMenuComponent implements OnInit, OnDestroy {
     public userData = null;
     public formGroup!: FormGroup;
     public loginInProgress = false;
+    public errorMessage = 'INVALID_LOGIN';
 
     @Output() closeMenu: EventEmitter<void> = new EventEmitter<void>();
 
@@ -66,6 +67,14 @@ export class AccountMenuComponent implements OnInit, OnDestroy {
                 return this.router.navigate(['/', 'account', 'dashboard']);
             })
             .catch((err) => {
+                // -->Set: error message
+                switch (err?.error?.index) {
+                    case 'user_activation_required':
+                        this.errorMessage = 'PENDING_ACCOUNT';
+                        break;
+                    default:
+                        this.errorMessage = 'INVALID_LOGIN';
+                }
                 this.loginInProgress = false;
                 // -->Reset:
                 this.formGroup.get('password').reset();

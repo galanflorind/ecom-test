@@ -371,5 +371,9 @@
   "TEXT_VEHICLE_FILTER_HELP": "Select a vehicle to filter out only exact fit parts.",
   "TEXT_WORKING_HOURS": "Working Hours",
   "TEXT_YOUR_SHOPPING_CART_IS_EMPTY": "Your shopping cart is empty!",
-  "INVALID_LOGIN": "It seems you've entered an incorrect email and/or password. Please give it another go."
+  "INVALID_LOGIN": "It seems you've entered an incorrect email and/or password. Please give it another go.",
+
+  "THANKS_FOR_SIGNING_UP": "Thanks for signing up.",
+  "MESSAGE_FOR_SIGNING_UP": "We’ve sent an approval notification to the shop administrator - as soon as they approve your guest account, we’ll send you an email to let you know that your profile is active and ready for you to sign in.",
+  "PENDING_ACCOUNT": "Your account is still pending an admin approval. Please check back again in a bit or reach out directly to an administrator."
 }

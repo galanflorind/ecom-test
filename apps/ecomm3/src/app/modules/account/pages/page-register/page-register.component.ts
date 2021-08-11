@@ -15,6 +15,7 @@ export class PageRegisterComponent implements OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
     public formGroup!: FormGroup;
     public registerInProgress = false;
+    public registerDone = false;
 
     constructor(
         private fb: FormBuilder,
@@ -49,18 +50,7 @@ export class PageRegisterComponent implements OnInit, OnDestroy {
         // -->Update: doc
         this.naoUsersAuthService.createUser(data).subscribe(
             (ok) => {
-                // -->Execute: a login
-                this.naoUsersService
-                    .loginWithEmail(data.email, data.password, data.rememberMe)
-                    .then((ok2) => {
-                        this.registerInProgress = false
-                        // -->Redirect
-                        return this.router.navigate(['/', 'account', 'dashboard']);
-                    })
-                    .catch((err) => {
-                        this.registerInProgress = false
-                        this.formGroup.reset();
-                    });
+                this.registerDone = true;
             },
             (err) => {
                 this.registerInProgress = false

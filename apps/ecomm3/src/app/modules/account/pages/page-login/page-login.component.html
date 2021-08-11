@@ -73,7 +73,7 @@
                             </div>
 
                             <div class="font-size-13 text-danger mt-3" [hidden]="!loginForm.submitted || !formGroup.get('password').pristine || loginInProgress">
-                                {{ 'INVALID_LOGIN' | translate }}
+                                {{ errorMessage | translate }}
                             </div>
                         </form>
                     </div>
