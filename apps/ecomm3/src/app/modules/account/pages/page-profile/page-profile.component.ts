@@ -18,6 +18,7 @@ export class PageProfileComponent implements OnInit, OnDestroy {
     public formGroup!: FormGroup;
     public saveInProgress = false;
     public userData;
+    public linkedDoc;
 
     constructor(
         private fb: FormBuilder,
@@ -31,11 +32,14 @@ export class PageProfileComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         // -->Get: userData
         this.userData = this.naoUsersService.userData.getValue();
+        this.linkedDoc = this.naoUsersService.linkedDoc.getValue()?.data;
+
         // -->Check: and redirect
-        if (!this.userData) {
+        if (!this.userData || !this.userData) {
             this.router.navigateByUrl('/account/login').then();
             return;
         }
+
         // -->Subscribe: to userData
         this.subs.add(
             this.naoUsersService.userData.subscribe(userData => {
@@ -43,10 +47,21 @@ export class PageProfileComponent implements OnInit, OnDestroy {
                 this.userData = userData;
             })
         );
+
+        // -->Subscribe: to linkedDoc
+        this.subs.add(
+            this.naoUsersService.linkedDoc.subscribe(linkedDoc => {
+                // -->Set: linkedDoc
+                this.linkedDoc = linkedDoc?.data;
+            })
+        );
+
         this.formGroup = this.fb.group({
             firstName: [this.userData.firstName, [Validators.required]],
             lastName: [this.userData.lastName, [Validators.required]],
             phoneNo: [this.userData.phoneNo],
+            companyName: [this.linkedDoc?.companyName],
+            companyTaxId: [this.linkedDoc?.companyTaxId],
         });
     }
 

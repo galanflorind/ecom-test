@@ -58,6 +58,40 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    <label for="profile-companyName">{{ 'INPUT_COMPANY_NAME_LABEL' | translate }}</label>
+                    <input
+                        type="text"
+                        id="profile-companyName"
+                        formControlName="companyName"
+                        class="form-control"
+                        [class.is-invalid]="formGroup.controls.companyName|isInvalid"
+                        placeholder="SpaceX"
+                    >
+                    <div class="invalid-feedback">
+                        <div *ngIf="formGroup.controls.companyName|hasError:'required'">
+                            {{ 'ERROR_FORM_REQUIRED' | translate }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="profile-companyTaxId">{{ 'INPUT_COMPANY_TAX_ID_LABEL' | translate }}</label>
+                    <input
+                        type="text"
+                        id="profile-companyTaxId"
+                        formControlName="companyTaxId"
+                        class="form-control"
+                        [class.is-invalid]="formGroup.controls.companyTaxId|isInvalid"
+                        placeholder="12-3456789"
+                    >
+                    <div class="invalid-feedback">
+                        <div *ngIf="formGroup.controls.companyTaxId|hasError:'required'">
+                            {{ 'ERROR_FORM_REQUIRED' | translate }}
+                        </div>
+                    </div>
+                </div>
+
                 <div class="form-group mb-0">
                     <button
                         class="btn btn-primary mt-3"
