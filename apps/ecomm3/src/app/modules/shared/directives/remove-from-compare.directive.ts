@@ -1,6 +1,6 @@
+import { CompareItem } from './../../../interfaces/compare';
 import { ChangeDetectorRef, Directive, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Product } from '../../../interfaces/product';
 import { takeUntil } from 'rxjs/operators';
 import { CompareService } from '../../../services/compare.service';
 
@@ -11,7 +11,7 @@ import { CompareService } from '../../../services/compare.service';
 export class RemoveFromCompareDirective implements OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
 
-    inProgress = false;
+    public inProgress = false;
 
     constructor(
         private compare: CompareService,
@@ -23,17 +23,22 @@ export class RemoveFromCompareDirective implements OnDestroy {
         this.destroy$.complete();
     }
 
-    remove(product: Product): void {
-        if (this.inProgress) {
+    remove(compareItem: CompareItem): void {
+        if (!compareItem || this.inProgress) {
             return;
         }
 
         this.inProgress = true;
-        this.compare.remove(product).pipe(takeUntil(this.destroy$)).subscribe({
-            complete: () => {
-                this.inProgress = false;
-                this.cd.markForCheck();
-            },
-        });
+
+        // -->Remove: item from compare
+        this.compare
+            .remove(compareItem)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+                complete: () => {
+                    this.inProgress = false;
+                    this.cd.markForCheck();
+                },
+            });
     }
 }

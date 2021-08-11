@@ -182,6 +182,7 @@ export const mainMenu: MainMenuLink[] = [
     // },
     { title: 'About Us', url: '/site/about-us' },
     { title: 'FAQ', url: '/site/faq' },
+    { title: 'Test Compare Products', url: '/shop/compare' },
     // {
     //     title: 'Pages',
     //     url: '/site/about-us',

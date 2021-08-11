@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Directive, OnDestroy } from '@angular/core';
-import { Product } from '../../../interfaces/product';
+import { Product, Variant } from '../../../interfaces/product';
 import { CompareService } from '../../../services/compare.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -11,11 +11,11 @@ import { Subject } from 'rxjs';
 export class AddToCompareDirective implements OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
 
-    inProgress = false;
+    public inProgress = false;
 
     constructor(
         private compare: CompareService,
-        private cd: ChangeDetectorRef,
+        private cd: ChangeDetectorRef
     ) { }
 
     ngOnDestroy(): void {
@@ -23,17 +23,22 @@ export class AddToCompareDirective implements OnDestroy {
         this.destroy$.complete();
     }
 
-    add(product: Product): void {
-        if (this.inProgress) {
+    add(product: Product, variant: Variant): void {
+        if (!product || !variant || this.inProgress) {
             return;
         }
 
         this.inProgress = true;
-        this.compare.add(product).pipe(takeUntil(this.destroy$)).subscribe({
-            complete: () => {
-                this.inProgress = false;
-                this.cd.markForCheck();
-            },
-        });
+
+        // -->Add: product variant to compare
+        this.compare
+            .add(product, variant)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+                complete: () => {
+                    this.inProgress = false;
+                    this.cd.markForCheck();
+                },
+            });
     }
 }

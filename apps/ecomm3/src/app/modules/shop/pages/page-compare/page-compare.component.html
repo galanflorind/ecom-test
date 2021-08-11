@@ -78,105 +78,111 @@
                 <div class="table-responsive">
                     <table class="compare__table compare-table">
                         <tbody>
+                        <!-- Product Name -->
                         <tr class="compare-table__row">
                             <th class="compare-table__column compare-table__column--header">{{ 'TABLE_PRODUCT' | translate }}</th>
-                            <td *ngFor="let product of products$|async" class="compare-table__column compare-table__column--product">
-                                <a [routerLink]="url.product(product)" class="compare-table__product">
+                            <td *ngFor="let item of compareItems$|async" class="compare-table__column compare-table__column--product">
+                                <a [routerLink]="url.product(item.product)" class="compare-table__product">
                                     <div class="compare-table__product-image image image--type--product">
                                         <div class="image__body">
-<!--                                            <img class="image__tag" [src]="product|getProductImage" alt="">-->
+                                            <img class="image__tag" [src]="item.product?.data?.images[0] | checkImageFallback" alt="">
                                         </div>
                                     </div>
                                     <div class="compare-table__product-name">
-                                        {{ product.name }}
+                                        {{ item.product?.data?.name }}
                                     </div>
                                 </a>
                             </td>
                             <td class="compare-table__column compare-table__column--fake"></td>
                         </tr>
-                        <tr class="compare-table__row">
+                        <!-- <tr class="compare-table__row">
                             <th class="compare-table__column compare-table__column--header">{{ 'TABLE_RATING' | translate }}</th>
-                            <td *ngFor="let product of products$|async" class="compare-table__column compare-table__column--product">
-                                <!--Show rating only if it's allowed in settings-->
-                                <!--This will have to be connected to ecomm in the future-->
+                            <td *ngFor="let item of compareItems$|async" class="compare-table__column compare-table__column--product">
+                                </!--Show rating only if it's allowed in settings-->
+                                <!--This will have to be connected to ecomm in the future--/>
                                 <div class="compare-table__rating" *ngIf="appSettings?.rating">
                                     <div class="compare-table__rating-stars">
-                                        <app-rating [value]="product?.data?.rating || 0"></app-rating>
+                                        <app-rating [value]="item.product?.data?.rating || 0"></app-rating>
                                     </div>
                                     <div class="compare-table__rating-title">
-                                        {{ 'TEXT_RATING_LABEL' | translate:{rating: product?.data?.rating, reviews: product.reviews} }}
+                                        {{ 'TEXT_RATING_LABEL' | translate:{rating: item.product?.data?.rating, reviews: item.product.reviews} }}
                                     </div>
                                 </div>
 
                             </td>
                             <td class="compare-table__column compare-table__column--fake"></td>
-                        </tr>
+                        </tr> -->
+                        <!-- Product Stock -->
                         <tr class="compare-table__row">
                             <th class="compare-table__column compare-table__column--header">{{ 'TABLE_STOCK_STATUS' | translate }}</th>
-                            <td *ngFor="let product of products$|async" class="compare-table__column compare-table__column--product">
-<!--                                <app-status-badge-->
-<!--                                    class="product__stock"-->
-<!--                                    [type]="product.stock|stockToStatusBadgeType"-->
-<!--                                    [text]="product.stock|stockToStatusBadgeText|translate"-->
-<!--                                ></app-status-badge>-->
+                            <td *ngFor="let item of compareItems$|async" class="compare-table__column compare-table__column--product">
+                                <app-status-badge
+                                    class="product__stock"
+                                    [type]="item.product?.stock|stockToStatusBadgeType"
+                                    [text]="item.product?.stock|stockToStatusBadgeText|translate"
+                                ></app-status-badge>
                             </td>
                             <td class="compare-table__column compare-table__column--fake"></td>
                         </tr>
+                        <!-- Variant Price -->
                         <tr class="compare-table__row">
                             <th class="compare-table__column compare-table__column--header">{{ 'TABLE_PRICE' | translate }}</th>
-                            <td *ngFor="let product of products$|async" class="compare-table__column compare-table__column--product">
-                                {{ product.price | currencyFormat }}
+                            <td *ngFor="let item of compareItems$|async" class="compare-table__column compare-table__column--product">
+                                {{ item.variant?.price | currencyFormat }}
                             </td>
                             <td class="compare-table__column compare-table__column--fake"></td>
                         </tr>
+                        <!-- Add To Cart -->
                         <tr class="compare-table__row">
                             <th class="compare-table__column compare-table__column--header"></th>
-                            <td *ngFor="let product of products$|async" class="compare-table__column compare-table__column--product">
-                                <!--TODO: add variant-->
-<!--                                <button-->
-<!--                                    appAddToCart-->
-<!--                                    type="button"-->
-<!--                                    class="btn btn-sm btn-primary"-->
-<!--                                    [class.btn-loading]="addToCart.inProgress"-->
-<!--                                    (click)="addToCart.add(product)"-->
-<!--                                    #addToCart="addToCart"-->
-<!--                                >-->
-<!--                                    {{ 'BUTTON_ADD_TO_CART' | translate }}-->
-<!--                                </button>-->
+                            <td *ngFor="let item of compareItems$|async" class="compare-table__column compare-table__column--product">
+                                <button
+                                    appAddToCart
+                                    type="button"
+                                    class="btn btn-sm btn-primary"
+                                    [class.btn-loading]="addToCart.inProgress"
+                                    (click)="addToCart.add(item.product, item.variant)"
+                                    #addToCart="addToCart"
+                                >
+                                    {{ 'BUTTON_ADD_TO_CART' | translate }}
+                                </button>
                             </td>
                             <td class="compare-table__column compare-table__column--fake"></td>
                         </tr>
+                        <!-- Variant SKU -->
                         <tr class="compare-table__row">
                             <th class="compare-table__column compare-table__column--header">{{ 'TABLE_SKU' | translate }}</th>
-                            <td *ngFor="let product of products$|async" class="compare-table__column compare-table__column--product">
-                                {{ product.sku }}
+                            <td *ngFor="let item of compareItems$|async" class="compare-table__column compare-table__column--product">
+                                {{ item.variant?.sku }}
                             </td>
                             <td class="compare-table__column compare-table__column--fake"></td>
                         </tr>
-                        <tr
+                        <!-- Product attributes are noted as deprecated in Product definition-->
+                        <!-- <tr
                             *ngFor="let attribute of (show.value === 'all' ? attributes$ : differentAttributes$)|async"
                             class="compare-table__row"
                         >
                             <th class="compare-table__column compare-table__column--header">{{ attribute.name }}</th>
-                            <td *ngFor="let product of products$|async" class="compare-table__column compare-table__column--product">
+                            <td *ngFor="let item of compareItems$|async" class="compare-table__column compare-table__column--product">
                                 <ng-template #empty>—</ng-template>
-                                <ng-container *ngIf="attribute.values[product.id]?.length; else empty">
-                                    <ng-container *ngFor="let value of attribute.values[product.id]; let last=last">
+                                <ng-container *ngIf="attribute.values[item.product.id]?.length; else empty">
+                                    <ng-container *ngFor="let value of attribute.values[item.product.id]; let last=last">
                                         {{ value.name }}<ng-container *ngIf="!last">, </ng-container>
                                     </ng-container>
                                 </ng-container>
                             </td>
                             <td class="compare-table__column compare-table__column--fake"></td>
-                        </tr>
+                        </tr> -->
+                        <!-- Remove Product -->
                         <tr class="compare-table__row">
                             <th class="compare-table__column compare-table__column--header"></th>
-                            <td *ngFor="let product of products$|async" class="compare-table__column compare-table__column--product">
+                            <td *ngFor="let item of compareItems$|async" class="compare-table__column compare-table__column--product">
                                 <button
                                     appRemoveFromCompare
                                     type="button"
                                     class="btn btn-sm btn-secondary"
                                     [class.btn-loading]="removeFromCompare.inProgress"
-                                    (click)="removeFromCompare.remove(product)"
+                                    (click)="removeFromCompare.remove(item)"
                                     #removeFromCompare="removeFromCompare"
                                 >
                                     {{ 'BUTTON_REMOVE' | translate }}

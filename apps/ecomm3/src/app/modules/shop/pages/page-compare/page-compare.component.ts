@@ -1,103 +1,112 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import { CompareItem } from './../../../../interfaces/compare';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CompareService } from '../../../../services/compare.service';
 import { Observable, Subject } from 'rxjs';
-import { Product, ProductAttributeValue } from '../../../../interfaces/product';
-import { map, shareReplay, takeUntil } from 'rxjs/operators';
+// import { ProductAttributeValue } from '../../../../interfaces/product';
+import { shareReplay, takeUntil } from 'rxjs/operators';
 import { UrlService } from '../../../../services/url.service';
 import { FormControl } from '@angular/forms';
-import {NaoSettingsInterface} from "@naologic/nao-interfaces";
-import {AppService} from "../../../../app.service";
+import { NaoSettingsInterface } from '@naologic/nao-interfaces';
+import { AppService } from '../../../../app.service';
 
-interface Attribute {
-    slug: string;
-    name: string;
-    sameValues: boolean;
-    values: {[productId: number]: ProductAttributeValue[]};
-}
+// interface Attribute {
+//     slug: string;
+//     name: string;
+//     sameValues: boolean;
+//     values: {[productId: number]: ProductAttributeValue[]};
+// }
 
 @Component({
     selector: 'app-page-compare',
     templateUrl: './page-compare.component.html',
     styleUrls: ['./page-compare.component.scss'],
 })
-export class PageCompareComponent implements OnDestroy, OnInit {
-    destroy$: Subject<void> = new Subject<void>();
+export class PageCompareComponent implements OnInit, OnDestroy {
+    private destroy$: Subject<void> = new Subject<void>();
+
     public appSettings: NaoSettingsInterface.Settings;
-    products$: Observable<Product[]>;
-    attributes$: Observable<Attribute[]>;
-    differentAttributes$: Observable<Attribute[]>;
+    public compareItems$: Observable<CompareItem[]>;
+    // public attributes$: Observable<Attribute[]>;
+    // public differentAttributes$: Observable<Attribute[]>;
 
-    show: FormControl = new FormControl('all');
-
-    clearInProgress = false;
+    public show: FormControl = new FormControl('all');
+    public clearInProgress = false;
 
     constructor(
         public compare: CompareService,
         public url: UrlService,
-        private appService: AppService,
+        private appService: AppService
     ) {
-        this.products$ = this.compare.items$.pipe(shareReplay(1));
-        this.attributes$ = this.products$.pipe(
-            map(products => {
-                const attributes: Attribute[] = [];
+        this.compareItems$ = this.compare.items$.pipe(shareReplay(1)).pipe();
 
-                products.forEach(product => product.attributes.forEach(pa => {
-                    let attribute = attributes.find(x => x.slug === pa.slug);
+        // // Product attributes are noted as deprecated in Product definition
 
-                    if (!attribute) {
-                        attribute = {
-                            slug: pa.slug,
-                            name: pa.name,
-                            sameValues: false,
-                            values: {},
-                        };
+        // this.attributes$ = this.compareItems$.pipe(
+        //     map(compareItems => {
+        //         const attributes: Attribute[] = [];
 
-                        attributes.push(attribute);
-                    }
+        //         compareItems.forEach(({product}) => product.attributes.forEach(pa => {
+        //             let attribute = attributes.find(x => x.slug === pa.slug);
 
-                    attribute.values[product.id] = pa.values;
-                }));
+        //             if (!attribute) {
+        //                 attribute = {
+        //                     slug: pa.slug,
+        //                     name: pa.name,
+        //                     sameValues: false,
+        //                     values: {},
+        //                 };
 
-                attributes.forEach(attribute => {
-                    const values = products.map(product => {
-                        return (attribute.values[product.id] || []).map(x => x.slug).sort();
-                    });
+        //                 attributes.push(attribute);
+        //             }
 
-                    attribute.sameValues = values.reduce<boolean>((sameValues, curr) => {
-                        return sameValues && (values[0].length === curr.length && values[0].join() === curr.join());
-                    }, true);
-                });
+        //             attribute.values[product.id] = pa.values;
+        //         }));
 
-                return attributes;
-            }),
-            shareReplay(1),
-        );
-        this.differentAttributes$ = this.attributes$.pipe(
-            map(attributes => attributes.filter(x => !x.sameValues)),
-            shareReplay(1),
-        );
+        //         attributes.forEach(attribute => {
+        //             const values = compareItems.map(({ product }) => {
+        //                 return (attribute.values[product.id] || [])
+        //                     .map((x) => x.slug)
+        //                     .sort();
+        //             });
+
+        //             attribute.sameValues = values.reduce<boolean>((sameValues, curr) => {
+        //                 return sameValues && (values[0].length === curr.length && values[0].join() === curr.join());
+        //             }, true);
+        //         });
+
+        //         return attributes;
+        //     }),
+        //     shareReplay(1),
+        // );
+        // this.differentAttributes$ = this.attributes$.pipe(
+        //     map(attributes => attributes.filter(x => !x.sameValues)),
+        //     shareReplay(1),
+        // );
     }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         // -->Set: app settings
         this.appSettings = this.appService.settings.getValue();
     }
 
-        ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();
     }
 
-    clear(): void {
+    public clear(): void {
         if (this.clearInProgress) {
             return;
         }
 
         this.clearInProgress = true;
-        this.compare.clear().pipe(takeUntil(this.destroy$)).subscribe({
-            complete: () => {
-                this.clearInProgress = false;
-            },
-        });
+        this.compare
+            .clear()
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+                complete: () => {
+                    this.clearInProgress = false;
+                },
+            });
     }
 }
