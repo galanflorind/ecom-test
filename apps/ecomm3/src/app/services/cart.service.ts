@@ -16,7 +16,7 @@ export interface CartItem {
 interface CartTotal {
     title: string;
     price: number;
-    type: 'shipping'|'fee'|'tax'|'other';
+    type: 'shipping' | 'fee' | 'tax' | 'other';
 }
 
 interface CartData {
@@ -39,51 +39,61 @@ export class CartService {
         total: 0,
     };
 
-    private itemsSubject$: BehaviorSubject<CartItem[]> = new BehaviorSubject(this.data.items);
-    private quantitySubject$: BehaviorSubject<number> = new BehaviorSubject(this.data.quantity);
-    private subtotalSubject$: BehaviorSubject<number> = new BehaviorSubject(this.data.subtotal);
-    private totalsSubject$: BehaviorSubject<CartTotal[]> = new BehaviorSubject(this.data.totals);
-    private totalSubject$: BehaviorSubject<number> = new BehaviorSubject(this.data.total);
+    private itemsSubject$: BehaviorSubject<CartItem[]> = new BehaviorSubject(
+        this.data.items
+    );
+    private quantitySubject$: BehaviorSubject<number> = new BehaviorSubject(
+        this.data.quantity
+    );
+    private subtotalSubject$: BehaviorSubject<number> = new BehaviorSubject(
+        this.data.subtotal
+    );
+    private totalsSubject$: BehaviorSubject<CartTotal[]> = new BehaviorSubject(
+        this.data.totals
+    );
+    private totalSubject$: BehaviorSubject<number> = new BehaviorSubject(
+        this.data.total
+    );
     private onAddingSubject$: Subject<Product> = new Subject();
 
-    get items(): ReadonlyArray<CartItem> {
+    public get items(): ReadonlyArray<CartItem> {
         return this.data.items;
     }
 
-    get subtotal(): number {
+    public get subtotal(): number {
         return this.data.subtotal;
     }
 
-    get totals(): ReadonlyArray<CartTotal> {
+    public get totals(): ReadonlyArray<CartTotal> {
         return this.data.totals;
     }
 
-    get quantity(): number {
+    public get quantity(): number {
         return this.data.quantity;
     }
 
-    get total(): number {
+    public get total(): number {
         return this.data.total;
     }
 
-    readonly items$: Observable<CartItem[]> = this.itemsSubject$.asObservable();
-    readonly quantity$: Observable<number> = this.quantitySubject$.asObservable();
-    readonly subtotal$: Observable<number> = this.subtotalSubject$.asObservable();
-    readonly totals$: Observable<CartTotal[]> = this.totalsSubject$.asObservable();
-    readonly total$: Observable<number> = this.totalSubject$.asObservable();
+    public readonly items$: Observable<CartItem[]> = this.itemsSubject$.asObservable();
+    public readonly quantity$: Observable<number> = this.quantitySubject$.asObservable();
+    public readonly subtotal$: Observable<number> = this.subtotalSubject$.asObservable();
+    public readonly totals$: Observable<CartTotal[]> = this.totalsSubject$.asObservable();
+    public readonly total$: Observable<number> = this.totalSubject$.asObservable();
+    public readonly onAdding$: Observable<Product> = this.onAddingSubject$.asObservable();
 
-    readonly onAdding$: Observable<Product> = this.onAddingSubject$.asObservable();
-
-    constructor(
-        @Inject(PLATFORM_ID) private platformId: any
-    ) {
+    constructor(@Inject(PLATFORM_ID) private platformId: any) {
         if (isPlatformBrowser(this.platformId)) {
             this.load();
             this.calc();
         }
     }
 
-    add(product: Product, variant: Variant, quantity: number): Observable<CartItem> {
+    /**
+     * Adds item to the cart
+     */
+    public add(product: Product, variant: Variant, quantity: number): Observable<CartItem> {
         // -->Check: if variant has a price key
         if (!variant.hasOwnProperty('price')) {
             return;
@@ -92,8 +102,10 @@ export class CartService {
         this.onAddingSubject$.next(product);
 
         let item = this.items.find((eachItem) => {
-            if (eachItem.product._id === product._id && eachItem.variant.id === variant.id)
-            {
+            if (
+                eachItem.product._id === product._id &&
+                eachItem.variant.id === variant.id
+            ) {
                 return true;
             }
 
@@ -123,28 +135,39 @@ export class CartService {
         return of(item);
     }
 
+    /**
+     * Updates cart item quantity and total
+     */
     public update(updates: { item: CartItem; quantity: number }[]): Observable<void> {
         updates.forEach((update) => {
+            // -->Find: item to update
             const item = this.items.find(
                 (eachItem) => eachItem === update.item
             );
 
+            // -->Check: item and update its quantity
             if (item) {
                 item.quantity = update.quantity;
             }
         });
 
+        // -->Save and calculate
         this.save();
         this.calc();
 
         return EMPTY;
     }
 
+    /**
+     * Removes item from cart
+     */
     public remove(item: CartItem): Observable<void> {
+        // -->Removes: item
         this.data.items = this.data.items.filter(
             (eachItem) => eachItem !== item
         );
 
+        // -->Save and calculate
         this.save();
         this.calc();
 
@@ -156,6 +179,7 @@ export class CartService {
      */
     public clearCart(): void {
         this.data.items = [];
+
         // -->Save and calculate
         this.save();
         this.calc();
@@ -169,7 +193,7 @@ export class CartService {
         let quantity = 0;
         let subtotal = 0;
 
-        this.data.items.forEach(item => {
+        this.data.items.forEach((item) => {
             quantity += item.quantity;
             subtotal += item.variant.price * item.quantity;
         });

@@ -34,7 +34,7 @@ export class PageShopService {
      */
     private currentFiltersSubject$: BehaviorSubject<ActiveFilter[]> = new BehaviorSubject<ActiveFilter[]>([]);
 
-    isLoading = false;
+    public isLoading = false;
 
     get options(): GetProductsListOptions {
         return this.optionsState;
@@ -55,15 +55,15 @@ export class PageShopService {
     get to(): number { return this.listState?.to; }
     get filters(): Filter[] { return this.listState?.filters; }
 
-    readonly optionsChange$: EventEmitter<GetProductsListOptions> = new EventEmitter<GetProductsListOptions>();
+    public readonly optionsChange$: EventEmitter<GetProductsListOptions> = new EventEmitter<GetProductsListOptions>();
 
-    readonly activeFilters$: Observable<ActiveFilter[]> = this.activeFiltersSubject$.asObservable();
+    public readonly activeFilters$: Observable<ActiveFilter[]> = this.activeFiltersSubject$.asObservable();
 
-    readonly currentFilters$: Observable<ActiveFilter[]> = this.currentFiltersSubject$.asObservable();
+    public readonly currentFilters$: Observable<ActiveFilter[]> = this.currentFiltersSubject$.asObservable();
 
-    readonly list$: Observable<ProductsList> = this.listSubject$.asObservable();
+    public readonly list$: Observable<ProductsList> = this.listSubject$.asObservable();
 
-    readonly defaultOptions: Required<GetProductsListOptions> = {
+    public readonly defaultOptions: Required<GetProductsListOptions> = {
         page: 1,
         limit: 16,
         sort: 'name_asc',

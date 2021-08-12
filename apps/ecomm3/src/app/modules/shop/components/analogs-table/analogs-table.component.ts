@@ -1,6 +1,5 @@
 import { Component, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
-import { BehaviorSubject, of, Subject } from 'rxjs';
-import { switchMap, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { Product } from '../../../../interfaces/product';
 import { UrlService } from '../../../../services/url.service';
 import { NaoSettingsInterface } from "@naologic/nao-interfaces";
@@ -14,9 +13,9 @@ import { AppService } from "../../../../app.service";
 export class AnalogsTableComponent implements OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
     private productId$: BehaviorSubject<number|null> = new BehaviorSubject<number|null>(null);
-    public appSettings: NaoSettingsInterface.Settings;
 
-    analogs: Product[] = [];
+    public appSettings: NaoSettingsInterface.Settings;
+    public analogs: Product[] = [];
 
     @Input() set productId(value: number) {
         if (value !== this.productId$.value) {
@@ -31,7 +30,7 @@ export class AnalogsTableComponent implements OnInit, OnDestroy {
         private appService: AppService,
     ) { }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         // -->Set: app settings
         this.appSettings = this.appService.settings.getValue();
 
@@ -47,7 +46,7 @@ export class AnalogsTableComponent implements OnInit, OnDestroy {
         // ).subscribe(x => this.analogs = x);
     }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();
     }

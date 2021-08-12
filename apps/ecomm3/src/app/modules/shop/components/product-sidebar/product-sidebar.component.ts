@@ -9,13 +9,12 @@ import { ShopCategory } from '../../../../interfaces/category';
     styleUrls: ['./product-sidebar.component.scss'],
 })
 export class ProductSidebarComponent implements OnInit {
-    categories$!: Observable<ShopCategory[]>;
+    public categories$!: Observable<ShopCategory[]>;
+    public latestProducts$!: Observable<Product[]>;
 
-    latestProducts$!: Observable<Product[]>;
+    constructor() {}
 
-    constructor() { }
-
-    ngOnInit(): void {
+    public ngOnInit(): void {
         // this.categories$ = this.shop.getCategories({ depth: 1 });
         // this.latestProducts$ = this.shop.getLatestProducts(5);
     }

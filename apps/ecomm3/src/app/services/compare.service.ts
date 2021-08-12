@@ -12,29 +12,36 @@ export class CompareService implements OnDestroy {
     private dataItems: CompareItem[] = [];
 
     private destroy$: Subject<void> = new Subject();
-    private itemsSubject$: BehaviorSubject<CompareItem[]> = new BehaviorSubject<CompareItem[]>([]);
+    private itemsSubject$: BehaviorSubject<CompareItem[]> = new BehaviorSubject<
+        CompareItem[]
+    >([]);
+
     private onAddingSubject$: Subject<Product> = new Subject();
+    private onAddedSubject$: Subject<Product> = new Subject();
 
-    readonly items$: Observable<CompareItem[]> = this.itemsSubject$.pipe(takeUntil(this.destroy$));
-    readonly count$: Observable<number> = this.itemsSubject$.pipe(map((items) => items.length));
-    readonly onAdding$: Observable<Product> = this.onAddingSubject$.asObservable();
+    public readonly items$: Observable<CompareItem[]> = this.itemsSubject$.pipe(
+        takeUntil(this.destroy$)
+    );
+    public readonly count$: Observable<number> = this.itemsSubject$.pipe(
+        map((items) => items.length)
+    );
+    public readonly onAdding$: Observable<Product> = this.onAddingSubject$.asObservable();
+    public readonly onAdded$: Observable<Product> = this.onAddedSubject$.asObservable();
 
-    constructor(
-        @Inject(PLATFORM_ID) private platformId: any,
-    ) {
+    constructor(@Inject(PLATFORM_ID) private platformId: any) {
         if (isPlatformBrowser(this.platformId)) {
             this.load();
         }
     }
 
+    /**
+     * Adds product and variant to compare
+     */
     public add(product: Product, variant: Variant): Observable<void> {
         // -->Check: product and variant
         if (!product || !variant) {
             return;
         }
-
-        // -->Feed/Emit: product being added
-        this.onAddingSubject$.next(product);
 
         // -->Check: if this specific variant of the product was already pushed
         const index = this.dataItems.findIndex(
@@ -45,14 +52,23 @@ export class CompareService implements OnDestroy {
 
         // -->Add: compare item
         if (index === -1) {
+            // -->Feed/Emit: product was added
+            this.onAddingSubject$.next(product);
+
             this.dataItems.push({ product: product, variant: variant });
             this.save();
+        } else {
+            // -->Feed/Emit: product was already added previously
+            this.onAddedSubject$.next(product);
         }
 
         // -->Complete
         return EMPTY;
     }
 
+    /**
+     * Removes compare item
+     */
     public remove(compareItem: CompareItem): Observable<void> {
         // -->Check: compare item
         if (!compareItem) {
@@ -76,6 +92,9 @@ export class CompareService implements OnDestroy {
         return EMPTY;
     }
 
+    /**
+     * Reset: compare
+     */
     public clear(): Observable<void> {
         // -->Clear: compare items
         this.dataItems = [];

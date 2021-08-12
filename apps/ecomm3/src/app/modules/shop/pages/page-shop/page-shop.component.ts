@@ -14,28 +14,23 @@ import { filterHandlers } from '../../filters/filter-handlers';
 import { BreadcrumbItem } from '../../../shared/components/breadcrumb/breadcrumb.component';
 import { Filter } from '../../../../interfaces/filter';
 import { FilterHandler } from '../../filters/filter.handler';
-import { ECommerceService } from "../../../../e-commerce.service";
-import { AppService } from "../../../../app.service";
+import { ECommerceService } from '../../../../e-commerce.service';
+import { AppService } from '../../../../app.service';
 import {
     buildCategoriesFilter,
     buildManufacturerFilter,
-    buildPriceFilter
-} from "../../filters/filter.utils.static";
-import { getBreadcrumbs } from "../../../shared/functions/utils";
+    buildPriceFilter,
+} from '../../filters/filter.utils.static';
+import { getBreadcrumbs } from '../../../shared/functions/utils';
 
-
-export type PageShopLayout =
-    'grid' |
-    'grid-with-features' |
-    'list' |
-    'table';
+export type PageShopLayout = 'grid' | 'grid-with-features' | 'list' | 'table';
 
 export type PageShopGridLayout =
-    'grid-3-sidebar' |
-    'grid-4-sidebar' |
-    'grid-4-full' |
-    'grid-5-full' |
-    'grid-6-full';
+    | 'grid-3-sidebar'
+    | 'grid-4-sidebar'
+    | 'grid-4-full'
+    | 'grid-5-full'
+    | 'grid-6-full';
 
 export type PageShopSidebarPosition = 'start' | 'end' | false;
 
@@ -53,26 +48,24 @@ export interface PageShopData {
     selector: 'app-page-shop',
     templateUrl: './page-shop.component.html',
     styleUrls: ['./page-shop.component.scss'],
-    providers: [
-        ShopSidebarService,
-    ],
+    providers: [ShopSidebarService],
 })
 export class PageShopComponent implements OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
-
-    public layout: PageShopLayout = 'grid';
-
-    public gridLayout: PageShopGridLayout = 'grid-4-sidebar';
-
-    public sidebarPosition: PageShopSidebarPosition = 'start';
-
-    public pageTitle$!: string;
-
-    public breadcrumbs: BreadcrumbItem[];
     private refreshSubs = new Subscription();
 
-    get offCanvasSidebar(): PageShopOffCanvasSidebar {
-        return ['grid-4-full', 'grid-5-full', 'grid-6-full'].includes(this.gridLayout) ? 'always' : 'mobile';
+    public layout: PageShopLayout = 'grid';
+    public gridLayout: PageShopGridLayout = 'grid-4-sidebar';
+    public sidebarPosition: PageShopSidebarPosition = 'start';
+    public pageTitle$!: string;
+    public breadcrumbs: BreadcrumbItem[];
+
+    public get offCanvasSidebar(): PageShopOffCanvasSidebar {
+        return ['grid-4-full', 'grid-5-full', 'grid-6-full'].includes(
+            this.gridLayout
+        )
+            ? 'always'
+            : 'mobile';
     }
 
     constructor(
@@ -84,18 +77,25 @@ export class PageShopComponent implements OnInit, OnDestroy {
         private language: LanguageService,
         private translate: TranslateService,
         private eCommerceService: ECommerceService,
-        private appService: AppService,
-    ) { }
+        private appService: AppService
+    ) {}
 
     public ngOnInit(): void {
-        const data$: Observable<PageShopData> = this.route.data as Observable<PageShopData>;
+        const data$: Observable<PageShopData> = this.route
+            .data as Observable<PageShopData>;
         // -->Set: title
         this.pageTitle$ = this.translate.instant('HEADER_SHOP');
         // -->Set: breadcrumb
         this.breadcrumbs = [
-            { label: this.translate.instant('LINK_HOME'), url: this.url.home() },
-            { label: this.translate.instant('LINK_SHOP'), url: this.url.shop() },
-        ]
+            {
+                label: this.translate.instant('LINK_HOME'),
+                url: this.url.home(),
+            },
+            {
+                label: this.translate.instant('LINK_SHOP'),
+                url: this.url.shop(),
+            },
+        ];
 
         data$.subscribe((data: PageShopData) => {
             this.layout = data.layout;
@@ -103,25 +103,28 @@ export class PageShopComponent implements OnInit, OnDestroy {
             this.sidebarPosition = data.sidebarPosition;
         });
 
-        data$.pipe(
-            switchMap((data: PageShopData) => merge(
-                of(data.productsList),
-                this.router.events,
-                this.page.optionsChange$.pipe(
-                    map(() => {
-                        // todo: fix the update url
-                        this.updateUrl();
-                        return null
-                    }),
+        data$
+            .pipe(
+                switchMap((data: PageShopData) =>
+                    merge(
+                        of(data.productsList),
+                        this.router.events,
+                        this.page.optionsChange$.pipe(
+                            map(() => {
+                                // todo: fix the update url
+                                this.updateUrl();
+                                return null;
+                            })
+                        )
+                    )
                 ),
-            )),
-            debounceTime(100),
-            takeUntil(this.destroy$),
-        ).subscribe(options => {
-            this.refresh();
-        });
+                debounceTime(100),
+                takeUntil(this.destroy$)
+            )
+            .subscribe((options) => {
+                this.refresh();
+            });
     }
-
 
     /**
      * Refresh products
@@ -133,11 +136,13 @@ export class PageShopComponent implements OnInit, OnDestroy {
         }
 
         // -->Start: loading
-        this.page.isLoading = true
+        this.page.isLoading = true;
         // -->Get: category id
-        const categoryId: number = this.route.snapshot.params.categoryId ? +this.route.snapshot.params.categoryId : undefined;
+        const categoryId: number = this.route.snapshot.params.categoryId
+            ? +this.route.snapshot.params.categoryId
+            : undefined;
         // -->Create: filters options
-        const options =  {
+        const options = {
             ...this.page.options,
             filters: {
                 ...this.page.options.filters,
@@ -146,8 +151,8 @@ export class PageShopComponent implements OnInit, OnDestroy {
         } as any;
 
         // -->Get: Selected manufacturers
-        const selectedManufacturerIds = options?.filters?.manufacturer?.split(',')?.filter(f => f) || [];
-
+        const selectedManufacturerIds =
+            options?.filters?.manufacturer?.split(',')?.filter((f) => f) || [];
 
         // -->Create: query
         const query = {
@@ -158,7 +163,7 @@ export class PageShopComponent implements OnInit, OnDestroy {
             sortOrder: options.sort === 'name_asc' ? 1 : -1, // 1 = asc/ -1 = desc
             pageSize: options.limit || this.page.defaultOptions.limit,
             pageNo: options.page || this.page.defaultOptions.page,
-            calculateFilters: true
+            calculateFilters: true,
         } as any;
 
         // -->Get: min and max price range
@@ -166,72 +171,117 @@ export class PageShopComponent implements OnInit, OnDestroy {
         // -->Check: if there is a price already set, if not wait for the response
         if (options?.filters?.price?.split('-')?.length) {
             // -->Split: string to get min and max price
-            [minPrice, maxPrice] = options?.filters?.price?.split('-').map(p => +p);
+            [minPrice, maxPrice] = options?.filters?.price
+                ?.split('-')
+                .map((p) => +p);
             // -->Set: only if both of them are numbers
             if (!isNaN(minPrice) && !isNaN(maxPrice)) {
-                query.minPrice = minPrice
-                query.maxPrice = maxPrice
+                query.minPrice = minPrice;
+                query.maxPrice = maxPrice;
             }
         }
 
+        console.log('query>>>', query);
         // -->Execute
-        this.refreshSubs = this.eCommerceService.productsFilter(query).subscribe((res) => {
-            // -->Check: res
-            if (res && res.ok && res.data) {
+        this.refreshSubs = this.eCommerceService
+            .productsFilter(query)
+            .subscribe((res) => {
+                // -->Check: res
+                if (res && res.ok && res.data) {
+                    console.log('response data>>>', res.data);
 
-                // -->Init: filters
-                const filters = [];
-                // -->Push: category filters
-                filters.push(buildCategoriesFilter(this.appService.appInfo?.getValue()?.categories?.items || [], categoryId))
-                // --->Push: price filter
-                filters.push(buildPriceFilter(res.data?.filterInfo?.min, res.data?.filterInfo?.max, minPrice, maxPrice));
-                // -->Push: manufacturers filter
-                filters.push(buildManufacturerFilter(res.data?.filterInfo?.vendors || [], selectedManufacturerIds))
+                    // -->Init: filters
+                    const filters = [];
+                    // -->Push: category filters
+                    filters.push(
+                        buildCategoriesFilter(
+                            this.appService.appInfo?.getValue()?.categories
+                                ?.items || [],
+                            categoryId
+                        )
+                    );
+                    // --->Push: price filter
+                    filters.push(
+                        buildPriceFilter(
+                            res.data?.filterInfo?.min,
+                            res.data?.filterInfo?.max,
+                            minPrice,
+                            maxPrice
+                        )
+                    );
+                    // -->Push: manufacturers filter
+                    filters.push(
+                        buildManufacturerFilter(
+                            res.data?.filterInfo?.vendors || [],
+                            selectedManufacturerIds
+                        )
+                    );
 
-                // -->Set: List and calculate pages and everything
-                const list =  {
-                    items: res.data.items || [],
-                    filters: filters,
-                    page: options.page || 1,
-                    limit: query.pageSize,
-                    sort: options.sort || this.page.defaultOptions.sort,
-                    total: res.data?.count || 0,
-                    pages: Math.ceil(res.data?.count / query.pageSize),
-                    from: (options.page - 1) * query.pageSize + 1,
-                    to: (options.page * query.pageSize) < res.data?.count ? (options.page * query.pageSize) : res.data?.count
-                };
+                    // -->Compute: total pages and current page based on response data count and page size
+                    const pages = Math.ceil(res.data?.count / query.pageSize);
+                    const page = options.page > pages ? 1 : options.page;
 
-                // -->Get: breadcrumbs
-                const breadcrumbs = getBreadcrumbs(this.appService.appInfo?.getValue()?.categories?.items, categoryId)
-                // -->Update: breadcrumbs
-                this.breadcrumbs = [
-                    { label: this.translate.instant('LINK_HOME'), url: this.url.home() },
-                    { label: this.translate.instant('LINK_SHOP'), url: this.url.shop() },
-                    ...breadcrumbs.map(x => ({ label: x.name, url: this.url.category(x) })),
-                ]
-                if (breadcrumbs.length) {
-                    this.pageTitle$ = breadcrumbs[breadcrumbs.length - 1].name;
+                    // -->Set: List and calculate pages and everything
+                    const list = {
+                        items: res.data.items || [],
+                        filters: filters,
+                        page: page,
+                        limit: query.pageSize,
+                        sort: options.sort || this.page.defaultOptions.sort,
+                        total: res.data?.count || 0,
+                        pages: pages,
+                        from:
+                            (page - 1) * query.pageSize + 1 < res.data?.count
+                                ? (page - 1) * query.pageSize + 1
+                                : 0,
+                        to:
+                            page * query.pageSize < res.data?.count
+                                ? page * query.pageSize
+                                : res.data?.count,
+                    };
+
+                    console.log('list>>>', list);
+
+                    // -->Get: breadcrumbs
+                    const breadcrumbs = getBreadcrumbs(
+                        this.appService.appInfo?.getValue()?.categories?.items,
+                        categoryId
+                    );
+                    // -->Update: breadcrumbs
+                    this.breadcrumbs = [
+                        {
+                            label: this.translate.instant('LINK_HOME'),
+                            url: this.url.home(),
+                        },
+                        {
+                            label: this.translate.instant('LINK_SHOP'),
+                            url: this.url.shop(),
+                        },
+                        ...breadcrumbs.map((x) => ({
+                            label: x.name,
+                            url: this.url.category(x),
+                        })),
+                    ];
+                    if (breadcrumbs.length) {
+                        this.pageTitle$ =
+                            breadcrumbs[breadcrumbs.length - 1].name;
+                    } else {
+                        // -->Set: title
+                        this.pageTitle$ = this.translate.instant('HEADER_SHOP');
+                    }
+
+                    // -->Set: data
+                    this.page.isLoading = false;
+                    this.page.setList(list);
+
+                    // this.updateUrl();
                 } else {
-                    // -->Set: title
-                    this.pageTitle$ = this.translate.instant('HEADER_SHOP');
+                    this.page.isLoading = false;
+                    // todo: show errors
+                    // todo: refresh with default data
                 }
-
-                // -->Set: data
-                this.page.isLoading = false;
-                this.page.setList(list);
-
-
-
-                // this.updateUrl();
-
-            } else {
-                this.page.isLoading = false;
-                // todo: show errors
-                // todo: refresh with default data
-            }
-        });
+            });
     }
-
 
     /**
      * Update url
@@ -254,39 +304,55 @@ export class PageShopComponent implements OnInit, OnDestroy {
         const options = this.page.options;
         const filterValues = options.filters || {};
 
-        if ('page' in options && options.page !== this.page.defaultOptions.page) {
-            params.page = options.page ? options.page : this.page.defaultOptions.page;
+        if (
+            'page' in options &&
+            options.page !== this.page.defaultOptions.page
+        ) {
+            params.page = options.page
+                ? options.page
+                : this.page.defaultOptions.page;
         }
-        if ('limit' in options && options.limit !== this.page.defaultOptions.limit) {
-            params.limit = options.limit ? options.limit : this.page.defaultOptions.limit;
+        if (
+            'limit' in options &&
+            options.limit !== this.page.defaultOptions.limit
+        ) {
+            params.limit = options.limit
+                ? options.limit
+                : this.page.defaultOptions.limit;
         }
-        if ('sort' in options && options.sort !== this.page.defaultOptions.sort) {
-            params.sort = options.sort ? options.sort : this.page.defaultOptions.sort;
+        if (
+            'sort' in options &&
+            options.sort !== this.page.defaultOptions.sort
+        ) {
+            params.sort = options.sort
+                ? options.sort
+                : this.page.defaultOptions.sort;
         }
         if ('filters' in options) {
             this.page.filters
-                .map(
-                    filter => ({
-                        filter,
-                        handler: filterHandlers.find(x => x.type === filter.type),
-                    }),
-                )
+                .map((filter) => ({
+                    filter,
+                    handler: filterHandlers.find((x) => x.type === filter.type),
+                }))
                 .filter(
-                    (x): x is {filter: Filter; handler: FilterHandler} => (
-                        !!x.handler && !!filterValues[x.filter.slug]),
-                    )
+                    (x): x is { filter: Filter; handler: FilterHandler } =>
+                        !!x.handler && !!filterValues[x.filter.slug]
+                )
                 .forEach(({ filter, handler }) => {
-                    const value = handler.deserialize(filterValues[filter.slug]);
+                    const value = handler.deserialize(
+                        filterValues[filter.slug]
+                    );
 
                     if (!handler.isDefaultValue(filter, value)) {
-                        params[`filter_${filter.slug}`] = handler.serialize(value);
+                        params[`filter_${filter.slug}`] = handler.serialize(
+                            value
+                        );
                     }
                 });
         }
 
         return params;
     }
-
 
     /**
      * Destroy

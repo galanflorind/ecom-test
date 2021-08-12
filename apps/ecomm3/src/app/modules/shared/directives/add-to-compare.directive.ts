@@ -16,14 +16,13 @@ export class AddToCompareDirective implements OnDestroy {
     constructor(
         private compare: CompareService,
         private cd: ChangeDetectorRef
-    ) { }
+    ) {}
 
-    ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
-    }
-
-    add(product: Product, variant: Variant): void {
+    /**
+     * Adds product and variant to compare
+     */
+    public add(product: Product, variant: Variant): void {
+        // -->Check: product, variant and if add is already in progress
         if (!product || !variant || this.inProgress) {
             return;
         }
@@ -40,5 +39,10 @@ export class AddToCompareDirective implements OnDestroy {
                     this.cd.markForCheck();
                 },
             });
+    }
+
+    public ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 }

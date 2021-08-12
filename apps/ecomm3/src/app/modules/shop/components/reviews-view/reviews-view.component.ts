@@ -2,7 +2,6 @@ import { Component, HostBinding, Input, OnDestroy, OnInit, ViewChild } from '@an
 import { PageProductLayout } from '../../pages/page-product/page-product.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { finalize, takeUntil } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { ReviewsListComponent } from '../reviews-list/reviews-list.component';
@@ -13,15 +12,13 @@ import { ReviewsListComponent } from '../reviews-list/reviews-list.component';
     styleUrls: ['./reviews-view.component.scss'],
 })
 export class ReviewsViewComponent implements OnInit, OnDestroy {
+    @Input() productId!: number;
+    @Input() productPageLayout: PageProductLayout = 'full';
+
     private destroy$: Subject<void> = new Subject<void>();
 
-    submitInProgress = false;
-
-    form!: FormGroup;
-
-    @Input() productId!: number;
-
-    @Input() productPageLayout: PageProductLayout = 'full';
+    public submitInProgress = false;
+    public form!: FormGroup;
 
     @HostBinding('class.reviews-view') classReviewsView = true;
 
@@ -30,10 +27,10 @@ export class ReviewsViewComponent implements OnInit, OnDestroy {
     constructor(
         private fb: FormBuilder,
         private toastr: ToastrService,
-        private translate: TranslateService,
-    ) { }
+        private translate: TranslateService
+    ) {}
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this.form = this.fb.group({
             rating: ['', [Validators.required]],
             author: ['', [Validators.required]],
@@ -42,14 +39,10 @@ export class ReviewsViewComponent implements OnInit, OnDestroy {
         });
     }
 
-    ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
-    }
-
-    submit(): void {
+    public submit(): void {
         this.form.markAllAsTouched();
 
+        // -->Check: form is valid
         if (this.submitInProgress || this.form.invalid) {
             return;
         }
@@ -76,5 +69,10 @@ export class ReviewsViewComponent implements OnInit, OnDestroy {
         //     this.list.reload();
         //     this.toastr.success(this.translate.instant('TEXT_TOAST_REVIEW_ADDED'));
         // });
+    }
+
+    public ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 }

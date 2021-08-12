@@ -2,6 +2,10 @@ import { CustomFields } from './custom-fields';
 import { Brand } from './brand';
 import { ShopCategory } from './category';
 
+export interface BaseAttribute {
+    name: string;
+    value?: string;
+}
 
 export interface BaseAttributeGroup {
     name: string;
@@ -25,11 +29,9 @@ export interface ProductAttributeValue {
     customFields?: CustomFields;
 }
 
-export interface ProductAttribute {
-    name: string;
+export interface ProductAttribute extends BaseAttribute {
     slug: string;
     featured: boolean;
-    value?: string;
     values: ProductAttributeValue[];
     customFields?: CustomFields;
 }

@@ -53,27 +53,18 @@ export interface PageCategoryData {
     styleUrls: ['./page-category.component.scss'],
 })
 export class PageCategoryComponent implements OnInit {
-    layout: PageCategoryLayout = 'columns-4-full';
+    public layout: PageCategoryLayout = 'columns-4-full';
+    public sidebarPosition: PageCategorySidebarPosition = 'start';
+    public category$!: Observable<ShopCategory|null>;
+    public children$!: Observable<ShopCategory[]>;
+    public pageTitle$!: Observable<string>;
+    public breadcrumbs$!: Observable<BreadcrumbItem[]>;
+    public bestsellers!: AsyncData<Product[]>;
+    public featured!: AsyncData<Product[]>;
+    public brands$!: Observable<Brand[]>;
+    public latest$!: Observable<Product[]>;
 
-    sidebarPosition: PageCategorySidebarPosition = 'start';
-
-    category$!: Observable<ShopCategory|null>;
-
-    children$!: Observable<ShopCategory[]>;
-
-    pageTitle$!: Observable<string>;
-
-    breadcrumbs$!: Observable<BreadcrumbItem[]>;
-
-    bestsellers!: AsyncData<Product[]>;
-
-    featured!: AsyncData<Product[]>;
-
-    brands$!: Observable<Brand[]>;
-
-    latest$!: Observable<Product[]>;
-
-    get hasSidebar(): boolean {
+    public get hasSidebar(): boolean {
         return this.layout.endsWith('-sidebar');
     }
 
@@ -84,37 +75,61 @@ export class PageCategoryComponent implements OnInit {
         public url: UrlService,
     ) { }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
+        // -->Subscribe: to layout and sidebar position updates
         this.route.data.subscribe((data: PageCategoryData) => {
             this.layout = data.layout || 'columns-4-full';
             this.sidebarPosition = data.sidebarPosition || 'start';
         });
 
+        // -->Set: category from data
         this.category$ = this.route.data.pipe(
-            map((data: PageCategoryData) => data.category || null),
+            map((data: PageCategoryData) => data.category || null)
         );
 
+        // -->Set: children categories
         this.children$ = this.route.data.pipe(
-            map((data: PageCategoryData) => data.category ? data.category.children : data.children),
-            map(categories => categories || []),
+            map((data: PageCategoryData) =>
+                data.category ? data.category.children : data.children
+            ),
+            map((categories) => categories || [])
         );
 
+        // -->Set: page title from category
         this.pageTitle$ = this.category$.pipe(
-            mergeMap(category => category ? of(category.name) : this.translate.stream('HEADER_SHOP')),
+            mergeMap((category) =>
+                category
+                    ? of(category.name)
+                    : this.translate.stream('HEADER_SHOP')
+            )
         );
 
+        // -->Set: breadcrumbs
         this.breadcrumbs$ = this.language.current$.pipe(
-            switchMap(() => this.category$.pipe(
-                map(category => {
-                    const categoryPath = category ? getCategoryPath(category) : [];
+            switchMap(() =>
+                this.category$.pipe(
+                    map((category) => {
+                        const categoryPath = category
+                            ? getCategoryPath(category)
+                            : [];
 
-                    return [
-                        { label: this.translate.instant('LINK_HOME'), url: this.url.home() },
-                        { label: this.translate.instant('LINK_SHOP'), url: this.url.shop() },
-                        ...categoryPath.map(x => ({ label: x.name, url: this.url.category(x) })),
-                    ];
-                }),
-            )),
+                        return [
+                            {
+                                label: this.translate.instant('LINK_HOME'),
+                                url: this.url.home(),
+                            },
+                            {
+                                label: this.translate.instant('LINK_SHOP'),
+                                url: this.url.shop(),
+                            },
+                            ...categoryPath.map((x) => ({
+                                label: x.name,
+                                url: this.url.category(x),
+                            })),
+                        ];
+                    })
+                )
+            )
         );
 
         // this.bestsellers = asyncData(this.shop.getPopularProducts(null, 8));

@@ -1,10 +1,9 @@
-import { Component, HostBinding, Inject, Input, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, HostBinding, Inject, Input, OnDestroy, PLATFORM_ID } from '@angular/core';
 import { ShopSidebarService } from '../../services/shop-sidebar.service';
-import { Observable, of, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { isPlatformBrowser } from '@angular/common';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { fromMatchMedia } from '../../../../functions/rxjs/from-match-media';
-import { Product } from '../../../../interfaces/product';
 
 @Component({
     selector: 'app-shop-sidebar',
@@ -12,11 +11,11 @@ import { Product } from '../../../../interfaces/product';
     styleUrls: ['./shop-sidebar.component.scss'],
 })
 export class ShopSidebarComponent implements OnDestroy {
+    @Input() offcanvas: 'always' | 'mobile' = 'always';
+
     private destroy$: Subject<void> = new Subject<void>();
 
     //latestProducts$: Observable<Product[]> = of([]);
-
-    @Input() offcanvas: 'always' | 'mobile' = 'always';
 
     @HostBinding('class.sidebar') classSidebar = true;
 
@@ -37,7 +36,8 @@ export class ShopSidebarComponent implements OnDestroy {
     constructor(
         //private shop: ShopApi,
         public sidebar: ShopSidebarService,
-        @Inject(PLATFORM_ID) private platformId: any
+        @Inject(PLATFORM_ID) private platformId: any,
+        @Inject(DOCUMENT) private document: Document
     ) {
         this.sidebar.isOpen$
             .pipe(takeUntil(this.destroy$))
@@ -64,29 +64,29 @@ export class ShopSidebarComponent implements OnDestroy {
         }
     }
 
-    // ngOnInit(): void {
+    // public ngOnInit(): void {
     //     this.latestProducts$ = this.shop.getLatestProducts(5);
     // }
 
-    ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
-    }
-
     private open(): void {
         if (isPlatformBrowser(this.platformId)) {
-            const bodyWidth = document.body.offsetWidth;
+            const bodyWidth = this.document.body.offsetWidth;
 
-            document.body.style.overflow = 'hidden';
-            document.body.style.paddingRight =
-                document.body.offsetWidth - bodyWidth + 'px';
+            this.document.body.style.overflow = 'hidden';
+            this.document.body.style.paddingRight =
+                this.document.body.offsetWidth - bodyWidth + 'px';
         }
     }
 
     private close(): void {
         if (isPlatformBrowser(this.platformId)) {
-            document.body.style.overflow = '';
-            document.body.style.paddingRight = '';
+            this.document.body.style.overflow = '';
+            this.document.body.style.paddingRight = '';
         }
+    }
+
+    public ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 }

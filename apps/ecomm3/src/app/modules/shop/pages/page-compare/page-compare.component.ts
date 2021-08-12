@@ -1,20 +1,19 @@
+import { BaseAttribute, Variant } from './../../../../interfaces/product';
 import { CompareItem } from './../../../../interfaces/compare';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CompareService } from '../../../../services/compare.service';
 import { Observable, Subject } from 'rxjs';
-// import { ProductAttributeValue } from '../../../../interfaces/product';
-import { shareReplay, takeUntil } from 'rxjs/operators';
+import { shareReplay, takeUntil, map } from 'rxjs/operators';
 import { UrlService } from '../../../../services/url.service';
 import { FormControl } from '@angular/forms';
 import { NaoSettingsInterface } from '@naologic/nao-interfaces';
 import { AppService } from '../../../../app.service';
 
-// interface Attribute {
-//     slug: string;
-//     name: string;
-//     sameValues: boolean;
-//     values: {[productId: number]: ProductAttributeValue[]};
-// }
+interface Specification {
+    name: string;
+    sameValues: boolean;
+    values: { [variantId: number]: BaseAttribute[] };
+}
 
 @Component({
     selector: 'app-page-compare',
@@ -26,8 +25,8 @@ export class PageCompareComponent implements OnInit, OnDestroy {
 
     public appSettings: NaoSettingsInterface.Settings;
     public compareItems$: Observable<CompareItem[]>;
-    // public attributes$: Observable<Attribute[]>;
-    // public differentAttributes$: Observable<Attribute[]>;
+    public specifications$: Observable<Specification[]>;
+    public differentSpecifications$: Observable<Specification[]>;
 
     public show: FormControl = new FormControl('all');
     public clearInProgress = false;
@@ -39,49 +38,72 @@ export class PageCompareComponent implements OnInit, OnDestroy {
     ) {
         this.compareItems$ = this.compare.items$.pipe(shareReplay(1)).pipe();
 
-        // // Product attributes are noted as deprecated in Product definition
+        // -->Build: variants specifications grouped by name
+        this.specifications$ = this.compareItems$.pipe(
+            map((compareItems) => {
+                const specifications: Specification[] = [];
 
-        // this.attributes$ = this.compareItems$.pipe(
-        //     map(compareItems => {
-        //         const attributes: Attribute[] = [];
+                // -->Group: specifications from all variants
+                compareItems.forEach(({ variant }) => {
+                    // -->Get: variant specifications
+                    const variantSpecifications = this.getVariantSpecifications(
+                        variant
+                    );
 
-        //         compareItems.forEach(({product}) => product.attributes.forEach(pa => {
-        //             let attribute = attributes.find(x => x.slug === pa.slug);
+                    variantSpecifications.forEach((variantSpecification) => {
+                        // -->Find: specification by name
+                        let specification = specifications.find(
+                            (x) => x.name === variantSpecification.name
+                        );
 
-        //             if (!attribute) {
-        //                 attribute = {
-        //                     slug: pa.slug,
-        //                     name: pa.name,
-        //                     sameValues: false,
-        //                     values: {},
-        //                 };
+                        // -->Add: specification if not found
+                        if (!specification) {
+                            // -->Set: initial values for the specification
+                            specification = {
+                                name: variantSpecification.name,
+                                sameValues: false,
+                                values: {},
+                            };
 
-        //                 attributes.push(attribute);
-        //             }
+                            // -->Add: specification
+                            specifications.push(specification);
+                        }
 
-        //             attribute.values[product.id] = pa.values;
-        //         }));
+                        // -->Update: specification value for a specific variant
+                        specification.values[variant.id] = variantSpecification;
+                    });
+                });
 
-        //         attributes.forEach(attribute => {
-        //             const values = compareItems.map(({ product }) => {
-        //                 return (attribute.values[product.id] || [])
-        //                     .map((x) => x.slug)
-        //                     .sort();
-        //             });
+                // -->Check: if the values of all variants are the same for each specification
+                specifications.forEach((specification) => {
+                    // -->Get: all values for a specific specification
+                    const values = compareItems.map(({ variant }) => {
+                        return specification.values[variant.id];
+                    });
 
-        //             attribute.sameValues = values.reduce<boolean>((sameValues, curr) => {
-        //                 return sameValues && (values[0].length === curr.length && values[0].join() === curr.join());
-        //             }, true);
-        //         });
+                    // -->Check: values
+                    if (values && values.length > 0) {
+                        // -->Get: first value
+                        const firstValue = values[0]?.value;
+                        // -->Compare: the rest of the values with the first one
+                        specification.sameValues = values.every(
+                            (v) => v?.value == firstValue
+                        );
+                    }
+                });
 
-        //         return attributes;
-        //     }),
-        //     shareReplay(1),
-        // );
-        // this.differentAttributes$ = this.attributes$.pipe(
-        //     map(attributes => attributes.filter(x => !x.sameValues)),
-        //     shareReplay(1),
-        // );
+                return specifications;
+            }),
+            shareReplay(1)
+        );
+
+        // -->Filter: specifications for variants with the same values
+        this.differentSpecifications$ = this.specifications$.pipe(
+            map((specifications) =>
+                specifications.filter((x) => !x.sameValues)
+            ),
+            shareReplay(1)
+        );
     }
 
     public ngOnInit(): void {
@@ -89,17 +111,68 @@ export class PageCompareComponent implements OnInit, OnDestroy {
         this.appSettings = this.appService.settings.getValue();
     }
 
-    public ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
+    /**
+     * Get: variant specifications
+     */
+    private getVariantSpecifications(variant: Variant): BaseAttribute[] {
+        // -->Check: variant
+        if (!variant) {
+            return;
+        }
+
+        const variantSpecifications: BaseAttribute[] = [];
+
+        // -->Check: height
+        if (variant.height) {
+            variantSpecifications.push({
+                name: 'Height',
+                value: `${variant.height} ${variant.dimensionUOM}`,
+            });
+        }
+        // -->Check: width
+        if (variant.width) {
+            variantSpecifications.push({
+                name: 'Width',
+                value: `${variant.width} ${variant.dimensionUOM}`,
+            });
+        }
+        // -->Check: depth
+        if (variant.depth) {
+            variantSpecifications.push({
+                name: 'Depth',
+                value: `${variant.depth} ${variant.dimensionUOM}`,
+            });
+        }
+        // -->Check: weight
+        if (variant.weight) {
+            variantSpecifications.push({
+                name: 'Weight',
+                value: `${variant.weight} ${variant.weightUOM}`,
+            });
+        }
+        // -->Check: volume
+        if (variant.volume) {
+            variantSpecifications.push({
+                name: 'Volume',
+                value: `${variant.volume} ${variant.volumeUOM}`,
+            });
+        }
+
+        return variantSpecifications;
     }
 
+    /**
+     * Clears the compare view by removing all variants
+     */
     public clear(): void {
+        // -->Check: if a clear is already in progress
         if (this.clearInProgress) {
             return;
         }
 
         this.clearInProgress = true;
+
+        // -->Clear: compare
         this.compare
             .clear()
             .pipe(takeUntil(this.destroy$))
@@ -108,5 +181,10 @@ export class PageCompareComponent implements OnInit, OnDestroy {
                     this.clearInProgress = false;
                 },
             });
+    }
+
+    public ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 }

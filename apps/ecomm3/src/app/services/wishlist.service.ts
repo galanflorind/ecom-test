@@ -14,9 +14,9 @@ export class WishlistService implements OnDestroy {
     private itemsSubject$: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>([]);
     private onAddingSubject$: Subject<Product> = new Subject();
 
-    readonly items$: Observable<Product[]> = this.itemsSubject$.pipe(takeUntil(this.destroy$));
-    readonly count$: Observable<number> = this.itemsSubject$.pipe(map(items => items.length));
-    readonly onAdding$: Observable<Product> = this.onAddingSubject$.asObservable();
+    public readonly items$: Observable<Product[]> = this.itemsSubject$.pipe(takeUntil(this.destroy$));
+    public readonly count$: Observable<number> = this.itemsSubject$.pipe(map(items => items.length));
+    public readonly onAdding$: Observable<Product> = this.onAddingSubject$.asObservable();
 
     constructor(
         @Inject(PLATFORM_ID) private platformId: any,
@@ -26,26 +26,37 @@ export class WishlistService implements OnDestroy {
         }
     }
 
-    add(product: Product): Observable<void> {
+    /**
+     * Adds product to wishlist
+     */
+    public add(product: Product): Observable<void> {
         this.onAddingSubject$.next(product);
 
+        // -->Check: if product is already on the wishlist
         const index = this.dataItems.findIndex(
             (item) => item.id === product.id
         );
 
+        // -->Add: product to wishlist
         if (index === -1) {
             this.dataItems.push(product);
             this.save();
         }
 
+        // -->Complete
         return EMPTY;
     }
 
-    remove(product: Product): Observable<void> {
+    /**
+     * Removes product from wishlist
+     */
+    public remove(product: Product): Observable<void> {
+        // -->Check: if product is on the wishlist
         const index = this.dataItems.findIndex(
             (item) => item.id === product.id
         );
 
+        // -->Remove: product and save
         if (index !== -1) {
             this.dataItems.splice(index, 1);
             this.save();
@@ -69,7 +80,7 @@ export class WishlistService implements OnDestroy {
         }
     }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();
     }
