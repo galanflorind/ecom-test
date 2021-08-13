@@ -275,28 +275,24 @@ export class PageShopComponent implements OnInit, OnDestroy {
      * Get query params from page options
      */
     private getQueryParams(): Params {
-        // todo: this should be done on first request data and to params????
-        // todo: this should be done on first request data and to params????
-        // todo: this should be done on first request data and to params????
-        // todo: this should be done on first request data and to params????
         const params: Params = {};
         const options = this.page.options;
         const filterValues = options.filters || {};
 
         // -->Check: page
-        if ('page' in options && options.page !== this.page.defaultOptions.page) {
+        if (options.hasOwnProperty('page') && options.page !== this.page.defaultOptions.page) {
             params.page = options.page ? options.page : this.page.defaultOptions.page;
         }
         // -->Check: limit
-        if ('limit' in options && options.limit !== this.page.defaultOptions.limit) {
+        if (options.hasOwnProperty('limit') && options.limit !== this.page.defaultOptions.limit) {
             params.limit = options.limit ? options.limit : this.page.defaultOptions.limit;
         }
         // -->Check: sort
-        if ('sort' in options && options.sort !== this.page.defaultOptions.sort) {
+        if (options.hasOwnProperty('sort') && options.sort !== this.page.defaultOptions.sort) {
             params.sort = options.sort ? options.sort : this.page.defaultOptions.sort;
         }
         // -->Check: filters
-        if ('filters' in options && this.page.filters) {
+        if (options.hasOwnProperty('filters') && this.page.filters) {
             this.page.filters
                 .map(
                     filter => ({
@@ -327,24 +323,30 @@ export class PageShopComponent implements OnInit, OnDestroy {
     private setPageOptions() {
         // -->Update page options from query params
         this.route.queryParams.pipe(take(1)).subscribe((param) => {
+            // --Check: param
+            if (!param)
+            {
+                return;
+            }
+
             // -->Check: page
-            if ('page' in param) {
+            if (param.hasOwnProperty('page') && param['page']) {
                 this.page.options.page = param['page'];
             }
             // -->Check: limit
-            if ('limit' in param) {
+            if (param.hasOwnProperty('limit') && param['limit']) {
                 this.page.options.limit = param['limit'];
             }
             // -->Check: sort
-            if ('sort' in param) {
+            if (param.hasOwnProperty('sort') && param['sort']) {
                 this.page.options.sort = param['sort'];
             }
             // -->Check: price filter
-            if ('filter_price' in param) {
+            if (param.hasOwnProperty('filter_price') && param['filter_price']) {
                 this.page.setFilterValue('price', param['filter_price']);
             }
             // -->Check: manufacturer filter
-            if ('filter_manufacturer' in param) {
+            if (param.hasOwnProperty('filter_manufacturer') && param['filter_manufacturer']) {
                 this.page.setFilterValue('manufacturer', param['filter_manufacturer']);
             }
         });

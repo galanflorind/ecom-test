@@ -30,7 +30,7 @@
                                     </div>
                                     <div class="product__rating-label">
                                         <a routerLink="./" fragment="product-tab-reviews" (click)="scrollToTabs()">
-                                            {{ 'TEXT_RATING_LABEL' | translate:{rating: product?.data?.rating, reviews: product?.reviews} }}
+                                            {{ 'TEXT_RATING_LABEL' | translate:{rating: product?.data?.rating, reviews: product?.data?.reviews} }}
                                         </a>
                                     </div>
                                 </div>
@@ -225,7 +225,7 @@
                                 <app-spec [groups]="spec"></app-spec>
                             </app-product-tab>
                             <!--Show this when we enable reviews-->
-<!--                            <app-product-tab id="product-tab-reviews" [label]="'TEXT_TAB_REVIEWS' | translate" [counter]="product.reviews || 0" [showCounter]="(product.reviews || 0) > 0">-->
+<!--                            <app-product-tab id="product-tab-reviews" [label]="'TEXT_TAB_REVIEWS' | translate" [counter]="product.data?.reviews || 0" [showCounter]="(product.data?.reviews || 0) > 0">-->
 <!--                                <app-reviews-view [productPageLayout]="'full'" [productId]="product._id"></app-reviews-view>-->
 <!--                            </app-product-tab>-->
 <!--                            <app-product-tab id="product-tab-analogs" [label]="'TEXT_TAB_ANALOGS' | translate">-->

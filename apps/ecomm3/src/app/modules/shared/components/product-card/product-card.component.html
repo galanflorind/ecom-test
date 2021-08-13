@@ -81,7 +81,7 @@
         <div class="product-card__rating" *ngIf="appSettings?.rating">
             <app-rating class="product-card__rating-stars" [value]="product?.data?.rating || 0"></app-rating>
             <div class="product-card__rating-label">
-                {{ 'TEXT_RATING_LABEL' | translate:{rating: product?.data?.rating, reviews: product.reviews} }}
+                {{ 'TEXT_RATING_LABEL' | translate:{rating: product?.data?.rating, reviews: product?.data?.reviews} }}
             </div>
         </div>
 

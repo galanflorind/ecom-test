@@ -145,23 +145,7 @@ export interface Product {
                 manufacturerId: string;
             },
             _id: string;
-        }
+        };
+        reviews?: number;
     }
-    // When you do a filter, the manufacturer comes at data level
-    // manufacturer?: {
-    //     data: {
-    //         name: string;
-    //         manufacturerId: string;
-    //     },
-    //     _id: string;
-    // }
-
-    /**
-     * @deprecated !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! everything below
-     */
-    id: number;
-    /**
-     * A short product description without HTML tags.
-     */
-    reviews?: number;
 }

@@ -142,7 +142,7 @@
             </div>
 
             <div class="products-list__content">
-                <div *ngFor="let product of (page.list$|async)?.items; trackBy: trackById" class="products-list__item">
+                <div *ngFor="let product of (page.list$|async)?.items; trackBy: trackByProductId" class="products-list__item">
                     <app-product-card [product]="product"></app-product-card>
                 </div>
             </div>

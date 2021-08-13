@@ -102,10 +102,16 @@ export class ProductsViewComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Track by
-     * todo: change this to `_id`
+     * Track product by _id
      */
-    public trackById(index: number, entity: {id: string | number}): string | number {
+    public trackByProductId(index: number, product: {_id?: string | number}): string | number {
+        return product._id;
+    }
+
+    /**
+     * Track entity by id
+     */
+    public trackById(index: number, entity: { id: string | number }): string | number {
         return entity.id;
     }
 

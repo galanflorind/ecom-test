@@ -24,7 +24,7 @@
                             <app-rating [value]="product?.data?.rating || 0"></app-rating>
                         </div>
                         <div class="quickview__product-rating-title">
-                            {{ 'TEXT_RATING_LABEL' | translate:{rating: product?.data?.rating, reviews: product.reviews} }}
+                            {{ 'TEXT_RATING_LABEL' | translate:{rating: product?.data?.rating, reviews: product?.data?.reviews} }}
                         </div>
                     </div>
 
