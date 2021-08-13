@@ -1,7 +1,22 @@
 <!--Spacer-->
 <div class="nao-spacer-after-header"></div>
 
-<div class="block">
+<!--Register done-->
+<div class="block order-success" *ngIf="registerDone">
+    <div class="container">
+        <div class="order-success__body">
+            <div class="order-success__header">
+                <app-icon class="order-success__icon" icon="check-100"></app-icon>
+                <h1 class="order-success__title">{{ 'THANKS_FOR_SIGNING_UP' | translate }}</h1>
+                <div class="order-success__subtitle">{{ 'MESSAGE_FOR_SIGNING_UP' | translate }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Register form-->
+<div class="block" *ngIf="!registerDone">
     <div class="container container--max--lg">
         <div class="row">
             <div class="col-md-6 d-flex mt-4 mt-md-0 mx-auto">

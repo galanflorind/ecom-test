@@ -13,6 +13,7 @@ export class PageLoginComponent implements OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
     public formGroup!: FormGroup;
     public loginInProgress = false;
+    public errorMessage = 'INVALID_LOGIN';
 
 
     constructor(
@@ -48,6 +49,13 @@ export class PageLoginComponent implements OnInit, OnDestroy {
                 return this.router.navigate(['/', 'account', 'dashboard']);
             })
             .catch((err) => {
+                switch (err?.error?.index) {
+                    case 'user_activation_required':
+                        this.errorMessage = 'PENDING_ACCOUNT';
+                        break;
+                    default:
+                        this.errorMessage = 'INVALID_LOGIN';
+                }
                 // -->Reset:
                 this.formGroup.get('password').reset();
                 this.formGroup.get('password').markAllAsTouched();
