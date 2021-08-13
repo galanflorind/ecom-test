@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // modules
 import { AppModule } from './app.module';
-import { LanguageBrowserModule } from './modules/language/language-browser.module';
+import { LanguageBrowserModule } from './shared/language/language-browser.module';
 
 // components
 import { AppComponent } from './app.component';

@@ -1,5 +1,5 @@
 import { Component, Inject, NgZone, OnDestroy, OnInit, PLATFORM_ID, Renderer2 } from '@angular/core';
-import { LanguageService } from './modules/language/services/language.service';
+import { LanguageService } from './shared/language/services/language.service';
 import { ToastrService } from 'ngx-toastr';
 import { CartService } from './services/cart.service';
 import { CompareService } from './services/compare.service';

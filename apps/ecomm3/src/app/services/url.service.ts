@@ -3,7 +3,7 @@ import { Category, ShopCategory } from '../interfaces/category';
 import { Order } from '../interfaces/order';
 import { Product } from '../interfaces/product';
 import { Brand } from '../interfaces/brand';
-import { nameToSlug } from "../modules/shared/functions/utils";
+import { nameToSlug } from "../shared/functions/utils";
 import { NaoUsersInterface } from "@naologic/nao-user-access";
 
 @Injectable({
