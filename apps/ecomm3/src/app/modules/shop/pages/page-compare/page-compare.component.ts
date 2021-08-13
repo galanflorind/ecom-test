@@ -8,6 +8,7 @@ import { UrlService } from '../../../../services/url.service';
 import { FormControl } from '@angular/forms';
 import { NaoSettingsInterface } from '@naologic/nao-interfaces';
 import { AppService } from '../../../../app.service';
+import { TranslateService } from '@ngx-translate/core';
 
 interface Specification {
     name: string;
@@ -34,9 +35,10 @@ export class PageCompareComponent implements OnInit, OnDestroy {
     constructor(
         public compare: CompareService,
         public url: UrlService,
-        private appService: AppService
+        private appService: AppService,
+        private translate: TranslateService
     ) {
-        this.compareItems$ = this.compare.items$.pipe(shareReplay(1)).pipe();
+        this.compareItems$ = this.compare.items$.pipe(shareReplay(1));
 
         // -->Build: variants specifications grouped by name
         this.specifications$ = this.compareItems$.pipe(
@@ -52,9 +54,7 @@ export class PageCompareComponent implements OnInit, OnDestroy {
 
                     variantSpecifications.forEach((variantSpecification) => {
                         // -->Find: specification by name
-                        let specification = specifications.find(
-                            (x) => x.name === variantSpecification.name
-                        );
+                        let specification = specifications.find(x => x.name === variantSpecification.name);
 
                         // -->Add: specification if not found
                         if (!specification) {
@@ -86,9 +86,7 @@ export class PageCompareComponent implements OnInit, OnDestroy {
                         // -->Get: first value
                         const firstValue = values[0]?.value;
                         // -->Compare: the rest of the values with the first one
-                        specification.sameValues = values.every(
-                            (v) => v?.value == firstValue
-                        );
+                        specification.sameValues = values.every((v) => v?.value == firstValue);
                     }
                 });
 
@@ -99,9 +97,7 @@ export class PageCompareComponent implements OnInit, OnDestroy {
 
         // -->Filter: specifications for variants with the same values
         this.differentSpecifications$ = this.specifications$.pipe(
-            map((specifications) =>
-                specifications.filter((x) => !x.sameValues)
-            ),
+            map((specifications) => specifications.filter(x => !x.sameValues)),
             shareReplay(1)
         );
     }
@@ -125,36 +121,36 @@ export class PageCompareComponent implements OnInit, OnDestroy {
         // -->Check: height
         if (variant.height) {
             variantSpecifications.push({
-                name: 'Height',
-                value: `${variant.height} ${variant.dimensionUOM}`,
+                name: this.translate.instant('VARIANT_SPECIFICATION_HEIGHT'),
+                value: `${variant.height} ${variant.dimensionUOM}`
             });
         }
         // -->Check: width
         if (variant.width) {
             variantSpecifications.push({
-                name: 'Width',
-                value: `${variant.width} ${variant.dimensionUOM}`,
+                name: this.translate.instant('VARIANT_SPECIFICATION_WIDTH'),
+                value: `${variant.width} ${variant.dimensionUOM}`
             });
         }
         // -->Check: depth
         if (variant.depth) {
             variantSpecifications.push({
-                name: 'Depth',
-                value: `${variant.depth} ${variant.dimensionUOM}`,
+                name: this.translate.instant('VARIANT_SPECIFICATION_DEPTH'),
+                value: `${variant.depth} ${variant.dimensionUOM}`
             });
         }
         // -->Check: weight
         if (variant.weight) {
             variantSpecifications.push({
-                name: 'Weight',
-                value: `${variant.weight} ${variant.weightUOM}`,
+                name: this.translate.instant('VARIANT_SPECIFICATION_WEIGHT'),
+                value: `${variant.weight} ${variant.weightUOM}`
             });
         }
         // -->Check: volume
         if (variant.volume) {
             variantSpecifications.push({
-                name: 'Volume',
-                value: `${variant.volume} ${variant.volumeUOM}`,
+                name: this.translate.instant('VARIANT_SPECIFICATION_VOLUME'),
+                value: `${variant.volume} ${variant.volumeUOM}`
             });
         }
 
@@ -173,14 +169,11 @@ export class PageCompareComponent implements OnInit, OnDestroy {
         this.clearInProgress = true;
 
         // -->Clear: compare
-        this.compare
-            .clear()
-            .pipe(takeUntil(this.destroy$))
-            .subscribe({
-                complete: () => {
-                    this.clearInProgress = false;
-                },
-            });
+        this.compare.clear().pipe(takeUntil(this.destroy$)).subscribe({
+            complete: () => {
+                this.clearInProgress = false;
+            },
+        });
     }
 
     public ngOnDestroy(): void {

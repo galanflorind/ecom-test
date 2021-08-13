@@ -63,20 +63,20 @@
                                 <div class="wishlist__product-rating-stars">
                                     <app-rating [value]="product?.data?.rating || 0"></app-rating>
                                 </div>
-                                <div class="wishlist__product-rating-title">
+                                <!-- <div class="wishlist__product-rating-title">
                                     {{ 'TEXT_RATING_LABEL' | translate:{rating: product?.data?.rating, reviews: product.reviews} }}
-                                </div>
+                                </div> -->
                             </div>
                         </td>
                         <td class="wishlist__column wishlist__column--body wishlist__column--stock">
 <!--                            <app-status-badge-->
 <!--                                class="product__stock"-->
-<!--                                [type]="product.stock|stockToStatusBadgeType"-->
-<!--                                [text]="product.stock|stockToStatusBadgeText|translate"-->
+<!--                                [type]="product.data?.availability|stockToStatusBadgeType"-->
+<!--                                [text]="product.data?.availability|stockToStatusBadgeText|translate"-->
 <!--                            ></app-status-badge>-->
                         </td>
                         <td class="wishlist__column wishlist__column--body wishlist__column--price">
-                            {{ product.price | currencyFormat }}
+                            {{ product.data?.price | currencyFormat }}
                         </td>
                         <td class="wishlist__column wishlist__column--body wishlist__column--button">
 <!--                            <button-->

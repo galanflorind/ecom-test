@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
-import { teammates } from '../../../../../data/site-teammates';
+// import { teammates } from '../../../../../data/site-teammates';
 import { Subject, timer } from 'rxjs';
 import { switchMap, takeUntil } from 'rxjs/operators';
 import { LanguageService } from '../../../language/services/language.service';
@@ -13,7 +13,7 @@ import { OwlCarouselOConfig } from 'ngx-owl-carousel-o/lib/carousel/owl-carousel
 export class BlockTeammatesComponent implements OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
 
-    teammates = teammates;
+    // teammates = teammates;
 
     showCarousel = true;
 

@@ -112,19 +112,19 @@ export class ProductCardComponent implements OnChanges, OnInit, OnDestroy {
         });
     }
 
-    compatibility(): ProductCompatibilityResult {
-        if (this.product.compatibility === 'all') {
-            return 'all';
-        }
-        if (this.product.compatibility === 'unknown') {
-            return 'unknown';
-        }
-        // todo:
-        // if (this.vehicle && this.product.compatibility.includes(this.vehicle.id)) {
-        //     return 'fit';
-        // } else {
-            return 'not-fit';
-        // }
-    }
+    // compatibility(): ProductCompatibilityResult {
+    //     if (this.product.compatibility === 'all') {
+    //         return 'all';
+    //     }
+    //     if (this.product.compatibility === 'unknown') {
+    //         return 'unknown';
+    //     }
+    //     // todo:
+    //     // if (this.vehicle && this.product.compatibility.includes(this.vehicle.id)) {
+    //     //     return 'fit';
+    //     // } else {
+    //         return 'not-fit';
+    //     // }
+    // }
 
 }

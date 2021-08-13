@@ -28,7 +28,7 @@ export class ReviewsViewComponent implements OnInit, OnDestroy {
         private fb: FormBuilder,
         private toastr: ToastrService,
         private translate: TranslateService
-    ) {}
+    ) { }
 
     public ngOnInit(): void {
         this.form = this.fb.group({

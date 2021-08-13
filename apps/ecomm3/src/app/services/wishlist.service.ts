@@ -33,9 +33,7 @@ export class WishlistService implements OnDestroy {
         this.onAddingSubject$.next(product);
 
         // -->Check: if product is already on the wishlist
-        const index = this.dataItems.findIndex(
-            (item) => item.id === product.id
-        );
+        const index = this.dataItems.findIndex(item => item._id === product._id);
 
         // -->Add: product to wishlist
         if (index === -1) {
@@ -52,9 +50,7 @@ export class WishlistService implements OnDestroy {
      */
     public remove(product: Product): Observable<void> {
         // -->Check: if product is on the wishlist
-        const index = this.dataItems.findIndex(
-            (item) => item.id === product.id
-        );
+        const index = this.dataItems.findIndex(item => item._id === product._id);
 
         // -->Remove: product and save
         if (index !== -1) {

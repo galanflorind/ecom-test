@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
-import { testimonials } from '../../../../../data/site-testimonials';
+// import { testimonials } from '../../../../../data/site-testimonials';
 import { LanguageService } from '../../../language/services/language.service';
 import { switchMap, takeUntil } from 'rxjs/operators';
 import { Subject, timer } from 'rxjs';
@@ -18,7 +18,7 @@ export class BlockReviewsComponent implements OnInit, OnDestroy {
 
     showCarousel = true;
 
-    testimonials = testimonials;
+    // testimonials = testimonials;
 
     carouselOptions!: Partial<OwlCarouselOConfig>;
 

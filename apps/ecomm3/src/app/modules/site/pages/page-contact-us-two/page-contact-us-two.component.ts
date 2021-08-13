@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { theme } from '../../../../../data/theme';
+// import { theme } from '../../../../../data/theme';
 
 @Component({
     selector: 'app-page-contact-us-two',
@@ -7,7 +7,7 @@ import { theme } from '../../../../../data/theme';
     styleUrls: ['./page-contact-us-two.component.scss'],
 })
 export class PageContactUsTwoComponent {
-    theme = theme;
+    // theme = theme;
 
     constructor() { }
 }

@@ -19,16 +19,14 @@ export class CompareService implements OnDestroy {
     private onAddingSubject$: Subject<Product> = new Subject();
     private onAddedSubject$: Subject<Product> = new Subject();
 
-    public readonly items$: Observable<CompareItem[]> = this.itemsSubject$.pipe(
-        takeUntil(this.destroy$)
-    );
-    public readonly count$: Observable<number> = this.itemsSubject$.pipe(
-        map((items) => items.length)
-    );
+    public readonly items$: Observable<CompareItem[]> = this.itemsSubject$.pipe(takeUntil(this.destroy$));
+    public readonly count$: Observable<number> = this.itemsSubject$.pipe(map((items) => items.length));
     public readonly onAdding$: Observable<Product> = this.onAddingSubject$.asObservable();
     public readonly onAdded$: Observable<Product> = this.onAddedSubject$.asObservable();
 
-    constructor(@Inject(PLATFORM_ID) private platformId: any) {
+    constructor(
+        @Inject(PLATFORM_ID) private platformId: any
+    ) {
         if (isPlatformBrowser(this.platformId)) {
             this.load();
         }
@@ -45,9 +43,7 @@ export class CompareService implements OnDestroy {
 
         // -->Check: if this specific variant of the product was already pushed
         const index = this.dataItems.findIndex(
-            (item) =>
-                item.product._id === product._id &&
-                item.variant.id === variant.id
+            item => item.product._id === product._id && item.variant.id === variant.id
         );
 
         // -->Add: compare item
@@ -77,9 +73,7 @@ export class CompareService implements OnDestroy {
 
         // -->Check: if this specific variant of the product is registered
         const index = this.dataItems.findIndex(
-            (item) =>
-                item.product._id === compareItem.product._id &&
-                item.variant.id === compareItem.variant.id
+            item => item.product._id === compareItem.product._id && item.variant.id === compareItem.variant.id
         );
 
         // -->Remove: compare item

@@ -1,10 +1,6 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-    Product,
-    ProductAttribute,
-    ProductAttributeGroup,
-} from '../../../../interfaces/product';
+import { Product, ProductAttribute, ProductAttributeGroup } from '../../../../interfaces/product';
 import { UrlService } from '../../../../services/url.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
@@ -13,10 +9,11 @@ import { finalize, map, switchMap } from 'rxjs/operators';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { LanguageService } from '../../../language/services/language.service';
 import { BreadcrumbItem } from '../../../shared/components/breadcrumb/breadcrumb.component';
-import { NaoSettingsInterface} from "@naologic/nao-interfaces";
+import { NaoSettingsInterface } from "@naologic/nao-interfaces";
 import { AppService } from "../../../../app.service";
 import { ECommerceService } from "../../../../e-commerce.service";
-import {NaoUserAccessService} from "../../../../../../../../libs/nao-user-access/src";
+import { NaoUserAccessService } from "../../../../../../../../libs/nao-user-access/src";
+import { ToastrService } from 'ngx-toastr';
 
 export type PageProductLayout = 'sidebar' | 'full';
 
@@ -67,6 +64,7 @@ export class PageProductComponent implements OnInit, OnDestroy {
         private appService: AppService,
         private eCommerceService: ECommerceService,
         private naoUsersService: NaoUserAccessService,
+        private toastr: ToastrService
     ) { }
 
     ngOnInit(): void {
@@ -115,13 +113,12 @@ export class PageProductComponent implements OnInit, OnDestroy {
         //             return of([]);
         //         }
         //
-        //         return this.shop.getRelatedProducts(product.id, 8);
+        //         return this.shop.getRelatedProducts(product._id, 8);
         //     }),
         //     takeUntil(this.destroy$),
         // ).subscribe(x => this.relatedProducts = x);
 
-        this.route.params
-        .subscribe(params => {
+        this.route.params.subscribe(params => {
             // -->Set: docId
             this.docId = params.productId;
             // -->Refresh
@@ -192,29 +189,45 @@ export class PageProductComponent implements OnInit, OnDestroy {
 
             // -->Check: height
             if (variant.height) {
-                dimensionAttributes.push({name: 'Height', value: `${variant.height} ${variant.dimensionUOM}`})
+                dimensionAttributes.push({
+                    name: this.translate.instant('VARIANT_SPECIFICATION_HEIGHT'),
+                    value: `${variant.height} ${variant.dimensionUOM}`
+                })
             }
             // -->Check: width
             if (variant.width) {
-                dimensionAttributes.push({name: 'Width', value: `${variant.width} ${variant.dimensionUOM}`})
+                dimensionAttributes.push({
+                    name: this.translate.instant('VARIANT_SPECIFICATION_WIDTH'),
+                    value: `${variant.width} ${variant.dimensionUOM}`
+                })
             }
             // -->Check: depth
             if (variant.depth) {
-                dimensionAttributes.push({name: 'Depth', value: `${variant.depth} ${variant.dimensionUOM}`})
+                dimensionAttributes.push({
+                    name: this.translate.instant('VARIANT_SPECIFICATION_DEPTH'),
+                    value: `${variant.depth} ${variant.dimensionUOM}`
+                })
             }
             // -->Check: weight
             if (variant.weight) {
-                dimensionAttributes.push({name: 'Weight', value: `${variant.weight} ${variant.weightUOM}`})
+                dimensionAttributes.push({
+                    name: this.translate.instant('VARIANT_SPECIFICATION_WEIGHT'),
+                    value: `${variant.weight} ${variant.weightUOM}`
+                })
             }
             // -->Check: volume
             if (variant.volume) {
-                dimensionAttributes.push({name: 'Volume', value: `${variant.volume} ${variant.volumeUOM}`})
+                dimensionAttributes.push({
+                    name: this.translate.instant('VARIANT_SPECIFICATION_VOLUME'),
+                    value: `${variant.volume} ${variant.volumeUOM}`
+                })
             }
 
+            //SPECIFICATION_DIMENSIONS
             // -->Set: weight spec
             this.spec = [
                 {
-                    name: "Dimensions",
+                    name: this.translate.instant('VARIANT_SPECIFICATION_VOLUME'),
                     slug: "dimensions",
                     attributes: dimensionAttributes
                 }
@@ -237,24 +250,28 @@ export class PageProductComponent implements OnInit, OnDestroy {
         if (this.addToCartInProgress) {
             return;
         }
+        // -->Check: quantity
         if (this.form.get('quantity')!.invalid) {
-            alert(this.translate.instant('ERROR_ADD_TO_CART_QUANTITY'));
+            this.toastr.error(this.translate.instant('ERROR_ADD_TO_CART_QUANTITY'));
             return;
         }
+        // -->Check: options
         if (this.form.get('options')!.invalid) {
-            alert(this.translate.instant('ERROR_ADD_TO_CART_OPTIONS'));
+            this.toastr.error(this.translate.instant('ERROR_ADD_TO_CART_OPTIONS'));
             return;
         }
 
 
         const variant = this.product.data.variants[this.variantIndex];
+        // -->Check: variant
         if (!variant) {
-            alert("Variant problem")
+            this.toastr.error(this.translate.instant('ERROR_ADD_TO_CART_VARIANT'));
             return;
         }
 
         this.addToCartInProgress = true;
 
+        // -->Add: variant to the cart
         this.cart.add(this.product, variant, this.form.get('quantity')!.value).pipe(
             finalize(() => this.addToCartInProgress = false),
         ).subscribe();

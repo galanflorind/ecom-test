@@ -159,35 +159,9 @@ export interface Product {
     /**
      * @deprecated !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! everything below
      */
-    name: string;
     id: number;
     /**
      * A short product description without HTML tags.
      */
-    excerpt: string;
-    description: string;
-    slug: string;
-    sku?: string;
-    partNumber: string;
-    stock: ProductStock;
-    price: number;
-    compareAtPrice: number|null;
-    images?: string[];
-    badges?: string[];
-    rating?: number;
     reviews?: number;
-    availability?: string;
-    /**
-     * 'all'     - Compatible with all vehicles.
-     * 'unknown' - No compatibility information. Part may not fit the specified vehicle.
-     * number[]  - An array of vehicle identifiers with which this part is compatible.
-     */
-    compatibility: 'all' | 'unknown' | number[];
-    brand?: Brand|null;
-    tags?: string[];
-    type: ProductType;
-    categories?: ShopCategory[];
-    attributes: ProductAttribute[];
-    options: ProductOption[];
-    customFields?: CustomFields;
 }

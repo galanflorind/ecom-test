@@ -1,5 +1,5 @@
 import { Component, HostBinding } from '@angular/core';
-import { theme } from '../../../../../data/theme';
+// import { theme } from '../../../../../data/theme';
 
 @Component({
     selector: 'app-newsletter',
@@ -9,7 +9,7 @@ import { theme } from '../../../../../data/theme';
 export class NewsletterComponent {
     @HostBinding('class.footer-newsletter') classFooterNewsletter = true;
 
-    theme = theme;
+    // theme = theme;
 
     socialLinks = [
         // { type: 'facebook',  url: theme.author.profile_url, icon: 'fab fa-facebook-f' },

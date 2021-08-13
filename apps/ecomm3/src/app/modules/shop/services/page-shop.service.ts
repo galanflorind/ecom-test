@@ -2,11 +2,10 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { ProductsList } from '../../../interfaces/list';
 import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { Product } from '../../../interfaces/product';
+import { GetProductsListOptions } from '../../../interfaces/shop';
 import { ActiveFilter, Filter } from '../../../interfaces/filter';
 import { filterHandlers } from '../filters/filter-handlers';
 import { FilterHandler } from '../filters/filter.handler';
-import {Router} from "@angular/router";
-import { GetProductsListOptions } from '../../../interfaces/shop';
 
 
 @Injectable()
@@ -34,26 +33,27 @@ export class PageShopService {
      */
     private currentFiltersSubject$: BehaviorSubject<ActiveFilter[]> = new BehaviorSubject<ActiveFilter[]>([]);
 
+
     public isLoading = false;
 
-    get options(): GetProductsListOptions {
+    public get options(): GetProductsListOptions {
         return this.optionsState;
     }
 
-    get activeFilters(): ActiveFilter[] {
+    public get activeFilters(): ActiveFilter[] {
         return this.activeFiltersSubject$.value;
     }
 
     // getters for list todo: this is not working properly
-    get items(): Product[] { return this.listState?.items; }
-    get page(): number { return this.listState?.page; }
-    get limit(): number { return this.listState?.limit; }
-    get sort(): string { return this.listState?.sort; }
-    get total(): number { return this.listState?.total; }
-    get pages(): number { return this.listState?.pages; }
-    get from(): number { return this.listState?.from; }
-    get to(): number { return this.listState?.to; }
-    get filters(): Filter[] { return this.listState?.filters; }
+    public get items(): Product[] { return this.listState?.items; }
+    public get page(): number { return this.listState?.page; }
+    public get limit(): number { return this.listState?.limit; }
+    public get sort(): string { return this.listState?.sort; }
+    public get total(): number { return this.listState?.total; }
+    public get pages(): number { return this.listState?.pages; }
+    public get from(): number { return this.listState?.from; }
+    public get to(): number { return this.listState?.to; }
+    public get filters(): Filter[] { return this.listState?.filters; }
 
     public readonly optionsChange$: EventEmitter<GetProductsListOptions> = new EventEmitter<GetProductsListOptions>();
 
@@ -68,6 +68,7 @@ export class PageShopService {
         limit: 16,
         sort: 'name_asc',
         filters: {},
+        category: null,
         searchTerm: null
     };
 
@@ -77,25 +78,34 @@ export class PageShopService {
         // this.setOptions(this.defaultOptions);
     }
 
+    /**
+     * Update list state, filters and options
+     */
     public setList(list: ProductsList): void {
 
+        // -->Update: list state
         this.listState = list;
+        // -->Emit: updated list
         this.listSubject$.next(this.listState);
 
+        // -->Build: filters with handles
         const filtersWithHandlers = this.listState.filters
             .map(filter => ({ filter, handler: filterHandlers.find(x => x.type === filter.type) }))
             .filter((x): x is {filter: Filter; handler: FilterHandler} => !!x.handler);
 
+        // -->Get: active filters
         const activeFilters = filtersWithHandlers.reduce<ActiveFilter[]>((acc, { filter, handler }) => {
             return [...acc, ...handler.activeFilters(filter)];
         }, []);
 
+        // -->Clear: removed filter state and notify active filter updates
         this.removedFiltersState = [];
         this.activeFiltersSubject$.next(activeFilters);
         this.currentFiltersSubject$.next(activeFilters);
 
         const filters: GetProductsListOptions['filters'] = {};
 
+        // -->Update: filters values
         filtersWithHandlers.forEach(({ filter, handler }) => {
             const value = handler.serialize(filter.value);
 
@@ -104,11 +114,13 @@ export class PageShopService {
             }
         });
 
+        // -->Set: options state
         this.optionsState = {
+            ...this.optionsState,
             page: list.page,
             limit: list.limit,
             sort: list.sort,
-            filters,
+            filters
         };
     }
 
@@ -123,6 +135,9 @@ export class PageShopService {
         });
     }
 
+    /**
+     * Set option value
+     */
     public setOptionValue(optionSlug: string, optionValue: any): void {
         this.setOptions({
             ...this.optionsState,
@@ -131,7 +146,10 @@ export class PageShopService {
         });
     }
 
-    public setFilterValue(filterSlug: string, filterValue: string|null): void {
+    /**
+     * Set option filter value
+     */
+    public setFilterValue(filterSlug: string, filterValue: string | null): void {
         this.setOptions({
             ...this.optionsState,
             page: 1,
@@ -142,35 +160,53 @@ export class PageShopService {
         });
     }
 
+    /**
+     * Reset filter
+     */
     public resetFilter(activeFilter: ActiveFilter): void {
+        // -->Get: filter handler from type
         const handler = filterHandlers.find(x => x.type === activeFilter.type);
 
+        // -->Check: handler
         if (!handler) {
             return;
         }
 
+        // -->Remove: active filter
         const removedFilters = [...this.removedFiltersState, activeFilter];
-        // All removed filters with the same slug.
+        // -->Get: all removed filters with the same slug
         const all = removedFilters.filter(x => x.original.slug === activeFilter.original.slug);
 
+        // -->Reset: values and remove filters
         this.setFilterValue(activeFilter.original.slug, handler.getResetValue(all));
         this.setRemovedFilters(removedFilters);
     }
 
+    /**
+     * Reset all option filters
+     */
     public resetAllFilters(): void {
         this.setOptions({
             ...this.optionsState,
             page: 1,
             filters: {},
         });
+
+        // -->Remove: filter and notify updates on current filter
         this.setRemovedFilters(this.activeFilters);
     }
 
+    /**
+     * Set options and emit updates
+     */
     public setOptions(options: GetProductsListOptions): void {
         this.optionsState = options;
         this.optionsChange$.emit(options);
     }
 
+    /**
+     * Remove filter and notify updates on current filter
+     */
     private setRemovedFilters(removedFilters: ActiveFilter[]): void {
         this.removedFiltersState = removedFilters;
         this.currentFiltersSubject$.next(this.activeFilters.filter(x => removedFilters.indexOf(x) === -1));

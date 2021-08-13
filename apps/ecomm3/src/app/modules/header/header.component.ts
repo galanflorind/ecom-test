@@ -6,10 +6,10 @@ import { HeaderService } from '../../services/header.service';
 import { UrlService } from '../../services/url.service';
 import { AppService } from "../../app.service";
 import { DepartmentsLink } from "../../interfaces/departments-link";
+import { nameToSlug } from '../shared/functions/utils';
 import { MegamenuColumn } from "../../interfaces/menu";
 import { NestedLink } from "../../interfaces/link";
 import { NaoUserAccessService } from "@naologic/nao-user-access";
-import { nameToSlug } from '../shared/functions/utils';
 
 
 @Component({

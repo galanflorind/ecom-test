@@ -144,7 +144,7 @@
                         <tr class="compare-table__row">
                             <th class="compare-table__column compare-table__column--header">{{ 'TABLE_BRAND' | translate }}</th>
                             <td *ngFor="let item of compareItems$|async" class="compare-table__column compare-table__column--product">
-                                {{ item.product?.brand }}
+                                {{ item.product?.data?.manufacturer?.data?.name }}
                             </td>
                             <td class="compare-table__column compare-table__column--fake"></td>
                         </tr>
@@ -152,7 +152,7 @@
                         <tr class="compare-table__row">
                             <th class="compare-table__column compare-table__column--header">{{ 'TABLE_PART_NUMBER' | translate }}</th>
                             <td *ngFor="let item of compareItems$|async" class="compare-table__column compare-table__column--product">
-                                {{ item.product?.partNumber }}
+                                {{ item.variant?.manufacturerItemCode }}
                             </td>
                             <td class="compare-table__column compare-table__column--fake"></td>
                         </tr>

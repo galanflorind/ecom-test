@@ -108,7 +108,7 @@
                                 ></app-product-variants>
 
                                 <div class="product__actions">
-                                    <ng-container *ngIf="product.stock !== 'out-of-stock'">
+                                    <ng-container *ngIf="product.data?.availability !== 'out-of-stock'">
                                         <div class="product__actions-item product__actions-item--quantity">
                                             <app-input-number formControlName="quantity" size="lg" [min]="1"></app-input-number>
                                         </div>
@@ -229,7 +229,7 @@
 <!--                                <app-reviews-view [productPageLayout]="'full'" [productId]="product._id"></app-reviews-view>-->
 <!--                            </app-product-tab>-->
 <!--                            <app-product-tab id="product-tab-analogs" [label]="'TEXT_TAB_ANALOGS' | translate">-->
-<!--                                <app-analogs-table [productId]="product.id"></app-analogs-table>-->
+<!--                                <app-analogs-table [productId]="product._id"></app-analogs-table>-->
 <!--                            </app-product-tab>-->
                         </app-product-tabs>
                     </div>

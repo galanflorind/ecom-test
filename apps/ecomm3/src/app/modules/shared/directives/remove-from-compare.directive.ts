@@ -16,7 +16,7 @@ export class RemoveFromCompareDirective implements OnDestroy {
     constructor(
         private compare: CompareService,
         private cd: ChangeDetectorRef
-    ) {}
+    ) { }
 
     /**
      * Removes item from compare
@@ -29,15 +29,12 @@ export class RemoveFromCompareDirective implements OnDestroy {
         this.inProgress = true;
 
         // -->Remove: item from compare
-        this.compare
-            .remove(compareItem)
-            .pipe(takeUntil(this.destroy$))
-            .subscribe({
-                complete: () => {
-                    this.inProgress = false;
-                    this.cd.markForCheck();
-                },
-            });
+        this.compare.remove(compareItem).pipe(takeUntil(this.destroy$)).subscribe({
+            complete: () => {
+                this.inProgress = false;
+                this.cd.markForCheck();
+            },
+        });
     }
 
     public ngOnDestroy(): void {

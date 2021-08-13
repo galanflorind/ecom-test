@@ -15,26 +15,20 @@ export class ShopSidebarComponent implements OnDestroy {
 
     private destroy$: Subject<void> = new Subject<void>();
 
-    //latestProducts$: Observable<Product[]> = of([]);
+    // latestProducts$: Observable<Product[]> = of([]);
 
     @HostBinding('class.sidebar') classSidebar = true;
 
-    @HostBinding('class.sidebar--offcanvas--always')
-    get classSidebarOffcanvasAlways(): boolean {
-        return this.offcanvas === 'always';
-    }
+    @HostBinding('class.sidebar--offcanvas--always') get classSidebarOffcanvasAlways(): boolean { return this.offcanvas === 'always'; }
 
-    @HostBinding('class.sidebar--offcanvas--mobile')
-    get classSidebarOffcanvasMobile(): boolean {
-        return this.offcanvas === 'mobile';
-    }
+    @HostBinding('class.sidebar--offcanvas--mobile') get classSidebarOffcanvasMobile(): boolean { return this.offcanvas === 'mobile'; }
 
     @HostBinding('class.sidebar--open') get classSidebarOpen(): boolean {
         return this.sidebar.isOpen;
     }
 
     constructor(
-        //private shop: ShopApi,
+        // private shop: ShopApi,
         public sidebar: ShopSidebarService,
         @Inject(PLATFORM_ID) private platformId: any,
         @Inject(DOCUMENT) private document: Document
@@ -50,17 +44,11 @@ export class ShopSidebarComponent implements OnDestroy {
             });
 
         if (isPlatformBrowser(this.platformId)) {
-            fromMatchMedia('(max-width: 991px)')
-                .pipe(takeUntil(this.destroy$))
-                .subscribe((media) => {
-                    if (
-                        this.offcanvas === 'mobile' &&
-                        this.sidebar.isOpen &&
-                        !media.matches
-                    ) {
-                        this.sidebar.close();
-                    }
-                });
+            fromMatchMedia('(max-width: 991px)').pipe(takeUntil(this.destroy$)).subscribe(media => {
+                if (this.offcanvas === 'mobile' && this.sidebar.isOpen && !media.matches) {
+                    this.sidebar.close();
+                }
+            });
         }
     }
 
@@ -73,8 +61,7 @@ export class ShopSidebarComponent implements OnDestroy {
             const bodyWidth = this.document.body.offsetWidth;
 
             this.document.body.style.overflow = 'hidden';
-            this.document.body.style.paddingRight =
-                this.document.body.offsetWidth - bodyWidth + 'px';
+            this.document.body.style.paddingRight = (this.document.body.offsetWidth - bodyWidth) + 'px';
         }
     }
 

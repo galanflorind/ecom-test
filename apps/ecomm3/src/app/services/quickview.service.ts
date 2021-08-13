@@ -11,9 +11,7 @@ export class QuickviewService implements OnDestroy {
     private showSubject$: Subject<Product> = new Subject();
     private destroy$: Subject<void> = new Subject();
 
-    public show$: Observable<Product> = this.showSubject$.pipe(
-        takeUntil(this.destroy$)
-    );
+    public show$: Observable<Product> = this.showSubject$.pipe(takeUntil(this.destroy$));
 
     /**
      * Emits product to be shown in the quick view
@@ -21,9 +19,7 @@ export class QuickviewService implements OnDestroy {
     public show(product: Product): Observable<void> {
         this.abortPrevious$.next();
 
-        return of(this.showSubject$.next(product)).pipe(
-            takeUntil(this.abortPrevious$)
-        );
+        return of(this.showSubject$.next(product)).pipe(takeUntil(this.abortPrevious$));
     }
 
     public ngOnDestroy(): void {

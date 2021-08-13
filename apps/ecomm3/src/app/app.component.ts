@@ -34,15 +34,11 @@ export class AppComponent implements OnInit, OnDestroy {
         private translate: TranslateService,
         private appService: AppService
     ) {
-        this.language.direction$
-            .pipe(takeUntil(this.destroy$))
-            .subscribe((direction) => {
-                this.renderer.setAttribute(
-                    this.document.documentElement,
-                    'dir',
-                    direction
-                );
-            });
+        this.language.direction$.pipe(
+            takeUntil(this.destroy$)
+        ).subscribe(direction => {
+            this.renderer.setAttribute(this.document.documentElement, 'dir', direction);
+        });
     }
 
     public ngOnInit(): void {
@@ -51,84 +47,61 @@ export class AppComponent implements OnInit, OnDestroy {
 
         if (isPlatformBrowser(this.platformId)) {
             this.zone.runOutsideAngular(() => {
-                this.appService.appInfo
-                    .pipe(filter((info) => info))
-                    .subscribe(() => {
-                        // -->Set: loading
-                        this.infoLoading = false;
+                this.appService.appInfo.pipe(
+                    filter(info => info)
+                ).subscribe(() => {
+                    // -->Set: loading
+                    this.infoLoading = false;
 
-                        const preloader = document.querySelector(
-                            '.site-preloader'
-                        );
+                    const preloader = document.querySelector('.site-preloader');
 
-                        if (!preloader) {
-                            return;
-                        }
+                    if (!preloader) {
+                        return;
+                    }
 
-                        preloader.addEventListener(
-                            'transitionend',
-                            (event: Event) => {
-                                if (
-                                    event instanceof TransitionEvent &&
-                                    event.propertyName === 'opacity'
-                                ) {
-                                    preloader.remove();
-                                    document
-                                        .querySelector('.site-preloader-style')
-                                        ?.remove();
-                                }
-                            }
-                        );
-                        preloader.classList.add('site-preloader__fade');
-
-                        // Sometimes, due to unexpected behavior, the browser (in particular Safari) may not play the transition, which leads
-                        // to blocking interaction with page elements due to the fact that the preloader is not deleted.
-                        // The following block covers this case.
-                        if (
-                            getComputedStyle(preloader).opacity === '0' &&
-                            preloader.parentNode
-                        ) {
-                            preloader.parentNode.removeChild(preloader);
+                    preloader.addEventListener('transitionend', (event: Event) => {
+                        if (event instanceof TransitionEvent && event.propertyName === 'opacity') {
+                            preloader.remove();
+                            document.querySelector('.site-preloader-style')?.remove();
                         }
                     });
+                    preloader.classList.add('site-preloader__fade');
+
+                    // Sometimes, due to unexpected behavior, the browser (in particular Safari) may not play the transition, which leads
+                    // to blocking interaction with page elements due to the fact that the preloader is not deleted.
+                    // The following block covers this case.
+                    if (getComputedStyle(preloader).opacity === '0' && preloader.parentNode) {
+                        preloader.parentNode.removeChild(preloader);
+                    }
+                });
             });
         }
 
-        // -->Show: toaster when a product is added
-        this.cart.onAdding$.subscribe((product) => {
+        // -->Show: toaster when a product is added to the cart
+        this.cart.onAdding$.subscribe(product => {
             this.toastr.success(
-                this.translate.instant('TEXT_TOAST_PRODUCT_ADDED_TO_CART', {
-                    productName: product.data?.name,
-                })
+                this.translate.instant('TEXT_TOAST_PRODUCT_ADDED_TO_CART', { productName: product.data?.name })
             );
         });
 
         // -->Show: toaster when a product is added to compare
-        this.compare.onAdding$.subscribe((product) => {
+        this.compare.onAdding$.subscribe(product => {
             this.toastr.success(
-                this.translate.instant('TEXT_TOAST_PRODUCT_ADDED_TO_COMPARE', {
-                    productName: product.data?.name,
-                })
-            );
-        });
-        this.compare.onAdded$.subscribe((product) => {
-            this.toastr.info(
-                this.translate.instant(
-                    'TEXT_TOAST_PRODUCT_NOT_ADDED_TO_COMPARE',
-                    { productName: product.data?.name }
-                )
+                this.translate.instant('TEXT_TOAST_PRODUCT_ADDED_TO_COMPARE', { productName: product.data?.name })
             );
         });
 
-        // -->Show: toaster when a product is added to todo: my lists
-        // -->Show: toaster when a product is added to todo: my lists
-        // -->Show: toaster when a product is added to todo: my lists
-        // -->Show: toaster when a product is added to todo: my lists
-        this.wishlist.onAdding$.subscribe((product) => {
+        // -->Show: toaster when a product was already added to compare
+        this.compare.onAdded$.subscribe(product => {
+            this.toastr.info(
+                this.translate.instant('TEXT_TOAST_PRODUCT_NOT_ADDED_TO_COMPARE', { productName: product.data?.name })
+            );
+        });
+
+        // -->Show: toaster when a product is added to wishlist
+        this.wishlist.onAdding$.subscribe(product => {
             this.toastr.success(
-                this.translate.instant('TEXT_TOAST_PRODUCT_ADDED_TO_WISHLIST', {
-                    productName: product.data?.name,
-                })
+                this.translate.instant('TEXT_TOAST_PRODUCT_ADDED_TO_WISHLIST', { productName: product.data?.name })
             );
         });
     }

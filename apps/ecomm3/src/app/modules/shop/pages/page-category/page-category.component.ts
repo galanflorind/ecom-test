@@ -89,47 +89,37 @@ export class PageCategoryComponent implements OnInit {
 
         // -->Set: children categories
         this.children$ = this.route.data.pipe(
-            map((data: PageCategoryData) =>
-                data.category ? data.category.children : data.children
-            ),
-            map((categories) => categories || [])
+            map((data: PageCategoryData) => data.category ? data.category.children : data.children),
+            map(categories => categories || [])
         );
 
         // -->Set: page title from category
         this.pageTitle$ = this.category$.pipe(
-            mergeMap((category) =>
-                category
-                    ? of(category.name)
-                    : this.translate.stream('HEADER_SHOP')
-            )
+            mergeMap(category => category ? of(category.name) : this.translate.stream('HEADER_SHOP'))
         );
 
         // -->Set: breadcrumbs
         this.breadcrumbs$ = this.language.current$.pipe(
-            switchMap(() =>
-                this.category$.pipe(
-                    map((category) => {
-                        const categoryPath = category
-                            ? getCategoryPath(category)
-                            : [];
+            switchMap(() => this.category$.pipe(
+                map(category => {
+                    const categoryPath = category ? getCategoryPath(category) : [];
 
-                        return [
-                            {
-                                label: this.translate.instant('LINK_HOME'),
-                                url: this.url.home(),
-                            },
-                            {
-                                label: this.translate.instant('LINK_SHOP'),
-                                url: this.url.shop(),
-                            },
-                            ...categoryPath.map((x) => ({
-                                label: x.name,
-                                url: this.url.category(x),
-                            })),
-                        ];
-                    })
-                )
-            )
+                    return [
+                        {
+                            label: this.translate.instant('LINK_HOME'),
+                            url: this.url.home()
+                        },
+                        {
+                            label: this.translate.instant('LINK_SHOP'),
+                            url: this.url.shop()
+                        },
+                        ...categoryPath.map((x) => ({
+                            label: x.name,
+                            url: this.url.category(x)
+                        })),
+                    ];
+                })
+            ))
         );
 
         // this.bestsellers = asyncData(this.shop.getPopularProducts(null, 8));

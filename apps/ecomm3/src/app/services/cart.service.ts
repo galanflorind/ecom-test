@@ -39,21 +39,11 @@ export class CartService {
         total: 0,
     };
 
-    private itemsSubject$: BehaviorSubject<CartItem[]> = new BehaviorSubject(
-        this.data.items
-    );
-    private quantitySubject$: BehaviorSubject<number> = new BehaviorSubject(
-        this.data.quantity
-    );
-    private subtotalSubject$: BehaviorSubject<number> = new BehaviorSubject(
-        this.data.subtotal
-    );
-    private totalsSubject$: BehaviorSubject<CartTotal[]> = new BehaviorSubject(
-        this.data.totals
-    );
-    private totalSubject$: BehaviorSubject<number> = new BehaviorSubject(
-        this.data.total
-    );
+    private itemsSubject$: BehaviorSubject<CartItem[]> = new BehaviorSubject(this.data.items);
+    private quantitySubject$: BehaviorSubject<number> = new BehaviorSubject(this.data.quantity);
+    private subtotalSubject$: BehaviorSubject<number> = new BehaviorSubject(this.data.subtotal);
+    private totalsSubject$: BehaviorSubject<CartTotal[]> = new BehaviorSubject(this.data.totals);
+    private totalSubject$: BehaviorSubject<number> = new BehaviorSubject(this.data.total);
     private onAddingSubject$: Subject<Product> = new Subject();
 
     public get items(): ReadonlyArray<CartItem> {
@@ -83,7 +73,9 @@ export class CartService {
     public readonly total$: Observable<number> = this.totalSubject$.asObservable();
     public readonly onAdding$: Observable<Product> = this.onAddingSubject$.asObservable();
 
-    constructor(@Inject(PLATFORM_ID) private platformId: any) {
+    constructor(
+        @Inject(PLATFORM_ID) private platformId: any
+    ) {
         if (isPlatformBrowser(this.platformId)) {
             this.load();
             this.calc();
@@ -102,10 +94,7 @@ export class CartService {
         this.onAddingSubject$.next(product);
 
         let item = this.items.find((eachItem) => {
-            if (
-                eachItem.product._id === product._id &&
-                eachItem.variant.id === variant.id
-            ) {
+            if (eachItem.product._id === product._id && eachItem.variant.id === variant.id) {
                 return true;
             }
 
@@ -141,9 +130,7 @@ export class CartService {
     public update(updates: { item: CartItem; quantity: number }[]): Observable<void> {
         updates.forEach((update) => {
             // -->Find: item to update
-            const item = this.items.find(
-                (eachItem) => eachItem === update.item
-            );
+            const item = this.items.find((eachItem) => eachItem === update.item);
 
             // -->Check: item and update its quantity
             if (item) {
@@ -163,9 +150,7 @@ export class CartService {
      */
     public remove(item: CartItem): Observable<void> {
         // -->Removes: item
-        this.data.items = this.data.items.filter(
-            (eachItem) => eachItem !== item
-        );
+        this.data.items = this.data.items.filter((eachItem) => eachItem !== item);
 
         // -->Save and calculate
         this.save();
@@ -193,7 +178,7 @@ export class CartService {
         let quantity = 0;
         let subtotal = 0;
 
-        this.data.items.forEach((item) => {
+        this.data.items.forEach(item => {
             quantity += item.quantity;
             subtotal += item.variant.price * item.quantity;
         });
