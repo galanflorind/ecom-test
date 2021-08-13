@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { CurrencyService } from '../../../shared/_parts/currency/services/currency.service';
 import { Subject } from 'rxjs';
-import { skip, takeUntil, tap } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { QuickviewService } from '../../../services/quickview.service';
 import { UrlService } from '../../../services/url.service';
 import { Product, ProductAttribute } from '../../../interfaces/product';

@@ -15,7 +15,7 @@ import { BlocksModule } from '../shared/_parts/blocks/blocks.module';
         TranslateModule.forChild(),
         HomeRoutingModule,
         BlocksModule,
-        SharedModule,
+        SharedModule
     ],
 })
 export class HomeModule { }
