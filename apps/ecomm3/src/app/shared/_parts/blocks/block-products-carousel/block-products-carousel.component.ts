@@ -8,8 +8,8 @@ import {
     Output,
     SimpleChanges, ViewChild,
 } from '@angular/core';
-import { ProductCardElement, ProductCardLayout } from '../../../components/product-card/product-card.component';
-import { SectionHeaderGroup, SectionHeaderLink } from '../../../components/section-header/section-header.component';
+import { ProductCardElement, ProductCardLayout } from '../../../product-card/product-card.component';
+import { SectionHeaderGroup, SectionHeaderLink } from '../../../section-header/section-header.component';
 import { OwlCarouselOConfig } from 'ngx-owl-carousel-o/lib/carousel/owl-carousel-o-config';
 import { LanguageService } from '../../../language/services/language.service';
 import { Subject, timer } from 'rxjs';

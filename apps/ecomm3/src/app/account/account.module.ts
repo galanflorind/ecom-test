@@ -4,16 +4,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { AccountRoutingModule } from './account-routing.module';
 import { SharedModule } from '../shared/shared.module';
-import { LayoutComponent } from './components/layout/layout.component';
-import { PageAddressesComponent } from './pages/page-addresses/page-addresses.component';
-import { PageDashboardComponent } from './pages/page-dashboard/page-dashboard.component';
-import { PageEditAddressComponent } from './pages/page-edit-address/page-edit-address.component';
-import { PageLoginComponent } from './pages/page-login/page-login.component';
-import { PageInvoicesComponent } from './pages/page-invoices/page-invoices.component';
-import { PagePasswordComponent } from './pages/page-password/page-password.component';
-import { PageProfileComponent } from './pages/page-profile/page-profile.component';
-import { PageRegisterComponent } from "./pages/page-register/page-register.component";
-import { PageForgotPasswordComponent } from "./pages/page-forgot-password/page-forgot-password.component";
+import { LayoutComponent } from './layout/layout.component';
+import { PageAddressesComponent } from './page-addresses/page-addresses.component';
+import { PageDashboardComponent } from './page-dashboard/page-dashboard.component';
+import { PageEditAddressComponent } from './page-edit-address/page-edit-address.component';
+import { PageLoginComponent } from './page-login/page-login.component';
+import { PageInvoicesComponent } from './page-invoices/page-invoices.component';
+import { PagePasswordComponent } from './page-password/page-password.component';
+import { PageProfileComponent } from './page-profile/page-profile.component';
+import { PageRegisterComponent } from "./page-register/page-register.component";
+import { PageForgotPasswordComponent } from "./page-forgot-password/page-forgot-password.component";
 //component
 
 @NgModule({

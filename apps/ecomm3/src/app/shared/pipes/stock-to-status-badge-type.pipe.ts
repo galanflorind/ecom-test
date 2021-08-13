@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { StatusBadgeType } from '../components/status-badge/status-badge.component';
+import { StatusBadgeType } from '../status-badge/status-badge.component';
 
 @Pipe({
     name: 'stockToStatusBadgeType',

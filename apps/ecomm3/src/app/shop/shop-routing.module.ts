@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { PageCartComponent } from './pages/page-cart/page-cart.component';
-import { PageCheckoutComponent } from './pages/page-checkout/page-checkout.component';
-import { PageCompareComponent } from './pages/page-compare/page-compare.component';
-import { PageProductComponent } from './pages/page-product/page-product.component';
-import { PageShopComponent } from './pages/page-shop/page-shop.component';
-import { PageTrackOrderComponent } from './pages/page-track-order/page-track-order.component';
-import { PageWishlistComponent } from './pages/page-wishlist/page-wishlist.component';
+import { PageCartComponent } from './page-cart/page-cart.component';
+import { PageCheckoutComponent } from './page-checkout/page-checkout.component';
+import { PageCompareComponent } from './page-compare/page-compare.component';
+import { PageProductComponent } from './page-product/page-product.component';
+import { PageShopComponent } from './page-shop/page-shop.component';
+import { PageTrackOrderComponent } from './page-track-order/page-track-order.component';
+import { PageWishlistComponent } from './page-wishlist/page-wishlist.component';
 import { NaoUserPermissionsGuard } from "@naologic/nao-user-access";
 
 

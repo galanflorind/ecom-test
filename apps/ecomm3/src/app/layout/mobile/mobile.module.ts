@@ -9,12 +9,12 @@ import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '../../shared/shared.module';
 
 // components
-import { MobileHeaderComponent } from './components/mobile-header/mobile-header.component';
-import { MobileMenuComponent } from './components/mobile-menu/mobile-menu.component';
-import { MobileMenuIndicatorsComponent } from './components/mobile-menu-indicators/mobile-menu-indicators.component';
-import { MobileMenuLinksComponent } from './components/mobile-menu-links/mobile-menu-links.component';
-import { MobileMenuPanelComponent } from './components/mobile-menu-panel/mobile-menu-panel.component';
-import { MobileMenuSettingsComponent } from './components/mobile-menu-settings/mobile-menu-settings.component';
+import { MobileHeaderComponent } from './mobile-header/mobile-header.component';
+import { MobileMenuComponent } from './mobile-menu/mobile-menu.component';
+import { MobileMenuIndicatorsComponent } from './mobile-menu-indicators/mobile-menu-indicators.component';
+import { MobileMenuLinksComponent } from './mobile-menu-links/mobile-menu-links.component';
+import { MobileMenuPanelComponent } from './mobile-menu-panel/mobile-menu-panel.component';
+import { MobileMenuSettingsComponent } from './mobile-menu-settings/mobile-menu-settings.component';
 
 
 @NgModule({

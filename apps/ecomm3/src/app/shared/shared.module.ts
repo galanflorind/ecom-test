@@ -16,28 +16,28 @@ import { CurrencyModule } from './_parts/currency/currency.module';
 import { RadioModule } from './_parts/radio/radio.module';
 
 // components
-import { AddressCardComponent } from './components/address-card/address-card.component';
-import { AddressFormComponent } from './components/address-form/address-form.component';
-import { ArrowComponent } from './components/arrow/arrow.component';
-import { BlockHeaderComponent } from './components/block-header/block-header.component';
-import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
-import { DecorComponent } from './components/decor/decor.component';
-import { IconComponent } from './components/icon/icon.component';
-import { InputNumberComponent } from './components/input-number/input-number.component';
-import { LoadingBarComponent } from './components/loading-bar/loading-bar.component';
-import { PaginationComponent } from './components/pagination/pagination.component';
-import { ProductCardComponent } from './components/product-card/product-card.component';
-import { ProductVariantsComponent } from './components/product-variants/product-variants.component';
-import { ProductGalleryComponent } from './components/product-gallery/product-gallery.component';
-import { QuickViewComponent } from './components/quickview/quick-view.component';
-import { RatingComponent } from './components/rating/rating.component';
-import { RegisterFormComponent } from './components/register-form/register-form.component';
-import { SectionHeaderComponent } from './components/section-header/section-header.component';
-import { StatusBadgeComponent } from './components/status-badge/status-badge.component';
-import { TermsComponent } from './components/terms/terms.component';
-import { TermsModalComponent } from './components/terms-modal/terms-modal.component';
-import { TimerComponent } from './components/timer/timer.component';
-import { WidgetCategoriesComponent } from './widgets/widget-categories/widget-categories.component';
+import { AddressCardComponent } from './address-card/address-card.component';
+import { AddressFormComponent } from './address-form/address-form.component';
+import { ArrowComponent } from './arrow/arrow.component';
+import { BlockHeaderComponent } from './block-header/block-header.component';
+import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
+import { DecorComponent } from './decor/decor.component';
+import { IconComponent } from './icon/icon.component';
+import { InputNumberComponent } from './input-number/input-number.component';
+import { LoadingBarComponent } from './loading-bar/loading-bar.component';
+import { PaginationComponent } from './pagination/pagination.component';
+import { ProductCardComponent } from './product-card/product-card.component';
+import { ProductVariantsComponent } from './product-variants/product-variants.component';
+import { ProductGalleryComponent } from './product-gallery/product-gallery.component';
+import { QuickViewComponent } from './quickview/quick-view.component';
+import { RatingComponent } from './rating/rating.component';
+import { RegisterFormComponent } from './register-form/register-form.component';
+import { SectionHeaderComponent } from './section-header/section-header.component';
+import { StatusBadgeComponent } from './status-badge/status-badge.component';
+import { TermsComponent } from './terms/terms.component';
+import { TermsModalComponent } from './terms-modal/terms-modal.component';
+import { TimerComponent } from './timer/timer.component';
+import { WidgetCategoriesComponent } from './widget-categories/widget-categories.component';
 
 // directives
 import { AddToCartDirective } from './directives/add-to-cart.directive';
@@ -61,9 +61,17 @@ import { HasErrorPipe } from './pipes/has-error.pipe';
 import { IsInvalidPipe } from './pipes/is-invalid.pipe';
 import { StockToStatusBadgeTextPipe } from './pipes/stock-to-status-badge-text.pipe';
 import { StockToStatusBadgeTypePipe } from './pipes/stock-to-status-badge-type.pipe';
-import { AvatarIconComponent } from "./components/avatar-icon/avatar-icon.component";
+import { AvatarIconComponent } from "./avatar-icon/avatar-icon.component";
 import {ShowIfLoggedInDirective} from "./directives/show-if-logged-in.directive";
 import {CheckImageFallbackPipe} from "./pipes/check-image-fallback.pipe";
+import { BlockBrandsComponent } from './_parts/blocks/block-brands/block-brands.component';
+import { BlockCategoriesComponent } from './_parts/blocks/block-categories/block-categories.component';
+import { BlockFeaturesComponent } from './_parts/blocks/block-features/block-features.component';
+import { BlockProductsCarouselComponent } from './_parts/blocks/block-products-carousel/block-products-carousel.component';
+import { BlockProductsColumnsComponent } from './_parts/blocks/block-products-columns/block-products-columns.component';
+import { BlockSaleComponent } from './_parts/blocks/block-sale/block-sale.component';
+import { BlockSlideshowComponent } from './_parts/blocks/block-slideshow/block-slideshow.component';
+import { FeaturedProductsGridComponent } from './_parts/blocks/featured-products-grid/featured-products-grid.component';
 
 
 @NgModule({
@@ -113,7 +121,16 @@ import {CheckImageFallbackPipe} from "./pipes/check-image-fallback.pipe";
         StockToStatusBadgeTypePipe,
         AvatarIconComponent,
         ShowIfLoggedInDirective,
-        CheckImageFallbackPipe
+        CheckImageFallbackPipe,
+        // blocks
+        BlockBrandsComponent,
+        BlockCategoriesComponent,
+        BlockFeaturesComponent,
+        BlockProductsCarouselComponent,
+        BlockProductsColumnsComponent,
+        BlockSaleComponent,
+        BlockSlideshowComponent,
+        FeaturedProductsGridComponent
     ],
     exports: [
         // modules
@@ -163,7 +180,16 @@ import {CheckImageFallbackPipe} from "./pipes/check-image-fallback.pipe";
         StockToStatusBadgeTypePipe,
         AvatarIconComponent,
         ShowIfLoggedInDirective,
-        CheckImageFallbackPipe
+        CheckImageFallbackPipe,
+        // blocks
+        BlockBrandsComponent,
+        BlockCategoriesComponent,
+        BlockFeaturesComponent,
+        BlockProductsCarouselComponent,
+        BlockProductsColumnsComponent,
+        BlockSaleComponent,
+        BlockSlideshowComponent,
+        FeaturedProductsGridComponent
     ],
     imports: [
         // modules (angular)

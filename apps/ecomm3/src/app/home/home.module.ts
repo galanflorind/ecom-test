@@ -3,8 +3,7 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { HomeRoutingModule } from './home-routing.module';
 import { SharedModule } from '../shared/shared.module';
-import { HomeComponent } from './pages/home/home.component';
-import { BlocksModule } from '../shared/_parts/blocks/blocks.module';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
     declarations: [
@@ -14,7 +13,6 @@ import { BlocksModule } from '../shared/_parts/blocks/blocks.module';
         CommonModule,
         TranslateModule.forChild(),
         HomeRoutingModule,
-        BlocksModule,
         SharedModule
     ],
 })

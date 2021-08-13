@@ -4,8 +4,8 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '../../shared/shared.module';
 import { FooterComponent } from './footer.component';
-import { LinksComponent } from './components/links/links.component';
-import { NewsletterComponent } from './components/newsletter/newsletter.component';
+import { LinksComponent } from './links/links.component';
+import { NewsletterComponent } from './newsletter/newsletter.component';
 
 @NgModule({
     declarations: [

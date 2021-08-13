@@ -10,17 +10,17 @@ import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '../../shared/shared.module';
 
 // components
-import { AccountMenuComponent } from './components/account-menu/account-menu.component';
-import { DepartmentsComponent } from './components/departments/departments.component';
-import { DropcartComponent } from './components/dropcart/dropcart.component';
+import { AccountMenuComponent } from './account-menu/account-menu.component';
+import { DepartmentsComponent } from './departments/departments.component';
+import { DropcartComponent } from './dropcart/dropcart.component';
 import { HeaderComponent } from './header.component';
-import { IndicatorComponent } from './components/indicator/indicator.component';
-import { LogoComponent } from './components/logo/logo.component';
-import { MainMenuComponent } from './components/main-menu/main-menu.component';
-import { MegamenuComponent } from './components/megamenu/megamenu.component';
-import { MenuComponent } from './components/menu/menu.component';
-import { SearchComponent } from './components/search/search.component';
-import { TopbarComponent } from './components/topbar/topbar.component';
+import { IndicatorComponent } from './indicator/indicator.component';
+import { LogoComponent } from './logo/logo.component';
+import { MainMenuComponent } from './main-menu/main-menu.component';
+import { MegamenuComponent } from './megamenu/megamenu.component';
+import { MenuComponent } from './menu/menu.component';
+import { SearchComponent } from './search/search.component';
+import { TopbarComponent } from './topbar/topbar.component';
 
 @NgModule({
     declarations: [
