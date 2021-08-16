@@ -4,7 +4,7 @@ import { UrlService } from '../../../services/url.service';
 import { NaoUserAccessService, NaoUsersInterface } from "@naologic/nao-user-access";
 import { ToastrService } from "ngx-toastr";
 import { TranslateService } from "@ngx-translate/core";
-import { UserProfileService } from "../../account.profile.service";
+import { AccountProfileService } from "../../account-profile.service";
 
 @Component({
     selector: 'app-page-addresses',
@@ -22,7 +22,7 @@ export class PageAddressesComponent implements OnInit, OnDestroy {
         public url: UrlService,
         private toastr: ToastrService,
         private translate: TranslateService,
-        private userProfileService: UserProfileService,
+        private userProfileService: AccountProfileService,
     ) { }
 
     public ngOnInit(): void {

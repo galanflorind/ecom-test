@@ -1,6 +1,6 @@
 import { Component, EventEmitter, HostBinding, Input, Output, TemplateRef } from '@angular/core';
 import { MobileMenuLink } from '../../../shared/interfaces/mobile-menu-link';
-import { MobileMenuService } from '../../layout.mobile-menu.service';
+import { LayoutMobileMenuService } from '../../layout-mobile-menu.service';
 
 @Component({
     selector: 'app-mobile-menu-links',
@@ -15,7 +15,7 @@ export class MobileMenuLinksComponent {
     @HostBinding('class.mobile-menu__links') classMobileMenuLinks = true;
 
     constructor(
-        private menu: MobileMenuService,
+        private menu: LayoutMobileMenuService,
     ) { }
 
     onItemClick(event: MouseEvent, item: MobileMenuLink, panel: TemplateRef<any>): void {

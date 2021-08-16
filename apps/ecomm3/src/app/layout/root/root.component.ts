@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DesktopHeaderVariant, HeaderService, MobileHeaderVariant } from '../layout.header.service';
+import { DesktopHeaderVariant, LayoutHeaderService, MobileHeaderVariant } from '../layout-header.service';
 import { takeUntil } from 'rxjs/operators';
 import { Observable, Subject } from 'rxjs';
 
@@ -21,7 +21,7 @@ export class RootComponent implements OnInit, OnDestroy {
 
     constructor(
         private route: ActivatedRoute,
-        public header: HeaderService,
+        public header: LayoutHeaderService,
     ) { }
 
     public ngOnInit(): void {

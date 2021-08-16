@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { ShopSidebarService } from '../shop.sidebar.service';
+import { ShopSidebarService } from '../shop-sidebar.service';
 import { ShopService } from '../shop.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { merge, Observable, of, Subject, Subscription } from 'rxjs';

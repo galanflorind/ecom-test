@@ -7,7 +7,7 @@ import { NaoUserAccessService } from "@naologic/nao-user-access";
 @Injectable({
     providedIn: 'root'
 })
-export class NaoUsersAuthService<T = any> {
+export class AccountAuthService<T = any> {
     public readonly api = { root: 'users' };
     public readonly userAccessOptions;
 

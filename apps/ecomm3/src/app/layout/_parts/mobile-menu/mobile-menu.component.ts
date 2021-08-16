@@ -15,7 +15,7 @@ import {
     ViewChild,
     ViewContainerRef,
 } from '@angular/core';
-import { MobileMenuService } from '../../layout.mobile-menu.service';
+import { LayoutMobileMenuService } from '../../layout-mobile-menu.service';
 import { MobileMenuPanelComponent } from '../mobile-menu-panel/mobile-menu-panel.component';
 import { fromEvent, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -61,7 +61,7 @@ export class MobileMenuComponent implements OnInit, OnDestroy, AfterViewInit, Af
         @Inject(PLATFORM_ID) private platformId: any,
         private cfr: ComponentFactoryResolver,
         private zone: NgZone,
-        public menu: MobileMenuService,
+        public menu: LayoutMobileMenuService,
         public appService: AppService,
     ) { }
 

@@ -32,9 +32,7 @@ import { StatusBadgeComponent } from './_parts/status-badge/status-badge.compone
 import { TermsComponent } from './_parts/terms/terms.component';
 import { AvatarIconComponent } from "./_parts/avatar-icon/avatar-icon.component";
 import { BlockBrandsComponent } from '../shop/_parts/block-brands/block-brands.component';
-import { BlockFeaturesComponent } from '../home/_parts/block-features/block-features.component';
 import { BlockProductsCarouselComponent } from '../shop/_parts/block-products-carousel/block-products-carousel.component';
-import { FeaturedProductsGridComponent } from '../home/_parts/featured-products-grid/featured-products-grid.component';
 import { CheckboxComponent } from './_parts/checkbox/checkbox.component';
 import { RadioButtonComponent } from './_parts/radio-button/radio-button.component';
 
@@ -90,9 +88,7 @@ import {CheckImageFallbackPipe} from "./pipes/check-image-fallback.pipe";
         CheckboxComponent,
         RadioButtonComponent,
         BlockBrandsComponent,
-        BlockFeaturesComponent,
         BlockProductsCarouselComponent,
-        FeaturedProductsGridComponent,
         AvatarIconComponent,
         // directives
         AddToCartDirective,
@@ -145,9 +141,7 @@ import {CheckImageFallbackPipe} from "./pipes/check-image-fallback.pipe";
         CheckboxComponent,
         RadioButtonComponent,
         BlockBrandsComponent,
-        BlockFeaturesComponent,
         BlockProductsCarouselComponent,
-        FeaturedProductsGridComponent,
         AvatarIconComponent,
         // directives
         AddToCartDirective,

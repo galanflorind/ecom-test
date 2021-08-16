@@ -1,5 +1,5 @@
 import { Component, HostBinding, Input, TemplateRef } from '@angular/core';
-import { MobileMenuService } from '../../layout.mobile-menu.service';
+import { LayoutMobileMenuService } from '../../layout-mobile-menu.service';
 
 @Component({
     selector: 'app-mobile-menu-panel',
@@ -20,6 +20,6 @@ export class MobileMenuPanelComponent {
     }
 
     constructor(
-        public menu: MobileMenuService,
+        public menu: LayoutMobileMenuService,
     ) { }
 }

@@ -1,5 +1,5 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
-import { MobileMenuService } from '../../layout.mobile-menu.service';
+import { LayoutMobileMenuService } from '../../layout-mobile-menu.service';
 import { CurrencyService } from '../../../shared/_parts/currency/services/currency.service';
 import { MobileMenuLink } from '../../../shared/interfaces/mobile-menu-link';
 import { LanguageService } from '../../../shared/language/services/language.service';
@@ -16,7 +16,7 @@ export class MobileMenuSettingsComponent implements OnInit {
     @HostBinding('class.mobile-menu__settings-list') classMobileMenuSettingsList = true;
 
     constructor(
-        public menu: MobileMenuService,
+        public menu: LayoutMobileMenuService,
         public language: LanguageService,
         public currency: CurrencyService,
     ) { }

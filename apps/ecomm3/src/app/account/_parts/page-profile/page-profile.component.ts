@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { NaoUserAccessService } from "@naologic/nao-user-access";
 import { Router } from "@angular/router";
-import { UserProfileService } from "../../account.profile.service";
+import { AccountProfileService } from "../../account-profile.service";
 
 @Component({
     selector: 'app-page-profile',
@@ -25,7 +25,7 @@ export class PageProfileComponent implements OnInit, OnDestroy {
         private toastr: ToastrService,
         private router: Router,
         private translate: TranslateService,
-        private userProfileService: UserProfileService,
+        private userProfileService: AccountProfileService,
         private naoUsersService: NaoUserAccessService,
     ) { }
 

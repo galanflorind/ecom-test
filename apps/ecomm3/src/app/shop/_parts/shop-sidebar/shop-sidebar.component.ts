@@ -1,5 +1,5 @@
 import { Component, HostBinding, Inject, Input, OnDestroy, PLATFORM_ID } from '@angular/core';
-import { ShopSidebarService } from '../../shop.sidebar.service';
+import { ShopSidebarService } from '../../shop-sidebar.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';

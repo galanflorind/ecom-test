@@ -1,6 +1,6 @@
 import { Component, HostBinding } from '@angular/core';
 import { MainMenuLink } from '../../../shared/interfaces/main-menu-link';
-import { HeaderService } from '../../layout.header.service';
+import { LayoutHeaderService } from '../../layout-header.service';
 import { mainMenu } from './main-menu.static';
 
 @Component({
@@ -16,7 +16,7 @@ export class MainMenuComponent {
     @HostBinding('class.main-menu') classMainMenu = true;
 
     constructor(
-        public header: HeaderService,
+        public header: LayoutHeaderService,
     ) {}
 
     onItemEnter(item: any): void {

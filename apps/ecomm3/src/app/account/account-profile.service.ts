@@ -7,7 +7,7 @@ import { NaoDocumentInterface } from "@naologic/nao-interfaces";
 @Injectable({
     providedIn: 'root'
 })
-export class UserProfileService<T = any> {
+export class AccountProfileService<T = any> {
     public readonly api = { root: 'users' };
     public readonly userAccessOptions;
 

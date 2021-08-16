@@ -9,7 +9,7 @@ import {
     PLATFORM_ID,
     ViewChild,
 } from '@angular/core';
-import { MobileMenuService } from '../../layout.mobile-menu.service';
+import { LayoutMobileMenuService } from '../../layout-mobile-menu.service';
 import { Observable, Subject } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 import { fromOutsideClick } from '../../../shared/functions/rxjs/from-outside-click';
@@ -44,7 +44,7 @@ export class MobileHeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         @Inject(PLATFORM_ID) private platformId: any,
         private zone: NgZone,
         private translate: TranslateService,
-        public menu: MobileMenuService,
+        public menu: LayoutMobileMenuService,
         public cart: CartService,
         public wishlist: WishlistService,
         private page: ShopService,

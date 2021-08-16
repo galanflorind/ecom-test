@@ -6,7 +6,7 @@ import { generateRandomString } from "@naologic/nao-utils";
 import { NaoUserAccessService, NaoUsersInterface } from "@naologic/nao-user-access";
 import { ActiveCountryList } from "../../../app.locale";
 import { TranslateService } from "@ngx-translate/core";
-import { UserProfileService } from "../../account.profile.service";
+import { AccountProfileService } from "../../account-profile.service";
 import { ToastrService } from "ngx-toastr";
 
 @Component({
@@ -40,7 +40,7 @@ export class PageEditAddressComponent implements OnInit, OnDestroy {
         private naoUsersService: NaoUserAccessService,
         private toastr: ToastrService,
         private translate: TranslateService,
-        private userProfileService: UserProfileService,
+        private userProfileService: AccountProfileService,
     ) {
     }
 

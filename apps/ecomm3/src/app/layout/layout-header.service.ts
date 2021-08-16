@@ -23,7 +23,7 @@ export type MobileHeaderVariant = 'one' | 'two';
 @Injectable({
     providedIn: 'root',
 })
-export class HeaderService {
+export class LayoutHeaderService {
     private desktopVariantSubject$: BehaviorSubject<DesktopHeaderVariant|null> = new BehaviorSubject<DesktopHeaderVariant|null>(null);
 
     private mobileVariantSubject$: BehaviorSubject<MobileHeaderVariant|null> = new BehaviorSubject<MobileHeaderVariant|null>(null);

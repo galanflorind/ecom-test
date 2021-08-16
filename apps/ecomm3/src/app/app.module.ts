@@ -23,8 +23,8 @@ import { ShopService } from "./shop/shop.service";
 import { NaoUserAccessModule } from "@naologic/nao-user-access";
 import { ActiveCountryList, ActiveCurrencyList, ActiveLanguageList } from "./app.locale";
 import { NaoLocaleModule } from "@naologic/nao-locale";
-import {NaoUsersAuthService} from "./account/account.auth.service";
-import {UserProfileService} from "./account/account.profile.service";
+import { AccountAuthService } from "./account/account-auth.service";
+import { AccountProfileService } from "./account/account-profile.service";
 
 @NgModule({
     declarations: [
@@ -107,8 +107,8 @@ import {UserProfileService} from "./account/account.profile.service";
         ECommerceService,
         ShopService,
         AppService,
-        NaoUsersAuthService,
-        UserProfileService
+        AccountAuthService,
+        AccountProfileService
     ]
 })
 export class AppModule {

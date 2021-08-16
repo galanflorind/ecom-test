@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from "@angular/router";
-import { UserProfileService } from "../../account.profile.service";
+import { AccountProfileService } from "../../account-profile.service";
 
 @Component({
     selector: 'app-page-password',
@@ -22,7 +22,7 @@ export class PagePasswordComponent implements OnInit, OnDestroy {
         private translate: TranslateService,
         private fb: FormBuilder,
         private router: Router,
-        private userProfileService: UserProfileService,
+        private userProfileService: AccountProfileService,
     ) { }
 
     public ngOnInit(): void {

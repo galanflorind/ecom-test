@@ -10,7 +10,7 @@ export interface OpenPanelEvent {
 @Injectable({
     providedIn: 'root',
 })
-export class MobileMenuService {
+export class LayoutMobileMenuService {
     private isOpenSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
     isOpen$: Observable<boolean> = this.isOpenSubject.asObservable();

@@ -1,7 +1,7 @@
 import { Component, HostBinding } from '@angular/core';
 import { CartService } from '../../../services/cart.service';
 import { WishlistService } from '../../../services/wishlist.service';
-import { MobileMenuService } from '../../layout.mobile-menu.service';
+import { LayoutMobileMenuService } from '../../layout-mobile-menu.service';
 
 @Component({
     selector: 'app-mobile-menu-indicators',
@@ -12,7 +12,7 @@ export class MobileMenuIndicatorsComponent {
     @HostBinding('class.mobile-menu__indicators') classMobileMenuIndicators = true;
 
     constructor(
-        public menu: MobileMenuService,
+        public menu: LayoutMobileMenuService,
         public cart: CartService,
         public wishlist: WishlistService,
     ) { }

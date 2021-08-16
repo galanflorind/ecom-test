@@ -1,6 +1,6 @@
 import { Component, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
 import { PageShopGridLayout, PageShopLayout } from '../../page-shop/page-shop.component';
-import { ShopSidebarService } from '../../shop.sidebar.service';
+import { ShopSidebarService } from '../../shop-sidebar.service';
 import { ShopService } from '../../shop.service';
 import { FormControl } from '@angular/forms';
 import { merge, Observable, Subject } from 'rxjs';

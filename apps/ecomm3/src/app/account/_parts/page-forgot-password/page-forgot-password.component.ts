@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { NaoUserAccessService } from "@naologic/nao-user-access";
-import { UserProfileService } from "../../account.profile.service";
+import { AccountProfileService } from "../../account-profile.service";
 
 @Component({
     selector: 'app-page-forgot-password',
@@ -20,7 +20,7 @@ export class PageForgotPasswordComponent implements OnInit, OnDestroy {
         private fb: FormBuilder,
         private router: Router,
         private naoUsersService: NaoUserAccessService,
-        private userProfileService: UserProfileService,
+        private userProfileService: AccountProfileService,
     ) { }
 
     public ngOnInit(): void {

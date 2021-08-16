@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { mustMatchValidator } from '../../../shared/functions/validators/must-match';
 import { NaoUserAccessService } from "@naologic/nao-user-access";
-import { NaoUsersAuthService } from "../../account.auth.service";
+import { AccountAuthService } from "../../account-auth.service";
 import { checkPasswordStrength } from '../../../shared/functions/utils';
 
 
@@ -23,7 +23,7 @@ export class PageRegisterComponent implements OnInit, OnDestroy {
         private fb: FormBuilder,
         private router: Router,
         private naoUsersService: NaoUserAccessService,
-        private naoUsersAuthService: NaoUsersAuthService,
+        private naoUsersAuthService: AccountAuthService,
     ) { }
 
     public ngOnInit(): void {
