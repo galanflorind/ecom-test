@@ -5,41 +5,8 @@ import { Subject } from 'rxjs';
 import { mustMatchValidator } from '../../../shared/functions/validators/must-match';
 import { NaoUserAccessService } from "@naologic/nao-user-access";
 import { NaoUsersAuthService } from "../../account.auth.service";
+import { checkPasswordStrength } from '../../../shared/functions/utils';
 
-
-
-/**
- * todo: move to utils
- * Check password strength
- *  > Checks if you have at least one lowercase character
- *                                one uppercase character
- *                                one number
- */
-function checkPasswordStrength(options = { lowerCase: 1, upperCase: 1, numeric: 1 }): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-        // -->Check:
-        if (control.pristine || control.value === null) {
-            return null;
-        }
-
-        // -->Test: string
-        const lowercaseCount = control.value.match(/[a-z]/g)?.length ?? 0;
-        const uppercaseCount = control.value.match(/[A-Z]/g)?.length ?? 0;
-        const numericCount = control.value.match(/[0-9]/g)?.length ?? 0;
-
-        // -->Check: if the options are meet
-        if (lowercaseCount < options.lowerCase ||
-            uppercaseCount < options.upperCase ||
-            numericCount < options.numeric) {
-            // -->Mark: as touched
-            control.markAsTouched();
-            // -->Return
-            return { passwordNotStrongEnough: true }
-        }
-
-        return null;
-    };
-}
 
 @Component({
     selector: 'app-page-register',

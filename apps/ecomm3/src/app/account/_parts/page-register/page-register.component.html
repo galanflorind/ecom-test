@@ -109,9 +109,8 @@
                                     formControlName="password"
                                 >
                                 <div class="invalid-feedback">
-                                    <!--TODO: move to en.json after structure change-->
                                     <div *ngIf="formGroup.controls.password|hasError:'passwordNotStrongEnough'">
-                                        Please ensure your password contains at least one lowercase letter, one uppercase letter and one number.
+                                        {{ 'ERROR_PASSWORD_STRENGTH' | translate }}
                                     </div>
                                     <div *ngIf="formGroup.controls.password|hasError:'required'">
                                         {{ 'ERROR_FORM_REQUIRED' | translate }}
