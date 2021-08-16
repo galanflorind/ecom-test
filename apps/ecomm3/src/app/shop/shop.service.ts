@@ -4,8 +4,8 @@ import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { Product } from '../shared/interfaces/product';
 import { GetProductsListOptions } from '../shared/interfaces/shop';
 import { ActiveFilter, Filter } from '../shared/interfaces/filter';
-import { filterHandlers } from './filters/filter-handlers';
-import { FilterHandler } from './filters/filter.handler';
+import { filterHandlers } from './_parts/filters/filter-handlers';
+import { FilterHandler } from './_parts/filters/filter.handler';
 
 
 @Injectable()

@@ -1,14 +1,8 @@
 import { NgModule } from '@angular/core';
-
-// modules (angular)
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-// modules (third-party)
 import { TranslateModule } from '@ngx-translate/core';
-// modules
 import { SharedModule } from '../../shared/shared.module';
-
-// components
 import { AccountMenuComponent } from './account-menu/account-menu.component';
 import { DepartmentsComponent } from './departments/departments.component';
 import { DropcartComponent } from './dropcart/dropcart.component';
@@ -25,7 +19,12 @@ import { MobileMenuIndicatorsComponent } from './mobile-menu-indicators/mobile-m
 import { MobileMenuLinksComponent } from './mobile-menu-links/mobile-menu-links.component';
 import { MobileMenuPanelComponent } from './mobile-menu-panel/mobile-menu-panel.component';
 import { MobileMenuSettingsComponent } from './mobile-menu-settings/mobile-menu-settings.component';
+import { DecorComponent } from '../_parts/decor/decor.component';
+import { LoadingBarComponent } from '../_parts/loading-bar/loading-bar.component';
+import { QuickViewComponent } from '../_parts/quickview/quick-view.component';
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 
 @NgModule({
@@ -47,6 +46,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         MobileMenuLinksComponent,
         MobileMenuPanelComponent,
         MobileMenuSettingsComponent,
+        DecorComponent,
+        LoadingBarComponent,
+        QuickViewComponent
     ],
     exports: [
         MobileHeaderComponent,
@@ -68,16 +70,17 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         MobileMenuLinksComponent,
         MobileMenuPanelComponent,
         MobileMenuSettingsComponent,
+        DecorComponent,
+        LoadingBarComponent,
+        QuickViewComponent
     ],
     imports: [
-        // modules (angular)
         CommonModule,
         RouterModule,
         FormsModule,
         ReactiveFormsModule,
-        // modules (third-party)
         TranslateModule.forChild(),
-        // modules
+        ModalModule.forChild(),
         SharedModule,
     ],
 })

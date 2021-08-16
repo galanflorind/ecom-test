@@ -1,7 +1,7 @@
 import { Component, forwardRef, HostBinding, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { RangeFilter } from '../../../shared/interfaces/filter';
-import { LanguageService } from '../../../shared/language/services/language.service';
+import { RangeFilter } from '../../../../shared/interfaces/filter';
+import { LanguageService } from '../../../../shared/language/services/language.service';
 import { debounceTime, filter, tap } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
 

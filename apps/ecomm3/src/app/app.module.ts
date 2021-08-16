@@ -28,16 +28,12 @@ import { AccountProfileService } from "./account/account-profile.service";
 
 @NgModule({
     declarations: [
-        // components
         AppComponent,
         RootComponent,
-        // pages
         PageNotFoundComponent,
     ],
     imports: [
-        // modules (angular)
         BrowserModule.withServerTransition({ appId: 'serverApp' }),
-        // modules (third-party)
         ModalModule.forRoot(),
         ToastrModule.forRoot({
             positionClass: 'toast-bottom-left',
@@ -58,8 +54,6 @@ import { AccountProfileService } from "./account/account-profile.service";
             defaultLocaleDate: 'en-ie'
         }),
 
-
-        // modules
         AppRoutingModule,
         // todo: remove this and use or locale???
         // todo: remove this and use or locale???

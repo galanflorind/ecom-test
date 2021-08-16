@@ -1,6 +1,6 @@
 import { Component, HostBinding, Input } from '@angular/core';
-import { CategoryFilter } from '../../../shared/interfaces/filter';
-import { UrlService } from '../../../services/url.service';
+import { CategoryFilter } from '../../../../shared/interfaces/filter';
+import { UrlService } from '../../../../services/url.service';
 
 @Component({
     selector: 'app-filter-category',

@@ -4,8 +4,8 @@ import { Subject } from 'rxjs';
 import { Filter } from '../../../shared/interfaces/filter';
 import { map, takeUntil } from 'rxjs/operators';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { filterHandlers } from '../../filters/filter-handlers';
-import { FilterHandler } from '../../filters/filter.handler';
+import { filterHandlers } from '../filters/filter-handlers';
+import { FilterHandler } from '../filters/filter.handler';
 
 @Component({
     selector: 'app-widget-filters',

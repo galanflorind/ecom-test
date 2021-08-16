@@ -10,17 +10,17 @@ import { ShopCategory } from '../../shared/interfaces/category';
 import { LanguageService } from '../../shared/language/services/language.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ProductsList } from '../../shared/interfaces/list';
-import { filterHandlers } from '../filters/filter-handlers';
+import { filterHandlers } from '../_parts/filters/filter-handlers';
 import { BreadcrumbItem } from '../_parts/breadcrumb/breadcrumb.component';
 import { Filter } from '../../shared/interfaces/filter';
-import { FilterHandler } from '../filters/filter.handler';
+import { FilterHandler } from '../_parts/filters/filter.handler';
 import { ECommerceService } from '../../e-commerce.service';
 import { AppService } from '../../app.service';
 import {
     buildCategoriesFilter,
     buildManufacturerFilter,
     buildPriceFilter
-} from '../filters/filter.utils.static';
+} from '../_parts/filters/filter.utils.static';
 import { getBreadcrumbs } from '../../shared/functions/utils';
 import { ToastrService } from 'ngx-toastr';
 

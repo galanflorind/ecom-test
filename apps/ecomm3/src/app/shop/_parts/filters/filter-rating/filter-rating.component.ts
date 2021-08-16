@@ -1,31 +1,31 @@
 import { Component, forwardRef, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
+import { RatingFilter, RatingFilterItem } from '../../../../shared/interfaces/filter';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { RadioFilter } from '../../../shared/interfaces/filter';
-import { filter, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
 
 @Component({
-    selector: 'app-filter-radio',
-    templateUrl: './filter-radio.component.html',
-    styleUrls: ['./filter-radio.component.scss'],
+    selector: 'app-filter-rating',
+    templateUrl: './filter-rating.component.html',
+    styleUrls: ['./filter-rating.component.scss'],
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => FilterRadioComponent),
+            useExisting: forwardRef(() => FilterRatingComponent),
             multi: true,
         },
     ],
 })
-export class FilterRadioComponent implements OnInit, OnDestroy, ControlValueAccessor {
+export class FilterRatingComponent implements OnInit, OnDestroy, ControlValueAccessor {
     private destroy$: Subject<void> = new Subject<void>();
 
-    value: any;
+    value: any[] = [];
 
-    control: FormControl = new FormControl();
+    control: FormControl = new FormControl([]);
 
-    @Input() options!: RadioFilter;
+    @Input() options!: RatingFilter;
 
-    @HostBinding('class.filter-list') classFilterList = true;
+    @HostBinding('class.filter-rating') classFilterRating = true;
 
     changeFn: (_: number) => void = () => {};
 
@@ -37,10 +37,7 @@ export class FilterRadioComponent implements OnInit, OnDestroy, ControlValueAcce
         this.control.valueChanges.pipe(
             filter(value => value !== this.value),
             takeUntil(this.destroy$),
-        ).subscribe(value => {
-            this.value = value;
-            this.changeFn(value);
-        });
+        ).subscribe(value => this.changeFn(value));
     }
 
     ngOnDestroy(): void {
@@ -58,5 +55,9 @@ export class FilterRadioComponent implements OnInit, OnDestroy, ControlValueAcce
 
     writeValue(obj: any): void {
         this.control.setValue(this.value = obj, { emitEvent: false });
+    }
+
+    trackByRating(index: number, item: RatingFilterItem): number {
+        return item.rating;
     }
 }

@@ -13,6 +13,7 @@ import { PageLoginComponent } from "./page-login/page-login.component";
 import { PagePasswordComponent } from "./page-password/page-password.component";
 import { PageProfileComponent } from "./page-profile/page-profile.component";
 import { PageRegisterComponent } from "./page-register/page-register.component";
+import { AddressCardComponent } from './address-card/address-card.component';
 
 @NgModule({
     declarations: [
@@ -24,7 +25,8 @@ import { PageRegisterComponent } from "./page-register/page-register.component";
         PagePasswordComponent,
         PageProfileComponent,
         PageRegisterComponent,
-        PageForgotPasswordComponent
+        PageForgotPasswordComponent,
+        AddressCardComponent
     ],
     imports: [
         CommonModule,

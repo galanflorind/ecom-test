@@ -1,5 +1,5 @@
 import { FilterHandler } from '../filter.handler';
-import { ActiveFilterRating, RatingFilter } from '../../../shared/interfaces/filter';
+import { ActiveFilterRating, RatingFilter } from '../../../../shared/interfaces/filter';
 
 
 export class FilterRatingHandler extends FilterHandler {

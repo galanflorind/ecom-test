@@ -1,5 +1,5 @@
-import {CategoryFilter, CheckFilter, RangeFilter} from "../../shared/interfaces/filter";
-import { nameToSlug } from "../../shared/functions/utils";
+import {CategoryFilter, CheckFilter, RangeFilter} from "../../../shared/interfaces/filter";
+import { nameToSlug } from "../../../shared/functions/utils";
 
 /**
  * Prepare: categories filter

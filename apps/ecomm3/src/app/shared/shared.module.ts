@@ -1,42 +1,24 @@
 import { NgModule } from '@angular/core';
-
-// modules (angular)
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-// modules (third-party)
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
-// modules
 import { CurrencyModule } from './_parts/currency/currency.module';
-
-// components
-import { AddressCardComponent } from '../account/_parts/address-card/address-card.component';
-import { ArrowComponent } from '../shop/_parts/arrow/arrow.component';
-import { BlockHeaderComponent } from '../shop/_parts/block-header/block-header.component';
-import { BreadcrumbComponent } from '../shop/_parts/breadcrumb/breadcrumb.component';
-import { DecorComponent } from '../layout/_parts/decor/decor.component';
 import { IconComponent } from './_parts/icon/icon.component';
 import { InputNumberComponent } from './_parts/input-number/input-number.component';
-import { LoadingBarComponent } from '../layout/_parts/loading-bar/loading-bar.component';
 import { PaginationComponent } from './_parts/pagination/pagination.component';
 import { ProductCardComponent } from './_parts/product-card/product-card.component';
 import { ProductVariantsComponent } from './_parts/product-variants/product-variants.component';
 import { ProductGalleryComponent } from './_parts/product-gallery/product-gallery.component';
-import { QuickViewComponent } from '../layout/_parts/quickview/quick-view.component';
 import { RatingComponent } from './_parts/rating/rating.component';
-import { SectionHeaderComponent } from '../shop/_parts/section-header/section-header.component';
 import { StatusBadgeComponent } from './_parts/status-badge/status-badge.component';
 import { TermsComponent } from './_parts/terms/terms.component';
 import { AvatarIconComponent } from "./_parts/avatar-icon/avatar-icon.component";
-import { BlockBrandsComponent } from '../shop/_parts/block-brands/block-brands.component';
-import { BlockProductsCarouselComponent } from '../shop/_parts/block-products-carousel/block-products-carousel.component';
 import { CheckboxComponent } from './_parts/checkbox/checkbox.component';
 import { RadioButtonComponent } from './_parts/radio-button/radio-button.component';
-
-// directives
 import { AddToCartDirective } from './directives/add-to-cart.directive';
 import { AddToCompareDirective } from './directives/add-to-compare.directive';
 import { AddToWishlistDirective } from './directives/add-to-wishlist.directive';
@@ -52,8 +34,6 @@ import { CollapseItemDirective } from './directives/collapse-item.directive';
 import { CollapseContentDirective } from './directives/collapse-content.directive';
 import { CheckboxGroupDirective } from './directives/checkbox-group.directive';
 import { RadioGroupDirective } from './directives/radio-group.directive';
-
-// pipes
 import { ActiveFilterLabelPipe } from './pipes/active-filter-label.pipe';
 import { CompatibilityToStatusBadgeIconPipe } from './pipes/compatibility-to-status-badge-icon.pipe';
 import { CompatibilityToStatusBadgeTextPipe } from './pipes/compatibility-to-status-badge-text.pipe';
@@ -68,29 +48,18 @@ import {CheckImageFallbackPipe} from "./pipes/check-image-fallback.pipe";
 
 @NgModule({
     declarations: [
-        AddressCardComponent,
-        ArrowComponent,
-        BlockHeaderComponent,
-        BreadcrumbComponent,
-        DecorComponent,
         IconComponent,
         InputNumberComponent,
-        LoadingBarComponent,
         PaginationComponent,
         ProductCardComponent,
         ProductVariantsComponent,
         ProductGalleryComponent,
-        QuickViewComponent,
         RatingComponent,
-        SectionHeaderComponent,
         StatusBadgeComponent,
         TermsComponent,
         CheckboxComponent,
         RadioButtonComponent,
-        BlockBrandsComponent,
-        BlockProductsCarouselComponent,
         AvatarIconComponent,
-        // directives
         AddToCartDirective,
         AddToCompareDirective,
         AddToWishlistDirective,
@@ -106,7 +75,6 @@ import {CheckImageFallbackPipe} from "./pipes/check-image-fallback.pipe";
         CheckboxGroupDirective,
         RadioGroupDirective,
         ShowIfLoggedInDirective,
-        // pipes
         ActiveFilterLabelPipe,
         CompatibilityToStatusBadgeIconPipe,
         CompatibilityToStatusBadgeTextPipe,
@@ -119,31 +87,19 @@ import {CheckImageFallbackPipe} from "./pipes/check-image-fallback.pipe";
         CheckImageFallbackPipe
     ],
     exports: [
-        // modules
         CurrencyModule,
-        // components
-        AddressCardComponent,
-        ArrowComponent,
-        BlockHeaderComponent,
-        DecorComponent,
         IconComponent,
         InputNumberComponent,
-        LoadingBarComponent,
         PaginationComponent,
         ProductCardComponent,
         ProductVariantsComponent,
         ProductGalleryComponent,
-        QuickViewComponent,
         RatingComponent,
-        SectionHeaderComponent,
         StatusBadgeComponent,
         TermsComponent,
         CheckboxComponent,
         RadioButtonComponent,
-        BlockBrandsComponent,
-        BlockProductsCarouselComponent,
         AvatarIconComponent,
-        // directives
         AddToCartDirective,
         AddToCompareDirective,
         AddToWishlistDirective,
@@ -159,7 +115,6 @@ import {CheckImageFallbackPipe} from "./pipes/check-image-fallback.pipe";
         CheckboxGroupDirective,
         RadioGroupDirective,
         ShowIfLoggedInDirective,
-        // pipes
         ActiveFilterLabelPipe,
         CompatibilityToStatusBadgeIconPipe,
         CompatibilityToStatusBadgeTextPipe,
@@ -172,18 +127,15 @@ import {CheckImageFallbackPipe} from "./pipes/check-image-fallback.pipe";
         CheckImageFallbackPipe
     ],
     imports: [
-        // modules (angular)
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
         RouterModule,
-        // modules (third-party)
         CarouselModule,
         ModalModule.forChild(),
         ModalModule.forChild(),
         TooltipModule,
         TranslateModule.forChild(),
-        // modules
         CurrencyModule
     ],
 })
