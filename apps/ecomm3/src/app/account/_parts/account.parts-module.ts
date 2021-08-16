@@ -1,5 +1,5 @@
-import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { TranslateModule } from "@ngx-translate/core";
 import { SharedModule } from "../../shared/shared.module";
@@ -15,6 +15,7 @@ import { PageProfileComponent } from "./page-profile/page-profile.component";
 import { PageRegisterComponent } from "./page-register/page-register.component";
 import { AddressCardComponent } from './address-card/address-card.component';
 
+
 @NgModule({
     declarations: [
         PageAddressesComponent,
@@ -28,14 +29,6 @@ import { AddressCardComponent } from './address-card/address-card.component';
         PageForgotPasswordComponent,
         AddressCardComponent
     ],
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        AccountRoutingModule,
-        TranslateModule.forChild(),
-        SharedModule
-    ],
     exports: [
         PageAddressesComponent,
         PageDashboardComponent,
@@ -46,6 +39,14 @@ import { AddressCardComponent } from './address-card/address-card.component';
         PageProfileComponent,
         PageRegisterComponent,
         PageForgotPasswordComponent
+    ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        AccountRoutingModule,
+        TranslateModule.forChild(),
+        SharedModule
     ]
 })
 export class AccountPartsModule { }

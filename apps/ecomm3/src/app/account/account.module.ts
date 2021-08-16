@@ -1,8 +1,9 @@
-import { AccountRoutingModule } from './account.routing.module';
 import { NgModule } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
+import { AccountRoutingModule } from './account.routing.module';
 import { AccountPartsModule } from './_parts/account.parts-module';
 import { LayoutComponent } from './layout/layout.component';
-import { TranslateModule } from '@ngx-translate/core';
+
 
 @NgModule({
     declarations: [
@@ -12,6 +13,6 @@ import { TranslateModule } from '@ngx-translate/core';
         AccountRoutingModule,
         TranslateModule.forChild(),
         AccountPartsModule,
-    ],
+    ]
 })
 export class AccountModule { }

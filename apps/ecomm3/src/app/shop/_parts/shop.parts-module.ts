@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CarouselModule } from 'ngx-owl-carousel-o';
-import { NgxPayPalModule } from 'ngx-paypal';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { TranslateModule } from '@ngx-translate/core';
+import { CarouselModule } from 'ngx-owl-carousel-o';
+import { NgxPayPalModule } from 'ngx-paypal';
 import { SharedModule } from '../../shared/shared.module';
+import { ShopRoutingModule } from '../shop.routing.module';
 import { ProductsViewComponent } from './products-view/products-view.component';
 import { ProductTabComponent } from './product-tab/product-tab.component';
 import { ProductTabsComponent } from './product-tabs/product-tabs.component';
@@ -22,7 +23,6 @@ import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { SectionHeaderComponent } from './section-header/section-header.component';
 import { BlockBrandsComponent } from './block-brands/block-brands.component';
 import { BlockProductsCarouselComponent } from './block-products-carousel/block-products-carousel.component';
-import { ShopRoutingModule } from '../shop.routing.module';
 import { FilterCategoryComponent } from './filters/filter-category/filter-category.component';
 import { FilterCheckComponent } from './filters/filter-check/filter-check.component';
 import { FilterColorComponent } from './filters/filter-color/filter-color.component';
@@ -84,6 +84,6 @@ import { FilterRatingComponent } from './filters/filter-rating/filter-rating.com
         TranslateModule.forChild(),
         SharedModule,
         ShopRoutingModule
-    ],
+    ]
 })
 export class ShopPartsModule { }

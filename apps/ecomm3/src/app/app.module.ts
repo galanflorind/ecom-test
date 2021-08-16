@@ -1,30 +1,33 @@
-import { LayoutModule } from './layout/layout.module';
 import { NgModule } from '@angular/core';
-import { filter } from 'rxjs/operators';
 import { ViewportScroller } from '@angular/common';
 import { Router, Scroll, Event } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
+import { TranslateModule } from '@ngx-translate/core';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ToastrModule } from 'ngx-toastr';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
-import { TranslateModule } from '@ngx-translate/core';
+import { filter } from 'rxjs/operators';
+
+import { LayoutModule } from './layout/layout.module';
 import { AppRoutingModule } from './app.routing.module';
 import { CurrencyModule } from './shared/_parts/currency/currency.module';
 import { LanguageModule } from './shared/language/language.module';
 import { SharedModule } from './shared/shared.module';
-import { AppComponent } from './app.component';
-import { RootComponent } from './layout/root/root.component';
-import { PageNotFoundComponent } from './default-pages/page-not-found/page-not-found.component';
 import { NaoHttp2Module } from "@naologic/nao-http2";
-import { environment } from '../environments/environment';
+import { NaoUserAccessModule } from "@naologic/nao-user-access";
+import { NaoLocaleModule } from "@naologic/nao-locale";
+
 import { ECommerceService } from "./e-commerce.service";
 import { AppService } from "./app.service";
 import { ShopService } from "./shop/shop.service";
-import { NaoUserAccessModule } from "@naologic/nao-user-access";
-import { ActiveCountryList, ActiveCurrencyList, ActiveLanguageList } from "./app.locale";
-import { NaoLocaleModule } from "@naologic/nao-locale";
 import { AccountAuthService } from "./account/account-auth.service";
 import { AccountProfileService } from "./account/account-profile.service";
+import { ActiveCountryList, ActiveCurrencyList, ActiveLanguageList } from "./app.locale";
+import { environment } from '../environments/environment';
+import { AppComponent } from './app.component';
+import { RootComponent } from './layout/root/root.component';
+import { PageNotFoundComponent } from './default-pages/page-not-found/page-not-found.component';
+
 
 @NgModule({
     declarations: [

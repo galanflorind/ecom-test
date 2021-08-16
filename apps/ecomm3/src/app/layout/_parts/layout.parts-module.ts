@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ModalModule } from 'ngx-bootstrap/modal';
 import { SharedModule } from '../../shared/shared.module';
 import { AccountMenuComponent } from './account-menu/account-menu.component';
 import { DepartmentsComponent } from './departments/departments.component';
@@ -22,9 +24,6 @@ import { MobileMenuSettingsComponent } from './mobile-menu-settings/mobile-menu-
 import { DecorComponent } from '../_parts/decor/decor.component';
 import { LoadingBarComponent } from '../_parts/loading-bar/loading-bar.component';
 import { QuickViewComponent } from '../_parts/quickview/quick-view.component';
-
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ModalModule } from 'ngx-bootstrap/modal';
 
 
 @NgModule({
@@ -82,6 +81,6 @@ import { ModalModule } from 'ngx-bootstrap/modal';
         TranslateModule.forChild(),
         ModalModule.forChild(),
         SharedModule,
-    ],
+    ]
 })
 export class LayoutPartsModule { }

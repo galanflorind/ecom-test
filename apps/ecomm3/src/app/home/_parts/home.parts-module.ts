@@ -6,8 +6,13 @@ import { SharedModule } from '../../shared/shared.module';
 import { FeaturedProductsGridComponent } from './featured-products-grid/featured-products-grid.component';
 import { BlockFeaturesComponent } from './block-features/block-features.component';
 
+
 @NgModule({
     declarations: [
+        BlockFeaturesComponent,
+        FeaturedProductsGridComponent
+    ],
+    exports: [
         BlockFeaturesComponent,
         FeaturedProductsGridComponent
     ],
@@ -16,10 +21,6 @@ import { BlockFeaturesComponent } from './block-features/block-features.componen
         TranslateModule.forChild(),
         HomeRoutingModule,
         SharedModule
-    ],
-    exports: [
-        BlockFeaturesComponent,
-        FeaturedProductsGridComponent
     ]
 })
 export class HomePartsModule { }
