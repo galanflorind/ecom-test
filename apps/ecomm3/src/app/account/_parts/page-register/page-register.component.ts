@@ -1,10 +1,45 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { mustMatchValidator } from '../../../shared/functions/validators/must-match';
 import { NaoUserAccessService } from "@naologic/nao-user-access";
 import { NaoUsersAuthService } from "../../account.auth.service";
+
+
+
+/**
+ * todo: move to utils
+ * Check password strength
+ *  > Checks if you have at least one lowercase character
+ *                                one uppercase character
+ *                                one number
+ */
+function checkPasswordStrength(options = { lowerCase: 1, upperCase: 1, numeric: 1 }): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+        // -->Check:
+        if (control.pristine || control.value === null) {
+            return null;
+        }
+
+        // -->Test: string
+        const lowercaseCount = control.value.match(/[a-z]/g)?.length ?? 0;
+        const uppercaseCount = control.value.match(/[A-Z]/g)?.length ?? 0;
+        const numericCount = control.value.match(/[0-9]/g)?.length ?? 0;
+
+        // -->Check: if the options are meet
+        if (lowercaseCount < options.lowerCase ||
+            uppercaseCount < options.upperCase ||
+            numericCount < options.numeric) {
+            // -->Mark: as touched
+            control.markAsTouched();
+            // -->Return
+            return { passwordNotStrongEnough: true }
+        }
+
+        return null;
+    };
+}
 
 @Component({
     selector: 'app-page-register',
@@ -27,7 +62,7 @@ export class PageRegisterComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.formGroup = this.fb.group({
             email: [null, [Validators.required, Validators.email]],
-            password: [null, [Validators.required, Validators.minLength(8)]],
+            password: [null, [Validators.required, Validators.minLength(8), checkPasswordStrength()]],
             firstName: [null, [Validators.required]],
             lastName: [null, [Validators.required]],
             companyName: [null, [Validators.required]],
