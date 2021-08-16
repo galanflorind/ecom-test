@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ShopCategory } from '../../interfaces/category';
+import { ShopCategory } from '../../shared/interfaces/category';
 import { UrlService } from '../../services/url.service';
 import { Observable, of } from 'rxjs';
 import { map, mergeMap, switchMap, tap } from 'rxjs/operators';
-import { Product } from '../../interfaces/product';
-import { Brand } from '../../interfaces/brand';
+import { Product } from '../../shared/interfaces/product';
+import { Brand } from '../../shared/interfaces/brand';
 import { TranslateService } from '@ngx-translate/core';
 import { BreadcrumbItem } from '../../shared/components/breadcrumb/breadcrumb.component';
 import { LanguageService } from '../../shared/language/services/language.service';

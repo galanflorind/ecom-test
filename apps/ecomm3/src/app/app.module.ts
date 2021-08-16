@@ -21,7 +21,7 @@ import { NaoHttp2Module } from "@naologic/nao-http2";
 import { environment } from '../environments/environment';
 import { ECommerceService } from "./e-commerce.service";
 import { AppService } from "./app.service";
-import { PageShopService } from "./shop/services/page-shop.service";
+import { ShopService } from "./shop/shop.service";
 import { NaoUserAccessModule } from "@naologic/nao-user-access";
 import { ActiveCountryList, ActiveCurrencyList, ActiveLanguageList } from "./app.locale";
 import { NaoLocaleModule } from "@naologic/nao-locale";
@@ -109,7 +109,7 @@ import {UserProfileService} from "./services/users-profile.service";
     ],
     providers: [
         ECommerceService,
-        PageShopService,
+        ShopService,
         AppService,
         NaoUsersAuthService,
         UserProfileService

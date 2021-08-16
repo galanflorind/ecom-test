@@ -1,6 +1,6 @@
 import { Component, forwardRef, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { RadioFilter } from '../../../interfaces/filter';
+import { RadioFilter } from '../../../shared/interfaces/filter';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 

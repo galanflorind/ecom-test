@@ -9,7 +9,7 @@ import {
     OnInit,
     PLATFORM_ID,
 } from '@angular/core';
-import { DepartmentsLink } from '../../../interfaces/departments-link';
+import { DepartmentsLink } from '../../../shared/interfaces/departments-link';
 import { fromOutsideClick } from '../../../shared/functions/rxjs/from-outside-click';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';

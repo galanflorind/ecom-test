@@ -17,7 +17,7 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { CartService } from '../../../services/cart.service';
 import { TranslateService } from '@ngx-translate/core';
 import { WishlistService } from '../../../services/wishlist.service';
-import { PageShopService } from '../../../shop/services/page-shop.service';
+import { ShopService } from '../../../shop/shop.service';
 import {Router} from "@angular/router";
 
 @Component({
@@ -47,7 +47,7 @@ export class MobileHeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         public menu: MobileMenuService,
         public cart: CartService,
         public wishlist: WishlistService,
-        private page: PageShopService,
+        private page: ShopService,
         private router: Router
     ) { }
 

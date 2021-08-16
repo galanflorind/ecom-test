@@ -1,4 +1,4 @@
-import { CompareItem } from './../../interfaces/compare';
+import { CompareItem } from '../interfaces/compare';
 import { ChangeDetectorRef, Directive, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';

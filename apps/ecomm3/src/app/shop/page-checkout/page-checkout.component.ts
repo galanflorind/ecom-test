@@ -2,7 +2,7 @@ import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {debounceTime, distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
 import { BsModalService } from 'ngx-bootstrap/modal';
-import { TermsModalComponent } from '../../shared/terms-modal/terms-modal.component';
+import { TermsModalComponent } from '../_parts/terms-modal/terms-modal.component';
 import { CartService } from '../../services/cart.service';
 import { merge, Subject, Subscription } from 'rxjs';
 import { Router } from '@angular/router';

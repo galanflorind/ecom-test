@@ -1,5 +1,5 @@
 import { Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
-import { Megamenu } from '../../../interfaces/menu';
+import { Megamenu } from '../../../shared/interfaces/menu';
 
 @Component({
     selector: 'app-megamenu',

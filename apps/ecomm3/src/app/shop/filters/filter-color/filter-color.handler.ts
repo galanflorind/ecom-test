@@ -1,5 +1,5 @@
 import { FilterHandler } from '../filter.handler';
-import { ActiveFilterColor, ColorFilter } from '../../../interfaces/filter';
+import { ActiveFilterColor, ColorFilter } from '../../../shared/interfaces/filter';
 
 
 export class FilterColorHandler extends FilterHandler {

@@ -1,18 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ShopSidebarService } from '../services/shop-sidebar.service';
-import { PageShopService } from '../services/page-shop.service';
+import { ShopService } from '../shop.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { merge, Observable, of, Subject, Subscription } from 'rxjs';
 import { debounceTime, map, switchMap, takeUntil, take } from 'rxjs/operators';
 import { UrlService } from '../../services/url.service';
-import { ShopCategory } from '../../interfaces/category';
+import { ShopCategory } from '../../shared/interfaces/category';
 import { LanguageService } from '../../shared/language/services/language.service';
 import { TranslateService } from '@ngx-translate/core';
-import { ProductsList } from '../../interfaces/list';
+import { ProductsList } from '../../shared/interfaces/list';
 import { filterHandlers } from '../filters/filter-handlers';
-import { BreadcrumbItem } from '../../shared/breadcrumb/breadcrumb.component';
-import { Filter } from '../../interfaces/filter';
+import { BreadcrumbItem } from '../../shared/_parts/breadcrumb/breadcrumb.component';
+import { Filter } from '../../shared/interfaces/filter';
 import { FilterHandler } from '../filters/filter.handler';
 import { ECommerceService } from '../../e-commerce.service';
 import { AppService } from '../../app.service';
@@ -75,7 +75,7 @@ export class PageShopComponent implements OnInit, OnDestroy {
     constructor(
         private router: Router,
         private route: ActivatedRoute,
-        private page: PageShopService,
+        private page: ShopService,
         private location: Location,
         private url: UrlService,
         private language: LanguageService,

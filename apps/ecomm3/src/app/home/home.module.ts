@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-import { HomeRoutingModule } from './home-routing.module';
+import { HomeRouting } from './home.routing';
 import { SharedModule } from '../shared/shared.module';
 import { HomeComponent } from './home/home.component';
 
@@ -12,7 +12,7 @@ import { HomeComponent } from './home/home.component';
     imports: [
         CommonModule,
         TranslateModule.forChild(),
-        HomeRoutingModule,
+        HomeRouting,
         SharedModule
     ],
 })

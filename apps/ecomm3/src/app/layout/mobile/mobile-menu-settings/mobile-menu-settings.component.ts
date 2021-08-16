@@ -1,7 +1,7 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { MobileMenuService } from '../../../services/mobile-menu.service';
 import { CurrencyService } from '../../../shared/_parts/currency/services/currency.service';
-import { MobileMenuLink } from '../../../interfaces/mobile-menu-link';
+import { MobileMenuLink } from '../../../shared/interfaces/mobile-menu-link';
 import { LanguageService } from '../../../shared/language/services/language.service';
 
 @Component({

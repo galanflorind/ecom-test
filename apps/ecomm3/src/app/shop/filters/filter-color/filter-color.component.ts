@@ -1,5 +1,5 @@
 import { Component, forwardRef, HostBinding, Input } from '@angular/core';
-import { ColorFilter, ColorFilterItem } from '../../../interfaces/filter';
+import { ColorFilter, ColorFilterItem } from '../../../shared/interfaces/filter';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ColorType, colorType } from '../../../shared/functions/color';
 

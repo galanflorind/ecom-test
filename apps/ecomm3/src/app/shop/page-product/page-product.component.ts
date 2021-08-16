@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Product, ProductAttribute, ProductAttributeGroup } from '../../interfaces/product';
+import { Product, ProductAttribute, ProductAttributeGroup } from '../../shared/interfaces/product';
 import { UrlService } from '../../services/url.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
@@ -8,7 +8,7 @@ import { CartService } from '../../services/cart.service';
 import { finalize, map, switchMap } from 'rxjs/operators';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { LanguageService } from '../../shared/language/services/language.service';
-import { BreadcrumbItem } from '../../shared/breadcrumb/breadcrumb.component';
+import { BreadcrumbItem } from '../../shared/_parts/breadcrumb/breadcrumb.component';
 import { NaoSettingsInterface } from "@naologic/nao-interfaces";
 import { AppService } from "../../app.service";
 import { ECommerceService } from "../../e-commerce.service";

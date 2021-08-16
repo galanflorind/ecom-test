@@ -1,31 +1,8 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { Product, Variant } from '../interfaces/product';
+import { Product, Variant } from '../shared/interfaces/product';
 import { BehaviorSubject, EMPTY, Observable, of, Subject, timer } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
-
-export interface CartItem {
-    product: Product;
-    variant: Variant;
-    // options: {
-    //     name: string;
-    //     value: string;
-    // }[];
-    quantity: number;
-}
-
-interface CartTotal {
-    title: string;
-    price: number;
-    type: 'shipping' | 'fee' | 'tax' | 'other';
-}
-
-interface CartData {
-    items: CartItem[];
-    quantity: number;
-    subtotal: number;
-    totals: CartTotal[];
-    total: number;
-}
+import { CartItem, CartData, CartTotal } from '../shared/interfaces/cart';
 
 @Injectable({
     providedIn: 'root',

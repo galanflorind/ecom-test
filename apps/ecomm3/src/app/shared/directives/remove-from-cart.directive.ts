@@ -1,7 +1,8 @@
 import { ChangeDetectorRef, Directive, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
-import { CartItem, CartService } from '../../services/cart.service';
+import { CartService } from '../../services/cart.service';
 import { takeUntil } from 'rxjs/operators';
+import { CartItem } from '../interfaces/cart';
 
 @Directive({
     selector: '[appRemoveFromCart]',

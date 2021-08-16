@@ -1,4 +1,4 @@
-import { ActiveFilter, Filter } from '../../interfaces/filter';
+import { ActiveFilter, Filter } from '../../shared/interfaces/filter';
 
 export abstract class FilterHandler {
     abstract type: string;

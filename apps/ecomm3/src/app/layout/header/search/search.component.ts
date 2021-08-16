@@ -11,7 +11,7 @@ import {
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
-import { PageShopService } from '../../../shop/services/page-shop.service';
+import { ShopService } from '../../../shop/shop.service';
 import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 import {Router} from "@angular/router";
 
@@ -45,7 +45,7 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
         private zone: NgZone,
         private translate: TranslateService,
         private elementRef: ElementRef,
-        private page: PageShopService,
+        private page: ShopService,
         private router: Router
     ) { }
 

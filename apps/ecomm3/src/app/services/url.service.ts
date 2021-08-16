@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Category, ShopCategory } from '../interfaces/category';
-import { Order } from '../interfaces/order';
-import { Product } from '../interfaces/product';
-import { Brand } from '../interfaces/brand';
+import { Category, ShopCategory } from '../shared/interfaces/category';
+import { Order } from '../shared/interfaces/order';
+import { Product } from '../shared/interfaces/product';
+import { Brand } from '../shared/interfaces/brand';
 import { nameToSlug } from "../shared/functions/utils";
 import { NaoUsersInterface } from "@naologic/nao-user-access";
 

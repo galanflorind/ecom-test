@@ -1,7 +1,7 @@
 import { Component, HostBinding } from '@angular/core';
-import { mainMenu } from '../../../../data/header-main-menu';
-import { MainMenuLink } from '../../../interfaces/main-menu-link';
+import { MainMenuLink } from '../../../shared/interfaces/main-menu-link';
 import { HeaderService } from '../../../services/header.service';
+import { mainMenu } from './main-menu.static';
 
 @Component({
     selector: 'app-main-menu',

@@ -5,7 +5,6 @@ import { takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { NaoUserAccessService } from "@naologic/nao-user-access";
 
-
 @Component({
     selector: 'app-layout',
     templateUrl: './layout.component.html',

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
-import { NestedLink } from '../../../interfaces/link';
+import { NestedLink } from '../../../shared/interfaces/link';
 
 @Component({
     selector: 'app-menu',

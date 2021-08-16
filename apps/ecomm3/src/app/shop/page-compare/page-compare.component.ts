@@ -1,5 +1,5 @@
-import { BaseAttribute, Variant } from '../../interfaces/product';
-import { CompareItem } from '../../interfaces/compare';
+import { BaseAttribute, Variant } from '../../shared/interfaces/product';
+import { CompareItem } from '../../shared/interfaces/compare';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CompareService } from '../../services/compare.service';
 import { Observable, Subject } from 'rxjs';

@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Directive, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { WishlistService } from '../../services/wishlist.service';
-import { Product } from '../../interfaces/product';
+import { Product } from '../interfaces/product';
 
 @Directive({
     selector: '[appRemoveFromWishlist]',

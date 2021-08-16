@@ -1,5 +1,5 @@
 import { Component, HostBinding, Input } from '@angular/core';
-import { CategoryFilter } from '../../../interfaces/filter';
+import { CategoryFilter } from '../../../shared/interfaces/filter';
 import { UrlService } from '../../../services/url.service';
 
 @Component({

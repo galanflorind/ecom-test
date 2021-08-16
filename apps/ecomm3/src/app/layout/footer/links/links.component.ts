@@ -1,5 +1,5 @@
 import { Component, HostBinding, Input } from '@angular/core';
-import { Link } from '../../../interfaces/link';
+import { Link } from '../../../shared/interfaces/link';
 
 @Component({
     selector: 'app-links',
