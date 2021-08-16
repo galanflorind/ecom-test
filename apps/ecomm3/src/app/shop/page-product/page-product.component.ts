@@ -8,7 +8,7 @@ import { CartService } from '../../services/cart.service';
 import { finalize, map, switchMap } from 'rxjs/operators';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { LanguageService } from '../../shared/language/services/language.service';
-import { BreadcrumbItem } from '../../shared/_parts/breadcrumb/breadcrumb.component';
+import { BreadcrumbItem } from '../_parts/breadcrumb/breadcrumb.component';
 import { NaoSettingsInterface } from "@naologic/nao-interfaces";
 import { AppService } from "../../app.service";
 import { ECommerceService } from "../../e-commerce.service";

@@ -31,7 +31,8 @@
           "error",
           { "type": "element", "prefix": ["customize", "app", "nao", "file"], "style": "kebab-case" }
         ],
-        "@angular-eslint/max-len": "off"
+        "@angular-eslint/max-len": "off",
+        "experimentalDecorators": "off"
       }
     },
     {

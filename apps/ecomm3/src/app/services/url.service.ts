@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Category, ShopCategory } from '../shared/interfaces/category';
-import { Order } from '../shared/interfaces/order';
 import { Product } from '../shared/interfaces/product';
-import { Brand } from '../shared/interfaces/brand';
 import { nameToSlug } from "../shared/functions/utils";
 import { NaoUsersInterface } from "@naologic/nao-user-access";
 
@@ -45,16 +43,8 @@ export class UrlService {
         return `/shop/products/${productSlug}/${product._id}`;
     }
 
-    public brand(brand: Brand): string {
-        return '/';
-    }
-
     public address(address: NaoUsersInterface.Address): string {
         return `/account/addresses/${address.id}`;
-    }
-
-    public order(order: Order): string {
-        return `/account/orders/${order.id}`;
     }
 
     public cart(): string {
@@ -67,9 +57,5 @@ export class UrlService {
 
     public login(): string {
         return '/account/login';
-    }
-
-    public contacts(): string {
-        return '/site/contact-us-v1';
     }
 }

@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { mustMatchValidator } from '../../../shared/functions/validators/must-match';
 import { NaoUserAccessService } from "@naologic/nao-user-access";
-import { NaoUsersAuthService } from "../../../services/nao-users-auth.service";
+import { NaoUsersAuthService } from "../../account.auth.service";
 
 @Component({
     selector: 'app-page-register',

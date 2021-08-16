@@ -13,19 +13,19 @@ import { TranslateModule } from '@ngx-translate/core';
 import { CurrencyModule } from './_parts/currency/currency.module';
 
 // components
-import { AddressCardComponent } from './_parts/address-card/address-card.component';
+import { AddressCardComponent } from '../account/_parts/address-card/address-card.component';
 import { ArrowComponent } from '../shop/_parts/arrow/arrow.component';
-import { BlockHeaderComponent } from './_parts/block-header/block-header.component';
-import { BreadcrumbComponent } from './_parts/breadcrumb/breadcrumb.component';
-import { DecorComponent } from './_parts/decor/decor.component';
+import { BlockHeaderComponent } from '../shop/_parts/block-header/block-header.component';
+import { BreadcrumbComponent } from '../shop/_parts/breadcrumb/breadcrumb.component';
+import { DecorComponent } from '../layout/_parts/decor/decor.component';
 import { IconComponent } from './_parts/icon/icon.component';
 import { InputNumberComponent } from './_parts/input-number/input-number.component';
-import { LoadingBarComponent } from './_parts/loading-bar/loading-bar.component';
+import { LoadingBarComponent } from '../layout/_parts/loading-bar/loading-bar.component';
 import { PaginationComponent } from './_parts/pagination/pagination.component';
 import { ProductCardComponent } from './_parts/product-card/product-card.component';
 import { ProductVariantsComponent } from './_parts/product-variants/product-variants.component';
 import { ProductGalleryComponent } from './_parts/product-gallery/product-gallery.component';
-import { QuickViewComponent } from './_parts/quickview/quick-view.component';
+import { QuickViewComponent } from '../layout/_parts/quickview/quick-view.component';
 import { RatingComponent } from './_parts/rating/rating.component';
 import { SectionHeaderComponent } from '../shop/_parts/section-header/section-header.component';
 import { StatusBadgeComponent } from './_parts/status-badge/status-badge.component';

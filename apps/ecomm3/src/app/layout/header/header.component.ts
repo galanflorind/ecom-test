@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import { WishlistService } from '../../services/wishlist.service';
 import { Subscription } from 'rxjs';
 import { CartService } from '../../services/cart.service';
-import { HeaderService } from '../../services/header.service';
+import { HeaderService } from '../layout.header.service';
 import { UrlService } from '../../services/url.service';
 import { AppService } from "../../app.service";
 import { DepartmentsLink } from "../../shared/interfaces/departments-link";

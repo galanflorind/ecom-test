@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { NaoUserAccessService } from "@naologic/nao-user-access";
-import { UserProfileService } from "../../../services/users-profile.service";
+import { UserProfileService } from "../../account.profile.service";
 
 @Component({
     selector: 'app-page-forgot-password',

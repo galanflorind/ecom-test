@@ -6,7 +6,7 @@ import { NgxPayPalModule } from 'ngx-paypal';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '../shared/shared.module';
-import { ShopRoutingModule } from './shop-routing.module';
+import { ShopRoutingModule } from './shop.routing.module';
 import { ProductsViewComponent } from './_parts/products-view/products-view.component';
 import { ProductTabComponent } from './_parts/product-tab/product-tab.component';
 import { ProductTabsComponent } from './_parts/product-tabs/product-tabs.component';
@@ -30,7 +30,6 @@ import { FilterRangeComponent } from './filters/filter-range/filter-range.compon
 import { FilterRatingComponent } from './filters/filter-rating/filter-rating.component';
 import { NaoLoadingComponent } from "./_parts/nao-loading/nao-loading.component";
 import { TermsModalComponent } from './_parts/terms-modal/terms-modal.component';
-import { WidgetCategoriesComponent } from './_parts/widget-categories/widget-categories.component';
 
 
 @NgModule({
@@ -58,7 +57,6 @@ import { WidgetCategoriesComponent } from './_parts/widget-categories/widget-cat
         FilterRangeComponent,
         FilterRatingComponent,
         TermsModalComponent,
-        WidgetCategoriesComponent
     ],
     imports: [
         CommonModule,

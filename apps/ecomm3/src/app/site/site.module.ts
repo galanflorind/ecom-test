@@ -7,7 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 // modules
 import { SharedModule } from '../shared/shared.module';
-import { SiteRoutingModule } from './site-routing.module';
+import { SiteRoutingModule } from './site.routing.module';
 
 // pages
 import { PageAboutUsComponent } from './page-about-us/page-about-us.component';

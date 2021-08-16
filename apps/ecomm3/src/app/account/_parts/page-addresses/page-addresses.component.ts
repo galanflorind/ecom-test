@@ -4,7 +4,7 @@ import { UrlService } from '../../../services/url.service';
 import { NaoUserAccessService, NaoUsersInterface } from "@naologic/nao-user-access";
 import { ToastrService } from "ngx-toastr";
 import { TranslateService } from "@ngx-translate/core";
-import { UserProfileService } from "../../../services/users-profile.service";
+import { UserProfileService } from "../../account.profile.service";
 
 @Component({
     selector: 'app-page-addresses',

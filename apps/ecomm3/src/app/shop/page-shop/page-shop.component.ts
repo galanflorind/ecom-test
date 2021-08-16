@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { ShopSidebarService } from '../services/shop-sidebar.service';
+import { ShopSidebarService } from '../shop.sidebar.service';
 import { ShopService } from '../shop.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { merge, Observable, of, Subject, Subscription } from 'rxjs';
@@ -11,7 +11,7 @@ import { LanguageService } from '../../shared/language/services/language.service
 import { TranslateService } from '@ngx-translate/core';
 import { ProductsList } from '../../shared/interfaces/list';
 import { filterHandlers } from '../filters/filter-handlers';
-import { BreadcrumbItem } from '../../shared/_parts/breadcrumb/breadcrumb.component';
+import { BreadcrumbItem } from '../_parts/breadcrumb/breadcrumb.component';
 import { Filter } from '../../shared/interfaces/filter';
 import { FilterHandler } from '../filters/filter.handler';
 import { ECommerceService } from '../../e-commerce.service';

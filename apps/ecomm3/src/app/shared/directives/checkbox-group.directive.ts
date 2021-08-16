@@ -1,5 +1,5 @@
 import { Directive, forwardRef, OnDestroy, OnInit } from '@angular/core';
-import { CheckboxDispatcherService } from '../../services/checkbox-dispatcher.service';
+import { CheckboxDispatcherService } from '../dispatchers/checkbox-dispatcher.service';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';

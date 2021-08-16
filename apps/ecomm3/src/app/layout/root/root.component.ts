@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DesktopHeaderVariant, HeaderService, MobileHeaderVariant } from '../../services/header.service';
+import { DesktopHeaderVariant, HeaderService, MobileHeaderVariant } from '../layout.header.service';
 import { takeUntil } from 'rxjs/operators';
 import { Observable, Subject } from 'rxjs';
 

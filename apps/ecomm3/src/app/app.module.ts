@@ -1,3 +1,4 @@
+import { LayoutModule } from './layout/layout.module';
 import { NgModule } from '@angular/core';
 import { filter } from 'rxjs/operators';
 import { ViewportScroller } from '@angular/common';
@@ -7,12 +8,9 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { ToastrModule } from 'ngx-toastr';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
-import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule } from './app.routing.module';
 import { CurrencyModule } from './shared/_parts/currency/currency.module';
-import { FooterModule } from './layout/footer/footer.module';
-import { HeaderModule } from './layout/header/header.module';
 import { LanguageModule } from './shared/language/language.module';
-import { MobileModule } from './layout/mobile/mobile.module';
 import { SharedModule } from './shared/shared.module';
 import { AppComponent } from './app.component';
 import { RootComponent } from './layout/root/root.component';
@@ -25,8 +23,8 @@ import { ShopService } from "./shop/shop.service";
 import { NaoUserAccessModule } from "@naologic/nao-user-access";
 import { ActiveCountryList, ActiveCurrencyList, ActiveLanguageList } from "./app.locale";
 import { NaoLocaleModule } from "@naologic/nao-locale";
-import {NaoUsersAuthService} from "./services/nao-users-auth.service";
-import {UserProfileService} from "./services/users-profile.service";
+import {NaoUsersAuthService} from "./account/account.auth.service";
+import {UserProfileService} from "./account/account.profile.service";
 
 @NgModule({
     declarations: [
@@ -78,8 +76,6 @@ import {UserProfileService} from "./services/users-profile.service";
                 }
             ],
         }),
-        FooterModule,
-        HeaderModule,
         // todo: remove and use our type of language files?
         LanguageModule.config({
             default: 'en',
@@ -104,7 +100,7 @@ import {UserProfileService} from "./services/users-profile.service";
                 },
             ],
         }),
-        MobileModule,
+        LayoutModule,
         SharedModule,
     ],
     providers: [

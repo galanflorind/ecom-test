@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { AccountRoutingModule } from './account-routing.module';
+import { AccountRoutingModule } from './account.routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { LayoutComponent } from './layout/layout.component';
 import { PageAddressesComponent } from './_parts/page-addresses/page-addresses.component';

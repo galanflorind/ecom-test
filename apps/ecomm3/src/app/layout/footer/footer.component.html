@@ -31,42 +31,52 @@
                         </dl>
                     </address>
                 </div>
+                <!-- Links section -->
                 <div class="col-6 col-md-3 col-xl-2">
-                    <app-links
-                        class="site-footer__widget"
-                        [header]="'HEADER_INFORMATION' | translate"
-                        [links]="[
-                            {title: 'LINK_ABOUT_US' | translate, url: '/site/about-us'},
-                            {title: 'LINK_FAQ' | translate, url: '/site/faq'},
-                            {title: 'LINK_TERMS_AND_CONDITIONS' | translate, url: '/site/terms'},
-                            {title: 'LINK_SITE_MAP' | translate}
-                        ]"
-                    ></app-links>
+                    <div class='"site-footer__widget'>
+                        <h5 class="footer-links__title">{{ 'HEADER_INFORMATION' | translate }}</h5>
+                        <ul class="footer-links__list">
+                            <li class="footer-links__item" *ngFor="let link of [
+                                {title: 'LINK_ABOUT_US' | translate, url: '/site/about-us'},
+                                {title: 'LINK_FAQ' | translate, url: '/site/faq'},
+                                {title: 'LINK_TERMS_AND_CONDITIONS' | translate, url: '/site/terms'},
+                                {title: 'LINK_SITE_MAP' | translate}
+                            ]">
+                                <a [routerLink]="link.url" class="footer-links__link">{{ link.title }}</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-<!--                <div class="col-6 col-md-3 col-xl-2">-->
-<!--                    <app-links-->
-<!--                        class="site-footer__widget"-->
-<!--                        [header]="'HEADER_MY_ACCOUNT' | translate"-->
-<!--                        [links]="[-->
-<!--                        ]"-->
-<!--                    ></app-links>-->
-<!--&lt;!&ndash;                    <app-links&ndash;&gt;-->
-<!--&lt;!&ndash;                        class="site-footer__widget"&ndash;&gt;-->
-<!--&lt;!&ndash;                        [header]="'HEADER_MY_ACCOUNT' | translate"&ndash;&gt;-->
-<!--&lt;!&ndash;                        [links]="[&ndash;&gt;-->
-<!--&lt;!&ndash;                            {title: 'LINK_STORE_LOCATION' | translate},&ndash;&gt;-->
-<!--&lt;!&ndash;                            {title: 'LINK_ORDER_HISTORY' | translate},&ndash;&gt;-->
-<!--&lt;!&ndash;                            {title: 'LINK_WISH_LIST' | translate},&ndash;&gt;-->
-<!--&lt;!&ndash;                            {title: 'LINK_NEWSLETTER' | translate},&ndash;&gt;-->
-<!--&lt;!&ndash;                            {title: 'LINK_SPECIAL_OFFERS' | translate},&ndash;&gt;-->
-<!--&lt;!&ndash;                            {title: 'LINK_GIFT_CERTIFICATES' | translate},&ndash;&gt;-->
-<!--&lt;!&ndash;                            {title: 'LINK_AFFILIATE' | translate}&ndash;&gt;-->
-<!--&lt;!&ndash;                        ]"&ndash;&gt;-->
-<!--&lt;!&ndash;                    ></app-links>&ndash;&gt;-->
-<!--                </div>-->
-<!--                <div class="col-12 col-md-6 col-xl-4">-->
-<!--                    <app-newsletter class="site-footer__widget"></app-newsletter>-->
-<!--                </div>-->
+                <!-- Newsletter section -->
+                <!-- <div class="col-12 col-md-6 col-xl-4">
+                    <h5 class="footer-newsletter__title">{{ 'HEADER_NEWSLETTER' | translate }}</h5>
+                    <div class="footer-newsletter__text">{{ 'TEXT_NEWSLETTER_MESSAGE' | translate }}</div>
+
+                    <form class="footer-newsletter__form" (submit)="$event.preventDefault()">
+                        <label class="sr-only" for="footer-newsletter-address">
+                            {{ 'INPUT_EMAIL_ADDRESS_LABEL' | translate }}
+                        </label>
+                        <input
+                            type="text"
+                            class="footer-newsletter__form-input"
+                            id="footer-newsletter-address"
+                            [placeholder]="'INPUT_EMAIL_ADDRESS_PLACEHOLDER' | translate"
+                        >
+                        <button type="submit" class="footer-newsletter__form-button">{{ 'BUTTON_SUBSCRIBE' | translate }}</button>
+                    </form>
+
+                    <div class="footer-newsletter__text footer-newsletter__text--social" *ngIf="socialLinks?.length">
+                        {{ 'TEXT_SOCIAL_LINKS_MESSAGE' | translate }}
+                    </div>
+
+                    <div class="footer-newsletter__social-links social-links">
+                        <ul class="social-links__list">
+                            <li *ngFor="let link of socialLinks" class="social-links__item social-links__item--{{ link.type }}">
+                                <a href="{{ link.url }}" target="_blank"><i [ngClass]="link.icon"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div> -->
             </div>
         </div>
     </div>
