@@ -5,7 +5,6 @@ import {
     ComponentFactoryResolver,
     ComponentRef,
     ElementRef,
-    HostBinding,
     Inject,
     NgZone,
     OnDestroy,
@@ -35,11 +34,6 @@ interface StackItem {
     styleUrls: ['./mobile-menu.component.scss'],
 })
 export class MobileMenuComponent implements OnInit, OnDestroy, AfterViewInit, AfterViewChecked {
-    @HostBinding('class.mobile-menu') classMobileMenu = true;
-
-    @HostBinding('class.mobile-menu--open') get classMobileMenuOpen() {
-        return this.menu.isOpen;
-    }
 
     @ViewChild('body') body!: ElementRef;
 

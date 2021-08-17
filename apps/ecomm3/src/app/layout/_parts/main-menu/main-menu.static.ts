@@ -14,23 +14,10 @@ export const mainMenu: MainMenuLink[] = [
     //             { title: 'Home One', url: '/' },
     //             { title: 'Home Two', url: '/home-two' },
     //             {
-    //                 title: 'Header Spaceship',
-    //                 url: '/header-spaceship-variant-one',
-    //                 links: [
-    //                     { title: 'Variant One', url: '/header-spaceship-variant-one' },
-    //                     { title: 'Variant Two', url: '/header-spaceship-variant-two' },
-    //                     { title: 'Variant Three', url: '/header-spaceship-variant-three' },
-    //                 ],
-    //             },
-    //             {
     //                 title: 'Header Classic',
     //                 url: '/header-classic-variant-one',
     //                 links: [
     //                     { title: 'Variant One', url: '/header-classic-variant-one' },
-    //                     { title: 'Variant Two', url: '/header-classic-variant-two' },
-    //                     { title: 'Variant Three', url: '/header-classic-variant-three' },
-    //                     { title: 'Variant Four', url: '/header-classic-variant-four' },
-    //                     { title: 'Variant Five', url: '/header-classic-variant-five' },
     //                 ],
     //             },
     //             {
@@ -38,7 +25,6 @@ export const mainMenu: MainMenuLink[] = [
     //                 url: '/mobile-header-variant-one',
     //                 links: [
     //                     { title: 'Variant One', url: '/mobile-header-variant-one' },
-    //                     { title: 'Variant Two', url: '/mobile-header-variant-two' },
     //                 ],
     //             },
     //         ],

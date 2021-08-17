@@ -24,46 +24,19 @@
 //   - .block-space
 // ---------------------------------------- */
 
-
+/* ----------------------------------------
+// Header
+// ---------------------------------------- */
+@import 'header/header';
 
 /* ----------------------------------------
 // Components
 // ---------------------------------------- */
 @import 'components/breadcrumb--header--classic';
 
-
-
-/* ----------------------------------------
-// Header
-// ---------------------------------------- */
-@import 'header/account-menu';
-@import 'header/departments';
-@import 'header/dropcart';
-@import 'header/header';
-@import 'header/indicator';
-@import 'header/logo';
-@import 'header/main-menu';
-@import 'header/megamenu';
-@import 'header/megamenu-links';
-@import 'header/menu';
-@import 'header/phone';
-@import 'header/search';
-@import 'header/suggestions';
-@import 'header/topbar';
-
-
-
-/* ----------------------------------------
-// Pages
-// ---------------------------------------- */
-@import 'pages/about--header--spaceship';
-
-
-
 /* ----------------------------------------
 // Blocks
 // ---------------------------------------- */
-@import 'blocks/block-header--header--spaceship';
 @import 'blocks/block-space--header--classic';
 
 

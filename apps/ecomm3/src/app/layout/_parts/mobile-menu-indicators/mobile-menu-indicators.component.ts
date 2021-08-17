@@ -1,4 +1,4 @@
-import { Component, HostBinding } from '@angular/core';
+import { Component } from '@angular/core';
 import { CartService } from '../../../services/cart.service';
 import { WishlistService } from '../../../services/wishlist.service';
 import { LayoutMobileMenuService } from '../../layout-mobile-menu.service';
@@ -9,8 +9,6 @@ import { LayoutMobileMenuService } from '../../layout-mobile-menu.service';
     styleUrls: ['./mobile-menu-indicators.component.scss'],
 })
 export class MobileMenuIndicatorsComponent {
-    @HostBinding('class.mobile-menu__indicators') classMobileMenuIndicators = true;
-
     constructor(
         public menu: LayoutMobileMenuService,
         public cart: CartService,

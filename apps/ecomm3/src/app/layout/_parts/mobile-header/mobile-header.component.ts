@@ -2,7 +2,6 @@ import {
     AfterViewInit,
     Component,
     ElementRef,
-    HostBinding,
     Inject,
     NgZone,
     OnDestroy, OnInit,
@@ -31,8 +30,6 @@ export class MobileHeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     searchIsOpen = false;
 
     searchPlaceholder$!: Observable<string>;
-
-    @HostBinding('class.mobile-header') classMobileHeader = true;
 
     @ViewChild('searchForm') searchForm!: ElementRef<HTMLElement>;
 

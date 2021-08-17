@@ -11,7 +11,5 @@ export class MenuComponent {
 
     @Output() itemClick: EventEmitter<any> = new EventEmitter<any>();
 
-    @HostBinding('class.menu') classMenu = true;
-
     constructor() { }
 }

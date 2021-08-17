@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostBinding, Input, Output, TemplateRef } from '@angular/core';
+import { Component, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
 import { MobileMenuLink } from '../../../interfaces/mobile-menu-link';
 import { LayoutMobileMenuService } from '../../layout-mobile-menu.service';
 
@@ -11,8 +11,6 @@ export class MobileMenuLinksComponent {
     @Input() items: MobileMenuLink[] = [];
 
     @Output() itemClick: EventEmitter<MobileMenuLink> = new EventEmitter<MobileMenuLink>();
-
-    @HostBinding('class.mobile-menu__links') classMobileMenuLinks = true;
 
     constructor(
         private menu: LayoutMobileMenuService,

@@ -1,3 +1,4 @@
+<div class='mobile-menu__settings-list'>
 <div class="mobile-menu__setting">
     <button class="mobile-menu__setting-button" title="Language" (click)="menu.openPanel('Language', languagePanel)">
         <span class="mobile-menu__setting-icon">
@@ -23,3 +24,4 @@
 <ng-template #currencyPanelContent>
     <app-mobile-menu-links [items]="currencies" (itemClick)="setCurrency($event)"></app-mobile-menu-links>
 </ng-template>
+</div>

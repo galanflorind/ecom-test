@@ -2,13 +2,8 @@
 // .block-space
 */
 @import '../variables';
-@import '../mixins/header';
 
 
-@include desktop-header-variant-selector {
-    @if($header-layout == classic) {
-        .nao-spacer-ledge-height {
-            display: none;
-        }
-    }
+.nao-spacer-ledge-height {
+    display: none;
 }

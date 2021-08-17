@@ -1,3 +1,4 @@
+<div class='mobile-menu' [class.mobile-menu--open]='menu.isOpen'>
 <div class="mobile-menu__backdrop" (click)="menu.close()"></div>
 <div class="mobile-menu__body" #body>
     <button class="mobile-menu__close" type="button" (click)="menu.close()">
@@ -22,4 +23,5 @@
 
         <ng-container #panelsContainer></ng-container>
     </div>
+</div>
 </div>

@@ -1,6 +1,5 @@
 import { Component, HostBinding } from '@angular/core';
 import { MainMenuLink } from '../../../interfaces/main-menu-link';
-import { LayoutHeaderService } from '../../layout-header.service';
 import { mainMenu } from './main-menu.static';
 
 @Component({
@@ -13,11 +12,7 @@ export class MainMenuComponent {
 
     hoveredItem: MainMenuLink|null = null;
 
-    @HostBinding('class.main-menu') classMainMenu = true;
-
-    constructor(
-        public header: LayoutHeaderService,
-    ) {}
+    constructor() {}
 
     onItemEnter(item: any): void {
         this.hoveredItem = item;

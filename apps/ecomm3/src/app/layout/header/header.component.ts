@@ -2,7 +2,6 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import { WishlistService } from '../../services/wishlist.service';
 import { Subscription } from 'rxjs';
 import { CartService } from '../../services/cart.service';
-import { LayoutHeaderService } from '../layout-header.service';
 import { UrlService } from '../../services/url.service';
 import { AppService } from "../../app.service";
 import { DepartmentsLink } from "../../interfaces/departments-link";
@@ -27,7 +26,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     constructor(
         public wishlist: WishlistService,
         public cart: CartService,
-        public header: LayoutHeaderService,
         public url: UrlService,
         public appService: AppService,
         private naoUsersService: NaoUserAccessService

@@ -36,8 +36,6 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
 
     // public categories: ShopCategory[] = [];
 
-    @HostBinding('class.search') public classSearch = true;
-
     // get element(): HTMLElement { return this.elementRef.nativeElement; }
 
     constructor(

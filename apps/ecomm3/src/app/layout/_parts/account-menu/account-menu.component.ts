@@ -19,8 +19,6 @@ export class AccountMenuComponent implements OnInit, OnDestroy {
 
     @Output() closeMenu: EventEmitter<void> = new EventEmitter<void>();
 
-    @HostBinding('class.account-menu') classAccountMenu = true;
-
     constructor(
         private fb: FormBuilder,
         public router: Router,

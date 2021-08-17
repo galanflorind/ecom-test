@@ -1,3 +1,4 @@
+<div class='account-menu'>
 <form *ngIf="!userData" class="account-menu__form">
     <form [formGroup]="formGroup" #loginForm="ngForm" (submit)="login()">
         <div class="account-menu__form-title">
@@ -81,3 +82,4 @@
         <li><button type="button" (click)="logout();">{{ 'LINK_ACCOUNT_LOGOUT' | translate }}</button></li>
     </ul>
 </ng-container>
+</div>

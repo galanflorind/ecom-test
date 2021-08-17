@@ -2,13 +2,8 @@
 // .breadcrumb
 */
 @import '../variables';
-@import '../mixins/header';
 
 
-@include desktop-header-variant-selector {
-    @if($header-layout == classic) {
-        .breadcrumb__spaceship-safe-area {
-            display: none;
-        }
-    }
+.breadcrumb__classic-safe-area {
+    display: none;
 }

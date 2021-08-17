@@ -13,9 +13,9 @@ $local-padding-x-base: $TAN-30 * $local-height;
 $local-padding-x: 3px;
 $local-gutter-x: 5px;
 $local-gutter-y: 4px;
-$local-spaceship-search-width-xxl: 480px;
-$local-spaceship-search-width-xl: 440px;
-$local-spaceship-safe-area-expand: 20px;
+$local-classic-search-width-xxl: 480px;
+$local-classic-search-width-xl: 440px;
+$local-classic-safe-area-expand: 20px;
 $local-title-safe-area-expand: 64px;
 
 
@@ -156,14 +156,14 @@ $local-title-safe-area-expand: 64px;
         display: none;
     }
 }
-.breadcrumb__spaceship-safe-area {
+.breadcrumb__classic-safe-area {
     display: block;
     height: $local-height;
-    width: calc(50% + #{$local-spaceship-search-width-xxl} / 2 + #{$local-spaceship-safe-area-expand});
+    width: calc(50% + #{$local-classic-search-width-xxl} / 2 + #{$local-classic-safe-area-expand});
     margin-top: $local-gutter-y;
 
     @if($local-debug) {
-        @include local-debug(#f00, 'spaceship-safe-area');
+        @include local-debug(#f00, 'classic-safe-area');
     }
 
     @include direction {
@@ -171,7 +171,7 @@ $local-title-safe-area-expand: 64px;
     }
 
     @include media-breakpoint-only(xl) {
-        width: calc(50% + #{$local-spaceship-search-width-xl} / 2 + #{$local-spaceship-safe-area-expand});
+        width: calc(50% + #{$local-classic-search-width-xl} / 2 + #{$local-classic-safe-area-expand});
     }
     @include media-breakpoint-down(lg) {
         display: none;

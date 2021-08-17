@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Megamenu } from '../../../interfaces/menu';
 
 @Component({
@@ -10,8 +10,6 @@ export class MegamenuComponent {
     @Input() menu!: Megamenu;
 
     @Output() itemClick: EventEmitter<any> = new EventEmitter<any>();
-
-    @HostBinding('class.megamenu') classMegamenu = true;
 
     constructor() { }
 }

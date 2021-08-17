@@ -1,4 +1,4 @@
-import { Component, HostBinding, Input, TemplateRef } from '@angular/core';
+import { Component, Input, TemplateRef } from '@angular/core';
 import { LayoutMobileMenuService } from '../../layout-mobile-menu.service';
 
 @Component({
@@ -8,16 +8,8 @@ import { LayoutMobileMenuService } from '../../layout-mobile-menu.service';
 })
 export class MobileMenuPanelComponent {
     @Input() level = 0;
-
     @Input() label = '';
-
     @Input() content: TemplateRef<any>|null = null;
-
-    @HostBinding('class.mobile-menu__panel') classMobileMenuPanel = true;
-
-    @HostBinding('style.transform') get styleTransform(): string {
-        return `translateX(${this.level * 100}%)`;
-    }
 
     constructor(
         public menu: LayoutMobileMenuService,

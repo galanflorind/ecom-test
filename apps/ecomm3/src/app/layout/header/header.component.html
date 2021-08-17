@@ -1,16 +1,6 @@
 <div class="header">
     <div class="header__megamenu-area megamenu-area"></div>
     <!--When uncommenting this, search for header in the header.scss and uncomment stuff there-->
-<!--    <ng-container *ngIf="header.desktopLayout === 'spaceship'">-->
-<!--        <div class="header__topbar-start-bg"></div>-->
-<!--        <div class="header__topbar-start">-->
-<!--            <app-topbar layout="spaceship-start"></app-topbar>-->
-<!--        </div>-->
-<!--        <div class="header__topbar-end-bg"></div>-->
-<!--        <div class="header__topbar-end">-->
-<!--            <app-topbar layout="spaceship-end"></app-topbar>-->
-<!--        </div>-->
-<!--    </ng-container>-->
 <!--    <ng-container *ngIf="header.desktopLayout === 'classic'">-->
 <!--        <div class="header__topbar-classic-bg"></div>-->
 <!--        <div class="header__topbar-classic">-->
@@ -24,7 +14,7 @@
         <div class="header__navbar-menu">
             <app-main-menu></app-main-menu>
         </div>
-        <div *ngIf="header.desktopLayout === 'classic'" class="header__navbar-phone phone">
+        <div class="header__navbar-phone phone">
             <div class="phone__body">
                 <div class="phone__title">{{ 'TEXT_CALL_US' | translate }}</div>
                 <div class="phone__number">{{ infoSupport?.supportPhoneNumber }}</div>
