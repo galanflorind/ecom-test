@@ -7,16 +7,14 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { ToastrModule } from 'ngx-toastr';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { filter } from 'rxjs/operators';
-
 import { LayoutModule } from './layout/layout.module';
-import { AppRoutingModule } from './app.routing.module';
+import { AppRoutingModule } from './app.routing';
 import { CurrencyModule } from './shared/currency/currency.module';
 import { LanguageModule } from './shared/language/language.module';
 import { SharedModule } from './shared/shared.module';
 import { NaoHttp2Module } from "@naologic/nao-http2";
 import { NaoUserAccessModule } from "@naologic/nao-user-access";
 import { NaoLocaleModule } from "@naologic/nao-locale";
-
 import { ECommerceService } from "./e-commerce.service";
 import { AppService } from "./app.service";
 import { ShopService } from "./shop/shop.service";
@@ -98,7 +96,7 @@ import { PageNotFoundComponent } from './default-pages/page-not-found/page-not-f
             ],
         }),
         LayoutModule,
-        SharedModule,
+        SharedModule
     ],
     providers: [
         ECommerceService,

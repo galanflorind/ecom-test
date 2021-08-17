@@ -1,12 +1,7 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
-import { TranslateModule } from '@ngx-translate/core';
-import { CarouselModule } from 'ngx-owl-carousel-o';
 import { NgxPayPalModule } from 'ngx-paypal';
 import { SharedModule } from '../../shared/shared.module';
-import { ShopRoutingModule } from '../shop.routing.module';
 import { ProductsViewComponent } from './products-view/products-view.component';
 import { ProductTabComponent } from './product-tab/product-tab.component';
 import { ProductTabsComponent } from './product-tabs/product-tabs.component';

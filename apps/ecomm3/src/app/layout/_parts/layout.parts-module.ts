@@ -1,9 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ModalModule } from 'ngx-bootstrap/modal';
 import { SharedModule } from '../../shared/shared.module';
 import { AccountMenuComponent } from './account-menu/account-menu.component';
 import { DepartmentsComponent } from './departments/departments.component';
@@ -50,8 +45,6 @@ import { QuickViewComponent } from './quickview/quick-view.component';
         QuickViewComponent
     ],
     exports: [
-        MobileHeaderComponent,
-        MobileMenuComponent,
         AccountMenuComponent,
         DepartmentsComponent,
         DropcartComponent,
@@ -74,13 +67,7 @@ import { QuickViewComponent } from './quickview/quick-view.component';
         QuickViewComponent
     ],
     imports: [
-        CommonModule,
-        RouterModule,
-        FormsModule,
-        ReactiveFormsModule,
-        TranslateModule.forChild(),
-        ModalModule.forChild(),
-        SharedModule,
+        SharedModule
     ]
 })
 export class LayoutPartsModule { }

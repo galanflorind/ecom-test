@@ -1,13 +1,9 @@
 import { ShopPartsModule } from './_parts/shop.parts-module';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CarouselModule } from 'ngx-owl-carousel-o';
 import { NgxPayPalModule } from 'ngx-paypal';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
-import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '../shared/shared.module';
-import { ShopRoutingModule } from './shop.routing.module';
+import { ShopRoutingModule } from './shop.routing';
 import { PageCartComponent } from './page-cart/page-cart.component';
 import { PageCheckoutComponent } from './page-checkout/page-checkout.component';
 import { PageCompareComponent } from './page-compare/page-compare.component';
@@ -30,9 +26,9 @@ import { PageWishlistComponent } from './page-wishlist/page-wishlist.component';
     imports: [
         NgxPayPalModule,
         NgxSliderModule,
-        SharedModule,
         ShopRoutingModule,
-        ShopPartsModule
+        ShopPartsModule,
+        SharedModule
     ],
 })
 export class ShopModule { }

@@ -1,9 +1,5 @@
 import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { TranslateModule } from "@ngx-translate/core";
 import { SharedModule } from "../../shared/shared.module";
-import { AccountRoutingModule } from "../account.routing.module";
 import { PageAddressesComponent } from "./page-addresses/page-addresses.component";
 import { PageDashboardComponent } from "./page-dashboard/page-dashboard.component";
 import { PageEditAddressComponent } from "./page-edit-address/page-edit-address.component";
@@ -41,11 +37,6 @@ import { AddressCardComponent } from './address-card/address-card.component';
         PageForgotPasswordComponent
     ],
     imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        AccountRoutingModule,
-        TranslateModule.forChild(),
         SharedModule
     ]
 })

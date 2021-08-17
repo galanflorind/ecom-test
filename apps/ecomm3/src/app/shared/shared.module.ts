@@ -105,6 +105,7 @@ import { TranslateModule } from "@ngx-translate/core";
         FormsModule,
         ReactiveFormsModule,
         TranslateModule,
+        ModalModule,
         CurrencyModule,
         IconComponent,
         InputNumberComponent,
