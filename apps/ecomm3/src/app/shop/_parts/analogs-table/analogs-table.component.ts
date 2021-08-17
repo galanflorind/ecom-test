@@ -1,6 +1,6 @@
 import { Component, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { Product } from '../../../shared/interfaces/product';
+import { Product } from '../../../interfaces/product';
 import { UrlService } from '../../../services/url.service';
 import { NaoSettingsInterface } from "@naologic/nao-interfaces";
 import { AppService } from "../../../app.service";

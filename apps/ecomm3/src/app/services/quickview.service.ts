@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Observable, of, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Product } from '../shared/interfaces/product';
+import { Product } from '../interfaces/product';
 
 @Injectable({
     providedIn: 'root',

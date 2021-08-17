@@ -10,10 +10,10 @@ import {
 import { CurrencyService } from '../currency/services/currency.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { QuickviewService } from '../../../services/quickview.service';
-import { UrlService } from '../../../services/url.service';
+import { QuickviewService } from '../../services/quickview.service';
+import { UrlService } from '../../services/url.service';
 import { Product, ProductAttribute } from '../../interfaces/product';
-import { AppService } from "../../../app.service";
+import { AppService } from "../../app.service";
 import { NaoSettingsInterface } from "@naologic/nao-interfaces";
 
 export type ProductCardElement = 'actions' | 'status-badge' | 'meta' | 'features' | 'buttons' | 'list-buttons';

@@ -28,13 +28,8 @@ import { PageWishlistComponent } from './page-wishlist/page-wishlist.component';
         PageWishlistComponent,
     ],
     imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        CarouselModule,
         NgxPayPalModule,
         NgxSliderModule,
-        TranslateModule.forChild(),
         SharedModule,
         ShopRoutingModule,
         ShopPartsModule

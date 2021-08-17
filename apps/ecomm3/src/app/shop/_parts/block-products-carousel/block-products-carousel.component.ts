@@ -8,14 +8,14 @@ import {
     Output,
     SimpleChanges, ViewChild,
 } from '@angular/core';
-import { ProductCardElement, ProductCardLayout } from '../../../shared/_parts/product-card/product-card.component';
+import { ProductCardElement, ProductCardLayout } from '../../../shared/product-card/product-card.component';
 import { SectionHeaderGroup, SectionHeaderLink } from '../section-header/section-header.component';
 import { OwlCarouselOConfig } from 'ngx-owl-carousel-o/lib/carousel/owl-carousel-o-config';
 import { LanguageService } from '../../../shared/language/services/language.service';
 import { Subject, timer } from 'rxjs';
 import { switchMap, takeUntil } from 'rxjs/operators';
 import { CarouselComponent } from 'ngx-owl-carousel-o';
-import { Product } from '../../../shared/interfaces/product';
+import { Product } from '../../../interfaces/product';
 
 export type BlockProductsCarouselLayout = 'grid-4' | 'grid-4-sidebar' | 'grid-5' | 'grid-6' | 'horizontal' | 'horizontal-sidebar';
 

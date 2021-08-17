@@ -19,9 +19,9 @@ import {
     PhotoSwipeOptions,
     PhotoSwipeService,
     PhotoSwipeThumbBounds,
-} from '../../../services/photo-swipe.service';
+} from '../../services/photo-swipe.service';
 import { CarouselComponent, SlidesOutputData } from 'ngx-owl-carousel-o';
-import { LanguageService } from '../../language/services/language.service';
+import { LanguageService } from '../language/services/language.service';
 import { Subject, timer } from 'rxjs';
 import { switchMap, takeUntil } from 'rxjs/operators';
 

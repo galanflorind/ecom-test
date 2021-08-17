@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ProductCompatibilityResult } from '../interfaces/product';
-import { StatusBadgeType } from '../_parts/status-badge/status-badge.component';
+import { ProductCompatibilityResult } from '../../interfaces/product';
+import { StatusBadgeType } from '../status-badge/status-badge.component';
 
 @Pipe({
     name: 'compatibilityToStatusBadgeType',

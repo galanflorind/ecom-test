@@ -1,5 +1,5 @@
 import { Component, forwardRef, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
-import { BaseFilterItem, CheckFilter } from '../../../../shared/interfaces/filter';
+import { BaseFilterItem, CheckFilter } from '../../../../interfaces/filter';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';

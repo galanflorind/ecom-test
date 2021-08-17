@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Product } from '../../../shared/interfaces/product';
+import { Product } from '../../../interfaces/product';
 
 @Component({
     selector: 'app-featured-products-grid',

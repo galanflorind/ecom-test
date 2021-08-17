@@ -1,5 +1,5 @@
 import { Component, HostBinding, Input } from '@angular/core';
-import { ProductAttributeGroup } from '../../../shared/interfaces/product';
+import { ProductAttributeGroup } from '../../../interfaces/product';
 
 @Component({
     selector: 'app-spec',

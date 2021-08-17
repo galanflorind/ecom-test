@@ -1,8 +1,8 @@
 import { Observable, timer } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
-import { BaseCategory } from '../interfaces/category';
+import { BaseCategory } from '../../interfaces/category';
 import { Params } from '@angular/router';
-import { GetProductsListOptions } from '../interfaces/shop';
+import { GetProductsListOptions } from '../../interfaces/shop';
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 export function getCategoryPath<T extends BaseCategory>(category: T): T[] {

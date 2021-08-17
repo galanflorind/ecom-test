@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Product, ProductAttribute, ProductAttributeGroup } from '../../shared/interfaces/product';
+import { Product, ProductAttribute, ProductAttributeGroup } from '../../interfaces/product';
 import { UrlService } from '../../services/url.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';

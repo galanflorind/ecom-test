@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, HostBinding, Input, OnDestroy, OnInit} from '@angular/core';
 import { ShopService } from '../../shop.service';
 import { Subject } from 'rxjs';
-import { Filter } from '../../../shared/interfaces/filter';
+import { Filter } from '../../../interfaces/filter';
 import { map, takeUntil } from 'rxjs/operators';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { filterHandlers } from '../filters/filter-handlers';

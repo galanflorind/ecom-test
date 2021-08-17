@@ -1,4 +1,4 @@
-import { MainMenuLink } from '../../../shared/interfaces/main-menu-link';
+import { MainMenuLink } from '../../../interfaces/main-menu-link';
 
 // todo: clean
 // todo: clean

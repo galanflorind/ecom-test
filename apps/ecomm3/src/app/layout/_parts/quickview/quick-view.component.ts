@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subject, Subscription, timer } from 'rxjs';
-import { Product } from '../../../shared/interfaces/product';
+import { Product } from '../../../interfaces/product';
 import { QuickviewService } from '../../../services/quickview.service';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { filter, finalize, switchMap, takeUntil } from 'rxjs/operators';

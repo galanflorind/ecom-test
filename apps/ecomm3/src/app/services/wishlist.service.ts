@@ -1,6 +1,6 @@
 import { Inject, Injectable, OnDestroy, PLATFORM_ID } from '@angular/core';
 import { BehaviorSubject, EMPTY, Observable, Subject } from 'rxjs';
-import { Product } from '../shared/interfaces/product';
+import { Product } from '../interfaces/product';
 import { map, takeUntil } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
 

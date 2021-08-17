@@ -21,9 +21,9 @@ import { MobileMenuIndicatorsComponent } from './mobile-menu-indicators/mobile-m
 import { MobileMenuLinksComponent } from './mobile-menu-links/mobile-menu-links.component';
 import { MobileMenuPanelComponent } from './mobile-menu-panel/mobile-menu-panel.component';
 import { MobileMenuSettingsComponent } from './mobile-menu-settings/mobile-menu-settings.component';
-import { DecorComponent } from '../_parts/decor/decor.component';
-import { LoadingBarComponent } from '../_parts/loading-bar/loading-bar.component';
-import { QuickViewComponent } from '../_parts/quickview/quick-view.component';
+import { DecorComponent } from './decor/decor.component';
+import { LoadingBarComponent } from './loading-bar/loading-bar.component';
+import { QuickViewComponent } from './quickview/quick-view.component';
 
 
 @NgModule({

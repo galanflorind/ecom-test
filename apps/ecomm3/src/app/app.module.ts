@@ -10,7 +10,7 @@ import { filter } from 'rxjs/operators';
 
 import { LayoutModule } from './layout/layout.module';
 import { AppRoutingModule } from './app.routing.module';
-import { CurrencyModule } from './shared/_parts/currency/currency.module';
+import { CurrencyModule } from './shared/currency/currency.module';
 import { LanguageModule } from './shared/language/language.module';
 import { SharedModule } from './shared/shared.module';
 import { NaoHttp2Module } from "@naologic/nao-http2";

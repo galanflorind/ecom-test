@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ProductCompatibilityResult } from '../interfaces/product';
+import { ProductCompatibilityResult } from '../../interfaces/product';
 
 @Pipe({
     name: 'compatibilityToStatusBadgeText',

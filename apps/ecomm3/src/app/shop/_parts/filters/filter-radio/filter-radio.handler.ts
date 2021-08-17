@@ -1,5 +1,5 @@
 import { FilterHandler } from '../filter.handler';
-import { ActiveFilterRadio, RadioFilter } from '../../../../shared/interfaces/filter';
+import { ActiveFilterRadio, RadioFilter } from '../../../../interfaces/filter';
 
 
 export class FilterRadioHandler extends FilterHandler {

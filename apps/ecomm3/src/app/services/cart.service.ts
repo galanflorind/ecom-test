@@ -1,8 +1,8 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { Product, Variant } from '../shared/interfaces/product';
+import { Product, Variant } from '../interfaces/product';
 import { BehaviorSubject, EMPTY, Observable, of, Subject, timer } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
-import { CartItem, CartData, CartTotal } from '../shared/interfaces/cart';
+import { CartItem, CartData, CartTotal } from '../interfaces/cart';
 
 @Injectable({
     providedIn: 'root',

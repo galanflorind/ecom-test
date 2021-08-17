@@ -1,4 +1,4 @@
-import { Product } from '../shared/interfaces/product';
+import { Product } from '../interfaces/product';
 
 export interface ProductsCarouselData {
     products: Product[];

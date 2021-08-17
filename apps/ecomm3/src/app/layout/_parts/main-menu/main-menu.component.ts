@@ -1,5 +1,5 @@
 import { Component, HostBinding } from '@angular/core';
-import { MainMenuLink } from '../../../shared/interfaces/main-menu-link';
+import { MainMenuLink } from '../../../interfaces/main-menu-link';
 import { LayoutHeaderService } from '../../layout-header.service';
 import { mainMenu } from './main-menu.static';
 

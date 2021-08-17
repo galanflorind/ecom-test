@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Inject, LOCALE_ID, Pipe, PipeTransform } from '@angular/core';
-import { ActiveFilter } from '../interfaces/filter';
-import { CurrencyFormatPipe } from '../_parts/currency/pipes/currency-format.pipe';
-import { CurrencyService } from '../_parts/currency/services/currency.service';
+import { ActiveFilter } from '../../interfaces/filter';
+import { CurrencyFormatPipe } from '../currency/pipes/currency-format.pipe';
+import { CurrencyService } from '../currency/services/currency.service';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 @Pipe({

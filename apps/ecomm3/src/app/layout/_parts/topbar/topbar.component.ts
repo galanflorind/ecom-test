@@ -1,6 +1,6 @@
 import { Component, HostBinding, Input } from '@angular/core';
 import { LanguageService } from '../../../shared/language/services/language.service';
-import { CurrencyService } from '../../../shared/_parts/currency/services/currency.service';
+import { CurrencyService } from '../../../shared/currency/services/currency.service';
 import { CompareService } from '../../../services/compare.service';
 
 export type TopbarLayout = 'spaceship-start'|'spaceship-end'|'classic';

@@ -5,10 +5,10 @@ import { CartService } from '../../services/cart.service';
 import { LayoutHeaderService } from '../layout-header.service';
 import { UrlService } from '../../services/url.service';
 import { AppService } from "../../app.service";
-import { DepartmentsLink } from "../../shared/interfaces/departments-link";
+import { DepartmentsLink } from "../../interfaces/departments-link";
 import { nameToSlug } from '../../shared/functions/utils';
-import { MegamenuColumn } from "../../shared/interfaces/menu";
-import { NestedLink } from "../../shared/interfaces/link";
+import { MegamenuColumn } from "../../interfaces/menu";
+import { NestedLink } from "../../interfaces/link";
 import { NaoUserAccessService } from "@naologic/nao-user-access";
 
 

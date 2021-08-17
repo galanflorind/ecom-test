@@ -4,7 +4,7 @@ import { FormControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { UrlService } from '../../services/url.service';
-import { CartItem } from '../../shared/interfaces/cart';
+import { CartItem } from '../../interfaces/cart';
 
 @Component({
     selector: 'app-page-cart',

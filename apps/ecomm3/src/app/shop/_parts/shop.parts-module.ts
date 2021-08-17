@@ -75,15 +75,9 @@ import { FilterRatingComponent } from './filters/filter-rating/filter-rating.com
         BlockProductsCarouselComponent
     ],
     imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        CarouselModule,
         NgxPayPalModule,
         NgxSliderModule,
-        TranslateModule.forChild(),
-        SharedModule,
-        ShopRoutingModule
+        SharedModule
     ]
 })
 export class ShopPartsModule { }

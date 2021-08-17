@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CurrencyModule } from './_parts/currency/currency.module';
-import { SharedPartsModule } from './_parts/shared.parts-module';
+import { CurrencyModule } from './currency/currency.module';
 import { AddToCartDirective } from './directives/add-to-cart.directive';
 import { AddToCompareDirective } from './directives/add-to-compare.directive';
 import { AddToWishlistDirective } from './directives/add-to-wishlist.directive';
@@ -26,21 +25,40 @@ import { IsInvalidPipe } from './pipes/is-invalid.pipe';
 import { StockToStatusBadgeTextPipe } from './pipes/stock-to-status-badge-text.pipe';
 import { StockToStatusBadgeTypePipe } from './pipes/stock-to-status-badge-type.pipe';
 import { CheckImageFallbackPipe } from "./pipes/check-image-fallback.pipe";
-import { IconComponent } from './_parts/icon/icon.component';
-import { InputNumberComponent } from './_parts/input-number/input-number.component';
-import { PaginationComponent } from './_parts/pagination/pagination.component';
-import { ProductCardComponent } from './_parts/product-card/product-card.component';
-import { ProductVariantsComponent } from './_parts/product-variants/product-variants.component';
-import { ProductGalleryComponent } from './_parts/product-gallery/product-gallery.component';
-import { RatingComponent } from './_parts/rating/rating.component';
-import { StatusBadgeComponent } from './_parts/status-badge/status-badge.component';
-import { TermsComponent } from './_parts/terms/terms.component';
-import { AvatarIconComponent } from "./_parts/avatar-icon/avatar-icon.component";
-import { CheckboxComponent } from './_parts/checkbox/checkbox.component';
-import { RadioButtonComponent } from './_parts/radio-button/radio-button.component';
+import { IconComponent } from './icon/icon.component';
+import { InputNumberComponent } from './input-number/input-number.component';
+import { PaginationComponent } from './pagination/pagination.component';
+import { ProductCardComponent } from './product-card/product-card.component';
+import { ProductVariantsComponent } from './product-variants/product-variants.component';
+import { ProductGalleryComponent } from './product-gallery/product-gallery.component';
+import { RatingComponent } from './rating/rating.component';
+import { StatusBadgeComponent } from './status-badge/status-badge.component';
+import { TermsComponent } from './terms/terms.component';
+import { AvatarIconComponent } from "./avatar-icon/avatar-icon.component";
+import { CheckboxComponent } from './checkbox/checkbox.component';
+import { RadioButtonComponent } from './radio-button/radio-button.component';
+import { CommonModule } from "@angular/common";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { RouterModule } from "@angular/router";
+import { CarouselModule } from "ngx-owl-carousel-o";
+import { ModalModule } from "ngx-bootstrap/modal";
+import { TooltipModule } from "ngx-bootstrap/tooltip";
+import { TranslateModule } from "@ngx-translate/core";
 
 
 @NgModule({
+    imports: [
+        RouterModule,
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        RouterModule,
+        CarouselModule,
+        ModalModule.forChild(),
+        TooltipModule,
+        TranslateModule.forChild(),
+        CurrencyModule
+    ],
     declarations: [
         DropdownDirective,
         OwlPreventClickDirective,
@@ -62,8 +80,31 @@ import { RadioButtonComponent } from './_parts/radio-button/radio-button.compone
         IsInvalidPipe,
         StockToStatusBadgeTextPipe,
         StockToStatusBadgeTypePipe,
+        AddToCartDirective,
+        AddToCompareDirective,
+        AddToWishlistDirective,
+        CheckImageFallbackPipe,
+        FakeSlidesDirective,
+        IconComponent,
+        InputNumberComponent,
+        PaginationComponent,
+        ProductCardComponent,
+        ProductVariantsComponent,
+        ProductGalleryComponent,
+        RatingComponent,
+        StatusBadgeComponent,
+        TermsComponent,
+        CheckboxComponent,
+        RadioButtonComponent,
+        AvatarIconComponent,
     ],
     exports: [
+        CarouselModule,
+        RouterModule,
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        TranslateModule,
         CurrencyModule,
         IconComponent,
         InputNumberComponent,
@@ -101,10 +142,7 @@ import { RadioButtonComponent } from './_parts/radio-button/radio-button.compone
         IsInvalidPipe,
         StockToStatusBadgeTextPipe,
         StockToStatusBadgeTypePipe,
-        CheckImageFallbackPipe
-    ],
-    imports: [
-        SharedPartsModule
+        CheckImageFallbackPipe,
     ]
 })
 export class SharedModule { }

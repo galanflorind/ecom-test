@@ -12,7 +12,7 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { CheckboxDispatcherService } from '../../dispatchers/checkbox-dispatcher.service';
+import { CheckboxDispatcherService } from '../dispatchers/checkbox-dispatcher.service';
 
 let uniqueId = 0;
 

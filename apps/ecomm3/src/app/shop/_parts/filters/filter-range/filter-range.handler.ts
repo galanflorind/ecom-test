@@ -1,5 +1,5 @@
 import { FilterHandler } from '../filter.handler';
-import { ActiveFilterRange, RangeFilter } from '../../../../shared/interfaces/filter';
+import { ActiveFilterRange, RangeFilter } from '../../../../interfaces/filter';
 
 
 export class FilterRangeHandler extends FilterHandler {

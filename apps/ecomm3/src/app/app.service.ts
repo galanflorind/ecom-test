@@ -3,7 +3,7 @@ import { BehaviorSubject, forkJoin, Subscription } from "rxjs";
 import { NaoSettingsInterface } from "@naologic/nao-interfaces";
 import { ECommerceService } from "./e-commerce.service";
 import { StorageMap } from "@ngx-pwa/local-storage";
-import {NaoUserAccessService} from "@naologic/nao-user-access";
+import { NaoUserAccessService } from "@naologic/nao-user-access";
 
 @Injectable({
     providedIn: 'root',

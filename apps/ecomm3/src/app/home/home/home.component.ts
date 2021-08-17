@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Product } from '../../shared/interfaces/product';
+import { Product } from '../../interfaces/product';
 import { AppService } from "../../app.service";
 import { UrlService } from "../../services/url.service";
 import { ProductsCarouselData } from '../home.interface';

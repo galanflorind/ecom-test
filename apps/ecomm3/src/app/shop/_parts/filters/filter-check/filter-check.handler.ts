@@ -1,5 +1,5 @@
 import { FilterHandler } from '../filter.handler';
-import { ActiveFilterCheck, CheckFilter } from '../../../../shared/interfaces/filter';
+import { ActiveFilterCheck, CheckFilter } from '../../../../interfaces/filter';
 
 
 export class FilterCheckHandler extends FilterHandler {

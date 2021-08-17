@@ -1,5 +1,5 @@
 import { Component, forwardRef, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
-import { RatingFilter, RatingFilterItem } from '../../../../shared/interfaces/filter';
+import { RatingFilter, RatingFilterItem } from '../../../../interfaces/filter';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';

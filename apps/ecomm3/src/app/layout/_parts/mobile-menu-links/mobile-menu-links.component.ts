@@ -1,5 +1,5 @@
 import { Component, EventEmitter, HostBinding, Input, Output, TemplateRef } from '@angular/core';
-import { MobileMenuLink } from '../../../shared/interfaces/mobile-menu-link';
+import { MobileMenuLink } from '../../../interfaces/mobile-menu-link';
 import { LayoutMobileMenuService } from '../../layout-mobile-menu.service';
 
 @Component({

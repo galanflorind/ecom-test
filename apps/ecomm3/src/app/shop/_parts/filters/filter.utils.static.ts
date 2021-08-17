@@ -1,4 +1,4 @@
-import {CategoryFilter, CheckFilter, RangeFilter} from "../../../shared/interfaces/filter";
+import {CategoryFilter, CheckFilter, RangeFilter} from "../../../interfaces/filter";
 import { nameToSlug } from "../../../shared/functions/utils";
 
 /**

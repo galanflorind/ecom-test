@@ -1,9 +1,9 @@
 import { Inject, Injectable, OnDestroy, PLATFORM_ID } from '@angular/core';
 import { BehaviorSubject, EMPTY, Observable, Subject } from 'rxjs';
-import { Product, Variant } from '../shared/interfaces/product';
+import { Product, Variant } from '../interfaces/product';
 import { map, takeUntil } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
-import { CompareItem } from '../shared/interfaces/compare';
+import { CompareItem } from '../interfaces/compare';
 
 @Injectable({
     providedIn: 'root',

@@ -1,5 +1,5 @@
 import { Component, HostBinding, Input, OnDestroy, OnInit, Optional } from '@angular/core';
-import { RadiobuttonDispatcherService } from '../../dispatchers/radiobutton-dispatcher.service';
+import { RadiobuttonDispatcherService } from '../dispatchers/radiobutton-dispatcher.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 

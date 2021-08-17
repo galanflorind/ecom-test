@@ -1,5 +1,5 @@
 import { Component, HostBinding, Input } from '@angular/core';
-import { Brand } from '../../../shared/interfaces/brand';
+import { Brand } from '../../../interfaces/brand';
 
 export type BlockBrandsLayout = 'columns-8-full' | 'columns-7-sidebar';
 

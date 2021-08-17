@@ -54,11 +54,6 @@ export class AccountProfileService<T = any> {
     }
 
     /**
-     * List invoices
-     */
-
-    // ------------------------------------- \\
-    /**
      * Send the email for password reset
      */
     public sendResetPasswordEmail(email: string): Observable<T> {

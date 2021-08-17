@@ -61,6 +61,7 @@ const routes: Routes = [
     {
         path: 'login',
         component: PageLoginComponent,
+        // todo: add authGuard with redirect to dashboard
         // canActivate: [AuthGuard],
         // data: {
         //     authGuardMode: 'redirectToDashboard',
