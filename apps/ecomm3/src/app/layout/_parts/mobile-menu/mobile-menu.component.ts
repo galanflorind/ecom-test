@@ -34,22 +34,19 @@ interface StackItem {
     styleUrls: ['./mobile-menu.component.scss'],
 })
 export class MobileMenuComponent implements OnInit, OnDestroy, AfterViewInit, AfterViewChecked {
-
-    @ViewChild('body') body!: ElementRef;
-
-    @ViewChild('conveyor') conveyor!: ElementRef;
-
-    @ViewChild('panelsContainer', { read: ViewContainerRef }) panelsContainer!: ViewContainerRef;
-
-
     private destroy$: Subject<void> = new Subject<void>();
+    private subs = new Subscription();
+
     public links = [];
     public currentLevel = 0;
     public panelsStack: StackItem[] = [];
     public panelsBin: StackItem[] = [];
     public forceConveyorTransition = false;
-    private subs = new Subscription();
     public infoSupport = null;
+
+    @ViewChild('body') body!: ElementRef;
+    @ViewChild('conveyor') conveyor!: ElementRef;
+    @ViewChild('panelsContainer', { read: ViewContainerRef }) panelsContainer!: ViewContainerRef;
 
     constructor(
         @Inject(PLATFORM_ID) private platformId: any,

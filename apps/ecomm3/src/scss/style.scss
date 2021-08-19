@@ -59,6 +59,26 @@
 //   - .filter-list
 //   - .filter-range
 //   - .filter-rating
+// - Header
+//   - .header
+//   - .logo
+//   - .menu
+//   - .main-menu
+//   - .megamenu
+//   - .account-menu
+//   - .search
+//   - .departments
+//   - .dropcart
+//   - .indicator
+//   - .phone
+//   - .suggestions
+//   - .topbar
+// - Mobile Header
+//   - .mobile-header
+//   - .mobile-indicator
+//   - .mobile-logo
+//   - .mobile-menu
+//   - .mobile-search
 // - Footer
 //   - .footer-contacts
 //   - .footer-links
@@ -209,15 +229,17 @@
 @import 'filters/filter-rating';
 
 
+/* ----------------------------------------
+// Header
+// ---------------------------------------- */
+@import 'header/header';
+@import 'header/mobile-header';
+
 
 /* ----------------------------------------
 // Footer
 // ---------------------------------------- */
-@import 'footer/footer-contacts';
-@import 'footer/footer-links';
-@import 'footer/footer-newsletter';
-@import 'footer/site-footer';
-
+@import 'footer/footer';
 
 
 /* ----------------------------------------

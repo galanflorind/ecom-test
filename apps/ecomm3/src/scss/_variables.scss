@@ -10,14 +10,14 @@
 // - body
 // - link
 // - header
-//   - .topbar--classic
+//   - .topbar
 //   - .header__navbar
 //   - .indicator__counter
 //   - .menu
 //   - .departments__button
 //   - .departments__menu
 //   - .logo
-//   - .search--layout--classic
+//   - .search--layout
 //   - .dropcart
 // - footer
 // - .mobile-header
@@ -240,9 +240,8 @@
 // ----------------------------------------
 // -- header
 // ----------------------------------------
-   $header-layout:          classic     !default;
    $header-variant-name:    classic-one !default;
-   $spaceship-ledge-height: 24px          !default;
+   $ledge-height: 24px          !default;
 
    // scheme
    $header-scheme-based-on: light !default;
@@ -254,10 +253,10 @@
 // ----------------------------------------
    // -- .topbar--classic
    // ----------------------------------------
-      $topbar-classic-scheme-based-on: light !default;
-      $topbar-classic-scheme-variants: () !default;
-      $topbar-classic-scheme: map-get-default-map($topbar-classic-scheme-variants, $header-variant-name) !default;
-      $topbar-classic-scheme: map-merge-all(get-scheme($topbar-classic-scheme-based-on), $topbar-classic-scheme);
+      $topbar-scheme-based-on: light !default;
+      $topbar-scheme-variants: () !default;
+      $topbar-scheme: map-get-default-map($topbar-scheme-variants, $header-variant-name) !default;
+      $topbar-scheme: map-merge-all(get-scheme($topbar-scheme-based-on), $topbar-scheme);
 
    // ----------------------------------------
    // -- .header__navbar
@@ -327,8 +326,8 @@
    // -- .search--layout--classic
    // ----------------------------------------
       // input
-      $search-classic-input-scheme: () !default;
-      $search-classic-input-scheme: map-merge-deep((
+      $search-input-scheme: () !default;
+      $search-input-scheme: map-merge-deep((
          // normal
          normal-bg-color:          #ededed,
          normal-border-color:      #ededed,
@@ -343,11 +342,11 @@
          // focus
          focus-bg-color:           #fff,
          focus-border-color:       #e5e5e5,
-      ), $search-classic-input-scheme);
+      ), $search-input-scheme);
 
       // button
-      $search-classic-button-scheme: () !default;
-      $search-classic-button-scheme: map_merge((
+      $search-button-scheme: () !default;
+      $search-button-scheme: map_merge((
          // normal
          normal-bg-color:    map_get($accent-scheme, main),
          normal-font-color:  #030929,
@@ -357,7 +356,7 @@
          hover-bg-color:     #ffd226,
          // active
          active-bg-color:    #ffca16,
-      ), $search-classic-button-scheme);
+      ), $search-button-scheme);
 
    // ----------------------------------------
    // -- .dropcart

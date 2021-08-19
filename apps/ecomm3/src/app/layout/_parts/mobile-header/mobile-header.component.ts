@@ -27,14 +27,11 @@ import {Router} from "@angular/router";
 export class MobileHeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     private destroy$: Subject<void> = new Subject<void>();
 
-    searchIsOpen = false;
-
-    searchPlaceholder$!: Observable<string>;
+    public searchIsOpen = false;
+    public searchPlaceholder$!: Observable<string>;
 
     @ViewChild('searchForm') searchForm!: ElementRef<HTMLElement>;
-
     @ViewChild('searchInput') searchInput!: ElementRef<HTMLElement>;
-
     @ViewChild('searchIndicator') searchIndicator!: ElementRef<HTMLElement>;
 
     constructor(
@@ -48,16 +45,16 @@ export class MobileHeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         private router: Router
     ) { }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this.searchPlaceholder$ = this.translate.stream('INPUT_SEARCH_PLACEHOLDER')
     }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();
     }
 
-    ngAfterViewInit(): void {
+    public ngAfterViewInit(): void {
         if (!isPlatformBrowser(this.platformId)) {
             return;
         }
@@ -75,7 +72,7 @@ export class MobileHeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         });
     }
 
-    openSearch(): void {
+    public openSearch(): void {
         this.searchIsOpen = true;
 
         if (this.searchInput.nativeElement) {
@@ -90,7 +87,7 @@ export class MobileHeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         this.page.setSearchTerm(searchTerm);
     }
 
-    closeSearch(): void {
+    public closeSearch(): void {
         this.searchIsOpen = false;
     }
 }

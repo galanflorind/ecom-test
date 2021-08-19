@@ -37,9 +37,7 @@
             ],
             "styles": [
               "node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.carousel.min.css",
-              "apps/ecomm3/src/styles.scss",
-              "apps/ecomm3/src/scss/style.header-classic-variant-one.scss",
-              "apps/ecomm3/src/scss/style.mobile-header-variant-one.scss",
+              "apps/ecomm3/src/styles.scss"
             ],
             "scripts": []
           },

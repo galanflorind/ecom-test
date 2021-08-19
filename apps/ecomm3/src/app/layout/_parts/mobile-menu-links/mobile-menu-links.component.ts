@@ -16,7 +16,7 @@ export class MobileMenuLinksComponent {
         private menu: LayoutMobileMenuService,
     ) { }
 
-    onItemClick(event: MouseEvent, item: MobileMenuLink, panel: TemplateRef<any>): void {
+    public onItemClick(event: MouseEvent, item: MobileMenuLink, panel: TemplateRef<any>): void {
         if (item.submenu) {
             event.preventDefault();
 

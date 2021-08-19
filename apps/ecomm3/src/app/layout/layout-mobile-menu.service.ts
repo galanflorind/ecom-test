@@ -13,13 +13,10 @@ export interface OpenPanelEvent {
 export class LayoutMobileMenuService {
     private isOpenSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-    isOpen$: Observable<boolean> = this.isOpenSubject.asObservable();
+    public onOpenPanel: EventEmitter<OpenPanelEvent> = new EventEmitter<OpenPanelEvent>();
+    public onCloseCurrentPanel: EventEmitter<void> = new EventEmitter<void>();
 
-    onOpenPanel: EventEmitter<OpenPanelEvent> = new EventEmitter<OpenPanelEvent>();
-
-    onCloseCurrentPanel: EventEmitter<void> = new EventEmitter<void>();
-
-    get isOpen(): boolean {
+    public get isOpen(): boolean {
         return this.isOpenSubject.value;
     }
 
@@ -27,15 +24,15 @@ export class LayoutMobileMenuService {
         @Inject(PLATFORM_ID) private platformId: any,
     ) { }
 
-    open(): void {
+    public open(): void {
         this.toggle(true);
     }
 
-    close(): void {
+    public close(): void {
         this.toggle(false);
     }
 
-    toggle(force?: boolean): void {
+    public toggle(force?: boolean): void {
         const isOpen = force !== undefined ? force : !this.isOpenSubject.value;
 
         if (isOpen === this.isOpenSubject.value) {
@@ -59,11 +56,11 @@ export class LayoutMobileMenuService {
         this.isOpenSubject.next(isOpen);
     }
 
-    openPanel(label: string, panelContent: TemplateRef<any>): void {
+    public openPanel(label: string, panelContent: TemplateRef<any>): void {
         this.onOpenPanel.emit({ label, content: panelContent });
     }
 
-    closeCurrentPanel(): void {
+    public closeCurrentPanel(): void {
         this.onCloseCurrentPanel.next();
     }
 }

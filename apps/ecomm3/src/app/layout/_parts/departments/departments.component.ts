@@ -1,7 +1,6 @@
 import {
     Component,
     ElementRef,
-    HostBinding,
     Inject,
     Input,
     NgZone,
@@ -24,17 +23,10 @@ export class DepartmentsComponent implements OnInit, OnDestroy {
     @Input() public items: DepartmentsLink[] = [];
     @Input() public label: string = '';
 
-    @HostBinding('class.departments') public classDepartments = true;
-
-    @HostBinding('class.departments--open') get classDepartmentsOpen() {
-        return this.isOpen;
-    }
-
     private destroy$: Subject<void> = new Subject<void>();
     public isOpen = false;
+
     public currentItem: DepartmentsLink|null = null;
-
-
 
     constructor(
         @Inject(PLATFORM_ID) private platformId: any,

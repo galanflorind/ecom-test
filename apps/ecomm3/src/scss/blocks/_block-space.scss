@@ -1,5 +1,5 @@
 /*
-// Nao spacing made consisntent
+// Nao spacing made consistent
 */
 @import '../variables';
 @import '../mixins/breakpoints';
@@ -60,9 +60,6 @@
 }
 
 .nao-spacer-ledge-height {
-    height: $spaceship-ledge-height;
-
-    @include media-breakpoint-down(lg) {
-        display: none;
-    }
+    height: $ledge-height;
+    display: none;
 }

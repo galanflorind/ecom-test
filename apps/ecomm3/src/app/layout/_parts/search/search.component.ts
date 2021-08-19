@@ -28,14 +28,10 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
     /**
      * TODO: when we have suggestions, uncomment everything from both html and ts fiel
      */
-    public suggestionsIsOpen = false;
-
-    public hasSuggestions = false;
-
+    // public suggestionsIsOpen = false;
+    // public hasSuggestions = false;
     // public products: Product[] = [];
-
     // public categories: ShopCategory[] = [];
-
     // get element(): HTMLElement { return this.elementRef.nativeElement; }
 
     constructor(
@@ -73,9 +69,7 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
         })
     }
 
-
-
-    ngAfterViewInit(): void {
+    public ngAfterViewInit(): void {
         if (!isPlatformBrowser(this.platformId)) {
             return;
         }

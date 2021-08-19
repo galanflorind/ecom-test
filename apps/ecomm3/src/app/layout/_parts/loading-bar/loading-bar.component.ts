@@ -30,7 +30,7 @@ export class LoadingBarComponent implements OnDestroy, AfterViewInit {
 
     @ViewChild('bar') bar!: ElementRef;
 
-    get element(): HTMLElement {
+    public get element(): HTMLElement {
         return this.bar.nativeElement;
     }
 
@@ -39,12 +39,12 @@ export class LoadingBarComponent implements OnDestroy, AfterViewInit {
         private zone: NgZone,
     ) { }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();
     }
 
-    ngAfterViewInit(): void {
+    public ngAfterViewInit(): void {
         let timer: ReturnType<typeof setTimeout>;
 
         this.zone.runOutsideAngular(() => {

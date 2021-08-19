@@ -10,8 +10,8 @@ import { LanguageService } from '../../../shared/language/services/language.serv
     styleUrls: ['./mobile-menu-settings.component.scss'],
 })
 export class MobileMenuSettingsComponent implements OnInit {
-    languages: MobileMenuLink[] = [];
-    currencies: MobileMenuLink[] = [];
+    public languages: MobileMenuLink[] = [];
+    public currencies: MobileMenuLink[] = [];
 
     constructor(
         public menu: LayoutMobileMenuService,
@@ -19,7 +19,7 @@ export class MobileMenuSettingsComponent implements OnInit {
         public currency: CurrencyService,
     ) { }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this.languages = this.language.all.map(x => ({
             title: x.name,
             image: x.image,
@@ -35,7 +35,7 @@ export class MobileMenuSettingsComponent implements OnInit {
         }));
     }
 
-    setLanguage(item: MobileMenuLink): void {
+    public setLanguage(item: MobileMenuLink): void {
         if (!item.customFields?.code) {
             return;
         }
@@ -44,7 +44,7 @@ export class MobileMenuSettingsComponent implements OnInit {
         this.menu.close();
     }
 
-    setCurrency(item: MobileMenuLink): void {
+    public setCurrency(item: MobileMenuLink): void {
         if (!item.customFields?.code) {
             return;
         }

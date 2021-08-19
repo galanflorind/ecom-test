@@ -1,7 +1,6 @@
 import {
     Component,
     ElementRef,
-    HostBinding,
     Inject,
     Input, NgZone,
     OnChanges,
@@ -25,33 +24,17 @@ export type IndicatorTrigger = 'click' | 'hover';
     exportAs: 'indicator',
 })
 export class IndicatorComponent implements OnChanges, OnInit, OnDestroy {
-    private destroy$: Subject<void> = new Subject<void>();
-
-    href: string = '';
-
     @Input() link!: string;
-
     @Input() icon!: string;
-
     @Input() label: string = '';
-
     @Input() value: string = '';
-
     @Input() counter?: string|number;
-
     @Input() trigger: IndicatorTrigger = 'hover';
 
-    @HostBinding('class.indicator') classIndicator = true;
+    private destroy$: Subject<void> = new Subject<void>();
 
-    @HostBinding('class.indicator--open') classIndicatorOpen = false;
-
-    @HostBinding('class.indicator--trigger--click') get classIndicatorTriggerClick(): boolean {
-        return this.trigger === 'click';
-    }
-
-    @HostBinding('class.indicator--trigger--hover') get classIndicatorTriggerHover(): boolean {
-        return this.trigger === 'hover';
-    }
+    public href: string = '';
+    public classIndicatorOpen: boolean = false;
 
     constructor(
         @Inject(PLATFORM_ID) private platformId: any,
@@ -61,13 +44,13 @@ export class IndicatorComponent implements OnChanges, OnInit, OnDestroy {
         private elementRef: ElementRef<HTMLElement>,
     ) { }
 
-    ngOnChanges(changes: SimpleChanges): void {
+    public ngOnChanges(changes: SimpleChanges): void {
         if ('link' in changes) {
             this.href = this.router.createUrlTree([this.link], { relativeTo: this.route }).toString();
         }
     }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         if (!isPlatformBrowser(this.platformId)) {
             return;
         }
@@ -82,12 +65,12 @@ export class IndicatorComponent implements OnChanges, OnInit, OnDestroy {
         });
     }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();
     }
 
-    onClick(event: MouseEvent) {
+    public onClick(event: MouseEvent) {
         if (!event.cancelable) {
             return;
         }
@@ -101,7 +84,7 @@ export class IndicatorComponent implements OnChanges, OnInit, OnDestroy {
         this.classIndicatorOpen = !this.classIndicatorOpen;
     }
 
-    close(): void {
+    public close(): void {
         this.classIndicatorOpen = false;
     }
 }

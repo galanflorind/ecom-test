@@ -157,7 +157,7 @@ $local-title-safe-area-expand: 64px;
     }
 }
 .breadcrumb__classic-safe-area {
-    display: block;
+    display: none;
     height: $local-height;
     width: calc(50% + #{$local-classic-search-width-xxl} / 2 + #{$local-classic-safe-area-expand});
     margin-top: $local-gutter-y;

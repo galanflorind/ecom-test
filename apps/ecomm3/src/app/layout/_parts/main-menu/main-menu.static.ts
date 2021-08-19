@@ -92,10 +92,7 @@ export const mainMenu: MainMenuLink[] = [
     //                 ],
     //             },
     //         ],
-    //     },
-    //     customFields: {
-    //         ignoreIn: ['spaceship'],
-    //     },
+    //     }
     // },
     // {
     //     title: 'Shop',

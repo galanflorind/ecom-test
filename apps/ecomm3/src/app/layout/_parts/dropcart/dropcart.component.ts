@@ -10,8 +10,6 @@ import { UrlService } from '../../../services/url.service';
 export class DropcartComponent {
     @Output() closeMenu: EventEmitter<void> = new EventEmitter<void>();
 
-    @HostBinding('class.dropcart') classDropcart = true;
-
     constructor(
         public cart: CartService,
         public url: UrlService,

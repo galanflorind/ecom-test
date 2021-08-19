@@ -17,9 +17,10 @@ import { NaoUserAccessService } from "@naologic/nao-user-access";
     styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-    // email$: Observable<string | null> = this.account.user$.pipe(map(x => x ? x.email : null));
-    public categories: DepartmentsLink[] = [];
     private subs = new Subscription();
+
+    // public email$: Observable<string | null> = this.account.user$.pipe(map(x => x ? x.email : null));
+    public categories: DepartmentsLink[] = [];
     public infoSupport = null;
     public userData = null;
 

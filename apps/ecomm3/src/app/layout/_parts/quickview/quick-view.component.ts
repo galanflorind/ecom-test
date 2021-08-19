@@ -20,13 +20,14 @@ import { NaoUserAccessService } from "@naologic/nao-user-access";
 })
 export class QuickViewComponent implements OnDestroy, AfterViewInit, OnInit {
     private destroy$: Subject<void> = new Subject();
+    private subs = new Subscription();
+
     public appSettings: NaoSettingsInterface.Settings;
     public showGallery = false;
     public product: Product | null = null;
     public form!: FormGroup;
     public addToCartInProgress = false;
     public variantIndex = 0;
-    private subs = new Subscription();
     public isLoggedIn = false;
 
     @ViewChild('modal') modal!: ModalDirective;

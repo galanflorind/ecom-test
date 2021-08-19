@@ -8,23 +8,22 @@ import { mainMenu } from './main-menu.static';
     styleUrls: ['./main-menu.component.scss'],
 })
 export class MainMenuComponent {
-    items: MainMenuLink[] = mainMenu;
-
-    hoveredItem: MainMenuLink|null = null;
+    public items: MainMenuLink[] = mainMenu;
+    public hoveredItem: MainMenuLink|null = null;
 
     constructor() {}
 
-    onItemEnter(item: any): void {
+    public onItemEnter(item: any): void {
         this.hoveredItem = item;
     }
 
-    onItemLeave(item: any): void {
+    public onItemLeave(item: any): void {
         if ( this.hoveredItem === item ) {
             this.hoveredItem = null;
         }
     }
 
-    onItemClick(): void {
+    public onItemClick(): void {
         this.hoveredItem = null;
     }
 }

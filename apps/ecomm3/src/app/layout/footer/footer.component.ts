@@ -9,6 +9,7 @@ import { AppService } from "../../app.service";
 })
 export class FooterComponent implements OnInit, OnDestroy {
     private subs = new Subscription();
+
     public infoSupport = null;
 
     // Newsletter social links and bindings
