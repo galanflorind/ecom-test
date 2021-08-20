@@ -100,12 +100,6 @@ export class QuickViewComponent implements OnDestroy, AfterViewInit, OnInit {
         });
     }
 
-    public ngOnDestroy(): void {
-        this.subs.unsubscribe();
-        this.destroy$.next();
-        this.destroy$.complete();
-    }
-
     public addToCart(): void {
         const product = this.product;
 
@@ -134,5 +128,11 @@ export class QuickViewComponent implements OnDestroy, AfterViewInit, OnInit {
         this.cart.add(product, variant, this.form.get('quantity')!.value).pipe(
             finalize(() => this.addToCartInProgress = false),
         ).subscribe();
+    }
+
+    public ngOnDestroy(): void {
+        this.subs.unsubscribe();
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 }

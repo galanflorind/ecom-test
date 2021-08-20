@@ -1,5 +1,4 @@
 @import 'functions';
-@import 'custom-variables';
 
 
 // ----------------------------------------
@@ -81,8 +80,6 @@
 //   - .block-finder
 //   - .block-zone
 //   - .block-slideshow
-//   - .block-sale
-//   - .block-banners
 //   - .block-features
 //   - .block-brands
 // - widgets
@@ -140,14 +137,15 @@
 // -- schemes
 // ----------------------------------------
    // theme
+   $theme-color: #3E40DB;
    $theme-scheme: () !default;
    $theme-scheme: register-scheme(map_merge((
       name:         theme,
       // colors
-      main:         #ff3333,
+      main:         $theme-color,
       opposite:     #fff, opposite-font-weight-map: $font-weight-decrease-map,
       opposite-alt: #fff,
-      muted:        #ffcccc,
+      muted:        #cce3ff,
       // states
       hover:        rgba(#000, .15),
       active:       rgba(#000, .20),
@@ -1153,24 +1151,6 @@
       $block-slideshow-dot-hover-color:   rgba(#b3b3b3, .7)            !default;
       $block-slideshow-dot-active-color:  rgba(#999, .7)               !default;
       $block-slideshow-dot-current-color: map_get($theme-scheme, main) !default;
-
-   // ----------------------------------------
-   // -- .block-sale
-   // ----------------------------------------
-      $block-sale-overlay-bg:        rgba(#030929, .8)            !default;
-      // dots
-      $block-sale-dot-normal-color:  rgba(#fff, .3)               !default;
-      $block-sale-dot-hover-color:   rgba(#fff, .5)               !default;
-      $block-sale-dot-active-color:  rgba(#fff, .7)               !default;
-      $block-sale-dot-current-color: map_get($theme-scheme, main) !default;
-
-   // ----------------------------------------
-   // -- .block-banners
-   // ----------------------------------------
-      $block-banners-font-color:              #fff                                          !default;
-      $block-banners-title-scheme:            $accent-scheme                                !default;
-      $block-banners-overlay-gradient:        rgba(#1a1a1a, .98) 25%, rgba(#1a1a1a, 0) 90%  !default;
-      $block-banners-overlay-mobile-gradient: rgba(#1a1a1a, .98) 35%, rgba(#1a1a1a, 0) 100% !default;
 
    // ----------------------------------------
    // -- .block-features

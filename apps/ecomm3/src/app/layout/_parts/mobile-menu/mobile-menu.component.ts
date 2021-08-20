@@ -138,11 +138,6 @@ export class MobileMenuComponent implements OnInit, OnDestroy, AfterViewInit, Af
         });
     }
 
-    public ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
-    }
-
     public ngAfterViewInit(): void {
         if (isPlatformBrowser(this.platformId)) {
             this.zone.runOutsideAngular(() => {
@@ -207,7 +202,6 @@ export class MobileMenuComponent implements OnInit, OnDestroy, AfterViewInit, Af
         }
     }
 
-
     /**
      * Map categories for mobile menu
      */
@@ -262,7 +256,11 @@ export class MobileMenuComponent implements OnInit, OnDestroy, AfterViewInit, Af
 
         });
 
-
         return items;
+    }
+
+    public ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 }

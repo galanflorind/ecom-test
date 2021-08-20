@@ -40,7 +40,6 @@ export class AccountMenuComponent implements OnInit, OnDestroy {
         });
     }
 
-
     /**
      * Login
      */

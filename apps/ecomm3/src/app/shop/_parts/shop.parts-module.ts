@@ -7,7 +7,6 @@ import { ProductTabComponent } from './product-tab/product-tab.component';
 import { ProductTabsComponent } from './product-tabs/product-tabs.component';
 import { ShopSidebarComponent } from './shop-sidebar/shop-sidebar.component';
 import { SpecComponent } from './spec/spec.component';
-import { WidgetCategoriesListComponent } from './widget-categories-list/widget-categories-list.component';
 import { WidgetFiltersComponent } from './widget-filters/widget-filters.component';
 import { WidgetProductsComponent } from './widget-products/widget-products.component';
 import { NaoLoadingComponent } from "./nao-loading/nao-loading.component";
@@ -34,7 +33,6 @@ import { FilterRatingComponent } from './filters/filter-rating/filter-rating.com
         ShopSidebarComponent,
         SpecComponent,
         NaoLoadingComponent,
-        WidgetCategoriesListComponent,
         WidgetFiltersComponent,
         WidgetProductsComponent,
         TermsModalComponent,
@@ -58,7 +56,6 @@ import { FilterRatingComponent } from './filters/filter-rating/filter-rating.com
         ShopSidebarComponent,
         SpecComponent,
         NaoLoadingComponent,
-        WidgetCategoriesListComponent,
         WidgetFiltersComponent,
         WidgetProductsComponent,
         TermsModalComponent,

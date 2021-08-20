@@ -65,11 +65,3 @@
         width: #{$padding-x-base * 2 + 2px};
     }
 }
-@mixin decor-center-radius($radius) {
-    .decor__start {
-        border-bottom-left-radius: $radius;
-    }
-    .decor__end {
-        border-bottom-right-radius: $radius;
-    }
-}

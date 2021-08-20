@@ -1,9 +1,7 @@
 /*
 // .categories-list
 */
-@import '../variables';
 @import '../mixins/card';
-@import '../mixins/breakpoints';
 
 
 @mixin local-layout($columns) {

@@ -28,10 +28,3 @@
 
     @include arrow-skew($angel);
 }
-
-
-@function calc-arrow-width($height, $padding-x, $angel) {
-    $icon-width: 6px;
-
-    @return ($height * tan($angel) + $padding-x) * 2 + $icon-width;
-}

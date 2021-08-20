@@ -44,12 +44,6 @@ export class IndicatorComponent implements OnChanges, OnInit, OnDestroy {
         private elementRef: ElementRef<HTMLElement>,
     ) { }
 
-    public ngOnChanges(changes: SimpleChanges): void {
-        if ('link' in changes) {
-            this.href = this.router.createUrlTree([this.link], { relativeTo: this.route }).toString();
-        }
-    }
-
     public ngOnInit(): void {
         if (!isPlatformBrowser(this.platformId)) {
             return;
@@ -65,9 +59,10 @@ export class IndicatorComponent implements OnChanges, OnInit, OnDestroy {
         });
     }
 
-    public ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
+    public ngOnChanges(changes: SimpleChanges): void {
+        if ('link' in changes) {
+            this.href = this.router.createUrlTree([this.link], { relativeTo: this.route }).toString();
+        }
     }
 
     public onClick(event: MouseEvent) {
@@ -86,5 +81,10 @@ export class IndicatorComponent implements OnChanges, OnInit, OnDestroy {
 
     public close(): void {
         this.classIndicatorOpen = false;
+    }
+
+    public ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 }

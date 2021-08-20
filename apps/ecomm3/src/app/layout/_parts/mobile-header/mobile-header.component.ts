@@ -49,11 +49,6 @@ export class MobileHeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         this.searchPlaceholder$ = this.translate.stream('INPUT_SEARCH_PLACEHOLDER')
     }
 
-    public ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
-    }
-
     public ngAfterViewInit(): void {
         if (!isPlatformBrowser(this.platformId)) {
             return;
@@ -89,5 +84,10 @@ export class MobileHeaderComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public closeSearch(): void {
         this.searchIsOpen = false;
+    }
+
+    public ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 }

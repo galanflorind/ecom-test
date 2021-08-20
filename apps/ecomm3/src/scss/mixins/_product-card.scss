@@ -538,33 +538,6 @@
         }
     }
 }
-@mixin product-card-horizontal-base-md() {
-    $local-image-width: 136px;
-
-    .product-card__image {
-        padding: 8px 16px;
-        width: $local-image-width;
-    }
-    .product-card__info {
-        padding-top: (12px + 2px);
-        padding-bottom: (16px + 16px + 10px);
-    }
-    .product-card__name {
-        $local-line-height: 20px;
-
-        font-size: 16px;
-        line-height: $local-line-height;
-        max-height: ($local-line-height * 2);
-    }
-    .product-card__prices {
-        bottom: 16px;
-
-        @include direction {
-            #{$inset-inline-start}: $local-image-width;
-        }
-    }
-}
-
 
 
 @mixin product-card-list-base() {

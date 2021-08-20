@@ -49,11 +49,6 @@ export class DepartmentsComponent implements OnInit, OnDestroy {
         });
     }
 
-    public ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
-    }
-
     public onClick() {
         this.isOpen = !this.isOpen;
     }
@@ -69,5 +64,10 @@ export class DepartmentsComponent implements OnInit, OnDestroy {
     public onItemClick(): void {
         this.isOpen = false;
         this.currentItem = null;
+    }
+
+    public ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 }

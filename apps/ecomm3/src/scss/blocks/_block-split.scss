@@ -1,9 +1,6 @@
 /*
 // .block-split
 */
-@import '../variables';
-@import '../mixins/direction';
-@import '../mixins/breakpoints';
 
 
 @mixin local-layout($sidebar-width, $gutter) {
