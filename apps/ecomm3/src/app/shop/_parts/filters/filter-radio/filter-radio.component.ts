@@ -1,8 +1,8 @@
-import { Component, forwardRef, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, forwardRef, Input, OnDestroy, OnInit } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { RadioFilter } from '../../../../interfaces/filter';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { RadioFilter } from '../../../../interfaces/filter';
 
 @Component({
     selector: 'app-filter-radio',
@@ -17,23 +17,18 @@ import { Subject } from 'rxjs';
     ],
 })
 export class FilterRadioComponent implements OnInit, OnDestroy, ControlValueAccessor {
+    @Input() public options!: RadioFilter;
+
     private destroy$: Subject<void> = new Subject<void>();
+    private value: any;
+    private changeFn: (_: number) => void = () => {};
+    private touchedFn: () => void = () => {};
 
-    value: any;
-
-    control: FormControl = new FormControl();
-
-    @Input() options!: RadioFilter;
-
-    @HostBinding('class.filter-list') classFilterList = true;
-
-    changeFn: (_: number) => void = () => {};
-
-    touchedFn: () => void = () => {};
+    public control: FormControl = new FormControl();
 
     constructor() { }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this.control.valueChanges.pipe(
             filter(value => value !== this.value),
             takeUntil(this.destroy$),
@@ -43,20 +38,29 @@ export class FilterRadioComponent implements OnInit, OnDestroy, ControlValueAcce
         });
     }
 
-    ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
-    }
-
-    registerOnChange(fn: any): void {
+    /**
+     * Register: callback function to handle value changes
+     */
+    public registerOnChange(fn: any): void {
         this.changeFn = fn;
     }
 
-    registerOnTouched(fn: any): void {
+    /**
+     * Register: callback function to handle control touch events
+     */
+    public registerOnTouched(fn: any): void {
         this.touchedFn = fn;
     }
 
-    writeValue(obj: any): void {
+    /**
+     * Set: control value
+     */
+    public writeValue(obj: any): void {
         this.control.setValue(this.value = obj, { emitEvent: false });
+    }
+
+    public ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 }

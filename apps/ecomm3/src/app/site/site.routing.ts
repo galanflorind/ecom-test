@@ -4,7 +4,6 @@ import { PageAboutUsComponent } from './page-about-us/page-about-us.component';
 import { PageFaqComponent } from './page-faq/page-faq.component';
 import { PageTermsComponent } from './page-terms/page-terms.component';
 
-
 const routes: Routes = [
     {
         path: '',
@@ -15,14 +14,6 @@ const routes: Routes = [
         path: 'about-us',
         component: PageAboutUsComponent,
     },
-    // {
-    //     path: 'contact-us-v1',
-    //     component: PageContactUsOneComponent,
-    // },
-    // {
-    //     path: 'contact-us-v2',
-    //     component: PageContactUsTwoComponent,
-    // },
     {
         path: 'terms',
         component: PageTermsComponent,
@@ -31,14 +22,6 @@ const routes: Routes = [
         path: 'faq',
         component: PageFaqComponent,
     },
-    // {
-    //     path: 'components',
-    //     component: PageComponentsComponent,
-    // },
-    // {
-    //     path: 'typography',
-    //     component: PageTypographyComponent,
-    // },
 ];
 
 

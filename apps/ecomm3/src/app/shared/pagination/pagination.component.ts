@@ -14,89 +14,115 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     ],
 })
 export class PaginationComponent implements OnInit, OnChanges, ControlValueAccessor {
-    @Input() siblings = 1;
-    @Input() current = 1;
-    @Input() total = 1;
+    @Input() public siblings = 1;
+    @Input() public current = 1;
+    @Input() public total = 1;
 
-    @Output() pageChange: EventEmitter<number> = new EventEmitter();
+    private onChange: any = () => {};
+    private onTouched: any = () => {};
 
-    pages: number[] = [];
+    @Output() public pageChange: EventEmitter<number> = new EventEmitter();
 
-    onChange: any = () => {};
-    onTouched: any = () => {};
+    public pages: number[] = [];
 
     constructor() { }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this.calc();
     }
 
-    ngOnChanges(changes: SimpleChanges): void {
+    public ngOnChanges(changes: SimpleChanges): void {
         this.calc();
     }
 
-    setPage(value: number, emitEvent: boolean = true): void {
+    /**
+     * Set: current page
+     */
+    public setPage(value: number, emitEvent: boolean = true): void {
         this.onTouched();
 
+        // -->Check: value or if page change is needed
         if (value < 1 || value > this.total || value === this.current) {
             return;
         }
 
-        if (this.current !== value) {
-            this.current = value;
+        // -->Set: current page
+        this.current = value;
 
-            if (emitEvent) {
-                this.onChange(value);
-            }
+        if (emitEvent) {
+            // -->Handle: page value change
+            this.onChange(value);
         }
 
+        // -->Compute: pages
         this.calc();
 
         if (emitEvent) {
+            // -->Emit: current page
             this.pageChange.emit(this.current);
         }
     }
 
+    /**
+     * Compute: pages
+     */
     private calc(): void {
         const min = Math.max(1, this.current - this.siblings - Math.max(0, this.siblings - this.total + this.current));
         const max = Math.min(this.total, min + this.siblings * 2);
 
+        // -->Init: pages
         this.pages = [];
 
+        // -->Push: first pages
         for (let i = 1; i <= Math.min(min - 1, 1); i++) {
             this.pages.push(i);
         }
 
+        // -->Check: if page break is needed
         if (min - 1 >= 3) {
+            // -->Push: page break (dots)
             this.pages.push(0);
         } else if (min - 1 >= 2) {
             this.pages.push(min - 1);
         }
 
+        // -->Push: between pages
         for (let i = min; i <= max; i++) {
             this.pages.push(i);
         }
 
+        // -->Check: if page break is needed
         if (max + 1 <= this.total - 2) {
+            // -->Push: page break (dots)
             this.pages.push(0);
         } else if (max + 1 <= this.total - 1) {
             this.pages.push(max + 1);
         }
 
+        // -->Push: last pages
         for (let i = Math.max(max + 1, this.total); i <= this.total; i++) {
             this.pages.push(i);
         }
     }
 
-    registerOnChange(fn: any): void {
+    /**
+     * Register: callback function to handle value changes
+     */
+    public registerOnChange(fn: any): void {
         this.onChange = fn;
     }
 
-    registerOnTouched(fn: any): void {
+    /**
+     * Register: callback function to handle control touch events
+     */
+    public registerOnTouched(fn: any): void {
         this.onTouched = fn;
     }
 
-    writeValue(obj: any): void {
+    /**
+     * Set: page value
+     */
+    public writeValue(obj: any): void {
         if (typeof obj === 'number') {
             this.setPage(obj, false);
         }

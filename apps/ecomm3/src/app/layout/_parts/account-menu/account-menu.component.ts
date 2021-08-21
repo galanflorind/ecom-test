@@ -1,7 +1,7 @@
-import { Component, EventEmitter, HostBinding, OnDestroy, OnInit, Output } from '@angular/core';
-import { Subject, Subscription} from 'rxjs';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subject, Subscription} from 'rxjs';
 import { NaoUserAccessService } from "@naologic/nao-user-access";
 
 @Component({
@@ -12,12 +12,13 @@ import { NaoUserAccessService } from "@naologic/nao-user-access";
 export class AccountMenuComponent implements OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
     private subs = new Subscription();
+
     public userData = null;
     public formGroup!: FormGroup;
     public loginInProgress = false;
     public errorMessage = 'INVALID_LOGIN';
 
-    @Output() closeMenu: EventEmitter<void> = new EventEmitter<void>();
+    @Output() public closeMenu: EventEmitter<void> = new EventEmitter<void>();
 
     constructor(
         private fb: FormBuilder,
@@ -41,11 +42,13 @@ export class AccountMenuComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Login
+     * Login: user
      */
     public login(): void {
+        // -->Mark: all controls
         this.formGroup.markAllAsTouched();
 
+        // -->Check: login action state and form
         if (this.loginInProgress || this.formGroup.invalid) {
             return;
         }
@@ -53,11 +56,13 @@ export class AccountMenuComponent implements OnInit, OnDestroy {
         // -->Get: formGroup data
         const fd = this.formGroup.getRawValue();
 
+        // -->Start: loading
         this.loginInProgress = true;
-        // -->Execute: a login
+        // -->Execute: login
         this.naoUsersService
             .loginWithEmail(fd.email, fd.password, true)
             .then((res) => {
+                // -->Done: loading
                 this.loginInProgress = false;
                 this.closeMenu.emit();
                 // -->Redirect
@@ -72,8 +77,9 @@ export class AccountMenuComponent implements OnInit, OnDestroy {
                     default:
                         this.errorMessage = 'INVALID_LOGIN';
                 }
+                // -->Done: loading
                 this.loginInProgress = false;
-                // -->Reset:
+                // -->Reset: password form control
                 this.formGroup.get('password').reset();
                 this.formGroup.get('password').markAllAsTouched();
                 this.formGroup.get('password').updateValueAndValidity();
@@ -81,12 +87,14 @@ export class AccountMenuComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Logout
+     * Logout: user
      */
     public logout(): void {
+        // -->Execute: logout
         this.naoUsersService.logout().then(() => {
             this.closeMenu.emit();
-            this.router.navigateByUrl('/account/login').then();
+            // -->Redirect
+            return this.router.navigateByUrl('/account/login');
         });
     }
 

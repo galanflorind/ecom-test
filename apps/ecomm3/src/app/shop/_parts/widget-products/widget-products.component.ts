@@ -1,6 +1,6 @@
-import { Component, HostBinding, Input } from '@angular/core';
-import { Product } from '../../../interfaces/product';
+import { Component, Input } from '@angular/core';
 import { UrlService } from '../../../services/url.service';
+import { Product } from '../../../interfaces/product';
 
 @Component({
     selector: 'app-widget-products',
@@ -8,15 +8,8 @@ import { UrlService } from '../../../services/url.service';
     styleUrls: ['./widget-products.component.scss'],
 })
 export class WidgetProductsComponent {
-    @Input() widgetTitle: string = '';
-
-    @Input() products: Product[] = [];
-
-    @HostBinding('class.card') classCard = true;
-
-    @HostBinding('class.widget') classWidget = true;
-
-    @HostBinding('class.widget-products') classWidgetProducts = true;
+    @Input() public widgetTitle: string = '';
+    @Input() public products: Product[] = [];
 
     constructor(
         public url: UrlService,

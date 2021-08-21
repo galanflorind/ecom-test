@@ -5,7 +5,7 @@ import { ProductCompatibilityResult } from '../../interfaces/product';
     name: 'compatibilityToStatusBadgeText',
 })
 export class CompatibilityToStatusBadgeTextPipe implements PipeTransform {
-    transform(value: ProductCompatibilityResult): string {
+    public transform(value: ProductCompatibilityResult): string {
         const map: {[K in ProductCompatibilityResult]: string} = {
             'all': 'TEXT_COMPATIBILITY_ALL',
             'fit': 'TEXT_COMPATIBILITY_FIT',

@@ -6,7 +6,7 @@ import { StatusBadgeIcon } from '../status-badge/status-badge.component';
     name: 'compatibilityToStatusBadgeIcon',
 })
 export class CompatibilityToStatusBadgeIconPipe implements PipeTransform {
-    transform(value: ProductCompatibilityResult): StatusBadgeIcon {
+    public transform(value: ProductCompatibilityResult): StatusBadgeIcon {
         const map: {[K in ProductCompatibilityResult]: StatusBadgeIcon} = {
             'all': 'success',
             'fit': 'success',

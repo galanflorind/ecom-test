@@ -39,7 +39,7 @@ export class NaoHttp2ApiInterceptor implements HttpInterceptor {
               // queryParams: {
               //   reason: 'unauthorized'
               // }
-            }).then(() => {});
+            }).then();
           }
           return throwError(err);
         } else {

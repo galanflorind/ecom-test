@@ -24,7 +24,6 @@ import { FilterRadioComponent } from './filters/filter-radio/filter-radio.compon
 import { FilterRangeComponent } from './filters/filter-range/filter-range.component';
 import { FilterRatingComponent } from './filters/filter-rating/filter-rating.component';
 
-
 @NgModule({
     declarations: [
         ProductsViewComponent,
@@ -32,9 +31,9 @@ import { FilterRatingComponent } from './filters/filter-rating/filter-rating.com
         ProductTabsComponent,
         ShopSidebarComponent,
         SpecComponent,
-        NaoLoadingComponent,
         WidgetFiltersComponent,
         WidgetProductsComponent,
+        NaoLoadingComponent,
         TermsModalComponent,
         ArrowComponent,
         BlockHeaderComponent,
@@ -55,9 +54,9 @@ import { FilterRatingComponent } from './filters/filter-rating/filter-rating.com
         ProductTabsComponent,
         ShopSidebarComponent,
         SpecComponent,
-        NaoLoadingComponent,
         WidgetFiltersComponent,
         WidgetProductsComponent,
+        NaoLoadingComponent,
         TermsModalComponent,
         ArrowComponent,
         BlockHeaderComponent,

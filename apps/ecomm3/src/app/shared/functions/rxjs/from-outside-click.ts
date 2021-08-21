@@ -1,6 +1,9 @@
 import { fromEvent, Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
+/**
+ * Track: outside element clicks
+ */
 export function fromOutsideClick(element: HTMLElement | HTMLElement[]): Observable<MouseEvent> {
     const elements = Array.isArray(element) ? element : [element];
 

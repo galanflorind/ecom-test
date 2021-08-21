@@ -1,15 +1,15 @@
 import { ChangeDetectorRef, Inject, LOCALE_ID, Pipe, PipeTransform } from '@angular/core';
-import { ActiveFilter } from '../../interfaces/filter';
-import { CurrencyFormatPipe } from '../currency/pipes/currency-format.pipe';
-import { CurrencyService } from '../currency/services/currency.service';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { CurrencyService } from '../currency/services/currency.service';
+import { CurrencyFormatPipe } from '../currency/pipes/currency-format.pipe';
+import { ActiveFilter } from '../../interfaces/filter';
 
 @Pipe({
     name: 'activeFilterLabel',
 })
 export class ActiveFilterLabelPipe implements PipeTransform {
-    currencyFormatPipe = new CurrencyFormatPipe(this.locale, this.currencyService);
-    translatePipe = new TranslatePipe(this.translateService, this.cdr);
+    private currencyFormatPipe = new CurrencyFormatPipe(this.locale, this.currencyService);
+    private translatePipe = new TranslatePipe(this.translateService, this.cdr);
 
     constructor(
         @Inject(LOCALE_ID) private locale: string,
@@ -18,15 +18,10 @@ export class ActiveFilterLabelPipe implements PipeTransform {
         private cdr: ChangeDetectorRef,
     ) {}
 
-    transform(filter: ActiveFilter): string {
+    public transform(filter: ActiveFilter): string {
         this.currencyFormatPipe.transform(0);
+
         switch (filter.type) {
-            // case 'vehicle':
-            //     if (!filter.original.vehicle) {
-            //         throw new Error('filter.original.vehicle is null');
-            //     }
-            //
-            //     return `${filter.original.vehicle.year} ${filter.original.vehicle.make} ${filter.original.vehicle.model}`;
             case 'range':
                 const [min, max] = filter.original.value;
 

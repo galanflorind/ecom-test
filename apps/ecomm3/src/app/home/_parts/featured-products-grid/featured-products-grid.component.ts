@@ -10,17 +10,16 @@ export class FeaturedProductsGridComponent {
     /**
      * List of products
      */
-    @Input() products: Product[] = [];
+    @Input() public products: Product[] = [];
     /**
      * Block title
      */
-    @Input() blockTitle: string = '';
-
-    // @Input() @HostBinding('attr.data-layout') layout: BlockProductsCarouselLayout = 'grid-4';
+    @Input() public blockTitle: string = '';
     /**
      * Loading
      */
-    @Input() loading = false;
+    @Input() public loading = false;
+    // @Input() @HostBinding('attr.data-layout') layout: BlockProductsCarouselLayout = 'grid-4';
 
     // get productCardLayout(): ProductCardLayout {
     //     return productCardLayoutMap[this.layout];
@@ -30,7 +29,5 @@ export class FeaturedProductsGridComponent {
     //     return productCardExcludeMap[this.productCardLayout];
     // }
 
-    constructor(
-    ) { }
-
+    constructor() { }
 }

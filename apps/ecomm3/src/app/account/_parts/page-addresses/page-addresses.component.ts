@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subject, Subscription } from 'rxjs';
-import { UrlService } from '../../../services/url.service';
-import { NaoUserAccessService, NaoUsersInterface } from "@naologic/nao-user-access";
-import { ToastrService } from "ngx-toastr";
 import { TranslateService } from "@ngx-translate/core";
+import { ToastrService } from "ngx-toastr";
+import { Subject, Subscription } from 'rxjs';
+import { NaoUserAccessService, NaoUsersInterface } from "@naologic/nao-user-access";
+import { UrlService } from '../../../services/url.service';
 import { AccountProfileService } from "../../account-profile.service";
 
 @Component({
@@ -13,6 +13,7 @@ import { AccountProfileService } from "../../account-profile.service";
 })
 export class PageAddressesComponent implements OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
+
     public addresses: NaoUsersInterface.Address[] = [];
     public removeInProgress: string[] = [];
     public subs = new Subscription();
@@ -38,22 +39,23 @@ export class PageAddressesComponent implements OnInit, OnDestroy {
         )
     }
 
-    public ngOnDestroy(): void {
-        this.subs.unsubscribe();
-        this.destroy$.next();
-        this.destroy$.complete();
-    }
-
+    /**
+     * Remove: address from user profile
+     */
     public remove(address: NaoUsersInterface.Address): void {
+        // -->Check: address
         if (!address || this.removeInProgress.indexOf(address.id) !== -1 || !address.id) {
             return;
         }
+
         // -->Start: progress
         this.removeInProgress.push(address.id);
+
         // -->Set: data
         const data = {
             addresses: this.addresses.filter(item => item.id !== address.id)
         }
+
         // -->Update
         this.userProfileService.update('addresses', data).subscribe(res => {
             if (res && res.ok) {
@@ -84,5 +86,11 @@ export class PageAddressesComponent implements OnInit, OnDestroy {
             // -->Show: toaster
             this.toastr.error(this.translate.instant('ERROR_API_REQUEST'));
         })
+    }
+
+    public ngOnDestroy(): void {
+        this.subs.unsubscribe();
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 }

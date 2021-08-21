@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Router } from '@angular/router';
 import { NaoUserAccessService } from "@naologic/nao-user-access";
 
 @Component({
@@ -13,10 +13,7 @@ import { NaoUserAccessService } from "@naologic/nao-user-access";
 export class LayoutComponent implements OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
 
-    public navigation: {
-        label: string;
-        url: string;
-    }[] = [];
+    public navigation: { label: string; url: string; }[] = [];
 
     constructor(
         private translate: TranslateService,
@@ -29,12 +26,20 @@ export class LayoutComponent implements OnInit, OnDestroy {
         this.translate.onLangChange.pipe(takeUntil(this.destroy$)).subscribe(() => this.initNavigation());
     }
 
+    /**
+     * Log: user out and redirect
+     */
     public logout(): void {
+        // -->Logout: user
         this.naoUsersService.logout().then(() => {
+            // -->Redirect
             this.router.navigateByUrl('/account/login').then();
         });
     }
 
+    /**
+     * Initialize: navigation items
+     */
     private initNavigation(): void {
         this.navigation = [
             { label: this.translate.instant('LINK_ACCOUNT_DASHBOARD'), url: '/account/dashboard' },

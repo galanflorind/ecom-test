@@ -5,13 +5,13 @@ import { Observable, Subject } from 'rxjs';
 export class ShopSidebarService {
     private isOpenState = false;
     private isOpenSubject: Subject<boolean> = new Subject();
+
     public isOpen$: Observable<boolean> = this.isOpenSubject.asObservable();
 
-    get isOpen(): boolean {
+    public get isOpen(): boolean {
         return this.isOpenState;
     }
-
-    set isOpen(value: boolean) {
+    public set isOpen(value: boolean) {
         if (this.isOpenState !== value) {
             this.isOpenState = value;
             this.isOpenSubject.next(value);
@@ -21,21 +21,21 @@ export class ShopSidebarService {
     constructor() { }
 
     /**
-     * Open sidebar
+     * Open: sidebar
      */
     public open(): void {
         this.isOpen = true;
     }
 
     /**
-     * Close sidebar
+     * Close: sidebar
      */
     public close(): void {
         this.isOpen = false;
     }
 
     /**
-     * Toggle sidebar
+     * Toggle: sidebar
      */
     public toggle(): void {
         this.isOpen = !this.isOpen;

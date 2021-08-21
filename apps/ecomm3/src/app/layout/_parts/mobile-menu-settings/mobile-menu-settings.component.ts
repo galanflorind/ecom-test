@@ -20,6 +20,7 @@ export class MobileMenuSettingsComponent implements OnInit {
     ) { }
 
     public ngOnInit(): void {
+        // -->Init: languages menu
         this.languages = this.language.all.map(x => ({
             title: x.name,
             image: x.image,
@@ -27,6 +28,7 @@ export class MobileMenuSettingsComponent implements OnInit {
                 code: x.code,
             },
         }));
+        // -->Init: currencies menu
         this.currencies = this.currency.all.map(x => ({
             title: `${x.symbol} ${x.name}`,
             customFields: {
@@ -35,21 +37,33 @@ export class MobileMenuSettingsComponent implements OnInit {
         }));
     }
 
+    /**
+     * Set: language
+     */
     public setLanguage(item: MobileMenuLink): void {
+        // -->Check: language code
         if (!item.customFields?.code) {
             return;
         }
 
+        // -->Set: language
         this.language.set(item.customFields.code);
+        // -->Close: language menu
         this.menu.close();
     }
 
+    /**
+     * Set: currency
+     */
     public setCurrency(item: MobileMenuLink): void {
+        // -->Check: currency code
         if (!item.customFields?.code) {
             return;
         }
 
+        // -->Set: currency
         this.currency.set(item.customFields.code);
+        // -->Close: currency menu
         this.menu.close();
     }
 }

@@ -8,11 +8,11 @@ import {
     OnInit,
     PLATFORM_ID,
 } from '@angular/core';
-import { DepartmentsLink } from '../../../interfaces/departments-link';
-import { fromOutsideClick } from '../../../shared/functions/rxjs/from-outside-click';
+import { isPlatformBrowser } from '@angular/common';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { isPlatformBrowser } from '@angular/common';
+import { fromOutsideClick } from '../../../shared/functions/rxjs/from-outside-click';
+import { DepartmentsLink } from '../../../interfaces/departments-link';
 
 @Component({
     selector: 'app-departments',
@@ -24,8 +24,8 @@ export class DepartmentsComponent implements OnInit, OnDestroy {
     @Input() public label: string = '';
 
     private destroy$: Subject<void> = new Subject<void>();
-    public isOpen = false;
 
+    public isOpen = false;
     public currentItem: DepartmentsLink|null = null;
 
     constructor(
@@ -39,6 +39,7 @@ export class DepartmentsComponent implements OnInit, OnDestroy {
             return;
         }
 
+        // -->Track: clicks in order to toggle the departments section
         this.zone.runOutsideAngular(() => {
             fromOutsideClick(this.elementRef.nativeElement).pipe(
                 filter(() => this.isOpen),
@@ -49,18 +50,30 @@ export class DepartmentsComponent implements OnInit, OnDestroy {
         });
     }
 
+    /**
+     * Toggle: departments section
+     */
     public onClick() {
         this.isOpen = !this.isOpen;
     }
 
+    /**
+     * Set: current item
+     */
     public onMouseenter(item: DepartmentsLink) {
         this.currentItem = item;
     }
 
-    public onMouseleave() {
+    /**
+     * Clears: current item
+     */
+    public onMouseleave(): void {
         this.currentItem = null;
     }
 
+    /**
+     * Close: departments section
+     */
     public onItemClick(): void {
         this.isOpen = false;
         this.currentItem = null;

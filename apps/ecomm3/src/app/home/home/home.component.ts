@@ -12,6 +12,7 @@ import { ProductsCarouselData } from '../home.interface';
 })
 export class HomeComponent implements OnInit, OnDestroy {
     private subs = new Subscription();
+
     public featuredProducts: ProductsCarouselData = {
         loading: false,
         products: []
@@ -36,9 +37,9 @@ export class HomeComponent implements OnInit, OnDestroy {
         )
     }
 
-    /**
-     * Make carousel data
-     */
+    // /**
+    //  * Make: carousel data
+    //  */
     // private makeCarouselData(groups: ProductsCarouselGroup[]): ProductsCarouselData {
     //     const subject = new BehaviorSubject<ProductsCarouselGroup>(groups[0]);
     //     const carouselData: ProductsCarouselData = {
@@ -57,7 +58,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     // }
 
     // /**
-    //  * Get products
+    //  * Refresh: featured products
     //  * @WIP
     //  * TODO: get featured products and let user pick up to 10 featured products
     //  */
@@ -81,7 +82,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     //         this.featuredProducts.products = res.data;
     //         this.featuredProducts.loading = false;
     //     }, err => err)
-    //
     // }
 
     public ngOnDestroy(): void {

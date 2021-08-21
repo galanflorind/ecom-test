@@ -8,7 +8,7 @@ import {Component, Input, SimpleChanges} from '@angular/core';
 export class AvatarIconComponent {
     @Input() public userData;
     @Input() public size: 'sm' | 'md' = 'sm';
-    @Input() initials = 'U';
+    @Input() public initials = 'U';
 
     constructor() { }
 

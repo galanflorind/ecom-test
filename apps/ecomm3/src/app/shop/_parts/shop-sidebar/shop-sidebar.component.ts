@@ -1,9 +1,9 @@
-import { Component, HostBinding, Inject, Input, OnDestroy, PLATFORM_ID } from '@angular/core';
-import { ShopSidebarService } from '../../shop-sidebar.service';
+import { Component, Inject, Input, OnDestroy, PLATFORM_ID } from '@angular/core';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { fromMatchMedia } from '../../../shared/functions/rxjs/from-match-media';
+import { ShopSidebarService } from '../../shop-sidebar.service';
 
 @Component({
     selector: 'app-shop-sidebar',
@@ -11,21 +11,11 @@ import { fromMatchMedia } from '../../../shared/functions/rxjs/from-match-media'
     styleUrls: ['./shop-sidebar.component.scss'],
 })
 export class ShopSidebarComponent implements OnDestroy {
-    @Input() offcanvas: 'always' | 'mobile' = 'always';
+    @Input() public offcanvas: 'always' | 'mobile' = 'always';
 
     private destroy$: Subject<void> = new Subject<void>();
 
-    // latestProducts$: Observable<Product[]> = of([]);
-
-    @HostBinding('class.sidebar') classSidebar = true;
-
-    @HostBinding('class.sidebar--offcanvas--always') get classSidebarOffcanvasAlways(): boolean { return this.offcanvas === 'always'; }
-
-    @HostBinding('class.sidebar--offcanvas--mobile') get classSidebarOffcanvasMobile(): boolean { return this.offcanvas === 'mobile'; }
-
-    @HostBinding('class.sidebar--open') get classSidebarOpen(): boolean {
-        return this.sidebar.isOpen;
-    }
+    // public latestProducts$: Observable<Product[]> = of([]);
 
     constructor(
         // private shop: ShopApi,
@@ -33,6 +23,7 @@ export class ShopSidebarComponent implements OnDestroy {
         @Inject(PLATFORM_ID) private platformId: any,
         @Inject(DOCUMENT) private document: Document
     ) {
+        // -->Toggle: sidebar according to isOpen value
         this.sidebar.isOpen$
             .pipe(takeUntil(this.destroy$))
             .subscribe((isOpen) => {
@@ -44,6 +35,7 @@ export class ShopSidebarComponent implements OnDestroy {
             });
 
         if (isPlatformBrowser(this.platformId)) {
+            // -->Track: max-width changes
             fromMatchMedia('(max-width: 991px)').pipe(takeUntil(this.destroy$)).subscribe(media => {
                 if (this.offcanvas === 'mobile' && this.sidebar.isOpen && !media.matches) {
                     this.sidebar.close();
@@ -56,17 +48,25 @@ export class ShopSidebarComponent implements OnDestroy {
     //     this.latestProducts$ = this.shop.getLatestProducts(5);
     // }
 
+    /**
+     * Open: sidebar
+     */
     private open(): void {
         if (isPlatformBrowser(this.platformId)) {
             const bodyWidth = this.document.body.offsetWidth;
 
+            // -->Adjust: document styles to make space for the sidebar
             this.document.body.style.overflow = 'hidden';
             this.document.body.style.paddingRight = (this.document.body.offsetWidth - bodyWidth) + 'px';
         }
     }
 
+    /**
+     * Close: sidebar
+     */
     private close(): void {
         if (isPlatformBrowser(this.platformId)) {
+            // -->Reset: document styles
             this.document.body.style.overflow = '';
             this.document.body.style.paddingRight = '';
         }

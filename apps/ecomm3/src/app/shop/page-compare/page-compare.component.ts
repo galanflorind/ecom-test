@@ -1,14 +1,14 @@
-import { BaseAttribute, Variant } from '../../interfaces/product';
-import { CompareItem } from '../../interfaces/compare';
+import { FormControl } from '@angular/forms';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CompareService } from '../../services/compare.service';
+import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subject } from 'rxjs';
 import { shareReplay, takeUntil, map } from 'rxjs/operators';
-import { UrlService } from '../../services/url.service';
-import { FormControl } from '@angular/forms';
 import { NaoSettingsInterface } from '@naologic/nao-interfaces';
 import { AppService } from '../../app.service';
-import { TranslateService } from '@ngx-translate/core';
+import { CompareService } from '../../services/compare.service';
+import { UrlService } from '../../services/url.service';
+import { BaseAttribute, Variant } from '../../interfaces/product';
+import { CompareItem } from '../../interfaces/compare';
 
 interface Specification {
     name: string;
@@ -28,7 +28,6 @@ export class PageCompareComponent implements OnInit, OnDestroy {
     public compareItems$: Observable<CompareItem[]>;
     public specifications$: Observable<Specification[]>;
     public differentSpecifications$: Observable<Specification[]>;
-
     public show: FormControl = new FormControl('all');
     public clearInProgress = false;
 
@@ -158,7 +157,7 @@ export class PageCompareComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Clears the compare view by removing all variants
+     * Clear: compare view by removing all variants
      */
     public clear(): void {
         // -->Check: if a clear is already in progress
@@ -166,11 +165,13 @@ export class PageCompareComponent implements OnInit, OnDestroy {
             return;
         }
 
+        // -->Start: loading
         this.clearInProgress = true;
 
         // -->Clear: compare
         this.compare.clear().pipe(takeUntil(this.destroy$)).subscribe({
             complete: () => {
+                // -->Done: loading
                 this.clearInProgress = false;
             },
         });

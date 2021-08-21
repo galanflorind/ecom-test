@@ -1,6 +1,9 @@
-<div class="card__loader"></div>
-<div *ngIf="label" class="address-card__badge tag-badge tag-badge--theme">{{ label }}</div>
-<div class="address-card__body">
+<div class="card address-card"
+     [class.card--loading]="loading"
+     [class.address-card--featured]="featured">
+    <div class="card__loader"></div>
+    <div *ngIf="label" class="address-card__badge tag-badge tag-badge--theme">{{ label }}</div>
+    <div class="address-card__body">
 <!--    <div class="address-card__name">{{ address.firstName }} {{ address.lastName }}</div>-->
 <!--    <div class="address-card__row">-->
 <!--        {{ address.country }}<br>-->
@@ -46,4 +49,5 @@
     <div class="address-card__footer" *ngIf="footer">
         <ng-container *ngTemplateOutlet="footer"></ng-container>
     </div>
+</div>
 </div>

@@ -1,9 +1,9 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, forkJoin, Subscription } from "rxjs";
-import { NaoSettingsInterface } from "@naologic/nao-interfaces";
-import { ECommerceService } from "./e-commerce.service";
 import { StorageMap } from "@ngx-pwa/local-storage";
+import { BehaviorSubject, Subscription } from "rxjs";
+import { NaoSettingsInterface } from "@naologic/nao-interfaces";
 import { NaoUserAccessService } from "@naologic/nao-user-access";
+import { ECommerceService } from "./e-commerce.service";
 
 @Injectable({
     providedIn: 'root',
@@ -18,7 +18,6 @@ export class AppService implements OnDestroy {
         freeShipping: false,
         hotOffers: false
     });
-
     /**
      * All the info you need
      */
@@ -37,7 +36,7 @@ export class AppService implements OnDestroy {
                 }
             })
         );
-        // -->We: need to refresh the info data based if the user is logged in
+        // -->Refresh: info data based on if the user is logged in
         this.subs.add(
             this.naoUsersService.isLoggedIn$.subscribe(isLoggedIn => {
                 if (isLoggedIn) {
@@ -63,13 +62,13 @@ export class AppService implements OnDestroy {
                     // -->Set: app info
                     this.appInfo.next(info$.data);
                 } else {
-                    // todo-->Error: the request didn't resolve correctly
+                    // todo: address error when the request didn't resolve correctly
                 }
             });
         });
     }
 
-    public ngOnDestroy() {
+    public ngOnDestroy(): void {
         this.subs.unsubscribe();
     }
 }

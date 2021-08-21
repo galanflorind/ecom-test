@@ -14,14 +14,14 @@ import {
     ViewChild,
     ViewContainerRef,
 } from '@angular/core';
-import { LayoutMobileMenuService } from '../../layout-mobile-menu.service';
-import { MobileMenuPanelComponent } from '../mobile-menu-panel/mobile-menu-panel.component';
+import { isPlatformBrowser } from '@angular/common';
 import { fromEvent, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { isPlatformBrowser } from '@angular/common';
-import { MobileMenuLink } from '../../../interfaces/mobile-menu-link';
-import { nameToSlug } from "../../../shared/functions/utils";
+import { LayoutMobileMenuService } from '../../layout-mobile-menu.service';
 import { AppService } from "../../../app.service";
+import { MobileMenuPanelComponent } from '../mobile-menu-panel/mobile-menu-panel.component';
+import { nameToSlug } from "../../../shared/functions/utils";
+import { MobileMenuLink } from '../../../interfaces/mobile-menu-link';
 
 interface StackItem {
     content: TemplateRef<any>;
@@ -65,7 +65,7 @@ export class MobileMenuComponent implements OnInit, OnDestroy, AfterViewInit, Af
                 // -->Set: categories
                 const categories = this.mapCategories(value?.categories?.items)
 
-                // -->Add: other links here!!!!
+                // -->Set: mobile links
                 this.links = [
                     {
                         title: 'Shop',
@@ -83,56 +83,51 @@ export class MobileMenuComponent implements OnInit, OnDestroy, AfterViewInit, Af
                     {
                         title: 'FAQ',
                         url: '/site/faq',
-                    },
-                    // {
-                    //     title: 'About Us',
-                    //     url: '/site/about-us',
-                    //     submenu: [
-                    //         { title: 'About Us', url: '/site/about-us' },
-                    //         { title: 'Contact Us v1', url: '/site/contact-us-v1' },
-                    //         { title: 'Contact Us v2', url: '/site/contact-us-v2' },
-                    //         { title: '404', url: '/site/not-found' },
-                    //         { title: 'Terms And Conditions', url: '/site/terms' },
-                    //         { title: 'FAQ', url: '/site/faq' },
-                    //         { title: 'Components', url: '/site/components' },
-                    //         { title: 'Typography', url: '/site/typography' },
-                    //     ],
-                    // }
+                    }
                 ]
-
             })
         )
+
         // -->Set: menu
-
-
         this.menu.onOpenPanel.pipe(takeUntil(this.destroy$)).subscribe(({ content, label }) => {
             if (this.panelsStack.findIndex(x => x.content === content) !== -1) {
                 return;
             }
 
+            // -->Get: factory
             const componentFactory = this.cfr.resolveComponentFactory(MobileMenuPanelComponent);
+            // -->Create: component
             const componentRef = this.panelsContainer.createComponent(componentFactory);
 
             componentRef.instance.label = label;
             componentRef.instance.content = content;
             componentRef.instance.level = this.panelsStack.length + 1;
 
+            // -->Push: component to the panel
             this.panelsStack.push({ content, componentRef });
+            // -->Update: current level
             this.currentLevel += 1;
 
             this.removeUnusedPanels();
         });
+
+        // -->Clean: current panel on close
         this.menu.onCloseCurrentPanel.pipe(takeUntil(this.destroy$)).subscribe(() => {
+            // -->Get: and remove last component from panel
             const panel = this.panelsStack.pop();
 
+            // -->Check: panel
             if (!panel) {
                 return;
             }
 
+            // -->Mark: panel as unused
             this.panelsBin.push(panel);
+            // -->Update: current level
             this.currentLevel -= 1;
 
             if (!isPlatformBrowser(this.platformId)) {
+                // -->Destroy: unused panels
                 this.removeUnusedPanels();
             }
         });
@@ -140,19 +135,26 @@ export class MobileMenuComponent implements OnInit, OnDestroy, AfterViewInit, Af
 
     public ngAfterViewInit(): void {
         if (isPlatformBrowser(this.platformId)) {
+            // -->Track: clicks in order to transition between panels or close menu
             this.zone.runOutsideAngular(() => {
+                // -->Emit: on body element transition events
                 fromEvent<TransitionEvent>(this.body.nativeElement, 'transitionend').pipe(
                     takeUntil(this.destroy$),
                 ).subscribe((event) => {
+                    // -->Check: target, event name and menu state
                     if (event.target === this.body.nativeElement && event.propertyName === 'transform' && !this.menu.isOpen) {
+                        // -->Close: all panels
                         this.zone.run(() => this.onMenuClosed());
                     }
                 });
 
+                // -->Emit: on conveyor element transition events
                 fromEvent<TransitionEvent>(this.conveyor.nativeElement, 'transitionend').pipe(
                     takeUntil(this.destroy$),
                 ).subscribe((event) => {
+                    // -->Check: target and event name
                     if (event.target === this.conveyor.nativeElement && event.propertyName === 'transform') {
+                        // -->Remove: unused panels
                         this.zone.run(() => this.onConveyorStopped());
                     }
                 });
@@ -165,37 +167,59 @@ export class MobileMenuComponent implements OnInit, OnDestroy, AfterViewInit, Af
             this.forceConveyorTransition = false;
 
             if (isPlatformBrowser(this.platformId)) {
+                // -->Set: element transition
                 this.conveyor.nativeElement.style.transition = 'none';
-                this.conveyor.nativeElement.getBoundingClientRect(); // force reflow
+                // -->Force: reflow
+                this.conveyor.nativeElement.getBoundingClientRect();
+                // -->Clean: element transition
                 this.conveyor.nativeElement.style.transition = '';
             }
         }
     }
 
-    public onMenuClosed(): void {
+    /**
+     * Clean: panels on menu close
+     */
+    private onMenuClosed(): void {
         let panel: StackItem|undefined;
 
+        // -->Get: and remove all panels from stack
         while (panel = this.panelsStack.pop()) {
+            // -->Add: panel to bin to be clean up later on
             this.panelsBin.push(panel);
+            // -->Update: current level
             this.currentLevel -= 1;
         }
 
+        // -->Remove: unused panels
         this.removeUnusedPanels();
         this.forceConveyorTransition = true;
     }
 
-    public onConveyorStopped(): void {
+    /**
+     * Clean: panels on conveyor stop
+     */
+    private onConveyorStopped(): void {
         this.removeUnusedPanels();
     }
 
-    public removeUnusedPanels(): void {
+    /**
+     * Remove: unused panels
+     */
+    private removeUnusedPanels(): void {
         let panel: StackItem|undefined;
 
+        // -->Get: and remove panel from bin
         while (panel = this.panelsBin.pop()) {
+            // -->Destroy: component
             panel.componentRef.destroy();
         }
     }
 
+    /**
+     * Handle: link click.
+     * Close menu if item has no submenu
+     */
     public onLinkClick(item: MobileMenuLink): void {
         if (!item.submenu || item.submenu.length < 1) {
             this.menu.close();
@@ -203,14 +227,15 @@ export class MobileMenuComponent implements OnInit, OnDestroy, AfterViewInit, Af
     }
 
     /**
-     * Map categories for mobile menu
+     * Map: categories for mobile menu
      */
     public mapCategories(categories: any[]): MobileMenuLink[] {
-        // -->Check:
+        // -->Check: categories
         if (!Array.isArray(categories)) {
             categories = [];
         }
-        // -->Init
+
+        // -->Init: items
         const items: MobileMenuLink[] = [];
 
         // -->Get: route level categories
@@ -222,11 +247,13 @@ export class MobileMenuComponent implements OnInit, OnDestroy, AfterViewInit, Af
                 title: category.name,
                 url: `/shop/category/${nameToSlug(category.name)}/${category.id}/products`
             }
+
             // -->Get: all second level categories for this parent
             const subCategories = categories.filter(c => c.parentId === category.id && c.level === 1);
             if (subCategories.length) {
                 // -->Init: submenu
                 item.submenu = [];
+
                 // -->Iterate: over subcategories and check if there are any other links inside
                 subCategories.forEach(subCategory => {
                     // -->Get: links for sub category
@@ -236,7 +263,8 @@ export class MobileMenuComponent implements OnInit, OnDestroy, AfterViewInit, Af
                         title: subCategory.name,
                         url: `/shop/category/${nameToSlug(subCategory.name)}/${subCategory.id}/products`
                     }
-                    // -->Check
+
+                    // -->Check: links
                     if (links.length) {
                         subCategory$.submenu = links.map(link => {
                             return {
@@ -246,14 +274,13 @@ export class MobileMenuComponent implements OnInit, OnDestroy, AfterViewInit, Af
                         })
                     }
 
-                    // -->Push: column
+                    // -->Push: subcategory (column)
                     item.submenu.push(subCategory$);
                 })
-
             }
+
             // -->Push: category
             items.push(item)
-
         });
 
         return items;

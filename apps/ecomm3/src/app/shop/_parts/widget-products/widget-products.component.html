@@ -1,7 +1,8 @@
-<div *ngIf="widgetTitle" class="widget__header">
-    <h4>{{ widgetTitle }}</h4>
-</div>
-<div class="widget-products__list">
+<div class="card widget widget-products">
+    <div *ngIf="widgetTitle" class="widget__header">
+        <h4>{{ widgetTitle }}</h4>
+    </div>
+    <div class="widget-products__list">
     <div *ngFor="let product of products" class="widget-products__item">
         <div class="widget-products__image">
             <a [routerLink]="url.product(product)">
@@ -23,4 +24,5 @@
             </div> -->
         </div>
     </div>
+</div>
 </div>

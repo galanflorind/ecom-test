@@ -1,6 +1,6 @@
-import { Component, HostBinding, Input } from '@angular/core';
-import { CategoryFilter } from '../../../../interfaces/filter';
+import { Component, Input } from '@angular/core';
 import { UrlService } from '../../../../services/url.service';
+import { CategoryFilter } from '../../../../interfaces/filter';
 
 @Component({
     selector: 'app-filter-category',
@@ -8,9 +8,7 @@ import { UrlService } from '../../../../services/url.service';
     styleUrls: ['./filter-category.component.scss'],
 })
 export class FilterCategoryComponent {
-    @Input() options!: CategoryFilter;
-
-    @HostBinding('class.filter-category') classFilterCategories = true;
+    @Input() public options!: CategoryFilter;
 
     constructor(
         public url: UrlService,

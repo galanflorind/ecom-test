@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from "rxjs";
 import { UrlService } from '../../services/url.service';
 import { AppService } from "../../app.service";
-import { Subscription } from "rxjs";
 
 @Component({
     selector: 'app-page-faq',
@@ -10,6 +10,7 @@ import { Subscription } from "rxjs";
 })
 export class PageFaqComponent implements OnInit, OnDestroy {
     private subs = new Subscription();
+
     public faq = [];
     public infoSupport
 
@@ -22,15 +23,15 @@ export class PageFaqComponent implements OnInit, OnDestroy {
         // -->Subscribe: to appInfo changes
         this.subs.add(
             this.appService.appInfo.subscribe(value => {
-                // -->Set: info
+                // -->Set: faq items
                 this.faq = value?.support?.faqContent?.faqItems || [];
-                // -->Set: info
+                // -->Set: support info
                 this.infoSupport = value?.support?.supportInfo;
             })
         );
     }
 
-    public ngOnDestroy() {
+    public ngOnDestroy(): void {
         this.subs.unsubscribe();
     }
 }

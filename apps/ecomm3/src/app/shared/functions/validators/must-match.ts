@@ -1,5 +1,8 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
+/**
+ * Validate: that values for two controls match
+ */
 export function mustMatchValidator(first: string, second: string): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
         const firstControl = control.get(first);

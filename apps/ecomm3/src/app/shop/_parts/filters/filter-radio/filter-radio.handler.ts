@@ -1,33 +1,46 @@
 import { FilterHandler } from '../filter.handler';
 import { ActiveFilterRadio, RadioFilter } from '../../../../interfaces/filter';
 
-
 export class FilterRadioHandler extends FilterHandler {
     type = 'radio';
 
-    serialize(value: string): string {
+    /**
+     * Serialize: value
+     */
+    public serialize(value: string): string {
         return value;
     }
 
-    deserialize(value: string): string {
+    /**
+     * Deserialize: value
+     */
+    public deserialize(value: string): string {
         return value;
     }
 
-    isDefaultValue(filter: RadioFilter, value: string|null): boolean {
+    /**
+     * Check: if value is the default
+     */
+    public isDefaultValue(filter: RadioFilter, value: string|null): boolean {
         return filter.items[0].slug === value;
     }
 
-    activeFilters(filter: RadioFilter): ActiveFilterRadio[] {
+    /**
+     * Get: active filters
+     */
+    public activeFilters(filter: RadioFilter): ActiveFilterRadio[] {
         if (this.isDefaultValue(filter, filter.value)) {
             return [];
         }
 
+        // -->Find: filter item by slug
         const item = filter.items.find(x => x.slug === filter.value);
-
+        // -->Check: item
         if (!item) {
             throw new Error('Filter item not found');
         }
 
+        // -->Build: and return active filter
         return [{
             id: filter.slug,
             type: filter.type,
@@ -36,7 +49,10 @@ export class FilterRadioHandler extends FilterHandler {
         }];
     }
 
-    getResetValue(activeFilters: ActiveFilterRadio[]): string {
+    /**
+     * Get: reset value
+     */
+    public getResetValue(activeFilters: ActiveFilterRadio[]): string {
         return activeFilters[0].original.items[0].slug;
     }
 }

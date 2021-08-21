@@ -1,6 +1,7 @@
-import { Injectable, NgZone, OnDestroy } from '@angular/core';
-import { ResourcesService } from './resources.service';
+import { Inject, Injectable, NgZone, OnDestroy } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { Observable, Subscriber, from } from 'rxjs';
+import { ResourcesService } from './resources.service';
 
 declare const PhotoSwipe: any;
 declare const PhotoSwipeUI_Default: any;
@@ -75,51 +76,63 @@ const template = `
     providedIn: 'root',
 })
 export class PhotoSwipeService implements OnDestroy {
-    initialized = false;
-    element!: HTMLDivElement;
+    private initialized = false;
+    private element!: HTMLDivElement;
 
     constructor(
+        @Inject(DOCUMENT) private document: Document,
         private zone: NgZone,
         private resources: ResourcesService,
     ) { }
 
-    load(): Observable<void> {
+    /**
+     * Load: photo swipe library
+     */
+    public load(): Observable<void> {
         return from(this.loadLibrary());
     }
 
-    open(items: PhotoSwipeItem[], options: PhotoSwipeOptions): Observable<PhotoSwipeModelRef> {
+    /**
+     * Open: photo swipe gallery
+     */
+    public open(items: PhotoSwipeItem[], options: PhotoSwipeOptions): Observable<PhotoSwipeModelRef> {
         return new Observable(observer => {
             this.zone.runOutsideAngular(() => {
+                // -->Load: library
                 this.loadLibrary().then(() => {
+                    // -->Check: if unsubscribed
                     if (observer.closed) {
                         return;
                     }
+                    // -->Check: if initialization is needed
                     if (!this.initialized) {
                         this.init();
                     }
 
+                    // -->Create: photo swipe gallery
                     this.createGallery(observer, items, options);
                 });
             });
         });
     }
 
-    ngOnDestroy(): void {
-        if (this.initialized) {
-            this.element.parentElement?.removeChild(this.element);
-        }
-    }
-
+    /**
+     * Create: photo swipe gallery
+     */
     private createGallery(observer: Subscriber<PhotoSwipeModelRef>, items: PhotoSwipeItem[], options: PhotoSwipeOptions): void {
         let gallery: (typeof PhotoSwipe)|null = null;
 
+        // -->Set: photo swipe gallery
         gallery = new PhotoSwipe(this.element, PhotoSwipeUI_Default, items, options);
+        // -->Show: gallery until destroyed
         gallery.listen('destroy', () => this.zone.run(() => {
             gallery = null;
             this.zone.run(() => observer.complete());
         }));
+        // -->Init: gallery
         gallery.init();
 
+        // -->Build: photo swipe model
         const modelRef: PhotoSwipeModelRef = {
             close: () => gallery.close(),
             listen: (eventName, callbackFn) => gallery.listen(eventName, (...args: any[]) => {
@@ -128,28 +141,45 @@ export class PhotoSwipeService implements OnDestroy {
             getCurrentIndex: () => gallery.getCurrentIndex(),
         };
 
+        // -->Destroy: gallery on unsubscribe
         observer.add(() => {
             if (gallery) {
                 gallery.destroy();
             }
         });
 
+        // -->Emit: photo swipe model
         this.zone.run(() => observer.next(modelRef));
     }
 
+    /**
+     * Load: photo swipe from resources
+     */
     private loadLibrary(): Promise<void> {
         return this.resources.loadLibrary('photoSwipe');
     }
 
+    /**
+     * Append: gallery element to document
+     */
     private init(): void {
         this.initialized = true;
 
-        const div = document.createElement('div');
+        // -->Create: gallery div element
+        const galleryElement = this.document.createElement('div');
+        // -->Set: inner html template
+        galleryElement.innerHTML = template;
 
-        div.innerHTML = template;
+        // -->Set: element
+        this.element = galleryElement.firstElementChild as HTMLDivElement;
 
-        this.element = div.firstElementChild as HTMLDivElement;
+        // -->Append: element to document
+        this.document.body.appendChild(this.element);
+    }
 
-        document.body.appendChild(this.element);
+    public ngOnDestroy(): void {
+        if (this.initialized) {
+            this.element.parentElement?.removeChild(this.element);
+        }
     }
 }

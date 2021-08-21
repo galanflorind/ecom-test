@@ -1,4 +1,11 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from "@angular/common";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { RouterModule } from "@angular/router";
+import { CarouselModule } from "ngx-owl-carousel-o";
+import { ModalModule } from "ngx-bootstrap/modal";
+import { TooltipModule } from "ngx-bootstrap/tooltip";
+import { TranslateModule } from "@ngx-translate/core";
 import { CurrencyModule } from './currency/currency.module';
 import { AddToCartDirective } from './directives/add-to-cart.directive';
 import { AddToCompareDirective } from './directives/add-to-compare.directive';
@@ -37,18 +44,9 @@ import { TermsComponent } from './terms/terms.component';
 import { AvatarIconComponent } from "./avatar-icon/avatar-icon.component";
 import { CheckboxComponent } from './checkbox/checkbox.component';
 import { RadioButtonComponent } from './radio-button/radio-button.component';
-import { CommonModule } from "@angular/common";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { RouterModule } from "@angular/router";
-import { CarouselModule } from "ngx-owl-carousel-o";
-import { ModalModule } from "ngx-bootstrap/modal";
-import { TooltipModule } from "ngx-bootstrap/tooltip";
-import { TranslateModule } from "@ngx-translate/core";
-
 
 @NgModule({
     imports: [
-        RouterModule,
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
@@ -60,17 +58,21 @@ import { TranslateModule } from "@ngx-translate/core";
         CurrencyModule
     ],
     declarations: [
+        AddToCartDirective,
+        AddToCompareDirective,
+        AddToWishlistDirective,
         DropdownDirective,
+        FakeSlidesDirective,
         OwlPreventClickDirective,
         RemoveFromCartDirective,
         RemoveFromCompareDirective,
         RemoveFromWishlistDirective,
         SplitStringDirective,
+        ShowIfLoggedInDirective,
         CollapseItemDirective,
         CollapseContentDirective,
         CheckboxGroupDirective,
         RadioGroupDirective,
-        ShowIfLoggedInDirective,
         ActiveFilterLabelPipe,
         CompatibilityToStatusBadgeIconPipe,
         CompatibilityToStatusBadgeTextPipe,
@@ -80,11 +82,7 @@ import { TranslateModule } from "@ngx-translate/core";
         IsInvalidPipe,
         StockToStatusBadgeTextPipe,
         StockToStatusBadgeTypePipe,
-        AddToCartDirective,
-        AddToCompareDirective,
-        AddToWishlistDirective,
         CheckImageFallbackPipe,
-        FakeSlidesDirective,
         IconComponent,
         InputNumberComponent,
         PaginationComponent,
@@ -94,31 +92,19 @@ import { TranslateModule } from "@ngx-translate/core";
         RatingComponent,
         StatusBadgeComponent,
         TermsComponent,
+        AvatarIconComponent,
         CheckboxComponent,
         RadioButtonComponent,
-        AvatarIconComponent,
     ],
     exports: [
-        CarouselModule,
-        RouterModule,
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        TranslateModule,
+        RouterModule,
+        CarouselModule,
         ModalModule,
+        TranslateModule,
         CurrencyModule,
-        IconComponent,
-        InputNumberComponent,
-        PaginationComponent,
-        ProductCardComponent,
-        ProductVariantsComponent,
-        ProductGalleryComponent,
-        RatingComponent,
-        StatusBadgeComponent,
-        TermsComponent,
-        CheckboxComponent,
-        RadioButtonComponent,
-        AvatarIconComponent,
         AddToCartDirective,
         AddToCompareDirective,
         AddToWishlistDirective,
@@ -129,11 +115,11 @@ import { TranslateModule } from "@ngx-translate/core";
         RemoveFromCompareDirective,
         RemoveFromWishlistDirective,
         SplitStringDirective,
+        ShowIfLoggedInDirective,
         CollapseItemDirective,
         CollapseContentDirective,
         CheckboxGroupDirective,
         RadioGroupDirective,
-        ShowIfLoggedInDirective,
         ActiveFilterLabelPipe,
         CompatibilityToStatusBadgeIconPipe,
         CompatibilityToStatusBadgeTextPipe,
@@ -144,6 +130,18 @@ import { TranslateModule } from "@ngx-translate/core";
         StockToStatusBadgeTextPipe,
         StockToStatusBadgeTypePipe,
         CheckImageFallbackPipe,
+        IconComponent,
+        InputNumberComponent,
+        PaginationComponent,
+        ProductCardComponent,
+        ProductVariantsComponent,
+        ProductGalleryComponent,
+        RatingComponent,
+        StatusBadgeComponent,
+        TermsComponent,
+        AvatarIconComponent,
+        CheckboxComponent,
+        RadioButtonComponent,
     ]
 })
 export class SharedModule { }

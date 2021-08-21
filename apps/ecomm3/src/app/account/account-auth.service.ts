@@ -18,23 +18,29 @@ export class AccountAuthService<T = any> {
         this.userAccessOptions = this.naoUsersService.userAccessOptions;
     }
 
-
     /**
-     * Create a new user
+     * Create: new user
      */
-    public createUser(data, naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault({ docName: 'guest-external-ecommerce', userMode: 'guest-external' })) {
-        // -->Request: user login
-        return this.naoHttp2ApiService.postJson<any>(`${this.api.root}-public/guest/create/${naoQueryOptions.docName}/new`, {
-            data: { data, naoQueryOptions: this.userAccessOptions.naoQueryOptions, cfpPath: this.userAccessOptions.cfpPath }, naoQueryOptions
+    public createUser(data, naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault(
+        { docName: 'guest-external-ecommerce', userMode: 'guest-external' })
+    ): Observable<T> {
+        // -->Send: request to create new user
+        return this.naoHttp2ApiService.postJson<T>(`${this.api.root}-public/guest/create/${naoQueryOptions.docName}/new`, {
+            data: { data, naoQueryOptions: this.userAccessOptions.naoQueryOptions, cfpPath: this.userAccessOptions.cfpPath },
+            naoQueryOptions
         });
     }
 
     /**
-     * Send the email for password reset
+     * Send: email for password reset
      */
-    public sendResetPasswordEmail(email: string, naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault({ docName: 'guest-external-ecommerce' })): Observable<T> {
-        // -->Check: this invite
-        return this.naoHttp2ApiService.postJson<T>(`${this.api.root}/password/${this.userAccessOptions.naoQueryOptions.docName}/forgot`, { data: { email }, naoQueryOptions: this.userAccessOptions.naoQueryOptions });
+    public sendResetPasswordEmail(email: string, naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault(
+        { docName: 'guest-external-ecommerce' })
+    ): Observable<T> {
+        // -->Send: forgot password request
+        return this.naoHttp2ApiService.postJson<T>(`${this.api.root}/password/${this.userAccessOptions.naoQueryOptions.docName}/forgot`, {
+            data: { email },
+            naoQueryOptions: this.userAccessOptions.naoQueryOptions
+        });
     }
-
 }

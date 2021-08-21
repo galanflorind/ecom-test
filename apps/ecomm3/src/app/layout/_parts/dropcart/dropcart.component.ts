@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostBinding, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CartService } from '../../../services/cart.service';
 import { UrlService } from '../../../services/url.service';
 
@@ -8,7 +8,7 @@ import { UrlService } from '../../../services/url.service';
     styleUrls: ['./dropcart.component.scss'],
 })
 export class DropcartComponent {
-    @Output() closeMenu: EventEmitter<void> = new EventEmitter<void>();
+    @Output() public closeMenu: EventEmitter<void> = new EventEmitter<void>();
 
     constructor(
         public cart: CartService,

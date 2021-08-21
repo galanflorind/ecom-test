@@ -5,7 +5,6 @@ import { AppModule } from './app.module';
 import { LanguageServerModule } from './shared/language/language-server.module';
 import { AppComponent } from './app.component';
 
-
 @NgModule({
     imports: [
         NoopAnimationsModule,

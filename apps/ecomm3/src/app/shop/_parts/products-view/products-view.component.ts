@@ -1,12 +1,12 @@
 import { Component, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
-import { PageShopGridLayout, PageShopLayout } from '../../page-shop/page-shop.component';
-import { ShopSidebarService } from '../../shop-sidebar.service';
-import { ShopService } from '../../shop.service';
 import { FormControl } from '@angular/forms';
 import { merge, Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { NaoSettingsInterface } from "@naologic/nao-interfaces";
 import { AppService } from "../../../app.service";
+import { ShopService } from '../../shop.service';
+import { ShopSidebarService } from '../../shop-sidebar.service';
+import { PageShopGridLayout, PageShopLayout } from '../../page-shop/page-shop.component';
 
 export interface LayoutButton {
     layout: PageShopLayout;
@@ -20,27 +20,13 @@ export interface LayoutButton {
 })
 export class ProductsViewComponent implements OnInit, OnDestroy {
     @Input() public layout: PageShopLayout = 'grid';
-
     @Input() public gridLayout: PageShopGridLayout = 'grid-4-sidebar';
-
     @Input() public offCanvasSidebar: 'always' | 'mobile' = 'mobile';
 
-    @HostBinding('class.products-view') classProductsView = true;
-
-    @HostBinding('class.products-view--loading') get classProductsViewLoading(): boolean {
-        return this.page.isLoading;
-    }
-
     private destroy$: Subject<void> = new Subject<void>();
-    public appSettings: NaoSettingsInterface.Settings;
-    public isEmptyList$!: Observable<boolean>;
-
-    public currentFiltersCount$!: Observable<number>;
-
-    public hasActiveFilters$!: Observable<boolean>;
 
     /**
-     * Change the view of the products from grid to table
+     * Change: the view of the products from grid to table
      */
     public layoutButtons: LayoutButton[] = [
         { layout: 'grid', icon: 'layout-grid-16' },
@@ -48,11 +34,13 @@ export class ProductsViewComponent implements OnInit, OnDestroy {
         { layout: 'list', icon: 'layout-list-16' },
         { layout: 'table', icon: 'layout-table-16' },
     ];
-
+    public appSettings: NaoSettingsInterface.Settings;
+    public isEmptyList$!: Observable<boolean>;
+    public currentFiltersCount$!: Observable<number>;
+    public hasActiveFilters$!: Observable<boolean>;
     public pageControl!: FormControl;
     public limitControl!: FormControl;
     public sortControl!: FormControl;
-
 
     constructor(
         public sidebar: ShopSidebarService,
@@ -80,6 +68,7 @@ export class ProductsViewComponent implements OnInit, OnDestroy {
             this.page.setOptionValue(option, value);
         });
 
+        // -->Update: page, limit and sort controls on page list changes
         this.page.list$.pipe(
             takeUntil(this.destroy$),
         ).subscribe(({ page, limit, sort }) => {
@@ -93,7 +82,6 @@ export class ProductsViewComponent implements OnInit, OnDestroy {
         this.hasActiveFilters$ = this.page.activeFilters$.pipe(map(x => x.length > 0));
     }
 
-
     /**
      * Set: layout
      */
@@ -102,14 +90,14 @@ export class ProductsViewComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Track product by _id
+     * Track: product by _id
      */
     public trackByProductId(index: number, product: {_id?: string | number}): string | number {
         return product._id;
     }
 
     /**
-     * Track entity by id
+     * Track: entity by id
      */
     public trackById(index: number, entity: { id: string | number }): string | number {
         return entity.id;

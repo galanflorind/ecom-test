@@ -2,19 +2,19 @@ import { NgModule } from '@angular/core';
 import { ViewportScroller } from '@angular/common';
 import { Router, Scroll, Event } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
-import { TranslateModule } from '@ngx-translate/core';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ToastrModule } from 'ngx-toastr';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { TranslateModule } from '@ngx-translate/core';
 import { filter } from 'rxjs/operators';
-import { LayoutModule } from './layout/layout.module';
-import { AppRoutingModule } from './app.routing';
-import { CurrencyModule } from './shared/currency/currency.module';
-import { LanguageModule } from './shared/language/language.module';
-import { SharedModule } from './shared/shared.module';
 import { NaoHttp2Module } from "@naologic/nao-http2";
 import { NaoUserAccessModule } from "@naologic/nao-user-access";
 import { NaoLocaleModule } from "@naologic/nao-locale";
+import { CurrencyModule } from './shared/currency/currency.module';
+import { LanguageModule } from './shared/language/language.module';
+import { LayoutModule } from './layout/layout.module';
+import { AppRoutingModule } from './app.routing';
+import { SharedModule } from './shared/shared.module';
 import { ECommerceService } from "./e-commerce.service";
 import { AppService } from "./app.service";
 import { ShopService } from "./shop/shop.service";
@@ -41,8 +41,6 @@ import { PageNotFoundComponent } from './default-pages/page-not-found/page-not-f
         }),
         TooltipModule.forRoot(),
         TranslateModule.forChild(),
-
-
         NaoHttp2Module.forRoot(environment.API),
         NaoUserAccessModule.forRoot(environment.naoUsers),
         NaoLocaleModule.forRoot({
@@ -54,12 +52,7 @@ import { PageNotFoundComponent } from './default-pages/page-not-found/page-not-f
             defaultLanguage: 'en-us',
             defaultLocaleDate: 'en-ie'
         }),
-
-        AppRoutingModule,
-        // todo: remove this and use or locale???
-        // todo: remove this and use or locale???
-        // todo: remove this and use or locale???
-        // todo: remove this and use or locale???
+        // todo: remove this and use or locale?
         CurrencyModule.config({
             default: 'USD',
             currencies: [
@@ -96,12 +89,13 @@ import { PageNotFoundComponent } from './default-pages/page-not-found/page-not-f
             ],
         }),
         LayoutModule,
+        AppRoutingModule,
         SharedModule
     ],
     providers: [
         ECommerceService,
-        ShopService,
         AppService,
+        ShopService,
         AccountAuthService,
         AccountProfileService
     ]

@@ -7,9 +7,9 @@ import { LayoutMobileMenuService } from '../../layout-mobile-menu.service';
     styleUrls: ['./mobile-menu-panel.component.scss'],
 })
 export class MobileMenuPanelComponent {
-    @Input() level = 0;
-    @Input() label = '';
-    @Input() content: TemplateRef<any>|null = null;
+    @Input() public level = 0;
+    @Input() public label = '';
+    @Input() public content: TemplateRef<any>|null = null;
 
     constructor(
         public menu: LayoutMobileMenuService,

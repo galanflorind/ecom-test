@@ -6,7 +6,7 @@ import { AbstractControl } from '@angular/forms';
     pure: false,
 })
 export class HasErrorPipe implements PipeTransform {
-    transform(control: AbstractControl, errorName: string): any {
+    public transform(control: AbstractControl, errorName: string): any {
         const errors = control.errors || {};
 
         return control.invalid && (control.dirty || control.touched) && errors[errorName];

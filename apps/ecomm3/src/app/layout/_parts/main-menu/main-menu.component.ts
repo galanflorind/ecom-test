@@ -13,16 +13,25 @@ export class MainMenuComponent {
 
     constructor() {}
 
+    /**
+     * Set: hovered item
+     */
     public onItemEnter(item: any): void {
         this.hoveredItem = item;
     }
 
+    /**
+     * Clear: hovered item
+     */
     public onItemLeave(item: any): void {
-        if ( this.hoveredItem === item ) {
+        if (this.hoveredItem === item) {
             this.hoveredItem = null;
         }
     }
 
+    /**
+     * Reset: hovered item
+     */
     public onItemClick(): void {
         this.hoveredItem = null;
     }

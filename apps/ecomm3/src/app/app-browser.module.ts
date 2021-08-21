@@ -4,7 +4,6 @@ import { AppModule } from './app.module';
 import { LanguageBrowserModule } from './shared/language/language-browser.module';
 import { AppComponent } from './app.component';
 
-
 @NgModule({
     imports: [
         BrowserAnimationsModule,

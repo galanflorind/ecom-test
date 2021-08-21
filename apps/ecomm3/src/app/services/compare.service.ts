@@ -1,8 +1,8 @@
 import { Inject, Injectable, OnDestroy, PLATFORM_ID } from '@angular/core';
-import { BehaviorSubject, EMPTY, Observable, Subject } from 'rxjs';
-import { Product, Variant } from '../interfaces/product';
-import { map, takeUntil } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
+import { BehaviorSubject, EMPTY, Observable, Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
+import { Product, Variant } from '../interfaces/product';
 import { CompareItem } from '../interfaces/compare';
 
 @Injectable({
@@ -10,12 +10,8 @@ import { CompareItem } from '../interfaces/compare';
 })
 export class CompareService implements OnDestroy {
     private dataItems: CompareItem[] = [];
-
     private destroy$: Subject<void> = new Subject();
-    private itemsSubject$: BehaviorSubject<CompareItem[]> = new BehaviorSubject<
-        CompareItem[]
-    >([]);
-
+    private itemsSubject$: BehaviorSubject<CompareItem[]> = new BehaviorSubject<CompareItem[]>([]);
     private onAddingSubject$: Subject<Product> = new Subject();
     private onAddedSubject$: Subject<Product> = new Subject();
 
@@ -33,7 +29,7 @@ export class CompareService implements OnDestroy {
     }
 
     /**
-     * Adds product and variant to compare
+     * Add: product and variant to compare
      */
     public add(product: Product, variant: Variant): Observable<void> {
         // -->Check: product and variant
@@ -48,13 +44,15 @@ export class CompareService implements OnDestroy {
 
         // -->Add: compare item
         if (index === -1) {
-            // -->Feed/Emit: product was added
+            // -->Emit: product was added
             this.onAddingSubject$.next(product);
 
+            // -->Add: compare item
             this.dataItems.push({ product: product, variant: variant });
+            // -->Save
             this.save();
         } else {
-            // -->Feed/Emit: product was already added previously
+            // -->Emit: product was already added previously
             this.onAddedSubject$.next(product);
         }
 
@@ -63,7 +61,7 @@ export class CompareService implements OnDestroy {
     }
 
     /**
-     * Removes compare item
+     * Remove: compare item
      */
     public remove(compareItem: CompareItem): Observable<void> {
         // -->Check: compare item
@@ -79,6 +77,7 @@ export class CompareService implements OnDestroy {
         // -->Remove: compare item
         if (index !== -1) {
             this.dataItems.splice(index, 1);
+            // -->Save
             this.save();
         }
 
@@ -87,28 +86,41 @@ export class CompareService implements OnDestroy {
     }
 
     /**
-     * Reset: compare
+     * Reset: compare items
      */
     public clear(): Observable<void> {
         // -->Clear: compare items
         this.dataItems = [];
+        // -->Save
         this.save();
 
         // -->Complete
         return EMPTY;
     }
 
+    /**
+     * Save: compare items to local storage
+     */
     private save(): void {
+        // -->Save: items
         localStorage.setItem('compareItems', JSON.stringify(this.dataItems));
 
+        // -->Emit: items
         this.itemsSubject$.next(this.dataItems);
     }
 
+    /**
+     * Load: compare items from local storage
+     */
     private load(): void {
+        // -->Load: compare items
         const items = localStorage.getItem('compareItems');
 
+        // -->Check: items
         if (items) {
+            // -->Parse: and set data items
             this.dataItems = JSON.parse(items);
+            // -->Emit: data items
             this.itemsSubject$.next(this.dataItems);
         }
     }

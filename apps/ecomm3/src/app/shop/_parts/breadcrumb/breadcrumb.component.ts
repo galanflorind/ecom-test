@@ -1,4 +1,4 @@
-import { Component, HostBinding, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 export interface BreadcrumbItem {
     label: string;
@@ -11,15 +11,9 @@ export interface BreadcrumbItem {
     styleUrls: ['./breadcrumb.component.scss'],
 })
 export class BreadcrumbComponent {
-    @Input() items: BreadcrumbItem[] = [];
-
-    @Input() withPageTitle = false;
-
-    @Input() afterHeader = true;
-
-    @HostBinding('class.breadcrumb') classBreadcrumb = true;
-
-    @HostBinding('attr.aria-label') attrAriaLabel = 'breadcrumb';
+    @Input() public items: BreadcrumbItem[] = [];
+    @Input() public withPageTitle = false;
+    @Input() public afterHeader = true;
 
     constructor() { }
 }

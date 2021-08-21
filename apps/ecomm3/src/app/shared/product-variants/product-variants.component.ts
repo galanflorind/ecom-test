@@ -2,13 +2,11 @@ import {
     ChangeDetectorRef,
     Component,
     forwardRef,
-    HostBinding,
     Input,
     OnChanges,
     OnDestroy,
     SimpleChanges
 } from '@angular/core';
-import {ProductOption, Variant} from '../../interfaces/product';
 import { AbstractControl,
     ControlValueAccessor,
     FormBuilder,
@@ -22,6 +20,7 @@ import { AbstractControl,
 } from '@angular/forms';
 import { cloneDeep } from 'lodash';
 import {Subscription} from "rxjs";
+import {ProductOption, Variant} from '../../interfaces/product';
 
 @Component({
     selector: 'app-product-variants',
@@ -44,26 +43,21 @@ export class ProductVariantsComponent implements OnChanges, ControlValueAccessor
     /**
      * This was made for a maximum 3 option rows
      */
-    @HostBinding('class.product-variants') public classProductForm = true;
     @Input() public variants: Variant[] = [];
     @Input() public options: ProductOption[] = [];
+
+    private subs = new Subscription();
+    private changeFn: (_: any) => void = () => {};
+    private touchedFn: () => void = () => {};
+
     public form: FormGroup = this.fb.group({});
     public optionsMapped: ProductOption[] = [];
-    private subs = new Subscription();
-
-
-    public changeFn: (_: any) => void = () => {};
-
-    public touchedFn: () => void = () => {};
 
     constructor(
         private fb: FormBuilder,
         private cd: ChangeDetectorRef,
     ) { }
 
-    /**
-     * ng on changes
-     */
     public ngOnChanges(changes: SimpleChanges): void {
         if (changes.options) {
             // -->Get: first variant
@@ -111,7 +105,7 @@ export class ProductVariantsComponent implements OnChanges, ControlValueAccessor
     }
 
     /**
-     * Remap the options because one variant has changed
+     * Remap: the options because one variant has changed
      */
     public remapOptionsOnVariantClick(): void {
         // -->Clone: options
@@ -151,13 +145,13 @@ export class ProductVariantsComponent implements OnChanges, ControlValueAccessor
         this.setVariantId();
     }
 
-
     /**
      * Set: variant id for the current options
      */
     public setVariantId(): void {
         // -->Init
         let variantId = null;
+
         // -->Search: for variantId based on the number of options
         if (this.optionsMapped.length === 1) {
             variantId = this.variants.find(variant => variant?.optionId1 === this.form.get(this.optionsMapped[0]?.id).value)?.id;
@@ -173,15 +167,17 @@ export class ProductVariantsComponent implements OnChanges, ControlValueAccessor
                 variant?.optionId3 === this.form.get(this.optionsMapped[2]?.id).value
             )?.id;
         }
+
+        // -->Set: variantId value
         this.form.get('variantId').setValue(variantId);
     }
-
 
     /**
      * Check: if a value from an option exists in the variants array
      */
     public checkIfValueExists(optionLevel: number, valueId: string): boolean {
         return this.variants.some(variant => {
+            // -->Check: the option level
             if (optionLevel === 1) {
                 return variant?.optionId2 === valueId &&
                     variant?.optionId1 === this.form.get(this.optionsMapped[0]?.id)?.value
@@ -198,7 +194,7 @@ export class ProductVariantsComponent implements OnChanges, ControlValueAccessor
     }
 
     /**
-     * Check if current formGroup is a valid variant
+     * Check: if current formGroup is a valid variant
      */
     public checkIfCurrentVariantIsValid(optionLevel: number): boolean {
         return this.variants.some(variant => {
@@ -241,23 +237,22 @@ export class ProductVariantsComponent implements OnChanges, ControlValueAccessor
         }
     }
 
-
     /**
-     * Register on change
+     * Register: callback function to handle value changes
      */
     public registerOnChange(fn: any): void {
         this.changeFn = fn;
     }
 
     /**
-     * Register on touched
+     * Register: callback function to handle control touch events
      */
     public registerOnTouched(fn: any): void {
         this.touchedFn = fn;
     }
 
     /**
-     * set disabled state
+     * Set: disabled state
      */
     public setDisabledState(isDisabled: boolean): void {
         if (isDisabled) {
@@ -268,20 +263,24 @@ export class ProductVariantsComponent implements OnChanges, ControlValueAccessor
     }
 
     /**
-     * Write value
+     * Write: value
      */
     public writeValue(value: any): void {
+        // -->Check: value type
         if (typeof value !== 'object') {
             value = {};
         }
+
         // -->Init: base value
         const baseValue: {[key: string]: null} = {};
         // -->Get: based value
         this.options.forEach(option => baseValue[option.id] = null);
 
+        // -->Check: value variant id
         if (!value.variantId) {
             value.variantId = null;
         }
+
         // -->Set: value
         this.form.setValue({ ...baseValue, ...value }, { emitEvent: false });
         // -->Trigger: detect changes
@@ -289,13 +288,13 @@ export class ProductVariantsComponent implements OnChanges, ControlValueAccessor
     }
 
     /**
-     * Validate
+     * Validate: form
      */
     public validate(control: AbstractControl): ValidationErrors {
         return this.form.valid ? {} : { options: this.form.errors };
     }
 
-    public ngOnDestroy() {
+    public ngOnDestroy(): void {
         this.subs.unsubscribe();
     }
 }

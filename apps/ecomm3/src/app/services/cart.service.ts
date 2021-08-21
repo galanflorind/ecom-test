@@ -1,7 +1,7 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { Product, Variant } from '../interfaces/product';
-import { BehaviorSubject, EMPTY, Observable, of, Subject, timer } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
+import { BehaviorSubject, EMPTY, Observable, of, Subject, timer } from 'rxjs';
+import { Product, Variant } from '../interfaces/product';
 import { CartItem, CartData, CartTotal } from '../interfaces/cart';
 
 @Injectable({
@@ -15,13 +15,19 @@ export class CartService {
         totals: [],
         total: 0,
     };
-
     private itemsSubject$: BehaviorSubject<CartItem[]> = new BehaviorSubject(this.data.items);
     private quantitySubject$: BehaviorSubject<number> = new BehaviorSubject(this.data.quantity);
     private subtotalSubject$: BehaviorSubject<number> = new BehaviorSubject(this.data.subtotal);
     private totalsSubject$: BehaviorSubject<CartTotal[]> = new BehaviorSubject(this.data.totals);
     private totalSubject$: BehaviorSubject<number> = new BehaviorSubject(this.data.total);
     private onAddingSubject$: Subject<Product> = new Subject();
+
+    public readonly items$: Observable<CartItem[]> = this.itemsSubject$.asObservable();
+    public readonly quantity$: Observable<number> = this.quantitySubject$.asObservable();
+    public readonly subtotal$: Observable<number> = this.subtotalSubject$.asObservable();
+    public readonly totals$: Observable<CartTotal[]> = this.totalsSubject$.asObservable();
+    public readonly total$: Observable<number> = this.totalSubject$.asObservable();
+    public readonly onAdding$: Observable<Product> = this.onAddingSubject$.asObservable();
 
     public get items(): ReadonlyArray<CartItem> {
         return this.data.items;
@@ -43,24 +49,18 @@ export class CartService {
         return this.data.total;
     }
 
-    public readonly items$: Observable<CartItem[]> = this.itemsSubject$.asObservable();
-    public readonly quantity$: Observable<number> = this.quantitySubject$.asObservable();
-    public readonly subtotal$: Observable<number> = this.subtotalSubject$.asObservable();
-    public readonly totals$: Observable<CartTotal[]> = this.totalsSubject$.asObservable();
-    public readonly total$: Observable<number> = this.totalSubject$.asObservable();
-    public readonly onAdding$: Observable<Product> = this.onAddingSubject$.asObservable();
-
     constructor(
         @Inject(PLATFORM_ID) private platformId: any
     ) {
         if (isPlatformBrowser(this.platformId)) {
+            // -->Load: and calculate
             this.load();
             this.calc();
         }
     }
 
     /**
-     * Adds item to the cart
+     * Add: item to the cart
      */
     public add(product: Product, variant: Variant, quantity: number): Observable<CartItem> {
         // -->Check: if variant has a price key
@@ -70,6 +70,7 @@ export class CartService {
 
         this.onAddingSubject$.next(product);
 
+        // -->Find: cart item
         let item = this.items.find((eachItem) => {
             if (eachItem.product._id === product._id && eachItem.variant.id === variant.id) {
                 return true;
@@ -87,14 +88,16 @@ export class CartService {
         });
 
         if (item) {
+            // -->Update: item quantity
             item.quantity += quantity;
         } else {
             item = { product, quantity, variant };
 
+            // -->Add: item
             this.data.items.push(item);
         }
 
-        // -->Save and calculate
+        // -->Save: and calculate
         this.save();
         this.calc();
 
@@ -102,7 +105,7 @@ export class CartService {
     }
 
     /**
-     * Updates cart item quantity and total
+     * Update: cart item quantity and total
      */
     public update(updates: { item: CartItem; quantity: number }[]): Observable<void> {
         updates.forEach((update) => {
@@ -115,7 +118,7 @@ export class CartService {
             }
         });
 
-        // -->Save and calculate
+        // -->Save: and calculate
         this.save();
         this.calc();
 
@@ -123,13 +126,13 @@ export class CartService {
     }
 
     /**
-     * Removes item from cart
+     * Remove: item from cart
      */
     public remove(item: CartItem): Observable<void> {
-        // -->Removes: item
+        // -->Remove: item
         this.data.items = this.data.items.filter((eachItem) => eachItem !== item);
 
-        // -->Save and calculate
+        // -->Save: and calculate
         this.save();
         this.calc();
 
@@ -140,28 +143,31 @@ export class CartService {
      * Reset: cart
      */
     public clearCart(): void {
+        // -->Clear: cart items
         this.data.items = [];
 
-        // -->Save and calculate
+        // -->Save: and calculate
         this.save();
         this.calc();
     }
 
     /**
-     * Function to calculate the total
-     * todo: taxes and shipping if you are not logged in
+     * Compute: totals
      */
     private calc(): void {
         let quantity = 0;
         let subtotal = 0;
 
+        // -->Compute: quantity and subtotal
         this.data.items.forEach(item => {
             quantity += item.quantity;
             subtotal += item.variant.price * item.quantity;
         });
 
+        // -->Init: totals
         const totals: CartTotal[] = [];
 
+        // todo: taxes and shipping if you are not logged in
         // totals.push({
         //     title: 'SHIPPING',
         //     price: 25,
@@ -175,11 +181,13 @@ export class CartService {
 
         const total = subtotal;
 
+        // -->Update: data
         this.data.quantity = quantity;
         this.data.subtotal = subtotal;
         this.data.totals = totals;
         this.data.total = total;
 
+        // -->Emit: data current values
         this.itemsSubject$.next(this.data.items);
         this.quantitySubject$.next(this.data.quantity);
         this.subtotalSubject$.next(this.data.subtotal);
@@ -187,14 +195,24 @@ export class CartService {
         this.totalSubject$.next(this.data.total);
     }
 
+    /**
+     * Save: cart items to local storage
+     */
     private save(): void {
+        // -->Save: items
         localStorage.setItem('cartItems', JSON.stringify(this.data.items));
     }
 
+    /**
+     * Load: cart items from local storage
+     */
     private load(): void {
+        // -->Load: items
         const items = localStorage.getItem('cartItems');
 
+        // -->Check: items
         if (items) {
+            // -->Parse: and set data items
             this.data.items = JSON.parse(items);
         }
     }

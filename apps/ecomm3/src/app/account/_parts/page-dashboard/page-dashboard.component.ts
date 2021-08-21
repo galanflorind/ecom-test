@@ -11,6 +11,7 @@ import { UrlService } from "../../../services/url.service";
 export class PageDashboardComponent implements OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
     private subs = new Subscription();
+
     public address!: NaoUsersInterface.Address;
     public userData = null;
 

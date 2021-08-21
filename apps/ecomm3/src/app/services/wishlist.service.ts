@@ -1,15 +1,14 @@
 import { Inject, Injectable, OnDestroy, PLATFORM_ID } from '@angular/core';
-import { BehaviorSubject, EMPTY, Observable, Subject } from 'rxjs';
-import { Product } from '../interfaces/product';
-import { map, takeUntil } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
+import { BehaviorSubject, EMPTY, Observable, Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
+import { Product } from '../interfaces/product';
 
 @Injectable({
     providedIn: 'root',
 })
 export class WishlistService implements OnDestroy {
     private dataItems: Product[] = [];
-
     private destroy$: Subject<void> = new Subject();
     private itemsSubject$: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>([]);
     private onAddingSubject$: Subject<Product> = new Subject();
@@ -22,12 +21,13 @@ export class WishlistService implements OnDestroy {
         @Inject(PLATFORM_ID) private platformId: any,
     ) {
         if (isPlatformBrowser(this.platformId)) {
+            // -->Load: wishlist items
             this.load();
         }
     }
 
     /**
-     * Adds product to wishlist
+     * Add: product to wishlist
      */
     public add(product: Product): Observable<void> {
         this.onAddingSubject$.next(product);
@@ -46,7 +46,7 @@ export class WishlistService implements OnDestroy {
     }
 
     /**
-     * Removes product from wishlist
+     * Remove: product from wishlist
      */
     public remove(product: Product): Observable<void> {
         // -->Check: if product is on the wishlist
@@ -58,20 +58,31 @@ export class WishlistService implements OnDestroy {
             this.save();
         }
 
+        // -->Complete
         return EMPTY;
     }
 
+    /**
+     * Save: wishlist items to local storage
+     */
     private save(): void {
         localStorage.setItem('wishlistItems', JSON.stringify(this.dataItems));
 
+        // -->Emit: items
         this.itemsSubject$.next(this.dataItems);
     }
 
+    /**
+     * Load: wishlist items from local storage
+     */
     private load(): void {
         const items = localStorage.getItem('wishlistItems');
 
+        // -->Check: items
         if (items) {
+            // -->Parse: and set wishlist items
             this.dataItems = JSON.parse(items);
+            // -->Emit: items
             this.itemsSubject$.next(this.dataItems);
         }
     }

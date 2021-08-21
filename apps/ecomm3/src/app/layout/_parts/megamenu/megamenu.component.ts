@@ -7,9 +7,9 @@ import { Megamenu } from '../../../interfaces/menu';
     styleUrls: ['./megamenu.component.scss'],
 })
 export class MegamenuComponent {
-    @Input() menu!: Megamenu;
+    @Input() public menu!: Megamenu;
 
-    @Output() itemClick: EventEmitter<any> = new EventEmitter<any>();
+    @Output() public itemClick: EventEmitter<any> = new EventEmitter<any>();
 
     constructor() { }
 }

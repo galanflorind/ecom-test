@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subject, Subscription } from 'rxjs';
 import { FormControl } from '@angular/forms';
+import { TranslateService } from "@ngx-translate/core";
+import { ToastrService } from "ngx-toastr";
+import { Subject, Subscription } from 'rxjs';
+import { QuickMongoQuery } from "@naologic/nao-utils";
 import { UrlService } from '../../../services/url.service';
 import { ECommerceService } from "../../../e-commerce.service";
-import { QuickMongoQuery } from "@naologic/nao-utils";
-import { ToastrService } from "ngx-toastr";
-import { TranslateService } from "@ngx-translate/core";
 
 @Component({
     selector: 'app-page-orders',
@@ -15,6 +15,7 @@ import { TranslateService } from "@ngx-translate/core";
 export class PageInvoicesComponent implements OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
     private refreshSubs = new Subscription();
+
     public currentPage: FormControl = new FormControl(1);
     public list: { items: any[], pages: number } = { items: [], pages: 0};
     public perPage = 20;
@@ -36,11 +37,11 @@ export class PageInvoicesComponent implements OnInit, OnDestroy {
         })
     }
 
-
     /**
-     * Refresh
+     * Refresh: invoice list
      */
     public refresh(): void {
+        // -->Check: refresh subscriptions
         if (this.refreshSubs) {
             this.refreshSubs.unsubscribe();
             this.refreshSubs = null;
@@ -52,7 +53,7 @@ export class PageInvoicesComponent implements OnInit, OnDestroy {
             .skip((this.currentPage.value - 1) * this.perPage)
             .returnDataModel({_id: 1, data: 1, info: 1, fullData: 1})
             .done();
-        // -->Execute
+        // -->Execute: query to get invoice list
         this.refreshSubs = this.eCommerceService.listInvoices(query).subscribe(res => {
             if (res && Array.isArray(res.data)) {
                 // -->Set: invoices

@@ -19,48 +19,48 @@ export class AccountProfileService<T = any> {
     }
 
     /**
-     * Get user info
+     * Update: user data
+     * @example
+     * this.update('data', { addresses: [] })
      */
-    public getInfo(naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault()): Observable<T> {
-        return this.naoHttp2ApiService.postJson<T>(`${this.api.root}/get/${naoQueryOptions.docName}/data`, {
-            data: { naoQueryOptions: this.userAccessOptions.naoQueryOptions, cfpPath: this.userAccessOptions.cfpPath }, naoQueryOptions
+    public update(mode: 'profile'|'addresses'|'order', data: Partial<T>, naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault(
+        { docName: 'guest-external-ecommerce', userMode: 'guest-external' })
+    ): Observable<T> {
+        // -->Request: user data
+        return this.naoHttp2ApiService.postJson<T>(`${this.api.root}/guest/update/${naoQueryOptions.docName}/data`, {
+            data: { data, mode, naoQueryOptions: this.userAccessOptions.naoQueryOptions, cfpPath: this.userAccessOptions.cfpPath },
+            naoQueryOptions
         });
     }
 
     /**
-     * Update user data
-     *    @example
-     *      this.update('data', { addresses: [] })
+     * Update: user password
      */
-    public update(mode: 'profile'|'addresses'|'order', data: Partial<T>, naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault({ docName: 'guest-external-ecommerce', userMode: 'guest-external' })): Observable<T> {
-        // -->Request: data browse
-        return this.naoHttp2ApiService.postJson<T>(`${this.api.root}/guest/update/${naoQueryOptions.docName}/data`, {
-            data: { data, mode, naoQueryOptions: this.userAccessOptions.naoQueryOptions, cfpPath: this.userAccessOptions.cfpPath }, naoQueryOptions });
-    }
-
-    /**
-     * Update user password
-     */
-    public updatePassword(data: {currentPassword: string, password: string, confirmPassword: string}, naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault({ docName: 'guest-external-ecommerce', userMode: 'guest-external' })): Observable<T> {
+    public updatePassword(data: {currentPassword: string, password: string, confirmPassword: string}, naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault(
+        { docName: 'guest-external-ecommerce', userMode: 'guest-external' })
+    ): Observable<T> {
         // -->Request: data browse
         return this.naoHttp2ApiService.patchJson<T>(`${this.api.root}/guest/password/${naoQueryOptions.docName}/update`, { data: {data}, naoQueryOptions });
     }
 
     /**
-     * Delete my user account
+     * Delete: user account
      */
-    public deleteAccount(password: string, naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault({ docName: 'guest-external-ecommerce', userMode: 'guest-external' })): Observable<any> {
-        return this.naoHttp2ApiService.postJson(`${this.api.root}/guest/delete/document/account`, { data: { password }, naoQueryOptions });
+    public deleteAccount(password: string, naoQueryOptions = NaoDocumentInterface.naoQueryOptionsDefault(
+        { docName: 'guest-external-ecommerce', userMode: 'guest-external' })
+    ): Observable<T> {
+        // -->Request: account delete
+        return this.naoHttp2ApiService.postJson<T>(`${this.api.root}/guest/delete/document/account`, { data: { password }, naoQueryOptions });
     }
 
     /**
-     * Send the email for password reset
+     * Send: email for password reset
      */
     public sendResetPasswordEmail(email: string): Observable<T> {
-      // -->Check: this invite
-      return this.naoHttp2ApiService.postJson<T>(`${this.api.root}/guest/password/forgot/now`, { data: { email }, naoQueryOptions: this.naoUsersService.userAccessOptions.naoQueryOptions });
+        // -->Send: forgot password request
+        return this.naoHttp2ApiService.postJson<T>(`${this.api.root}/guest/password/forgot/now`, { data: { email }, naoQueryOptions: this.naoUsersService.userAccessOptions.naoQueryOptions });
     }
-    //
+
     // /**
     //  * Check the token for password reset
     //  */

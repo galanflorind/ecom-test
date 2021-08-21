@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subject, Subscription } from 'rxjs';
-import { ToastrService } from 'ngx-toastr';
-import { TranslateService } from '@ngx-translate/core';
-import { NaoUserAccessService } from "@naologic/nao-user-access";
 import { Router } from "@angular/router";
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
+import { Subject, Subscription } from 'rxjs';
+import { NaoUserAccessService } from "@naologic/nao-user-access";
 import { AccountProfileService } from "../../account-profile.service";
 
 @Component({
@@ -15,6 +15,7 @@ import { AccountProfileService } from "../../account-profile.service";
 export class PageProfileComponent implements OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
     private subs = new Subscription();
+
     public formGroup!: FormGroup;
     public saveInProgress = false;
     public userData;
@@ -56,6 +57,7 @@ export class PageProfileComponent implements OnInit, OnDestroy {
             })
         );
 
+        // -->Set: form values
         this.formGroup = this.fb.group({
             firstName: [this.userData.firstName, [Validators.required]],
             lastName: [this.userData.lastName, [Validators.required]],
@@ -66,19 +68,22 @@ export class PageProfileComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Save data
+     * Update: user profile data
      */
     public save(): void {
+        // -->Check: save action state and form
         if (this.saveInProgress || this.formGroup.invalid){
             return;
         }
-        // -->Mark
+        // -->Mark: all controls
         this.formGroup.markAllAsTouched();
-        // -->Start: saving
+
+        // -->Start: loading
         this.saveInProgress = true;
         // -->Get: value
         const data = this.formGroup.getRawValue();
-        // -->Update
+
+        // -->Update: user profile
         this.userProfileService.update('profile', data).subscribe(res => {
             if (res && res.ok) {
                 // -->Refresh: session data
@@ -106,7 +111,6 @@ export class PageProfileComponent implements OnInit, OnDestroy {
             this.toastr.error(this.translate.instant('ERROR_API_REQUEST'));
         })
     }
-
 
     public ngOnDestroy(): void {
         this.subs.unsubscribe();

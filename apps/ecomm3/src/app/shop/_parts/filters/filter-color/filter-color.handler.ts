@@ -1,27 +1,39 @@
 import { FilterHandler } from '../filter.handler';
 import { ActiveFilterColor, ColorFilter } from '../../../../interfaces/filter';
 
-
 export class FilterColorHandler extends FilterHandler {
     type = 'color';
 
-    serialize(value: string[]): string {
+    /**
+     * Convert: array to string using ',' as separator
+     */
+    public serialize(value: string[]): string {
         return value.join(',');
     }
 
-    deserialize(value: string): string[] {
+    /**
+     * Convert: string to array assuming ',' as the separator
+     */
+    public deserialize(value: string): string[] {
         return value !== '' ? value.split(',') : [];
     }
 
-    isDefaultValue(filter: ColorFilter, value: string[]): boolean {
+    /**
+     * Check: if value is the default
+     */
+    public isDefaultValue(filter: ColorFilter, value: string[]): boolean {
         return value.length === 0;
     }
 
-    activeFilters(filter: ColorFilter): ActiveFilterColor[] {
+    /**
+     * Get: active filters
+     */
+    public activeFilters(filter: ColorFilter): ActiveFilterColor[] {
         if (this.isDefaultValue(filter, filter.value)) {
             return [];
         }
 
+        // -->Build: and return active filters array
         return filter.items.filter(x => filter.value.includes(x.slug)).map(item => ({
             id: `${filter.slug}/${item.slug}`,
             type: filter.type,
@@ -30,7 +42,10 @@ export class FilterColorHandler extends FilterHandler {
         }));
     }
 
-    getResetValue(activeFilters: ActiveFilterColor[]): string {
+    /**
+     * Get: reset value
+     */
+    public getResetValue(activeFilters: ActiveFilterColor[]): string {
         const itemSlugs = activeFilters.map(x => x.item.slug);
 
         return this.serialize(activeFilters[0].original.value.filter(x => !itemSlugs.includes(x)));

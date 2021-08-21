@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NestedLink } from '../../../interfaces/link';
 
 @Component({
@@ -7,9 +7,9 @@ import { NestedLink } from '../../../interfaces/link';
     styleUrls: ['./menu.component.scss'],
 })
 export class MenuComponent {
-    @Input() items: NestedLink[] = [];
+    @Input() public items: NestedLink[] = [];
 
-    @Output() itemClick: EventEmitter<any> = new EventEmitter<any>();
+    @Output() public itemClick: EventEmitter<any> = new EventEmitter<any>();
 
     constructor() { }
 }

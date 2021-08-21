@@ -1,8 +1,8 @@
-import { Component, forwardRef, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
-import { RatingFilter, RatingFilterItem } from '../../../../interfaces/filter';
+import { Component, forwardRef, Input, OnDestroy, OnInit } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
+import { RatingFilter, RatingFilterItem } from '../../../../interfaces/filter';
 
 @Component({
     selector: 'app-filter-rating',
@@ -17,47 +17,54 @@ import { filter, takeUntil } from 'rxjs/operators';
     ],
 })
 export class FilterRatingComponent implements OnInit, OnDestroy, ControlValueAccessor {
+    @Input() public options!: RatingFilter;
+
     private destroy$: Subject<void> = new Subject<void>();
+    private value: any[] = [];
+    private changeFn: (_: number) => void = () => {};
+    private touchedFn: () => void = () => {};
 
-    value: any[] = [];
-
-    control: FormControl = new FormControl([]);
-
-    @Input() options!: RatingFilter;
-
-    @HostBinding('class.filter-rating') classFilterRating = true;
-
-    changeFn: (_: number) => void = () => {};
-
-    touchedFn: () => void = () => {};
+    public control: FormControl = new FormControl([]);
 
     constructor() { }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this.control.valueChanges.pipe(
             filter(value => value !== this.value),
             takeUntil(this.destroy$),
         ).subscribe(value => this.changeFn(value));
     }
 
-    ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
-    }
-
-    registerOnChange(fn: any): void {
+    /**
+     * Register: callback function to handle value changes
+     */
+    public registerOnChange(fn: any): void {
         this.changeFn = fn;
     }
 
-    registerOnTouched(fn: any): void {
+    /**
+     * Register: callback function to handle control touch events
+     */
+    public registerOnTouched(fn: any): void {
         this.touchedFn = fn;
     }
 
-    writeValue(obj: any): void {
+    /**
+     * Set: control value
+     */
+    public writeValue(obj: any): void {
         this.control.setValue(this.value = obj, { emitEvent: false });
     }
 
-    trackByRating(index: number, item: RatingFilterItem): number {
+    /**
+     * Track: by item rating
+     */
+    public trackByRating(index: number, item: RatingFilterItem): number {
         return item.rating;
+    }
+
+    public ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 }

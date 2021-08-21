@@ -1,4 +1,4 @@
-import { Component, HostBinding, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ProductAttributeGroup } from '../../../interfaces/product';
 
 @Component({
@@ -7,9 +7,7 @@ import { ProductAttributeGroup } from '../../../interfaces/product';
     styleUrls: ['./spec.component.scss'],
 })
 export class SpecComponent {
-    @Input() groups: ProductAttributeGroup[] = [];
-
-    @HostBinding('class.spec') classSpec = true;
+    @Input() public groups: ProductAttributeGroup[] = [];
 
     constructor() { }
 }

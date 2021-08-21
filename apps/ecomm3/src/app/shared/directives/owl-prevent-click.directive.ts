@@ -1,5 +1,5 @@
 import { Directive, ElementRef, Inject, NgZone, OnInit, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { fromEvent } from 'rxjs';
 import { filter, map, take, takeUntil } from 'rxjs/operators';
 
@@ -17,28 +17,35 @@ export class OwlPreventClickDirective implements OnInit {
     }
 
     constructor(
+        @Inject(DOCUMENT) private document: Document,
         @Inject(PLATFORM_ID) private platformId: any,
         private elementRef: ElementRef,
         private zone: NgZone,
     ) { }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         if (isPlatformBrowser(this.platformId)) {
             this.zone.runOutsideAngular(() => {
                 const children: Element[] = [].slice.call(this.element.children);
-                const owlCarouseElement = children.find(element => element.classList.contains('owl-carousel'));
+                const owlCarouselElement = children.find(element => element.classList.contains('owl-carousel'));
 
-                if (!owlCarouseElement) {
+                // -->Check: owlCarouselElement
+                if (!owlCarouselElement) {
                     return;
                 }
 
-                fromEvent<MouseEvent>(owlCarouseElement, 'mousedown').subscribe(mouseDownEvent => {
+                // -->Track: mouse down event on carousel element
+                fromEvent<MouseEvent>(owlCarouselElement, 'mousedown').subscribe(mouseDownEvent => {
+                    // -->Set: timeout
                     const timeout = setTimeout(() => {
-                        owlCarouseElement.classList.add('owl-prevent-click');
+                        // -->Prevent: clicking
+                        owlCarouselElement.classList.add('owl-prevent-click');
                     }, 250);
-                    const mouseUpEvent$ = fromEvent<MouseEvent>(document, 'mouseup').pipe(take(1));
+                    // -->Set: mouseUpEvent (used as completion condition)
+                    const mouseUpEvent$ = fromEvent<MouseEvent>(this.document, 'mouseup').pipe(take(1));
 
-                    fromEvent<MouseEvent>(document, 'mousemove').pipe(
+                    // -->Track: mouse move event on the document until mouse up
+                    fromEvent<MouseEvent>(this.document, 'mousemove').pipe(
                         takeUntil(mouseUpEvent$),
                         map(mouseMoveEvent => Math.abs(Math.sqrt(
                             Math.pow(mouseDownEvent.clientX - mouseMoveEvent.clientX, 2) +
@@ -47,12 +54,14 @@ export class OwlPreventClickDirective implements OnInit {
                         filter(distance => distance > 15),
                         take(1),
                     ).subscribe(() => {
-                        owlCarouseElement.classList.add('owl-prevent-click');
+                        // -->Prevent: clicking
+                        owlCarouselElement.classList.add('owl-prevent-click');
                     });
 
                     mouseUpEvent$.subscribe(() => {
-                        owlCarouseElement.classList.remove('owl-prevent-click');
-
+                        // -->Allow: clicking
+                        owlCarouselElement.classList.remove('owl-prevent-click');
+                        // -->Clear: timeout
                         clearTimeout(timeout);
                     });
                 });

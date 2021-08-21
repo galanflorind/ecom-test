@@ -1,4 +1,4 @@
-import { Component, HostBinding, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
     selector: 'app-rating',
@@ -6,9 +6,7 @@ import { Component, HostBinding, Input } from '@angular/core';
     styleUrls: ['./rating.component.scss'],
 })
 export class RatingComponent {
-    @Input() value = 0;
-
-    @HostBinding('class.rating') classRating = true;
+    @Input() public value = 0;
 
     constructor() { }
 }

@@ -7,42 +7,53 @@ import { OwlCarouselOConfig } from 'ngx-owl-carousel-o/lib/carousel/owl-carousel
     exportAs: 'appFakeSlides',
 })
 export class FakeSlidesDirective implements OnInit, OnChanges, OnDestroy {
-    @Input() options: Partial<OwlCarouselOConfig> = {};
-    @Input() appFakeSlides = 0;
+    @Input() public options: Partial<OwlCarouselOConfig> = {};
+    @Input() public appFakeSlides = 0;
 
     private resizeHandler = () => {};
 
-    slides: number[] = [];
-    slidesCount = 0;
+    public slides: number[] = [];
+    public slidesCount = 0;
 
     constructor(
         private eventManager: EventManager,
         private el: ElementRef,
     ) { }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this.resizeHandler = this.eventManager.addGlobalEventListener('window', 'resize', () => this.calc()) as () => void;
         this.calc();
     }
 
-    calc(): void {
+    public ngOnChanges(changes: SimpleChanges): void {
+        this.calc();
+    }
+
+    /**
+     * Compute: slides count
+     */
+    private calc(): void {
         let newFakeSlidesCount = 0;
 
+        // -->Check: options
         if (this.options) {
             let match = -1;
             const viewport = this.el.nativeElement.querySelector('.owl-carousel').clientWidth;
             const overwrites = this.options.responsive as {[breakpoint: number]: any};
 
+            // -->Check: overwrites
             if (overwrites) {
                 for (const key in overwrites) {
                     if (overwrites.hasOwnProperty(key)) {
                         if (+key <= viewport && +key > match) {
+                            // -->Update: match
                             match = Number(key);
                         }
                     }
                 }
             }
 
+            // -->Update: newFakeSlidesCount according to match (if found) or option items number
             if (match >= 0) {
                 const items = overwrites[match].items;
                 newFakeSlidesCount = Math.max(0, items - this.appFakeSlides);
@@ -51,6 +62,7 @@ export class FakeSlidesDirective implements OnInit, OnChanges, OnDestroy {
             }
         }
 
+        // -->Check: if slides need to be updated
         if (this.slidesCount !== newFakeSlidesCount) {
             this.slides = [];
             this.slidesCount = newFakeSlidesCount;
@@ -61,11 +73,7 @@ export class FakeSlidesDirective implements OnInit, OnChanges, OnDestroy {
         }
     }
 
-    ngOnChanges(changes: SimpleChanges): void {
-        this.calc();
-    }
-
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         if (this.resizeHandler) {
             this.resizeHandler();
         }

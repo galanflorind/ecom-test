@@ -6,21 +6,19 @@ let uniqueId = 0;
 @Injectable()
 export class RadiobuttonDispatcherService {
     private readonly id: number;
-
     private valueState: any;
-
     private changeSubject$: Subject<any> = new Subject<any>();
 
-    change$: Observable<any> = this.changeSubject$.asObservable();
+    public change$: Observable<any> = this.changeSubject$.asObservable();
 
-    get name() {
+    public get name() {
         return `app-radio-button-${this.id}`;
     }
 
-    get value(): any {
+    public get value(): any {
         return this.valueState;
     }
-    set value(value: any) {
+    public set value(value: any) {
         if (value !== this.valueState) {
             this.valueState = value;
             this.changeSubject$.next(value);

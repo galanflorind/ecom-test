@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 
 type Task = () => Promise<void>;
 
@@ -11,7 +12,6 @@ interface LibrariesDef {
 })
 export class ResourcesService {
     private loaded: { [url: string]: Promise<void>; } = {};
-
     private libraries: LibrariesDef = {
         photoSwipe: ResourcesService.parallel(
             this.styleTask('assets/vendor/photoswipe/photoswipe.css'),
@@ -21,51 +21,83 @@ export class ResourcesService {
         ),
     };
 
+    /**
+     * Run: tasks in series
+     */
     static series(...tasks: Task[]): Task {
+        // -->Get: and remove first task
         const task = tasks.shift();
 
+        // -->Check: task
         if (!task) {
+            // -->Resolve: promise
             return () => Promise.resolve();
         }
 
+        // -->Run: other tasks in series after current task is completed
         return () => task().then(ResourcesService.series(...tasks));
     }
 
+    /**
+     * Run: tasks in parallel
+     */
     static parallel(...tasks: Task[]): Task {
+        // -->Check: tasks
         if (!tasks.length) {
+            // -->Resolve: promise
             return () => Promise.resolve();
         }
 
+        // -->Run: all tasks in parallel
         return () => Promise.all(tasks.map(task => task())).then(() => {});
     }
 
-    constructor() { }
+    constructor(
+        @Inject(DOCUMENT) private document: Document
+    ) { }
 
     // noinspection JSUnusedGlobalSymbols
-    loadScript(url: string): Promise<void> {
+    /**
+     * Load: script
+     */
+    public loadScript(url: string): Promise<void> {
         return this.scriptTask(url)();
     }
 
     // noinspection JSUnusedGlobalSymbols
-    loadStyle(url: string): Promise<void> {
+    /**
+     * Load: style
+     */
+    public loadStyle(url: string): Promise<void> {
         return this.styleTask(url)();
     }
 
-    loadLibrary(library: string): Promise<void> {
+    /**
+     * Load: library
+     */
+    public loadLibrary(library: string): Promise<void> {
         return this.libraries[library]();
     }
 
+    /**
+     * Append: script to document head
+     */
     private scriptTask(url: string): Task {
         return () => {
+            // -->Check: url property exists
             if (!this.loaded.hasOwnProperty(url)) {
                 this.loaded[url] = new Promise<void>((resolve, reject) => {
-                    const script = document.createElement('script');
+                    // -->Create: script element
+                    const script = this.document.createElement('script');
 
+                    // -->Set: script events
                     script.onload = () => resolve();
                     script.onerror = () => reject(new Error('Loading error: ' + url));
+                    // -->Set: script source property
                     script.src = url;
 
-                    document.head.appendChild(script);
+                    // -->Append: script element to document head
+                    this.document.head.appendChild(script);
                 });
             }
 
@@ -73,19 +105,27 @@ export class ResourcesService {
         };
     }
 
+    /**
+     * Append: style to document head
+     */
     private styleTask(url: string): Task {
         return () => {
+            // -->Check: url property exists
             if (!this.loaded.hasOwnProperty(url)) {
                 this.loaded[url] = new Promise<void>((resolve, reject) => {
-                    const link = document.createElement('link');
+                    // -->Create: link element
+                    const link = this.document.createElement('link');
 
+                    // -->Set: link events
                     link.onload = () => resolve();
                     link.onerror = () => reject(new Error('Loading error: ' + url));
+                    // -->Set: link properties
                     link.type = 'text/css';
                     link.rel = 'stylesheet';
                     link.href = url;
 
-                    document.head.appendChild(link);
+                    // -->Append: link element to document head
+                    this.document.head.appendChild(link);
                 });
             }
 

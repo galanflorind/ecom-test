@@ -1,15 +1,8 @@
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
-
-// modules (angular)
 import { CommonModule } from '@angular/common';
-
-// services
-import { LanguageService } from './services/language.service';
-
-// other
-import { DEFAULT_LANGUAGE, Language, LanguageModuleConfig, LANGUAGES, USER_LANGUAGES } from './interfaces/language';
 import { MESSAGE_FORMAT_CONFIG, MessageFormatConfig } from 'ngx-translate-messageformat-compiler';
-
+import { LanguageService } from './services/language.service';
+import { DEFAULT_LANGUAGE, Language, LanguageModuleConfig, LANGUAGES, USER_LANGUAGES } from './interfaces/language';
 
 export function languageInitFactory(
     language: LanguageService,
@@ -25,10 +18,8 @@ export function messageFormatConfigFactory(languages: Language[]): () => Message
     });
 }
 
-
 @NgModule({
     imports: [
-        // modules (angular)
         CommonModule,
     ],
 })

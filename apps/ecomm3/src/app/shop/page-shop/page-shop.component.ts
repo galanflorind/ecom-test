@@ -1,29 +1,28 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { ShopSidebarService } from '../shop-sidebar.service';
-import { ShopService } from '../shop.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 import { merge, Observable, of, Subject, Subscription } from 'rxjs';
 import { debounceTime, map, switchMap, takeUntil, take } from 'rxjs/operators';
+import { ShopSidebarService } from '../shop-sidebar.service';
+import { ShopService } from '../shop.service';
 import { UrlService } from '../../services/url.service';
-import { ShopCategory } from '../../interfaces/category';
 import { LanguageService } from '../../shared/language/services/language.service';
-import { TranslateService } from '@ngx-translate/core';
-import { ProductsList } from '../../interfaces/list';
-import { filterHandlers } from '../_parts/filters/filter-handlers';
-import { BreadcrumbItem } from '../_parts/breadcrumb/breadcrumb.component';
-import { Filter } from '../../interfaces/filter';
-import { FilterHandler } from '../_parts/filters/filter.handler';
 import { ECommerceService } from '../../e-commerce.service';
 import { AppService } from '../../app.service';
+import { ShopCategory } from '../../interfaces/category';
+import { ProductsList } from '../../interfaces/list';
+import { Filter } from '../../interfaces/filter';
 import {
     buildCategoriesFilter,
     buildManufacturerFilter,
     buildPriceFilter
 } from '../_parts/filters/filter.utils.static';
+import { FilterHandler } from '../_parts/filters/filter.handler';
+import { filterHandlers } from '../_parts/filters/filter-handlers';
+import { BreadcrumbItem } from '../_parts/breadcrumb/breadcrumb.component';
 import { getBreadcrumbs } from '../../shared/functions/utils';
-import { ToastrService } from 'ngx-toastr';
-
 
 export type PageShopLayout =
     'grid' |
@@ -129,7 +128,7 @@ export class PageShopComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Refresh products
+     * Refresh: products
      */
     public refresh(): void {
         if (this.refreshSubs) {
@@ -243,14 +242,15 @@ export class PageShopComponent implements OnInit, OnDestroy {
                     this.pageTitle$ = this.translate.instant('HEADER_SHOP');
                 }
 
-                // -->Set: data
+                // -->Done: loading
                 this.page.isLoading = false;
+                // -->Set: data
                 this.page.setList(list);
 
                 // -->Update: url
                 this.updateUrl();
-
             } else {
+                // -->Done: loading
                 this.page.isLoading = false;
 
                 // -->Show: errors
@@ -261,9 +261,8 @@ export class PageShopComponent implements OnInit, OnDestroy {
         });
     }
 
-
     /**
-     * Update url
+     * Update: url
      */
     private updateUrl(): void {
         const tree = this.router.parseUrl(this.router.url);
@@ -272,7 +271,7 @@ export class PageShopComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Get query params from page options
+     * Get: query params from page options
      */
     private getQueryParams(): Params {
         const params: Params = {};
@@ -318,9 +317,9 @@ export class PageShopComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Set page options from query params
+     * Set: page options from query params
      */
-    private setPageOptions() {
+    private setPageOptions(): void {
         // -->Update page options from query params
         this.route.queryParams.pipe(take(1)).subscribe((param) => {
             // --Check: param
@@ -352,9 +351,6 @@ export class PageShopComponent implements OnInit, OnDestroy {
         });
     }
 
-    /**
-     * Destroy
-     */
     public ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();

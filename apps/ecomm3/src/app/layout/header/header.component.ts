@@ -1,15 +1,14 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import { WishlistService } from '../../services/wishlist.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { NaoUserAccessService } from "@naologic/nao-user-access";
+import { WishlistService } from '../../services/wishlist.service';
 import { CartService } from '../../services/cart.service';
 import { UrlService } from '../../services/url.service';
 import { AppService } from "../../app.service";
 import { DepartmentsLink } from "../../interfaces/departments-link";
-import { nameToSlug } from '../../shared/functions/utils';
 import { MegamenuColumn } from "../../interfaces/menu";
 import { NestedLink } from "../../interfaces/link";
-import { NaoUserAccessService } from "@naologic/nao-user-access";
-
+import { nameToSlug } from '../../shared/functions/utils';
 
 @Component({
     selector: 'app-header',
@@ -53,14 +52,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Map categories for header
+     * Map: categories for header
      */
     public mapCategories(categories: any[]): DepartmentsLink[] {
-        // -->Check:
+        // -->Check: categories
         if (!Array.isArray(categories)) {
             categories = [];
         }
-        // -->Init
+        // -->Init: items
         const items: DepartmentsLink[] = [];
 
         // -->Get: route level categories
@@ -72,6 +71,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
                 title: category.name,
                 url: `/shop/category/${nameToSlug(category.name)}/${category.id}/products`
             }
+
             // -->Get: all second level categories for this parent
             const subCategories = categories.filter(c => c.parentId === category.id && c.level === 1);
             if (subCategories.length) {
@@ -81,22 +81,26 @@ export class HeaderComponent implements OnInit, OnDestroy {
                     size: 'xl',
                     columns: []
                 };
+
                 // -->Iterate: over subcategories and check if there are any other links inside
                 subCategories.forEach(subCategory => {
                     // -->Get: links for sub category
                     const links = categories.filter(c => c.parentId === subCategory.id && c.level === 2);
-                    // -->Init:
+                    // -->Init: column
                     const column: MegamenuColumn = {
                         size: '1of5',
                         links: []
                     }
+
                     // -->Create: sub category
                     const subCategory$: NestedLink = {
                         title: subCategory.name,
                         url: `/shop/category/${nameToSlug(subCategory.name)}/${subCategory.id}/products`
                     }
-                    // -->Check
+
+                    // -->Check: links
                     if (links.length) {
+                        // -->Map: subcategory links
                         subCategory$.links = links.map(link => {
                             return {
                                 title: link.name,
@@ -112,16 +116,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
                 })
 
             }
+
             // -->Push: category
             items.push(item)
-
         });
-
 
         return items;
     }
 
-    public ngOnDestroy() {
+    public ngOnDestroy(): void {
         this.subs.unsubscribe();
     }
 }

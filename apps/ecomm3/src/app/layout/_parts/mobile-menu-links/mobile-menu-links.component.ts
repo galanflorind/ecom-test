@@ -8,21 +8,28 @@ import { LayoutMobileMenuService } from '../../layout-mobile-menu.service';
     styleUrls: ['./mobile-menu-links.component.scss'],
 })
 export class MobileMenuLinksComponent {
-    @Input() items: MobileMenuLink[] = [];
+    @Input() public items: MobileMenuLink[] = [];
 
-    @Output() itemClick: EventEmitter<MobileMenuLink> = new EventEmitter<MobileMenuLink>();
+    @Output() public itemClick: EventEmitter<MobileMenuLink> = new EventEmitter<MobileMenuLink>();
 
     constructor(
         private menu: LayoutMobileMenuService,
     ) { }
 
+    /**
+     * Handle: menu item click.
+     * Open panel if item has a submenu
+     */
     public onItemClick(event: MouseEvent, item: MobileMenuLink, panel: TemplateRef<any>): void {
+        // -->Check: item submenu
         if (item.submenu) {
             event.preventDefault();
 
+            // -->Open: menu panel
             this.menu.openPanel(item.title, panel);
         }
 
+        // -->Emit: item
         this.itemClick.emit(item);
     }
 }

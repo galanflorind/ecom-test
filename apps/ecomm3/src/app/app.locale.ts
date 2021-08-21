@@ -1,6 +1,6 @@
-import { LanguageData, CountryData, CurrencyData } from '@naologic/nao-utils';
 import { registerLocaleData } from '@angular/common';
 import { defineLocale as ngxBootstrapDefineLocale } from 'ngx-bootstrap/chronos';
+import { LanguageData, CountryData, CurrencyData } from '@naologic/nao-utils';
 
 /**
  * Active countries

@@ -8,7 +8,7 @@ export type DecorComponentType = 'center' | 'bottom';
     styleUrls: ['./decor.component.scss'],
 })
 export class DecorComponent {
-    @Input() type: DecorComponentType = 'center';
+    @Input() public type: DecorComponentType = 'center';
 
     constructor() { }
 }

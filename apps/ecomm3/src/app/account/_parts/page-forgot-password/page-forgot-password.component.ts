@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { NaoUserAccessService } from "@naologic/nao-user-access";
 import { AccountProfileService } from "../../account-profile.service";
@@ -12,14 +14,16 @@ import { AccountProfileService } from "../../account-profile.service";
 })
 export class PageForgotPasswordComponent implements OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
+
     public formGroup!: FormGroup;
     public resetInProgress = false;
-
 
     constructor(
         private fb: FormBuilder,
         private router: Router,
         private naoUsersService: NaoUserAccessService,
+        private toastr: ToastrService,
+        private translate: TranslateService,
         private userProfileService: AccountProfileService,
     ) { }
 
@@ -29,28 +33,35 @@ export class PageForgotPasswordComponent implements OnInit, OnDestroy {
         });
     }
 
+    /**
+     * Reset: user password
+     */
     public resetPassword(): void {
         this.formGroup.markAllAsTouched();
 
+        // -->Check: reset action state and form
         if (this.resetInProgress || this.formGroup.invalid) {
             return;
         }
         // -->Get: formGroup data
         const fd = this.formGroup.getRawValue();
-
+        // -->Start: loading
         this.resetInProgress = true;
         // -->Execute: a login
         this.userProfileService
             .sendResetPasswordEmail(fd.email)
             .subscribe((res) => {
+                // -->Done: loading
                 this.resetInProgress = false;
                 // -->Redirect
                 // return this.router.navigate(['/', 'account', 'dashboard']);
             },(err) => {
+                // -->Done: loading
                 this.resetInProgress = false;
-                // todo: show toaster with error
-                // todo: show toaster with error
-                // todo: show toaster with error
+
+                // -->Show: toaster
+                this.toastr.error(this.translate.instant('ERROR_API_REQUEST'));
+
                 this.formGroup.reset();
             });
     }

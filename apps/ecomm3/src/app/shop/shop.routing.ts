@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { NaoUserPermissionsGuard } from "@naologic/nao-user-access";
+import { PageShopComponent } from './page-shop/page-shop.component';
+import { PageProductComponent } from './page-product/page-product.component';
 import { PageCartComponent } from './page-cart/page-cart.component';
 import { PageCheckoutComponent } from './page-checkout/page-checkout.component';
-import { PageCompareComponent } from './page-compare/page-compare.component';
-import { PageProductComponent } from './page-product/page-product.component';
-import { PageShopComponent } from './page-shop/page-shop.component';
-import { PageTrackOrderComponent } from './page-track-order/page-track-order.component';
 import { PageWishlistComponent } from './page-wishlist/page-wishlist.component';
-import { NaoUserPermissionsGuard } from "@naologic/nao-user-access";
+import { PageCompareComponent } from './page-compare/page-compare.component';
+import { PageTrackOrderComponent } from './page-track-order/page-track-order.component';
 
 
 const routes: Routes = [
@@ -63,104 +63,7 @@ const routes: Routes = [
         path: 'track-order',
         component: PageTrackOrderComponent,
     },
-    // The following routes are only for demonstrating possible page layouts.
-    // {
-    //     path: 'order-success',
-    //     component: PageOrderSuccessComponent,
-    //     data: {
-    //         orderToken: 'b84486c31644eac99f6909a6e8c19101',
-    //     },
-    // },
-    // // shop
-    // ...[
-    //     'grid-3-sidebar',
-    //     'grid-4-sidebar',
-    //     'grid-4-full',
-    //     'grid-5-full',
-    //     'grid-6-full',
-    // ].map(gridLayout => ({
-    //     path: `shop-${gridLayout}`,
-    //     component: PageShopComponent,
-    //     resolve: {
-    //         category: CategoryResolver,
-    //         productsList: ProductsListResolver,
-    //     },
-    //     data: {
-    //         layout: 'grid',
-    //         gridLayout,
-    //         sidebarPosition: 'start',
-    //         categorySlug: 'headlights-lighting',
-    //     },
-    // })),
-    // {
-    //     path: 'shop-list',
-    //     component: PageShopComponent,
-    //     resolve: {
-    //         category: CategoryResolver,
-    //         productsList: ProductsListResolver,
-    //     },
-    //     data: {
-    //         layout: 'list',
-    //         gridLayout: 'grid-4-sidebar',
-    //         sidebarPosition: 'start',
-    //         categorySlug: 'headlights-lighting',
-    //     },
-    // },
-    // {
-    //     path: 'shop-table',
-    //     component: PageShopComponent,
-    //     resolve: {
-    //         category: CategoryResolver,
-    //         productsList: ProductsListResolver,
-    //     },
-    //     data: {
-    //         layout: 'table',
-    //         gridLayout: 'grid-4-sidebar',
-    //         sidebarPosition: 'start',
-    //         categorySlug: 'headlights-lighting',
-    //     },
-    // },
-    // {
-    //     path: 'shop-right-sidebar',
-    //     component: PageShopComponent,
-    //     resolve: {
-    //         category: CategoryResolver,
-    //         productsList: ProductsListResolver,
-    //     },
-    //     data: {
-    //         layout: 'grid',
-    //         gridLayout: 'grid-4-sidebar',
-    //         sidebarPosition: 'end',
-    //         categorySlug: 'headlights-lighting',
-    //     },
-    // },
-    // product
-    // {
-    //     path: 'product-full',
-    //     component: PageProductComponent,
-    //     resolve: {
-    //         product: ProductResolver,
-    //     },
-    //     data: {
-    //         layout: 'full',
-    //         sidebarPosition: 'start',
-    //         productSlug: 'brandix-brake-kit-bdx-750z370-s',
-    //     },
-    // },
-    // {
-    //     path: 'product-sidebar',
-    //     component: PageProductComponent,
-    //     resolve: {
-    //         product: ProductResolver,
-    //     },
-    //     data: {
-    //         layout: 'sidebar',
-    //         sidebarPosition: 'start',
-    //         productSlug: 'brandix-brake-kit-bdx-750z370-s',
-    //     },
-    // },
 ];
-
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],

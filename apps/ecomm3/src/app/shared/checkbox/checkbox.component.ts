@@ -2,7 +2,6 @@ import {
     Component,
     EventEmitter,
     forwardRef,
-    HostBinding,
     Input,
     OnDestroy,
     OnInit,
@@ -10,8 +9,8 @@ import {
     Output,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { CheckboxDispatcherService } from '../dispatchers/checkbox-dispatcher.service';
 
 let uniqueId = 0;
@@ -30,36 +29,29 @@ let uniqueId = 0;
     ],
 })
 export class CheckboxComponent implements OnInit, OnDestroy, ControlValueAccessor {
-    private destroy$: Subject<void> = new Subject<void>();
-
-    private readonly dataId: number;
-
-    private stateChecked = false;
-
-    @Input() disabled = false;
-
-    @Input() value: any;
-
+    @Input() public disabled = false;
+    @Input() public value: any;
     @Input()
-    set checked(value: boolean) {
+    public set checked(value: boolean) {
         this.stateChecked = value;
     }
-    get checked(): boolean {
+
+    private destroy$: Subject<void> = new Subject<void>();
+    private readonly dataId: number;
+    private stateChecked = false;
+    private changeFn: (_: boolean) => void = () => {};
+    private touchedFn: () => void = () => {};
+
+    // eslint-disable-next-line @angular-eslint/no-output-native
+    @Output() public readonly change: EventEmitter<CheckboxComponent> = new EventEmitter<CheckboxComponent>();
+
+    public get checked(): boolean {
         return this.stateChecked;
     }
 
-    // eslint-disable-next-line @angular-eslint/no-output-native
-    @Output() readonly change: EventEmitter<CheckboxComponent> = new EventEmitter<CheckboxComponent>();
-
-    @HostBinding('class.input-check') classInputCheck = true;
-
-    get inputId(): string {
+    public get inputId(): string {
         return `app-checkbox-id-${this.dataId}`;
     }
-
-    private changeFn: (_: boolean) => void = () => {};
-
-    private touchedFn: () => void = () => {};
 
     constructor(
         @Optional() private dispatcher: CheckboxDispatcherService,
@@ -67,64 +59,93 @@ export class CheckboxComponent implements OnInit, OnDestroy, ControlValueAccesso
         this.dataId = ++uniqueId;
     }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         if (this.dispatcher) {
+            // -->Check: if dispatcher contains value
             const checked2 = this.dispatcher.value.indexOf(this.value) !== -1;
 
-            if (this.checked !== checked2) {
-                this.checked = checked2;
-                this.change.emit(this);
-                this.changeFn(this.checked);
-            }
+            // -->Update: checked value if different
+            this.checkAndUpdateValue(checked2);
 
+            // -->Subscribe: to dispatcher value changes
             this.dispatcher.change$.pipe(
                 takeUntil(this.destroy$),
             ).subscribe(value => {
+                // -->Check: if dispatcher contains value
                 const checked = value.indexOf(this.value) !== -1;
 
-                if (this.checked !== checked) {
-                    this.checked = checked;
-                    this.change.emit(this);
-                    this.changeFn(this.checked);
-                }
+                // -->Update: checked value if different
+                this.checkAndUpdateValue(checked);
             });
         }
     }
 
-    ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
-    }
-
-    onInputChange(event: Event): void {
+    /**
+     * Handle: value change
+     */
+    public onInputChange(event: Event): void {
         event.stopPropagation();
 
+        // -->Set: checked
         this.checked = (event.target as HTMLInputElement).checked;
+        // -->Emit: component
         this.change.emit(this);
+        // -->Trigger: change callback function
         this.changeFn(this.checked);
 
+        // -->Check: dispatcher
         if (this.dispatcher) {
             if (this.checked && this.dispatcher.value.indexOf(this.value) === -1) {
+                // -->Add: value to dispatcher
                 this.dispatcher.value = [...this.dispatcher.value, this.value];
             } else if (!this.checked && this.dispatcher.value.indexOf(this.value) !== -1) {
+                // -->Remove: value from dispatcher
                 this.dispatcher.value = this.dispatcher.value.filter(x => x !== this.value);
             }
         }
     }
 
-    registerOnChange(fn: any): void {
+    /**
+     * Register: callback function to handle value changes
+     */
+    public registerOnChange(fn: any): void {
         this.changeFn = fn;
     }
 
-    registerOnTouched(fn: any): void {
+    /**
+     * Register: callback function to handle control touch events
+     */
+    public registerOnTouched(fn: any): void {
         this.touchedFn = fn;
     }
 
-    setDisabledState(isDisabled: boolean): void {
+    /**
+     * Set: disabled state
+     */
+    public setDisabledState(isDisabled: boolean): void {
         this.disabled = isDisabled;
     }
 
-    writeValue(value: boolean): void {
+    /**
+     * Set: checked value
+     */
+    public writeValue(value: boolean): void {
         this.checked = !!value;
+    }
+
+    /**
+     * Update: checked value if different
+     */
+    private checkAndUpdateValue(checked: boolean): void {
+        if (this.checked !== checked) {
+            this.checked = checked;
+            this.change.emit(this);
+            this.changeFn(this.checked);
+        }
+    }
+
+    public ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 }

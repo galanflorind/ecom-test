@@ -1,24 +1,21 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import { isPlatformBrowser } from '@angular/common';
-import { defer, merge, Observable, of } from 'rxjs';
-import { Language, LanguageDirection, LANGUAGES } from '../interfaces/language';
-import { distinctUntilChanged, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { defer, merge, Observable, of } from 'rxjs';
+import { distinctUntilChanged, map } from 'rxjs/operators';
+import { Language, LanguageDirection, LANGUAGES } from '../interfaces/language';
 
 @Injectable()
 export class LanguageService {
-    readonly current$: Observable<Language>;
+    public readonly current$: Observable<Language>;
+    public readonly currentChange$: Observable<Language>;
+    public readonly direction$: Observable<LanguageDirection>;
+    public readonly directionChange$: Observable<LanguageDirection>;
 
-    readonly currentChange$: Observable<Language>;
+    public get all(): Language[] { return this.languages; }
 
-    readonly direction$: Observable<LanguageDirection>;
-
-    readonly directionChange$: Observable<LanguageDirection>;
-
-    get all(): Language[] { return this.languages; }
-
-    get default(): Language {
+    public get default(): Language {
         const language = this.languages.find(x => x.code === this.translate.defaultLang);
 
         if (!language) {
@@ -28,7 +25,7 @@ export class LanguageService {
         return language;
     }
 
-    get current(): Language {
+    public get current(): Language {
         return this.languages.find(x => x.code === this.translate.currentLang) || this.default;
     }
 
@@ -64,7 +61,12 @@ export class LanguageService {
         );
     }
 
-    init(defaultLang: string, userLangs: string[]): Promise<void> {
+    /**
+     * Set: language to use for translations.
+     * Languages priority order: stored, user and default
+     */
+    public init(defaultLang: string, userLangs: string[]): Promise<void> {
+        // -->Set: default language
         this.translate.setDefaultLang(defaultLang);
 
         userLangs = userLangs || [];
@@ -83,36 +85,49 @@ export class LanguageService {
             }
             // ONLY_FOR_DEMO / END
 
+            // -->Get: stored language
             storedLang = localStorage.getItem('language');
+            // -->Find: stored language by code
             storedLang = this.languages.map(x => x.code).find(x => x === storedLang) || null;
         }
 
         let userLang;
-
         for (const code of userLangs) {
+            // -->Get: user language by code
             userLang = this.languages.map(x => x.code).find(x => x === code);
 
+            // -->Check: user language
             if (userLang) {
                 break;
             }
         }
 
+        // -->Set: language to be used for translation
         return this.translate.use(storedLang || userLang || defaultLang).toPromise();
     }
 
-    set(code: string): void {
+    /**
+     * Set: language to use for translations by code
+     */
+    public set(code: string): void {
+        // -->Check: if current language is already the desired language
         if (this.current.code === code) {
             return;
         }
 
+        // -->Use: language for translation
         this.translate.use(code);
 
         if (isPlatformBrowser(this.platformId)) {
+            // -->Save: language preference in local storage
             localStorage.setItem('language', code);
         }
     }
 
-    isRTL(): boolean {
+    /**
+     * Get: current language is right to left
+     */
+    public isRTL(): boolean {
         return this.current.direction === 'rtl';
     }
 }

@@ -1,6 +1,4 @@
 import { CustomFields } from './custom-fields';
-import { Brand } from './brand';
-import { ShopCategory } from './category';
 
 export interface BaseAttribute {
     name: string;
@@ -14,14 +12,6 @@ export interface BaseAttributeGroup {
 }
 
 export type ProductAttributeGroup = BaseAttributeGroup & { attributes: ProductAttribute[]; };
-export type ProductTypeAttributeGroup = BaseAttributeGroup & { attributes: string[]; };
-
-export interface ProductType {
-    name: string;
-    slug: string;
-    attributeGroups: ProductTypeAttributeGroup[];
-    customFields?: CustomFields;
-}
 
 export interface ProductAttributeValue {
     name: string;
@@ -66,8 +56,6 @@ export interface ProductOptionColor extends ProductOptionBase {
 }
 
 export type ProductOption = ProductOptionDefault | ProductOptionColor;
-
-export type ProductStock = 'in-stock' | 'out-of-stock' | 'on-backorder';
 
 export type ProductCompatibilityResult = 'all' | 'fit' | 'not-fit' | 'unknown';
 

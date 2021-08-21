@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject, Subscription } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { TranslateService } from "@ngx-translate/core";
+import { ToastrService } from "ngx-toastr";
+import { Subject, Subscription } from 'rxjs';
 import { generateRandomString } from "@naologic/nao-utils";
 import { NaoUserAccessService, NaoUsersInterface } from "@naologic/nao-user-access";
 import { ActiveCountryList } from "../../../app.locale";
-import { TranslateService } from "@ngx-translate/core";
 import { AccountProfileService } from "../../account-profile.service";
-import { ToastrService } from "ngx-toastr";
 
 @Component({
     selector: 'app-page-edit-address',
@@ -17,6 +17,7 @@ import { ToastrService } from "ngx-toastr";
 export class PageEditAddressComponent implements OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
     private subs = new Subscription();
+
     public addressId: string | null = null;
     public saveInProgress = false;
     public firstOrDefaultAddress: boolean = false;
@@ -72,13 +73,15 @@ export class PageEditAddressComponent implements OnInit, OnDestroy {
                     }
                 )
         );
-
     }
 
-
+    /**
+     * Save: address to user profile
+     */
     public save(): void {
         this.formGroup.markAllAsTouched();
 
+        // -->Check: save action state and form
         if (this.saveInProgress || this.formGroup.invalid) {
             return;
         }
@@ -92,6 +95,7 @@ export class PageEditAddressComponent implements OnInit, OnDestroy {
             // -->Find: index
             const index = this.addresses.findIndex(item => item.id === this.addressId);
             if (index > -1) {
+                // -->Update: address
                 this.addresses[index] = address;
             }
         } else {
@@ -99,6 +103,7 @@ export class PageEditAddressComponent implements OnInit, OnDestroy {
             this.addresses.unshift(address);
         }
 
+        // -->Set: data
         const data = {
             addresses: this.addresses
         }
@@ -142,7 +147,6 @@ export class PageEditAddressComponent implements OnInit, OnDestroy {
             this.toastr.error(this.translate.instant('ERROR_API_REQUEST'));
         })
     }
-
 
     public ngOnDestroy(): void {
         this.subs.unsubscribe();

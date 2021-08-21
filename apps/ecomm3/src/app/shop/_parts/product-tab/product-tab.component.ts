@@ -1,4 +1,4 @@
-import { Component, HostBinding, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 let uniqueId = 0;
 
@@ -8,19 +8,11 @@ let uniqueId = 0;
     styleUrls: ['./product-tab.component.scss'],
 })
 export class ProductTabComponent {
-    @Input() @HostBinding('attr.id') id = `product-tab-${++uniqueId}`;
-
-    @Input() label = '';
-
-    @Input() counter = 0;
-
-    @Input() showCounter = false;
-
-    @Input() isActive = false;
-
-    @HostBinding('class.product-tabs__pane') classProductTabsPane = true;
-
-    @HostBinding('class.product-tabs__pane--active') get classProductTabsPaneActive() { return this.isActive; }
+    @Input() public id = `product-tab-${++uniqueId}`;
+    @Input() public label = '';
+    @Input() public counter = 0;
+    @Input() public showCounter = false;
+    @Input() public isActive = false;
 
     constructor() { }
 }

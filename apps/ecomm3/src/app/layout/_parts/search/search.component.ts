@@ -1,19 +1,19 @@
 import {
     AfterViewInit,
     Component,
-    ElementRef, HostBinding,
+    ElementRef,
     Inject,
     NgZone,
     OnDestroy,
     OnInit,
     PLATFORM_ID,
 } from '@angular/core';
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
-import { TranslateService } from '@ngx-translate/core';
-import { ShopService } from '../../../shop/shop.service';
-import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 import {Router} from "@angular/router";
+import { TranslateService } from '@ngx-translate/core';
+import {BehaviorSubject, Subject} from 'rxjs';
+import { debounceTime, distinctUntilChanged } from "rxjs/operators";
+import { ShopService } from '../../../shop/shop.service';
 
 @Component({
     selector: 'app-search',
@@ -26,7 +26,7 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
     public query$: BehaviorSubject<string> = new BehaviorSubject<string>(null);
 
     /**
-     * TODO: when we have suggestions, uncomment everything from both html and ts fiel
+     * TODO: when we have suggestions, uncomment everything from both html and ts files
      */
     // public suggestionsIsOpen = false;
     // public hasSuggestions = false;
@@ -108,12 +108,18 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
         // });
     }
 
+    /**
+     * Emit: search term updates
+     */
     public onSearchKeyUp(event: Event): void {
-        const input = event.target as HTMLInputElement;
+        // const input = event.target as HTMLInputElement;
 
-        this.query$.next(input.value);
+        // this.query$.next(input.value);
     }
 
+    /**
+     * Search: term and redirect
+     */
     public searchAndRedirect(): void {
         // -->Redirect: to shop
         this.router.navigateByUrl('/shop').then();
@@ -122,19 +128,11 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
 
     }
 
-    // toggleSuggestions(force?: boolean): void {
-    //     this.suggestionsIsOpen = force !== undefined ? force : !this.suggestionsIsOpen;
-    // }
-
-
     // /**
-    //  * On input focus
+    //  * Toggle: suggestions
     //  */
-    // public onInputFocus(event: FocusEvent): void {
-    //     const input = event.target as HTMLInputElement;
-    //
-    //     // this.toggleSuggestions(true);
-    //     this.search(input.value);
+    // public toggleSuggestions(force?: boolean): void {
+    //     this.suggestionsIsOpen = force !== undefined ? force : !this.suggestionsIsOpen;
     // }
 
     public ngOnDestroy(): void {

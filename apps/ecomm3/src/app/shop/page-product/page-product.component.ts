@@ -1,19 +1,19 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Product, ProductAttribute, ProductAttributeGroup } from '../../interfaces/product';
-import { UrlService } from '../../services/url.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { CartService } from '../../services/cart.service';
-import { finalize, map, switchMap } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
 import { Observable, Subject, Subscription } from 'rxjs';
-import { LanguageService } from '../../shared/language/services/language.service';
-import { BreadcrumbItem } from '../_parts/breadcrumb/breadcrumb.component';
+import { finalize, map, switchMap } from 'rxjs/operators';
 import { NaoSettingsInterface } from "@naologic/nao-interfaces";
+import { UrlService } from '../../services/url.service';
+import { CartService } from '../../services/cart.service';
+import { LanguageService } from '../../shared/language/services/language.service';
 import { AppService } from "../../app.service";
 import { ECommerceService } from "../../e-commerce.service";
 import { NaoUserAccessService } from "../../../../../../libs/nao-user-access/src";
-import { ToastrService } from 'ngx-toastr';
+import { Product, ProductAttribute, ProductAttributeGroup } from '../../interfaces/product';
+import { BreadcrumbItem } from '../_parts/breadcrumb/breadcrumb.component';
 
 export type PageProductLayout = 'sidebar' | 'full';
 
@@ -31,9 +31,13 @@ export interface PageProductData {
     styleUrls: ['./page-product.component.scss'],
 })
 export class PageProductComponent implements OnInit, OnDestroy {
-    @ViewChild('tabs', { read: ElementRef }) tabsElementRef!: ElementRef;
-
     private destroy$: Subject<void> = new Subject<void>();
+    private subs = new Subscription();
+
+    @ViewChild('tabs', { read: ElementRef }) private tabsElementRef!: ElementRef;
+
+    // -->Based on this index we show specifications and price
+    public variantIndex = 0;
     public appSettings: NaoSettingsInterface.Settings;
     public breadcrumb$!: Observable<BreadcrumbItem[]>;
     public product!: Product;
@@ -42,16 +46,11 @@ export class PageProductComponent implements OnInit, OnDestroy {
     public form!: FormGroup;
     public addToCartInProgress = false;
     public isLoggedIn = false;
-
     public docId;
-    // -->Based on this index we show specifications and price
-    public variantIndex = 0;
-    private subs = new Subscription();
 
-    get tabsElement(): HTMLElement {
+    private get tabsElement(): HTMLElement {
         return this.tabsElementRef.nativeElement;
     }
-
 
     constructor(
         private fb: FormBuilder,
@@ -67,7 +66,7 @@ export class PageProductComponent implements OnInit, OnDestroy {
         private toastr: ToastrService
     ) { }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         // -->Set: app settings
         this.appSettings = this.appService.settings.getValue();
 
@@ -126,16 +125,14 @@ export class PageProductComponent implements OnInit, OnDestroy {
             }
         );
 
-
         this.form = this.fb.group({
             options: [{}],
             quantity: [1, [Validators.required]],
         });
-
     }
 
     /**
-     * Refresh
+     * Refresh: product specifications
      */
     public refresh(): void {
         if (!this.docId) {
@@ -144,7 +141,7 @@ export class PageProductComponent implements OnInit, OnDestroy {
             return
         }
         this.eCommerceService.productsGet(this.docId).subscribe(res =>{
-            // todo; validate
+            // todo: validate
             this.product = res?.data[0] || null;
 
             if (!this.product || !this.product.data) {
@@ -153,8 +150,6 @@ export class PageProductComponent implements OnInit, OnDestroy {
             }
             // -->Refresh: specifications
             this.refreshSpecifications();
-
-
 
             // todo: we need to unsubscribe on each refresh???
             // -->Subscribe: to options change and change the variant id
@@ -168,20 +163,73 @@ export class PageProductComponent implements OnInit, OnDestroy {
                     }
                     // -->Refresh: specifications
                     this.refreshSpecifications();
-
-
                 })
             )
         }, err => {
-            // todo: check
+            // todo: check error
         })
     }
 
+    /**
+     * Scroll: to tabs
+     */
+    public scrollToTabs(): void {
+        this.tabsElement.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    /**
+     * Add: product variant to card
+     */
+    public addToCart(): void {
+        if (this.addToCartInProgress) {
+            return;
+        }
+        // -->Check: quantity
+        if (this.form.get('quantity')!.invalid) {
+            this.toastr.error(this.translate.instant('ERROR_ADD_TO_CART_QUANTITY'));
+            return;
+        }
+        // -->Check: options
+        if (this.form.get('options')!.invalid) {
+            this.toastr.error(this.translate.instant('ERROR_ADD_TO_CART_OPTIONS'));
+            return;
+        }
+
+        const variant = this.product.data.variants[this.variantIndex];
+        // -->Check: variant
+        if (!variant) {
+            this.toastr.error(this.translate.instant('ERROR_ADD_TO_CART_VARIANT'));
+            return;
+        }
+
+        // -->Start: loading
+        this.addToCartInProgress = true;
+
+        // -->Add: variant to the cart
+        this.cart.add(this.product, variant, this.form.get('quantity')!.value).pipe(
+            finalize(() => {
+                // -->Done: loading
+                this.addToCartInProgress = false;
+            })
+        ).subscribe();
+    }
+
+    /**
+     * Get: product compatibility
+     */
+    // public compatibility(): ProductCompatibilityResult {
+    //     if (this.product.compatibility === 'all') {
+    //         return 'all';
+    //     }
+    //     if (this.product.compatibility === 'unknown') {
+    //         return 'unknown';
+    //     }
+    // }
 
     /**
      * Refresh: specifications based on new variant
      */
-    public refreshSpecifications(): void {
+    private refreshSpecifications(): void {
         // -->Set: spec
         let variant = this.product?.data?.variants[this.variantIndex > -1 ? this.variantIndex : 0];
         if (variant) {
@@ -235,59 +283,6 @@ export class PageProductComponent implements OnInit, OnDestroy {
         }
 
     }
-
-    /**
-     * Scroll to tabs
-     */
-    public scrollToTabs(): void {
-        this.tabsElement.scrollIntoView({ behavior: 'smooth' });
-    }
-
-    /**
-     * Add to card
-     */
-    public addToCart(): void {
-        if (this.addToCartInProgress) {
-            return;
-        }
-        // -->Check: quantity
-        if (this.form.get('quantity')!.invalid) {
-            this.toastr.error(this.translate.instant('ERROR_ADD_TO_CART_QUANTITY'));
-            return;
-        }
-        // -->Check: options
-        if (this.form.get('options')!.invalid) {
-            this.toastr.error(this.translate.instant('ERROR_ADD_TO_CART_OPTIONS'));
-            return;
-        }
-
-
-        const variant = this.product.data.variants[this.variantIndex];
-        // -->Check: variant
-        if (!variant) {
-            this.toastr.error(this.translate.instant('ERROR_ADD_TO_CART_VARIANT'));
-            return;
-        }
-
-        this.addToCartInProgress = true;
-
-        // -->Add: variant to the cart
-        this.cart.add(this.product, variant, this.form.get('quantity')!.value).pipe(
-            finalize(() => this.addToCartInProgress = false),
-        ).subscribe();
-    }
-
-    /**
-     * Compatibility
-     */
-    // public compatibility(): ProductCompatibilityResult {
-    //     if (this.product.compatibility === 'all') {
-    //         return 'all';
-    //     }
-    //     if (this.product.compatibility === 'unknown') {
-    //         return 'unknown';
-    //     }
-    // }
 
     public ngOnDestroy() {
         this.subs.unsubscribe();

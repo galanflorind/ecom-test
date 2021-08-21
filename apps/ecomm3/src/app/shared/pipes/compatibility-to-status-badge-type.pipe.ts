@@ -6,7 +6,7 @@ import { StatusBadgeType } from '../status-badge/status-badge.component';
     name: 'compatibilityToStatusBadgeType',
 })
 export class CompatibilityToStatusBadgeTypePipe implements PipeTransform {
-    transform(value: ProductCompatibilityResult): StatusBadgeType {
+    public transform(value: ProductCompatibilityResult): StatusBadgeType {
         const map: {[K in ProductCompatibilityResult]: StatusBadgeType} = {
             'all': 'unknown',
             'fit': 'success',

@@ -5,15 +5,18 @@ import { Directive, Input } from '@angular/core';
     exportAs: 'splitString',
 })
 export class SplitStringDirective {
-    private parts: string[] = [];
-
-    @Input() set appSplitString(value: string) {
+    @Input() public set appSplitString(value: string) {
         this.parts = value.split('|');
     }
 
+    private parts: string[] = [];
+
     constructor() { }
 
-    getPart(index: number): string {
+    /**
+     * Get: part at the specified index
+     */
+    public getPart(index: number): string {
         return this.parts[index];
     }
 }

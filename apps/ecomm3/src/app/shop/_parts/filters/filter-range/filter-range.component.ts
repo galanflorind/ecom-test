@@ -1,9 +1,9 @@
-import { Component, forwardRef, HostBinding, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, forwardRef, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { RangeFilter } from '../../../../interfaces/filter';
-import { LanguageService } from '../../../../shared/language/services/language.service';
-import { debounceTime, filter, tap } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
+import { debounceTime, filter, tap } from 'rxjs/operators';
+import { LanguageService } from '../../../../shared/language/services/language.service';
+import { RangeFilter } from '../../../../interfaces/filter';
 
 @Component({
     selector: 'app-filter-range',
@@ -18,52 +18,58 @@ import { isPlatformBrowser } from '@angular/common';
     ],
 })
 export class FilterRangeComponent implements OnInit, ControlValueAccessor {
-    control!: FormControl;
+    @Input() public options!: RangeFilter;
 
-    value!: [number, number];
+    private value!: [number, number];
+    private debouncedValue: [number, number]|null = null;
+    private changeFn: (_: [number, number]) => void = () => {};
+    private touchedFn: () => void = () => {};
 
-    debouncedValue: [number, number]|null = null;
-
-    isPlatformBrowser = isPlatformBrowser(this.platformId);
-
-    @Input() options!: RangeFilter;
-
-    @HostBinding('class.filter-range') classFilterPrice = true;
-
-    changeFn: (_: [number, number]) => void = () => {};
-
-    touchedFn: () => void = () => {};
+    public control!: FormControl;
+    public isPlatformBrowser = isPlatformBrowser(this.platformId);
 
     constructor(
         @Inject(PLATFORM_ID) private platformId: any,
         private language: LanguageService,
-    ) {
+    ) { }
 
-    }
-
-    ngOnInit(): void {
+    public ngOnInit(): void {
+        // -->Set: value from options
         this.value = [this.options.min, this.options.max];
+        // -->Build: control
         this.control = new FormControl(this.value);
+
+        // -->Subscribe: to control value changes
         this.control.valueChanges.pipe(
             filter(value => value[0] !== this.value[0] || value[1] !== this.value[1]),
             tap(value => this.debouncedValue = value),
             debounceTime(350),
         ).subscribe(value => {
             this.debouncedValue = null;
+            // -->Handle: changes
             this.changeFn(value);
             this.touchedFn();
         });
     }
 
-    registerOnChange(fn: any): void {
+    /**
+     * Register: callback function to handle value changes
+     */
+    public registerOnChange(fn: any): void {
         this.changeFn = fn;
     }
 
-    registerOnTouched(fn: any): void {
+    /**
+     * Register: callback function to handle control touch events
+     */
+    public registerOnTouched(fn: any): void {
         this.touchedFn = fn;
     }
 
-    setDisabledState(isDisabled: boolean): void {
+    /**
+     * Set: control disabled state
+     */
+    public setDisabledState(isDisabled: boolean): void {
         if (isDisabled) {
             this.control.disable({ emitEvent: false });
         } else {
@@ -71,7 +77,10 @@ export class FilterRangeComponent implements OnInit, ControlValueAccessor {
         }
     }
 
-    writeValue(value: any): void {
+    /**
+     * Set: control value
+     */
+    public writeValue(value: any): void {
         if (this.debouncedValue !== null) {
             return;
         }
@@ -80,7 +89,10 @@ export class FilterRangeComponent implements OnInit, ControlValueAccessor {
         this.control.setValue(this.value, { emitEvent: false });
     }
 
-    isRTL(): boolean {
+    /**
+     * Check: if language is right to left
+     */
+    public isRTL(): boolean {
         return this.language.isRTL();
     }
 }

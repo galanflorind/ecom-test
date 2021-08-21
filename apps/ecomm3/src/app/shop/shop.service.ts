@@ -1,29 +1,18 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { ProductsList } from '../interfaces/list';
 import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
+import { ProductsList } from '../interfaces/list';
 import { Product } from '../interfaces/product';
 import { GetProductsListOptions } from '../interfaces/shop';
 import { ActiveFilter, Filter } from '../interfaces/filter';
 import { filterHandlers } from './_parts/filters/filter-handlers';
 import { FilterHandler } from './_parts/filters/filter.handler';
 
-
 @Injectable()
 export class ShopService {
     private listSubject$: ReplaySubject<ProductsList> = new ReplaySubject<ProductsList>(1);
-
-    private optionsState: GetProductsListOptions = {
-        // page: 1,
-        // limit: 16,
-        // sort: 'name_asc',
-        // filters: {},
-        // searchTerm: null
-    };
-
     private listState!: ProductsList;
-
     private removedFiltersState: ActiveFilter[] = [];
-
+    private optionsState: GetProductsListOptions = {};
     /**
      * All active filters.
      */
@@ -33,16 +22,19 @@ export class ShopService {
      */
     private currentFiltersSubject$: BehaviorSubject<ActiveFilter[]> = new BehaviorSubject<ActiveFilter[]>([]);
 
-
     public isLoading = false;
-
-    public get options(): GetProductsListOptions {
-        return this.optionsState;
-    }
-
-    public get activeFilters(): ActiveFilter[] {
-        return this.activeFiltersSubject$.value;
-    }
+    public readonly optionsChange$: EventEmitter<GetProductsListOptions> = new EventEmitter<GetProductsListOptions>();
+    public readonly activeFilters$: Observable<ActiveFilter[]> = this.activeFiltersSubject$.asObservable();
+    public readonly currentFilters$: Observable<ActiveFilter[]> = this.currentFiltersSubject$.asObservable();
+    public readonly list$: Observable<ProductsList> = this.listSubject$.asObservable();
+    public readonly defaultOptions: Required<GetProductsListOptions> = {
+        page: 1,
+        limit: 16,
+        sort: 'name_asc',
+        filters: {},
+        category: null,
+        searchTerm: null
+    };
 
     // getters for list todo: this is not working properly
     public get items(): Product[] { return this.listState?.items; }
@@ -55,22 +47,13 @@ export class ShopService {
     public get to(): number { return this.listState?.to; }
     public get filters(): Filter[] { return this.listState?.filters; }
 
-    public readonly optionsChange$: EventEmitter<GetProductsListOptions> = new EventEmitter<GetProductsListOptions>();
+    public get options(): GetProductsListOptions {
+        return this.optionsState;
+    }
 
-    public readonly activeFilters$: Observable<ActiveFilter[]> = this.activeFiltersSubject$.asObservable();
-
-    public readonly currentFilters$: Observable<ActiveFilter[]> = this.currentFiltersSubject$.asObservable();
-
-    public readonly list$: Observable<ProductsList> = this.listSubject$.asObservable();
-
-    public readonly defaultOptions: Required<GetProductsListOptions> = {
-        page: 1,
-        limit: 16,
-        sort: 'name_asc',
-        filters: {},
-        category: null,
-        searchTerm: null
-    };
+    public get activeFilters(): ActiveFilter[] {
+        return this.activeFiltersSubject$.value;
+    }
 
     constructor(
     ) {
@@ -79,10 +62,9 @@ export class ShopService {
     }
 
     /**
-     * Update list state, filters and options
+     * Update: list state, filters and options
      */
     public setList(list: ProductsList): void {
-
         // -->Update: list state
         this.listState = list;
         // -->Emit: updated list
@@ -125,7 +107,7 @@ export class ShopService {
     }
 
     /**
-     * Trigger search term
+     * Set: search term to options
      */
     public setSearchTerm(searchTerm: string): void {
         this.setOptions({
@@ -136,7 +118,7 @@ export class ShopService {
     }
 
     /**
-     * Set option value
+     * Set: option value
      */
     public setOptionValue(optionSlug: string, optionValue: any): void {
         this.setOptions({
@@ -147,7 +129,7 @@ export class ShopService {
     }
 
     /**
-     * Set option filter value
+     * Set: option filter value
      */
     public setFilterValue(filterSlug: string, filterValue: string | null): void {
         this.setOptions({
@@ -161,7 +143,7 @@ export class ShopService {
     }
 
     /**
-     * Reset filter
+     * Reset: filter
      */
     public resetFilter(activeFilter: ActiveFilter): void {
         // -->Get: filter handler from type
@@ -183,7 +165,7 @@ export class ShopService {
     }
 
     /**
-     * Reset all option filters
+     * Reset: all option filters
      */
     public resetAllFilters(): void {
         this.setOptions({
@@ -197,15 +179,15 @@ export class ShopService {
     }
 
     /**
-     * Set options and emit updates
+     * Set: options and emit updates
      */
-    public setOptions(options: GetProductsListOptions): void {
+    private setOptions(options: GetProductsListOptions): void {
         this.optionsState = options;
         this.optionsChange$.emit(options);
     }
 
     /**
-     * Remove filter and notify updates on current filter
+     * Remove: filter and notify updates on current filter
      */
     private setRemovedFilters(removedFilters: ActiveFilter[]): void {
         this.removedFiltersState = removedFilters;

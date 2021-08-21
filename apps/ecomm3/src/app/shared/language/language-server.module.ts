@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateCompiler, TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateMessageFormatCompiler } from 'ngx-translate-messageformat-compiler';
-import { USER_LANGUAGES } from './interfaces/language';
 import { serverLoaderFactory } from './services/server-loader.service';
+import { USER_LANGUAGES } from './interfaces/language';
 
 export function userLanguagesFactory(): string[] {
     return [];

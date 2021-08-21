@@ -1,6 +1,6 @@
-import { Component, forwardRef, HostBinding, Input } from '@angular/core';
-import { ColorFilter, ColorFilterItem } from '../../../../interfaces/filter';
+import { Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ColorFilter, ColorFilterItem } from '../../../../interfaces/filter';
 import { ColorType, colorType } from '../../../../shared/functions/color';
 
 @Component({
@@ -16,52 +16,74 @@ import { ColorType, colorType } from '../../../../shared/functions/color';
     ],
 })
 export class FilterColorComponent implements ControlValueAccessor {
-    value: string[] = [];
+    @Input() public options!: ColorFilter;
 
-    @Input() options!: ColorFilter;
-
-    @HostBinding('class.filter-color') classFilterColor = true;
-
-    changeFn: (_: string[]) => void = () => {};
-
-    touchedFn: () => void = () => {};
+    private value: string[] = [];
+    private changeFn: (_: string[]) => void = () => {};
+    private touchedFn: () => void = () => {};
 
     constructor() { }
 
-    registerOnChange(fn: any): void {
+    /**
+     * Register: callback function to handle value changes
+     */
+    public registerOnChange(fn: any): void {
         this.changeFn = fn;
     }
 
-    registerOnTouched(fn: any): void {
+    /**
+     * Register: callback function to handle control touch events
+     */
+    public registerOnTouched(fn: any): void {
         this.touchedFn = fn;
     }
 
-    writeValue(value: string[]): void {
+    /**
+     * Set: value
+     */
+    public writeValue(value: string[]): void {
         this.value = value;
     }
 
-    colorType(color: string): ColorType {
+    /**
+     * Set: color type
+     */
+    public colorType(color: string): ColorType {
         return colorType(color);
     }
 
-    onItemChange(item: ColorFilterItem, event: Event): void {
+    /**
+     * Handle: item changes
+     */
+    public onItemChange(item: ColorFilterItem, event: Event): void {
+        // -->Get: element checked value
         const checked = (event.target as HTMLInputElement).checked;
 
         if (checked && !this.isItemChecked(item)) {
+            // -->Add: item slug to value array
             this.value = [...this.value, item.slug];
+            // -->Handle: changes
             this.changeFn(this.value);
         }
         if (!checked && this.isItemChecked(item)) {
+            // -->Remove: item slug from value array
             this.value = this.value.filter(x => x !== item.slug);
+            // -->Handle: changes
             this.changeFn(this.value);
         }
     }
 
-    isItemChecked(item: ColorFilterItem): boolean {
+    /**
+     * Check: if item is checked
+     */
+    public isItemChecked(item: ColorFilterItem): boolean {
         return this.value.includes(item.slug);
     }
 
-    trackBySlug(index: number, item: ColorFilterItem): string {
+    /**
+     * Track: item by slug
+     */
+    public trackBySlug(index: number, item: ColorFilterItem): string {
         return item.slug;
     }
 }

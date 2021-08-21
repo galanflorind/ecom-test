@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { LanguageService } from '../../../shared/language/services/language.service';
 import { CurrencyService } from '../../../shared/currency/services/currency.service';
 import { CompareService } from '../../../services/compare.service';

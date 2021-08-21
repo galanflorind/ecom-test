@@ -14,11 +14,12 @@ export class QuickviewService implements OnDestroy {
     public show$: Observable<Product> = this.showSubject$.pipe(takeUntil(this.destroy$));
 
     /**
-     * Emits product to be shown in the quick view
+     * Emit: product to be shown in the quick view
      */
     public show(product: Product): Observable<void> {
         this.abortPrevious$.next();
 
+        // -->Show: product until aborted
         return of(this.showSubject$.next(product)).pipe(takeUntil(this.abortPrevious$));
     }
 

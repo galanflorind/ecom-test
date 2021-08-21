@@ -1,5 +1,6 @@
-import { Component, ElementRef, forwardRef, HostBinding, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, forwardRef, Inject, Input, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { DOCUMENT } from '@angular/common';
 
 function parseNumber<T>(value: any, def: T): number | T {
     if (typeof value === 'string') {
@@ -24,7 +25,27 @@ function parseNumber<T>(value: any, def: T): number | T {
     ],
 })
 export class InputNumberComponent implements ControlValueAccessor {
-    options = {
+    @Input() public size: 'sm'|'lg'|null = null;
+    @Input() public set step(value: number) {
+        this.options.step = parseNumber(value, 1);
+    }
+    @Input() public set min(value: number) {
+        this.options.min = parseNumber(value, null);
+    }
+    @Input() public set max(value: number) {
+        this.options.max = parseNumber(value, null);
+    }
+    @Input() public set disabled(value: boolean) {
+        this.options.disabled = !!value;
+    }
+    @Input() public set readonly(value: boolean) {
+        this.options.readonly = !!value;
+    }
+
+    private onChange = (_: any) => {};
+
+    public onTouched = () => {};
+    public options = {
         step: 1,
         min: null as null|number,
         max: null as null|number,
@@ -32,75 +53,71 @@ export class InputNumberComponent implements ControlValueAccessor {
         readonly: false,
     };
 
-    @HostBinding('class.input-number') classInputNumber = true;
-
-    @Input() size: 'sm'|'lg'|null = null;
-
-    @Input() set step(value: number) {
-        this.options.step = parseNumber(value, 1);
-    }
-
-    @Input() set min(value: number) {
-        this.options.min = parseNumber(value, null);
-    }
-
-    @Input() set max(value: number) {
-        this.options.max = parseNumber(value, null);
-    }
-
-    @Input() set disabled(value: boolean) {
-        this.options.disabled = !!value;
-    }
-
-    @Input() set readonly(value: boolean) {
-        this.options.readonly = !!value;
-    }
-
     @ViewChild('inputElement', { static: true }) inputElementRef!: ElementRef;
 
-    get inputElement(): HTMLInputElement {
+    public get inputElement(): HTMLInputElement {
         return this.inputElementRef.nativeElement;
     }
 
-    get value(): '' | number {
+    public get value(): '' | number {
         return this.inputElement.value === '' ? '' : parseFloat(this.inputElement.value);
     }
-    set value(value: '' | number) {
+    public set value(value: '' | number) {
         this.writeValue(value);
     }
 
-    onChange = (_: any) => {};
-    onTouched = () => {};
+    constructor(
+        @Inject(DOCUMENT) private document: Document,
+    ) { }
 
-    constructor() { }
-
-    add(): void {
+    /**
+     * Add: one step to value
+     */
+    public add(): void {
         this.change(1);
         this.changeByTimer(1);
     }
 
-    sub(): void {
+    /**
+     * Subtract: one step from value
+     */
+    public sub(): void {
         this.change(-1);
         this.changeByTimer(-1);
     }
 
-    input(): void {
+    /**
+     * Update: value
+     */
+    public input(): void {
         this.onChange(this.value);
     }
 
-    registerOnChange(fn: any): void {
+    /**
+     * Register: callback function to handle value changes
+     */
+    public registerOnChange(fn: any): void {
         this.onChange = fn;
     }
 
-    registerOnTouched(fn: any): void {
+    /**
+     * Register: callback function to handle control touch events
+     */
+    public registerOnTouched(fn: any): void {
         this.onTouched = fn;
     }
 
-    setDisabledState(isDisabled: boolean): void {
+    /**
+     * Set: disabled state
+     */
+    public setDisabledState(isDisabled: boolean): void {
         this.disabled = isDisabled;
     }
 
-    writeValue(obj: any): void {
+    /**
+     * Set: input element value
+     */
+    public writeValue(obj: any): void {
         if (typeof obj === 'number') {
             this.inputElement.value = obj.toString();
         } else {
@@ -109,40 +126,55 @@ export class InputNumberComponent implements ControlValueAccessor {
     }
 
     /**
+     * Change: value
      * @param direction - one of [-1, 1]
      */
     private change(direction: number): void {
+        // -->Set: value
         let value = (this.value === '' || isNaN(this.value) ? 0 : this.value) + this.options.step * direction;
 
+        // -->Check: if max option was specified
         if (this.options.max !== null) {
+            // -->Guarantee: value is not bigger than max
             value = Math.min(this.options.max, value);
         }
+        // -->Check: if min option was specified
         if (this.options.min !== null) {
+            // -->Guarantee: value is not smaller than min
             value = Math.max(this.options.min, value);
         }
 
+        // -->Check: if value changed
         if (value !== this.value) {
+            // -->Update: value
             this.onChange(value);
             this.value = value;
         }
     }
 
     /**
+     * Change: value by timer
      * @param direction - one of [-1, 1]
      */
     private changeByTimer(direction: number): void {
         let interval: ReturnType<typeof setInterval>;
+        // -->Change: value after timer expires
         const timer = setTimeout(() => {
+            // -->Set: interval
             interval = setInterval(() => this.change(direction), 50);
         }, 300);
 
+        // -->Cancel: timer and interval on mouse up
         const documentMouseUp = () => {
+            // -->Clear: timer
             clearTimeout(timer);
+            // -->Clear: interval
             clearInterval(interval);
 
-            document.removeEventListener('mouseup', documentMouseUp, false);
+            // -->Remove: mouse up event listener
+            this.document.removeEventListener('mouseup', documentMouseUp, false);
         };
-
-        document.addEventListener('mouseup', documentMouseUp, false);
+        // -->Add: mouse up event listener
+        this.document.addEventListener('mouseup', documentMouseUp, false);
     }
 }

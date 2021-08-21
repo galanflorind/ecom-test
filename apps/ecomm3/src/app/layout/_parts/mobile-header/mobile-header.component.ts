@@ -8,16 +8,16 @@ import {
     PLATFORM_ID,
     ViewChild,
 } from '@angular/core';
-import { LayoutMobileMenuService } from '../../layout-mobile-menu.service';
-import { Observable, Subject } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
-import { fromOutsideClick } from '../../../shared/functions/rxjs/from-outside-click';
-import { filter, takeUntil } from 'rxjs/operators';
-import { CartService } from '../../../services/cart.service';
+import {Router} from "@angular/router";
 import { TranslateService } from '@ngx-translate/core';
+import { Observable, Subject } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
+import { fromOutsideClick } from '../../../shared/functions/rxjs/from-outside-click';
+import { LayoutMobileMenuService } from '../../layout-mobile-menu.service';
+import { CartService } from '../../../services/cart.service';
 import { WishlistService } from '../../../services/wishlist.service';
 import { ShopService } from '../../../shop/shop.service';
-import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-mobile-header',
@@ -54,6 +54,7 @@ export class MobileHeaderComponent implements OnInit, OnDestroy, AfterViewInit {
             return;
         }
 
+        // -->Track: clicks in order to toggle the search section
         this.zone.runOutsideAngular(() => {
             fromOutsideClick([
                 this.searchForm.nativeElement,
@@ -67,6 +68,9 @@ export class MobileHeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         });
     }
 
+    /**
+     * Open: search section
+     */
     public openSearch(): void {
         this.searchIsOpen = true;
 
@@ -75,6 +79,9 @@ export class MobileHeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         }
     }
 
+    /**
+     * Search: term and redirect
+     */
     public searchAndRedirect(searchTerm: string): void {
         // -->Redirect: to shop
         this.router.navigateByUrl('/shop').then();
@@ -82,6 +89,9 @@ export class MobileHeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         this.page.setSearchTerm(searchTerm);
     }
 
+    /**
+     * Close: search secton
+     */
     public closeSearch(): void {
         this.searchIsOpen = false;
     }

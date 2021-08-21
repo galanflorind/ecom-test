@@ -1,8 +1,8 @@
-import { Component, forwardRef, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
-import { BaseFilterItem, CheckFilter } from '../../../../interfaces/filter';
+import { Component, forwardRef, Input, OnDestroy, OnInit } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
+import { BaseFilterItem, CheckFilter } from '../../../../interfaces/filter';
 
 @Component({
     selector: 'app-filter-check',
@@ -17,15 +17,14 @@ import { filter, takeUntil } from 'rxjs/operators';
     ],
 })
 export class FilterCheckComponent implements OnInit, OnDestroy, ControlValueAccessor {
-    @HostBinding('class.filter-list') public classFilterList = true;
     @Input() public options!: CheckFilter;
+
     private destroy$: Subject<void> = new Subject<void>();
+    private changeFn: (_: number) => void = () => {};
+    private touchedFn: () => void = () => {};
+
     public value: any[] = [];
     public control: FormControl = new FormControl([]);
-
-    public changeFn: (_: number) => void = () => {};
-
-    public touchedFn: () => void = () => {};
 
     constructor() { }
 
@@ -36,24 +35,36 @@ export class FilterCheckComponent implements OnInit, OnDestroy, ControlValueAcce
         ).subscribe(value => this.changeFn(value));
     }
 
-    public ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
-    }
-
+    /**
+     * Register: callback function to handle value changes
+     */
     public registerOnChange(fn: any): void {
         this.changeFn = fn;
     }
 
+    /**
+     * Register: callback function to handle control touch events
+     */
     public registerOnTouched(fn: any): void {
         this.touchedFn = fn;
     }
 
+    /**
+     * Set: control value
+     */
     public writeValue(obj: any): void {
         this.control.setValue(this.value = obj, { emitEvent: false });
     }
 
+    /**
+     * Track: item by _id
+     */
     public trackBy(index: number, item: BaseFilterItem): string {
         return item._id;
+    }
+
+    public ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 }

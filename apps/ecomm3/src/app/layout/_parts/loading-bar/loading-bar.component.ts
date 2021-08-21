@@ -7,8 +7,8 @@ import {
     AfterViewInit,
     NgZone,
 } from '@angular/core';
-import { Subject } from 'rxjs';
 import { Event, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 function isNavigationStart(event: Event): boolean {
@@ -42,6 +42,7 @@ export class LoadingBarComponent implements OnDestroy, AfterViewInit {
     public ngAfterViewInit(): void {
         let timer: ReturnType<typeof setTimeout>;
 
+        // -->Show: loading bar based on router events
         this.zone.runOutsideAngular(() => {
             this.router.events.pipe(
                 takeUntil(this.destroy$),
@@ -49,20 +50,27 @@ export class LoadingBarComponent implements OnDestroy, AfterViewInit {
                 if (isNavigationStart(event)) {
                     clearTimeout(timer);
                     timer = setTimeout(() => {
+                        // -->Remove: loading classes
                         this.element.classList.remove(
                             'loading-bar--start',
                             'loading-bar--complete',
                             'loading-bar--reset',
                         );
-                        this.element.getBoundingClientRect(); // force reflow
+                        // -->Force: reflow
+                        this.element.getBoundingClientRect();
+
+                        // -->Start: loading
                         this.element.classList.add('loading-bar--start');
                     }, 50);
                 }
 
                 if (isNavigationEnd(event)) {
                     clearTimeout(timer);
+                    // -->Remove: loading-bar--start class if present
                     if (this.element.classList.contains('loading-bar--start')) {
                         this.element.classList.remove('loading-bar--start');
+
+                        // -->Done: loading
                         this.element.classList.add('loading-bar--complete');
                     }
                 }

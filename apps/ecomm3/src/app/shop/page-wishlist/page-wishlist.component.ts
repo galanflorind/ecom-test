@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { NaoSettingsInterface } from "@naologic/nao-interfaces";
 import { WishlistService } from '../../services/wishlist.service';
 import { UrlService } from '../../services/url.service';
-import { NaoSettingsInterface } from "@naologic/nao-interfaces";
 import { AppService } from "../../app.service";
 
 @Component({
@@ -18,7 +18,7 @@ public appSettings: NaoSettingsInterface.Settings;
         private appService: AppService,
     ) { }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         // -->Set: app settings
         this.appSettings = this.appService.settings.getValue();
     }

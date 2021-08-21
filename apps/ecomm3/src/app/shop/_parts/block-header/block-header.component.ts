@@ -3,7 +3,6 @@ import {
     AfterViewInit,
     Component,
     ElementRef,
-    HostBinding,
     Inject,
     Input,
     NgZone,
@@ -13,10 +12,10 @@ import {
     SimpleChanges,
     ViewChild,
 } from '@angular/core';
-import { fromMatchMedia } from '../../../shared/functions/rxjs/from-match-media';
+import { isPlatformBrowser } from '@angular/common';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { isPlatformBrowser } from '@angular/common';
+import { fromMatchMedia } from '../../../shared/functions/rxjs/from-match-media';
 import { BreadcrumbItem } from '../breadcrumb/breadcrumb.component';
 
 @Component({
@@ -25,35 +24,22 @@ import { BreadcrumbItem } from '../breadcrumb/breadcrumb.component';
     styleUrls: ['./block-header.component.scss'],
 })
 export class BlockHeaderComponent implements OnChanges, OnDestroy, AfterViewInit, AfterViewChecked {
+    @Input() public pageTitle: string = '';
+    @Input() public breadcrumb: BreadcrumbItem[] = [];
+    @Input() public afterHeader = true;
+
     private destroy$: Subject<void> = new Subject<void>();
+    private reCalcTitleWidth = false;
 
-    @Input() pageTitle: string = '';
+    @ViewChild('titleElement') private titleElementRef!: ElementRef;
 
-    @Input() breadcrumb: BreadcrumbItem[] = [];
-
-    @Input() afterHeader = true;
-
-    @HostBinding('class.block-header') classBlockHeader = true;
-
-    @HostBinding('class.block-header--has-title') get classBlockHeaderHasTitle(): boolean {
-        return !!this.pageTitle;
-    }
-
-    @HostBinding('class.block-header--has-breadcrumb') get classBlockHeaderHasBreadcrumb(): boolean {
-        return this.breadcrumb.length > 0;
-    }
-
-    @ViewChild('titleElement') titleElementRef!: ElementRef;
-
-    get titleElement(): HTMLElement {
+    private get titleElement(): HTMLElement {
         return this.titleElementRef?.nativeElement;
     }
 
-    get element(): HTMLElement {
+    private get element(): HTMLElement {
         return this.elementRef.nativeElement;
     }
-
-    reCalcTitleWidth = false;
 
     constructor(
         @Inject(PLATFORM_ID) private platformId: any,
@@ -61,23 +47,20 @@ export class BlockHeaderComponent implements OnChanges, OnDestroy, AfterViewInit
         private elementRef: ElementRef,
     ) { }
 
-    ngOnChanges(changes: SimpleChanges): void {
+    public ngOnChanges(changes: SimpleChanges): void {
         if (changes.pageTitle && !changes.pageTitle.isFirstChange()) {
             this.reCalcTitleWidth = true;
         }
     }
 
-    ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
-    }
-
-    ngAfterViewInit(): void {
+    public ngAfterViewInit(): void {
         if (!isPlatformBrowser(this.platformId)) {
             return;
         }
 
+        // -->Recompute: title width if min-width changes
         this.zone.runOutsideAngular(() => {
+            // -->Track: document min-width changes
             fromMatchMedia('(min-width: 1200px)', false).pipe(
                 filter(x => x.matches),
                 takeUntil(this.destroy$),
@@ -85,23 +68,33 @@ export class BlockHeaderComponent implements OnChanges, OnDestroy, AfterViewInit
         });
     }
 
-    ngAfterViewChecked(): void {
+    public ngAfterViewChecked(): void {
         if (this.reCalcTitleWidth) {
             this.reCalcTitleWidth = false;
             this.calcTitleWidth();
         }
     }
 
-    calcTitleWidth(): void {
+    /**
+     * Compute: title width
+     */
+    private calcTitleWidth(): void {
         // So that breadcrumbs correctly flow around the page title, we need to know its width.
         // This code simply conveys the width of the page title in CSS.
 
+        // -->Check: element and titleElement
         if (!this.element || !this.titleElement) {
             return;
         }
 
+        // -->Get: title element width
         const width = this.titleElement.getBoundingClientRect().width;
-
+        // -->Set: width value to style property
         this.element.style.setProperty('--block-header-title-width', `${width}px`);
+    }
+
+    public ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 }

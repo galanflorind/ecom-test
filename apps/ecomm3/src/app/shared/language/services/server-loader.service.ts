@@ -12,7 +12,10 @@ export function serverLoaderFactory(): ServerLoaderService {
 export class ServerLoaderService implements TranslateLoader {
     constructor() { }
 
-    getTranslation(lang: string): Observable<object> {
+    /**
+     * Load: language translations from assets file
+     */
+    public getTranslation(lang: string): Observable<object> {
         return new Observable<object>(observer => {
             const path = join(process.cwd(), 'dist', 'ecomm3', 'browser', 'assets', 'i18n', `${lang}.json`);
             const data = JSON.parse(readFileSync(path, 'utf8'));

@@ -1,14 +1,14 @@
 import { Component, Inject, NgZone, OnDestroy, OnInit, PLATFORM_ID, Renderer2 } from '@angular/core';
-import { LanguageService } from './shared/language/services/language.service';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { Subject } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
+import { LanguageService } from './shared/language/services/language.service';
 import { CartService } from './services/cart.service';
 import { CompareService } from './services/compare.service';
 import { WishlistService } from './services/wishlist.service';
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { filter, takeUntil } from 'rxjs/operators';
-import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
 import { AppService } from './app.service';
 
 @Component({
@@ -18,6 +18,7 @@ import { AppService } from './app.service';
 })
 export class AppComponent implements OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
+
     public infoLoading = true;
 
     constructor(
@@ -53,25 +54,29 @@ export class AppComponent implements OnInit, OnDestroy {
                     // -->Set: loading
                     this.infoLoading = false;
 
-                    const preloader = document.querySelector('.site-preloader');
+                    const preloaderElement = this.document.querySelector('.site-preloader');
 
-                    if (!preloader) {
+                    // -->Check: preloader
+                    if (!preloaderElement) {
                         return;
                     }
 
-                    preloader.addEventListener('transitionend', (event: Event) => {
+                    // -->Listen: to transitionend event
+                    preloaderElement.addEventListener('transitionend', (event: Event) => {
                         if (event instanceof TransitionEvent && event.propertyName === 'opacity') {
-                            preloader.remove();
-                            document.querySelector('.site-preloader-style')?.remove();
+                            // -->Remove: preloader element
+                            preloaderElement.remove();
+                            // -->Clear: preloader styles
+                            this.document.querySelector('.site-preloader-style')?.remove();
                         }
                     });
-                    preloader.classList.add('site-preloader__fade');
+                    preloaderElement.classList.add('site-preloader__fade');
 
                     // Sometimes, due to unexpected behavior, the browser (in particular Safari) may not play the transition, which leads
                     // to blocking interaction with page elements due to the fact that the preloader is not deleted.
                     // The following block covers this case.
-                    if (getComputedStyle(preloader).opacity === '0' && preloader.parentNode) {
-                        preloader.parentNode.removeChild(preloader);
+                    if (getComputedStyle(preloaderElement).opacity === '0' && preloaderElement.parentNode) {
+                        preloaderElement.parentNode.removeChild(preloaderElement);
                     }
                 });
             });

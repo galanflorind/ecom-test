@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from '../../shared/shared.module';
-import { FeaturedProductsGridComponent } from './featured-products-grid/featured-products-grid.component';
 import { BlockFeaturesComponent } from './block-features/block-features.component';
-
+import { FeaturedProductsGridComponent } from './featured-products-grid/featured-products-grid.component';
 
 @NgModule({
     declarations: [

@@ -1,12 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { mustMatchValidator } from '../../../shared/functions/validators/must-match';
 import { NaoUserAccessService } from "@naologic/nao-user-access";
 import { AccountAuthService } from "../../account-auth.service";
-import { checkPasswordStrength } from '../../../shared/functions/utils';
-
+import { mustMatchValidator } from '../../../shared/functions/validators/must-match';
+import { checkPasswordStrength } from '../../../shared/functions/validators/password-strength';
 
 @Component({
     selector: 'app-page-register',
@@ -15,6 +14,7 @@ import { checkPasswordStrength } from '../../../shared/functions/utils';
 })
 export class PageRegisterComponent implements OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
+
     public formGroup!: FormGroup;
     public registerInProgress = false;
     public registerDone = false;
@@ -37,10 +37,14 @@ export class PageRegisterComponent implements OnInit, OnDestroy {
         }, { validators: [mustMatchValidator('password', 'confirmPassword')] });
     }
 
-
+    /**
+     * Register: new user
+     */
     public register(): void {
+        // -->Mark: all controls
         this.formGroup.markAllAsTouched();
-        // -->Check
+
+        // -->Check: register action state and form
         if (this.registerInProgress || this.formGroup.invalid) {
             return;
         }
@@ -49,18 +53,21 @@ export class PageRegisterComponent implements OnInit, OnDestroy {
         const data = this.formGroup.getRawValue();
         // -->Start: loading
         this.registerInProgress = true;
-        // -->Update: doc
+
+        // -->Create: new user
         this.naoUsersAuthService.createUser(data).subscribe(
             (ok) => {
+                // -->Done: loading
+                this.registerInProgress = false;
                 this.registerDone = true;
             },
             (err) => {
-                this.registerInProgress = false
+                // -->Done: loading
+                this.registerInProgress = false;
                 this.formGroup.enable();
             }
         );
     }
-
 
     public ngOnDestroy(): void {
         this.destroy$.next();

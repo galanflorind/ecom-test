@@ -3,34 +3,32 @@ import { fromEvent, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { CollapseContentDirective } from './collapse-content.directive';
 
-
 @Directive({
     selector: '[appCollapseItem]',
     exportAs: 'appCollapseItem',
 })
 export class CollapseItemDirective implements OnDestroy, AfterContentInit {
-    private destroy$: Subject<any> = new Subject();
-
-    contentInitialized = false;
-
-    @Input() appCollapseItem: string = '';
-
+    @Input() public appCollapseItem: string = '';
     @Input('appCollapseItemIsOpen')
-    set isOpen(value: boolean) {
+    public set isOpen(value: boolean) {
         this.toggle(value);
     }
-    get isOpen(): boolean {
-        return this.element.classList.contains(this.class);
-    }
+
+    private destroy$: Subject<any> = new Subject();
+    private contentInitialized = false;
 
     @ContentChild(CollapseContentDirective, { read: ElementRef }) content!: ElementRef;
 
-    get class(): string {
+    private get class(): string {
         return this.appCollapseItem;
     }
 
-    get element(): HTMLElement {
+    private get element(): HTMLElement {
         return this.el.nativeElement;
+    }
+
+    public get isOpen(): boolean {
+        return this.element.classList.contains(this.class);
     }
 
     constructor(
@@ -38,32 +36,38 @@ export class CollapseItemDirective implements OnDestroy, AfterContentInit {
         private el: ElementRef,
     ) { }
 
-    ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
-    }
-
-    ngAfterContentInit(): void {
+    public ngAfterContentInit(): void {
+        // -->Track: clicks in order to collapse items
         this.zone.runOutsideAngular(() => {
+            // -->Emit: on content element transition events
             fromEvent<TransitionEvent>(this.contentElement(), 'transitionend').pipe(
                 takeUntil(this.destroy$),
             ).subscribe(event => {
+                // -->Check: target and event name
                 if (event.target === this.contentElement() && event.propertyName === 'height') {
+                    // -->Clear: height style
                     this.contentElement().style.height = '';
                 }
             });
         });
 
+        // -->Mark: content as initialized
         this.contentInitialized = true;
     }
 
-    toggle(value?: boolean): void {
+    /**
+     * Toggle: collapsable item
+     */
+    public toggle(value?: boolean): void {
+        // -->Set: value
         value = value !== undefined ? value : !this.isOpen;
 
+        // -->Check: if action is needed
         if (value === this.isOpen) {
             return;
         }
 
+        // -->Toggle: item according to value
         if (value) {
             this.open();
         } else {
@@ -71,42 +75,69 @@ export class CollapseItemDirective implements OnDestroy, AfterContentInit {
         }
     }
 
-    open(): void {
+    /**
+     * Open: collapsable item
+     */
+    private open(): void {
+        // -->Set: content
         const content = this.contentElement();
 
+        // -->Check: content and if initialized
         if (content && this.contentInitialized) {
+            // -->Get: initial height
             const startHeight = content.getBoundingClientRect().height;
-
+            // -->Add: class to mark element as open
             this.element.classList.add(this.class);
-
+            // -->Get: updated height
             const endHeight = content.getBoundingClientRect().height;
 
+            // -->Set: height style
             content.style.height = `${startHeight}px`;
-            this.element.getBoundingClientRect(); // force reflow
+            // -->Force: reflow
+            this.element.getBoundingClientRect();
+            // -->Update: height style
             content.style.height = `${endHeight}px`;
         } else {
+            // -->Add: class to mark element as open
             this.element.classList.add(this.class);
         }
     }
 
-    close(): void {
+    /**
+     * Close: collapsable item
+     */
+    private close(): void {
+        // -->Set: content
         const content = this.contentElement();
 
+        // -->Check: content and if initialized
         if (content && this.contentInitialized) {
+            // -->Get: start height
             const startHeight = content.getBoundingClientRect().height;
-
+            // -->Set: height style
             content.style.height = `${startHeight}px`;
+            // -->Remove: class so element is not marked as open
             this.element.classList.remove(this.class);
 
-            this.element.getBoundingClientRect(); // force reflow
-
+            // -->Force: reflow
+            this.element.getBoundingClientRect();
+            // -->Clear: height style
             content.style.height = '';
         } else {
+            // -->Remove: class so element is not marked as open
             this.element.classList.remove(this.class);
         }
     }
 
+    /**
+     * Get: content element
+     */
     private contentElement(): HTMLElement {
         return this.content ? this.content.nativeElement : this.element;
+    }
+
+    public ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 }

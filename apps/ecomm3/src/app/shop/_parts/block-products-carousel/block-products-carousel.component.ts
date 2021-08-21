@@ -2,20 +2,19 @@ import {
     ChangeDetectorRef,
     Component,
     EventEmitter,
-    HostBinding,
     Input,
     OnChanges, OnDestroy, OnInit,
     Output,
     SimpleChanges, ViewChild,
 } from '@angular/core';
-import { ProductCardElement, ProductCardLayout } from '../../../shared/product-card/product-card.component';
-import { SectionHeaderGroup, SectionHeaderLink } from '../section-header/section-header.component';
 import { OwlCarouselOConfig } from 'ngx-owl-carousel-o/lib/carousel/owl-carousel-o-config';
-import { LanguageService } from '../../../shared/language/services/language.service';
+import { CarouselComponent } from 'ngx-owl-carousel-o';
 import { Subject, timer } from 'rxjs';
 import { switchMap, takeUntil } from 'rxjs/operators';
-import { CarouselComponent } from 'ngx-owl-carousel-o';
+import { LanguageService } from '../../../shared/language/services/language.service';
 import { Product } from '../../../interfaces/product';
+import { ProductCardElement, ProductCardLayout } from '../../../shared/product-card/product-card.component';
+import { SectionHeaderGroup, SectionHeaderLink } from '../section-header/section-header.component';
 
 export type BlockProductsCarouselLayout = 'grid-4' | 'grid-4-sidebar' | 'grid-5' | 'grid-6' | 'horizontal' | 'horizontal-sidebar';
 
@@ -104,43 +103,30 @@ const productCardExcludeMap: {[K in ProductCardLayout]: ProductCardElement[]} = 
     styleUrls: ['./block-products-carousel.component.scss'],
 })
 export class BlockProductsCarouselComponent implements OnChanges, OnInit, OnDestroy {
+    @Input() public products: Product[] = [];
+    @Input() public blockTitle: string = '';
+    @Input() public layout: BlockProductsCarouselLayout = 'grid-4';
+    @Input() public rows = 1;
+    @Input() public groups: SectionHeaderGroup[] = [];
+    @Input() public currentGroup?: SectionHeaderGroup
+    @Input() public links: SectionHeaderLink[] = [];
+    @Input() public loading = false;
+
     private destroy$: Subject<void> = new Subject<void>();
 
-    showCarousel = true;
+    public showCarousel = true;
+    public carouselOptions!: Partial<OwlCarouselOConfig>;
+    public columns: Product[][] = [];
 
-    carouselOptions!: Partial<OwlCarouselOConfig>;
+    @ViewChild(CarouselComponent) public carousel!: CarouselComponent;
 
-    columns: Product[][] = [];
+    @Output() public changeGroup: EventEmitter<SectionHeaderGroup> = new EventEmitter<SectionHeaderGroup>();
 
-    @Input() products: Product[] = [];
-
-    @Input() blockTitle: string = '';
-
-    @Input() @HostBinding('attr.data-layout') layout: BlockProductsCarouselLayout = 'grid-4';
-
-    @Input() rows = 1;
-
-    @Input() groups: SectionHeaderGroup[] = [];
-
-    @Input() currentGroup?: SectionHeaderGroup
-
-    @Input() links: SectionHeaderLink[] = [];
-
-    @Input() loading = false;
-
-    @Output() changeGroup: EventEmitter<SectionHeaderGroup> = new EventEmitter<SectionHeaderGroup>();
-
-    @HostBinding('class.block') classBlock = true;
-
-    @HostBinding('class.block-products-carousel') classBlockProductsCarousel = true;
-
-    @ViewChild(CarouselComponent) carousel!: CarouselComponent;
-
-    get productCardLayout(): ProductCardLayout {
+    public get productCardLayout(): ProductCardLayout {
         return productCardLayoutMap[this.layout];
     }
 
-    get productCardExclude(): ProductCardElement[] {
+    public get productCardExclude(): ProductCardElement[] {
         return productCardExcludeMap[this.productCardLayout];
     }
 
@@ -149,62 +135,79 @@ export class BlockProductsCarouselComponent implements OnChanges, OnInit, OnDest
         private cd: ChangeDetectorRef,
     ) { }
 
-    ngOnChanges(changes: SimpleChanges): void {
+    public ngOnInit(): void {
+        // Since ngx-owl-carousel-o cannot re-initialize itself, we will do it manually when the direction changes.
+        this.language.directionChange$.pipe(
+            switchMap(() => timer(250)),
+            takeUntil(this.destroy$),
+        ).subscribe(() => {
+            // -->Handle: direction changes
+            this.handleDirChanges();
+        });
+    }
+
+    public ngOnChanges(changes: SimpleChanges): void {
         const properties = Object.keys(changes);
 
+        // -->Check: if products or rows changed
         if (properties.includes('products') || properties.includes('row')) {
             this.columns = [];
 
+            // -->Check: products and rows
             if (this.products && this.rows > 0) {
+                // -->Get: copy of products array
                 const products = this.products.slice();
 
+                // -->Build: carousel slides
                 while (products.length > 0) {
                     this.columns.push(products.splice(0, this.rows));
                 }
             }
         }
 
+        // -->Handle: products changes
         if (changes.products) {
             // Well, this is just another hack to get owl-carousel-o to work as expected
             setTimeout(() => {
-                this.initOptions();
-
-                this.showCarousel = false;
-                this.cd.detectChanges();
-                this.showCarousel = true;
+                this.handleDirChanges();
             }, 0);
         }
 
+        // -->Handle: layout changes
         if (changes.layout) {
             this.initOptions();
         }
     }
 
-    ngOnInit(): void {
-        // Since ngx-owl-carousel-o cannot re-initialize itself, we will do it manually when the direction changes.
-        this.language.directionChange$.pipe(
-            switchMap(() => timer(250)),
-            takeUntil(this.destroy$),
-        ).subscribe(() => {
-            this.initOptions();
-
-            this.showCarousel = false;
-            this.cd.detectChanges();
-            this.showCarousel = true;
-        });
-    }
-
-    ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
-    }
-
-    initOptions(): void {
+    /**
+     * Initialize: carousel options
+     */
+    private initOptions(): void {
         this.carouselOptions = Object.assign({
             dots: false,
             margin: 20,
             loop: true,
             rtl: this.language.isRTL(),
         }, carouselLayoutOptions[this.layout]);
+    }
+
+    /**
+     * Handle: direction changes
+     */
+    private handleDirChanges(): void {
+        // -->Init: options on direction change
+        this.initOptions();
+
+        // -->Hide: carousel temporarily
+        this.showCarousel = false;
+        // -->Detect: changes
+        this.cd.detectChanges();
+        // -->Show: carousel again
+        this.showCarousel = true;
+    }
+
+    public ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 }

@@ -1,8 +1,8 @@
 import { Directive, forwardRef, OnDestroy, OnInit } from '@angular/core';
-import { CheckboxDispatcherService } from '../dispatchers/checkbox-dispatcher.service';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { CheckboxDispatcherService } from '../dispatchers/checkbox-dispatcher.service';
 
 @Directive({
     selector: '[appCheckboxGroup]',
@@ -20,33 +20,44 @@ import { Subject } from 'rxjs';
 })
 export class CheckboxGroupDirective implements OnInit, OnDestroy, ControlValueAccessor {
     private destroy$: Subject<void> = new Subject();
-
-    changeFn: any = () => {};
+    private changeFn: any = () => {};
 
     constructor(
         private dispatcher: CheckboxDispatcherService,
     ) { }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this.dispatcher.change$.pipe(takeUntil(this.destroy$)).subscribe(value => {
             this.changeFn(value);
         });
     }
 
-    ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
-    }
-
-    registerOnChange(fn: any): void {
+    /**
+     * Register: callback function to handle changes
+     */
+    public registerOnChange(fn: any): void {
         this.changeFn = fn;
     }
 
-    registerOnTouched(fn: any): void { }
+    /**
+     * Register: callback function to handle control touch events
+     */
+    public registerOnTouched(fn: any): void { }
 
-    setDisabledState(isDisabled: boolean): void { }
+    /**
+     * Set: disabled state
+     */
+    public setDisabledState(isDisabled: boolean): void { }
 
-    writeValue(value: any[]): void {
+    /**
+     * Set: dispatcher value
+     */
+    public writeValue(value: any[]): void {
         this.dispatcher.value = value;
+    }
+
+    public ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 }

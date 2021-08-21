@@ -3,32 +3,7 @@ import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { RootComponent } from './layout/root/root.component';
 import { PageNotFoundComponent } from './default-pages/page-not-found/page-not-found.component';
 
-
 const routes: Routes = [
-    /**
-     * ROUTES_ONLY_FOR_DEMO / START
-     */
-    // {
-    //     path: 'home',
-    //     component: RootComponent,
-    //     data: {
-    //         desktopHeader: 'classic/one',
-    //     },
-    //     children: [
-    //         {
-    //             path: '',
-    //             pathMatch: 'full',
-    //             loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule),
-    //         },
-    //     ],
-    // },
-    // Desktop header variations.
-    // { path: 'header-classic-variant-one',     component: RootComponent, data: { desktopHeader: 'classic/one' } },
-    // // Mobile header variations.
-    // { path: 'mobile-header-variant-one',      component: RootComponent, data: { mobileHeader: 'one' } },
-    /**
-     * ROUTES_ONLY_FOR_DEMO / END
-     */
     {
         path: '',
         component: RootComponent,
@@ -57,7 +32,6 @@ const routes: Routes = [
         ],
     },
 ];
-
 
 @NgModule({
     imports: [

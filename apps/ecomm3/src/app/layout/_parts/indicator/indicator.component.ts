@@ -11,9 +11,9 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
-import { fromOutsideClick } from '../../../shared/functions/rxjs/from-outside-click';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { fromOutsideClick } from '../../../shared/functions/rxjs/from-outside-click';
 
 export type IndicatorTrigger = 'click' | 'hover';
 
@@ -24,12 +24,12 @@ export type IndicatorTrigger = 'click' | 'hover';
     exportAs: 'indicator',
 })
 export class IndicatorComponent implements OnChanges, OnInit, OnDestroy {
-    @Input() link!: string;
-    @Input() icon!: string;
-    @Input() label: string = '';
-    @Input() value: string = '';
-    @Input() counter?: string|number;
-    @Input() trigger: IndicatorTrigger = 'hover';
+    @Input() public link!: string;
+    @Input() public icon!: string;
+    @Input() public label: string = '';
+    @Input() public value: string = '';
+    @Input() public counter?: string|number;
+    @Input() public trigger: IndicatorTrigger = 'hover';
 
     private destroy$: Subject<void> = new Subject<void>();
 
@@ -49,6 +49,7 @@ export class IndicatorComponent implements OnChanges, OnInit, OnDestroy {
             return;
         }
 
+        // -->Track: clicks in order to toggle the indicators section
         this.zone.runOutsideAngular(() => {
             fromOutsideClick(this.elementRef.nativeElement).pipe(
                 filter(() => this.classIndicatorOpen),
@@ -65,20 +66,30 @@ export class IndicatorComponent implements OnChanges, OnInit, OnDestroy {
         }
     }
 
-    public onClick(event: MouseEvent) {
+    /**
+     * Toggle: indicators section
+     */
+    public onClick(event: MouseEvent): void {
         if (!event.cancelable) {
             return;
         }
 
+        // -->Prevent: default action
         event.preventDefault();
 
+        // -->Check: trigger type
         if (this.trigger !== 'click') {
-            this.router.navigate([this.link], { relativeTo: this.route }).then();
+            // -->Redirect
+            this.router.navigate([this.link], { relativeTo: this.route });
         }
 
+        // -->Add: or remove indicator--open class
         this.classIndicatorOpen = !this.classIndicatorOpen;
     }
 
+    /**
+     * Close: indicators section
+     */
     public close(): void {
         this.classIndicatorOpen = false;
     }

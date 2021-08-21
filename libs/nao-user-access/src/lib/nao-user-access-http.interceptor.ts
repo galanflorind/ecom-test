@@ -60,7 +60,7 @@ export class NaoUserAccessHttpInterceptor implements HttpInterceptor {
     //       break;
     //   }
     //   if (typeof url === 'string') {
-    //     this.router.navigateByUrl(url, { replaceUrl: true }).then(() => {});
+    //     this.router.navigateByUrl(url, { replaceUrl: true }).then();
     //   }
     // }
     // -->Handle: errors
@@ -72,7 +72,7 @@ export class NaoUserAccessHttpInterceptor implements HttpInterceptor {
           if (err.error?.index === 'session_expired') {
             url = '/logout-expired';
           }
-          this.router.navigateByUrl(url, { replaceUrl: true }).then(() => {});
+          this.router.navigateByUrl(url, { replaceUrl: true }).then();
         }
         // -->Rethrow: the error no matter what
         return throwError(err);

@@ -1,5 +1,6 @@
-import {CategoryFilter, CheckFilter, RangeFilter} from "../../../interfaces/filter";
+import { CategoryFilter, CheckFilter, RangeFilter } from "../../../interfaces/filter";
 import { nameToSlug } from "../../../shared/functions/utils";
+import { Vendor } from '../../../interfaces/vendor';
 
 /**
  * Prepare: categories filter
@@ -8,13 +9,14 @@ function buildCategoriesFilter(items: any[], categoryId = null): CategoryFilter 
     if (!Array.isArray(items)) {
         items = [];
     }
-    // -->Init
+
+    // -->Init: filterCategories
     let filterCategories = [];
+
     // -->Check: if there si a category selected
     if (!categoryId) {
         // -->Get: categories with level 0 and add children
         filterCategories = items.filter(c => c.level === 0 && c.showOnWebsite);
-
     } else {
         // -->Get: current category
         const currentCategory = items.find(c => c.id === categoryId)
@@ -27,10 +29,12 @@ function buildCategoriesFilter(items: any[], categoryId = null): CategoryFilter 
             ...currentCategory,
             children
         }
+
         // -->Check: if this category has parent
         if (parent) {
             category.parent = getParentsCategory(items, parent);
         }
+
         // -->Push: category
         filterCategories.push(category)
     }
@@ -59,14 +63,16 @@ function getParentsCategory(items: any[], parentCategory: any): any {
 }
 
 /**
- * Prepare manufactures filter
+ * Prepare: manufactures filter
  */
 function buildManufacturerFilter(vendors: Vendor[], values: string[]): CheckFilter {
     if(!Array.isArray(vendors)) {
         vendors = [];
     }
-    // -->Init
+
+    // -->Init: items
     const items = [];
+
     // -->Iterate: over vendors
     vendors.map(vendor => {
         if (vendor) {
@@ -88,14 +94,13 @@ function buildManufacturerFilter(vendors: Vendor[], values: string[]): CheckFilt
 }
 
 /**
- * Prepare price filter
+ * Prepare: price filter
  */
 function buildPriceFilter(min: number, max: number, valueMin: number, valueMax: number): RangeFilter {
-    // todo: checvk shit
-
-
+    // todo: check params
     // todo: check if the current value is lower than min, than the valueMin is min
     // todo: same for max
+
     if (!valueMin) {
         valueMin = min
     }
@@ -114,20 +119,8 @@ function buildPriceFilter(min: number, max: number, valueMin: number, valueMax: 
     }
 }
 
-
-
 export {
     buildCategoriesFilter,
     buildManufacturerFilter,
     buildPriceFilter,
-}
-
-
-// todo: move this interfaces somewhere
-export interface Vendor {
-    _id: string;
-    data: {
-        manufacturerId: string;
-        name: string;
-    }
 }

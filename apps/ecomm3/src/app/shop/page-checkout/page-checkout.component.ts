@@ -1,18 +1,18 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import {debounceTime, distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { TermsModalComponent } from '../_parts/terms-modal/terms-modal.component';
-import { CartService } from '../../services/cart.service';
-import { merge, Subject, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { UrlService } from '../../services/url.service';
-import { NaoUserAccessService, NaoUsersInterface } from "@naologic/nao-user-access";
-import { ECommerceService } from "../../e-commerce.service";
-import { AppService } from "../../app.service";
-import { ToastrService } from "ngx-toastr";
 import { DOCUMENT } from "@angular/common";
+import { TranslateService } from '@ngx-translate/core';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { ToastrService } from "ngx-toastr";
+import { merge, Subject, Subscription } from 'rxjs';
+import {debounceTime, distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
+import { NaoUserAccessService, NaoUsersInterface } from "@naologic/nao-user-access";
+import { CartService } from '../../services/cart.service';
+import { UrlService } from '../../services/url.service';
+import { AppService } from "../../app.service";
+import { ECommerceService } from "../../e-commerce.service";
+import { TermsModalComponent } from '../_parts/terms-modal/terms-modal.component';
 
 export type paymentMethods = 'cheque' | 'card' | 'wire' | 'online-bank-payment';
 
@@ -24,6 +24,8 @@ export type paymentMethods = 'cheque' | 'card' | 'wire' | 'online-bank-payment';
 export class PageCheckoutComponent implements OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
     private subs = new Subscription();
+    private checkOrderSubs = new Subscription();
+
     public formGroup: FormGroup;
     public checkoutInProgress = false;
     public addresses: NaoUsersInterface.Address[] = [];
@@ -32,15 +34,12 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
     public checkOrderProgress = false;
     public allowedPaymentMethodsForRedirect: paymentMethods[] = ['card', 'online-bank-payment'];
     public payments = [];
-    private checkOrderSubs = new Subscription();
     public summary = {
         count: 0,
         shipping: 0,
         taxes: 0,
         total: 0
     }
-
-
 
     constructor(
         private modalService: BsModalService,
@@ -54,6 +53,7 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
         private toastr: ToastrService,
         @Inject(DOCUMENT) private document: Document
     ) {
+        // -->Init: formGroup
         this.formGroup = new FormGroup({
             billingAddressId: new FormControl(null, {validators: [Validators.required]}),
             shippingAddressId: new FormControl(null, {validators: [Validators.required]}),
@@ -62,7 +62,6 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
             customerPurchaseOrder: new FormControl(null),
             agree: new FormControl(false, {validators: [Validators.requiredTrue]}),
         });
-
     }
 
     public ngOnInit(): void {
@@ -198,6 +197,26 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
     }
 
     /**
+     * Open: modal with terms
+     */
+    public showTerms(event: MouseEvent): void {
+        event.preventDefault();
+
+        this.modalService.show(TermsModalComponent, { class: 'modal-lg' });
+    }
+
+    /**
+     * Create: order
+     */
+    public createOrder(): void {
+        if (!this.checkData()) {
+            return;
+        }
+
+        this.checkout();
+    }
+
+    /**
      * Checkout
      */
     private checkout(): void {
@@ -208,7 +227,6 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
         // -->Get: order
         const order = this.formGroup.value;
 
-
         // -->Set: orderLines
         const orderLines = this.cart.items.map(item => {
             return {
@@ -217,6 +235,7 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
                 quantity: item.quantity
             }
         });
+
         // -->Set: data
         const data$ = { ...order, orderLines }
         // -->Complete: checkout order
@@ -253,34 +272,14 @@ export class PageCheckoutComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Open modal with terms
-     */
-    public showTerms(event: MouseEvent): void {
-        event.preventDefault();
-
-        this.modalService.show(TermsModalComponent, { class: 'modal-lg' });
-    }
-
-    /**
-     * Create: order
-     */
-    public createOrder(): void {
-        if (!this.checkData()) {
-            return;
-        }
-
-        this.checkout();
-    }
-
-    /**
-     * Mark all as touched
+     * Mark: all controls as touched
      */
     private markAllAsTouched(): void {
         this.formGroup.markAllAsTouched();
     }
 
     /**
-     * Check data
+     * Check: data
      */
     private checkData(): boolean {
         this.markAllAsTouched();

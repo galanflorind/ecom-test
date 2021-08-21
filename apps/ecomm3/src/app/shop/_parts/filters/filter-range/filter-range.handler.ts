@@ -1,29 +1,41 @@
 import { FilterHandler } from '../filter.handler';
 import { ActiveFilterRange, RangeFilter } from '../../../../interfaces/filter';
 
-
 export class FilterRangeHandler extends FilterHandler {
     type = 'range';
 
-    serialize(value: [number, number]): string {
+    /**
+     * Convert: array to string using '-' as separator
+     */
+    public serialize(value: [number, number]): string {
         return value.join('-');
     }
 
-    deserialize(value: string): [number, number] {
+    /**
+     * Convert: string to array assuming '-' as the separator
+     */
+    public deserialize(value: string): [number, number] {
         const [min, max] = value.split('-').map(parseFloat);
 
         return [min, max];
     }
 
-    isDefaultValue(filter: RangeFilter, value: [number, number]): boolean {
+    /**
+     * Check: if value is the default
+     */
+    public isDefaultValue(filter: RangeFilter, value: [number, number]): boolean {
         return filter.min === value[0] && filter.max === value[1];
     }
 
-    activeFilters(filter: RangeFilter): ActiveFilterRange[] {
+    /**
+     * Get: active filter
+     */
+    public activeFilters(filter: RangeFilter): ActiveFilterRange[] {
         if (this.isDefaultValue(filter, filter.value)) {
             return [];
         }
 
+        // -->Build: and return active filter
         return [{
             id: filter.slug,
             type: filter.type,
@@ -31,7 +43,10 @@ export class FilterRangeHandler extends FilterHandler {
         }];
     }
 
-    getResetValue(activeFilters: ActiveFilterRange[]): string {
+    /**
+     * Get: reset value
+     */
+    public getResetValue(activeFilters: ActiveFilterRange[]): string {
         return this.serialize([activeFilters[0].original.min, activeFilters[0].original.max]);
     }
 }
