@@ -1,12 +1,9 @@
 <div class="header">
     <div class="header__megamenu-area megamenu-area"></div>
-    <!--When uncommenting this, search for header in the header.scss and uncomment stuff there-->
-<!--    <ng-container *ngIf="header.desktopLayout === 'classic'">-->
-<!--        <div class="header__topbar-classic-bg"></div>-->
-<!--        <div class="header__topbar-classic">-->
-<!--            <app-topbar layout="classic"></app-topbar>-->
-<!--        </div>-->
-<!--    </ng-container>-->
+    <div class="header__topbar-bg"></div>
+    <div class="header__topbar">
+        <app-topbar></app-topbar>
+    </div>
     <div class="header__navbar">
         <div class="header__navbar-departments">
             <app-departments [items]="categories" [label]="'BUTTON_DEPARTMENTS_LONG' | translate"></app-departments>

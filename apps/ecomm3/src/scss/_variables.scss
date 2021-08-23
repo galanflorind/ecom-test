@@ -248,8 +248,8 @@
       shadow: 0 1px 3px rgba(#000, .09),
    ), $header-scheme);
 
-// ----------------------------------------
-   // -- .topbar--classic
+   // ----------------------------------------
+   // -- .topbar
    // ----------------------------------------
       $topbar-scheme-based-on: light !default;
       $topbar-scheme-variants: () !default;
@@ -321,7 +321,7 @@
       ), $logo-scheme);
 
    // ----------------------------------------
-   // -- .search--layout--classic
+   // -- .search--layout
    // ----------------------------------------
       // input
       $search-input-scheme: () !default;

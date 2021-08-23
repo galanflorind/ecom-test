@@ -1,4 +1,4 @@
-import { Component, HostBinding } from '@angular/core';
+import { Component } from '@angular/core';
 import { MainMenuLink } from '../../../interfaces/main-menu-link';
 import { mainMenu } from './main-menu.static';
 
