@@ -22,18 +22,17 @@
                 <app-icon icon="quickview-16"></app-icon>
             </button>
 
-            <!--TODO: uncomment this when we do wishlist-->
             <ng-container *ngIf="!exclude.includes('actions')">
-    <!--            <button-->
-    <!--                type="button"-->
-    <!--                class="product-card__action product-card__action&#45;&#45;wishlist"-->
-    <!--                [class.product-card__action&#45;&#45;loading]="wishlist.inProgress"-->
-    <!--                [attr.aria-label]="'BUTTON_ADD_TO_WISHLIST' | translate"-->
-    <!--                (click)="wishlist.add(product)"-->
-    <!--            >-->
-    <!--                <app-icon icon="wishlist-16"></app-icon>-->
-    <!--            </button>-->
-               <button
+                <button
+                    type="button"
+                    class="product-card__action product-card__action&#45;&#45;wishlist"
+                    [class.product-card__action&#45;&#45;loading]="wishlist.inProgress"
+                    [attr.aria-label]="'BUTTON_ADD_TO_WISHLIST' | translate"
+                    (click)="wishlist.add(product, product.data?.variants[0])"
+                >
+                    <app-icon icon="wishlist-16"></app-icon>
+                </button>
+                <button
                     type="button"
                     class="product-card__action product-card__action&#45;&#45;compare"
                     [class.product-card__action&#45;&#45;loading]="compare.inProgress"
@@ -144,18 +143,15 @@
                     >
                         {{ 'BUTTON_ADD_TO_CART' | translate }}
                     </button>
-                    <!--TODO: uncomment this when we add wishlist-->
-                    <!--TODO: uncomment this when we add wishlist-->
-                    <!--TODO: uncomment this when we add wishlist-->
-    <!--                <button-->
-    <!--                    type="button"-->
-    <!--                    class="product-card__wishlist"-->
-    <!--                    [class.product-card__wishlist&#45;&#45;loading]="wishlist.inProgress"-->
-    <!--                    (click)="wishlist.add(product)"-->
-    <!--                >-->
-    <!--                    <app-icon icon="wishlist-16"></app-icon>-->
-    <!--                    <span>{{ 'BUTTON_ADD_TO_WISHLIST' | translate }}</span>-->
-    <!--                </button>-->
+                    <button
+                        type="button"
+                        class="product-card__wishlist"
+                        [class.product-card__wishlist&#45;&#45;loading]="wishlist.inProgress"
+                        (click)="wishlist.add(product, product.data?.variants[0])"
+                    >
+                        <app-icon icon="wishlist-16"></app-icon>
+                        <span>{{ 'BUTTON_ADD_TO_WISHLIST' | translate }}</span>
+                    </button>
                         <button
                             type="button"
                             class="product-card__compare"

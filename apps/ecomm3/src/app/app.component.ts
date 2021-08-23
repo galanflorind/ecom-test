@@ -82,31 +82,36 @@ export class AppComponent implements OnInit, OnDestroy {
             });
         }
 
-        // -->Show: toaster when a product is added to the cart
-        this.cart.onAdding$.subscribe(product => {
+        // -->Show: toaster when a variant is added to the cart
+        this.cart.onAdding$.subscribe(variant => {
             this.toastr.success(
-                this.translate.instant('TEXT_TOAST_PRODUCT_ADDED_TO_CART', { productName: product.data?.name })
+                this.translate.instant('TEXT_TOAST_PRODUCT_ADDED_TO_CART', { productName: variant?.variantName })
             );
         });
 
-        // -->Show: toaster when a product is added to compare
-        this.compare.onAdding$.subscribe(product => {
+        // -->Show: toaster when a variant is added to compare
+        this.compare.onAdding$.subscribe(variant => {
             this.toastr.success(
-                this.translate.instant('TEXT_TOAST_PRODUCT_ADDED_TO_COMPARE', { productName: product.data?.name })
+                this.translate.instant('TEXT_TOAST_PRODUCT_ADDED_TO_COMPARE', { productName: variant?.variantName })
             );
         });
-
-        // -->Show: toaster when a product was already added to compare
-        this.compare.onAdded$.subscribe(product => {
+        // -->Show: toaster if a variant was already added to compare
+        this.compare.onAdded$.subscribe(variant => {
             this.toastr.info(
-                this.translate.instant('TEXT_TOAST_PRODUCT_NOT_ADDED_TO_COMPARE', { productName: product.data?.name })
+                this.translate.instant('TEXT_TOAST_PRODUCT_NOT_ADDED_TO_COMPARE', { productName: variant?.variantName })
             );
         });
 
-        // -->Show: toaster when a product is added to wishlist
-        this.wishlist.onAdding$.subscribe(product => {
+        // -->Show: toaster when a variant is added to wishlist
+        this.wishlist.onAdding$.subscribe(variant => {
             this.toastr.success(
-                this.translate.instant('TEXT_TOAST_PRODUCT_ADDED_TO_WISHLIST', { productName: product.data?.name })
+                this.translate.instant('TEXT_TOAST_PRODUCT_ADDED_TO_WISHLIST', { productName: variant?.variantName })
+            );
+        });
+        // -->Show: toaster if a variant was already added to wishlist
+        this.wishlist.onAdded$.subscribe(variant => {
+            this.toastr.info(
+                this.translate.instant('TEXT_TOAST_PRODUCT_NOT_ADDED_TO_WISHLIST', { productName: variant?.variantName })
             );
         });
     }

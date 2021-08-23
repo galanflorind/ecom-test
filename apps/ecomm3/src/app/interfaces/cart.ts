@@ -1,8 +1,6 @@
-import { Product, Variant } from './product';
+import { ProductVariant } from './product';
 
-export interface CartItem {
-    product: Product;
-    variant: Variant;
+export interface CartItem extends ProductVariant {
     // options: {
     //     name: string;
     //     value: string;

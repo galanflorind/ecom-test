@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Directive, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { WishlistService } from '../../services/wishlist.service';
-import { Product } from '../../interfaces/product';
+import { ProductVariant } from '../../interfaces/product';
 
 @Directive({
     selector: '[appRemoveFromWishlist]',
@@ -18,7 +18,7 @@ export class RemoveFromWishlistDirective implements OnDestroy {
         private cd: ChangeDetectorRef,
     ) { }
 
-    public remove(product: Product): void {
+    public remove(wishlistItem: ProductVariant): void {
         // -->Check: if remove action is already in progress
         if (this.inProgress) {
             return;
@@ -27,7 +27,7 @@ export class RemoveFromWishlistDirective implements OnDestroy {
         // -->Mark: remove actions as in progress
         this.inProgress = true;
         // -->Remove: product from wishlist
-        this.wishlist.remove(product).pipe(takeUntil(this.destroy$)).subscribe({
+        this.wishlist.remove(wishlistItem).pipe(takeUntil(this.destroy$)).subscribe({
             complete: () => {
                 // -->Mark: remove actions as completed
                 this.inProgress = false;

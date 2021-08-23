@@ -127,26 +127,26 @@
                                             {{ 'TEXT_YOU_NEED_TO_LOGIN_FOR_PRICE' | translate }}
                                         </div>
                                     </ng-container>
-                                        <!--TODO: uncomment this when we do wishlist-->
-<!--                                    <button-->
-<!--                                        appAddToWishlist-->
-<!--                                        type="button"-->
-<!--                                        class="product__actions-item product__actions-item&#45;&#45;wishlist"-->
-<!--                                        [class.product__actions-item&#45;&#45;loading]="addToWishlist.inProgress"-->
-<!--                                        (click)="addToWishlist.add(this.product)"-->
-<!--                                        #addToWishlist="addToWishlist"-->
-<!--                                    >-->
-<!--                                        <app-icon icon="wishlist-16"></app-icon>-->
-<!--                                        <span>{{ 'BUTTON_ADD_TO_WISHLIST' | translate }}</span>-->
-<!--                                    </button>-->
-                                        <button
-                                            appAddToCompare
-                                            type="button"
-                                            class="product__actions-item product__actions-item&#45;&#45;compare"
-                                            [class.product__actions-item&#45;&#45;loading]="addToCompare.inProgress"
-                                            (click)="addToCompare.add(this.product, product.data?.variants[variantIndex])"
-                                            #addToCompare="addToCompare"
-                                        >
+                                    <div class="product__actions-divider"></div>
+                                    <button
+                                        appAddToWishlist
+                                        type="button"
+                                        class="product__actions-item product__actions-item&#45;&#45;wishlist"
+                                        [class.product__actions-item&#45;&#45;loading]="addToWishlist.inProgress"
+                                        (click)="addToWishlist.add(this.product, product.data?.variants[variantIndex])"
+                                        #addToWishlist="addToWishlist"
+                                    >
+                                        <app-icon icon="wishlist-16"></app-icon>
+                                        <span>{{ 'BUTTON_ADD_TO_WISHLIST' | translate }}</span>
+                                    </button>
+                                    <button
+                                        appAddToCompare
+                                        type="button"
+                                        class="product__actions-item product__actions-item&#45;&#45;compare"
+                                        [class.product__actions-item&#45;&#45;loading]="addToCompare.inProgress"
+                                        (click)="addToCompare.add(this.product, product.data?.variants[variantIndex])"
+                                        #addToCompare="addToCompare"
+                                    >
                                         <app-icon icon="compare-16"></app-icon>
                                         <span>{{ 'BUTTON_ADD_TO_COMPARE' | translate }}</span>
                                     </button>

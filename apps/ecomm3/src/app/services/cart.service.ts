@@ -20,14 +20,14 @@ export class CartService {
     private subtotalSubject$: BehaviorSubject<number> = new BehaviorSubject(this.data.subtotal);
     private totalsSubject$: BehaviorSubject<CartTotal[]> = new BehaviorSubject(this.data.totals);
     private totalSubject$: BehaviorSubject<number> = new BehaviorSubject(this.data.total);
-    private onAddingSubject$: Subject<Product> = new Subject();
+    private onAddingSubject$: Subject<Variant> = new Subject();
 
     public readonly items$: Observable<CartItem[]> = this.itemsSubject$.asObservable();
     public readonly quantity$: Observable<number> = this.quantitySubject$.asObservable();
     public readonly subtotal$: Observable<number> = this.subtotalSubject$.asObservable();
     public readonly totals$: Observable<CartTotal[]> = this.totalsSubject$.asObservable();
     public readonly total$: Observable<number> = this.totalSubject$.asObservable();
-    public readonly onAdding$: Observable<Product> = this.onAddingSubject$.asObservable();
+    public readonly onAdding$: Observable<Variant> = this.onAddingSubject$.asObservable();
 
     public get items(): ReadonlyArray<CartItem> {
         return this.data.items;
@@ -63,12 +63,13 @@ export class CartService {
      * Add: item to the cart
      */
     public add(product: Product, variant: Variant, quantity: number): Observable<CartItem> {
-        // -->Check: if variant has a price key
-        if (!variant.hasOwnProperty('price')) {
+        // -->Check: product and variant and if variant has a price key
+        if (!product || !variant || !variant.hasOwnProperty('price')) {
             return;
         }
 
-        this.onAddingSubject$.next(product);
+        // -->Emit: variant is being added to cart
+        this.onAddingSubject$.next(variant);
 
         // -->Find: cart item
         let item = this.items.find((eachItem) => {

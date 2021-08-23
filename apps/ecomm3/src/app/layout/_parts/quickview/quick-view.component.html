@@ -91,19 +91,18 @@
                                 {{ 'BUTTON_ADD_TO_CART' | translate }}
                             </button>
                         </div>
-                            <!--TODO: uncomment this when we do wishlist-->
-<!--                        <div class="quickview__product-actions-item quickview__product-actions-item&#45;&#45;wishlist">-->
-<!--                            <button-->
-<!--                                appAddToWishlist-->
-<!--                                type="button"-->
-<!--                                class="btn btn-muted btn-icon"-->
-<!--                                [class.btn-loading]="addToWishlist.inProgress"-->
-<!--                                (click)="addToWishlist.add(product)"-->
-<!--                                #addToWishlist="addToWishlist"-->
-<!--                            >-->
-<!--                                <app-icon icon="wishlist-16"></app-icon>-->
-<!--                            </button>-->
-<!--                        </div>-->
+                        <div class="quickview__product-actions-item quickview__product-actions-item&#45;&#45;wishlist">
+                            <button
+                                appAddToWishlist
+                                type="button"
+                                class="btn btn-muted btn-icon"
+                                [class.btn-loading]="addToWishlist.inProgress"
+                                (click)="addToWishlist.add(product, product.data?.variants[variantIndex])"
+                                #addToWishlist="addToWishlist"
+                            >
+                                <app-icon icon="wishlist-16"></app-icon>
+                            </button>
+                        </div>
                         <div class="quickview__product-actions-item quickview__product-actions-item&#45;&#45;compare">
                             <button
                                 appAddToCompare

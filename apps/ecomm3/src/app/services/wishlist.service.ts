@@ -2,20 +2,22 @@ import { Inject, Injectable, OnDestroy, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { BehaviorSubject, EMPTY, Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-import { Product } from '../interfaces/product';
+import { Product, Variant, ProductVariant } from '../interfaces/product';
 
 @Injectable({
     providedIn: 'root',
 })
 export class WishlistService implements OnDestroy {
-    private dataItems: Product[] = [];
+    private dataItems: ProductVariant[] = [];
     private destroy$: Subject<void> = new Subject();
-    private itemsSubject$: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>([]);
-    private onAddingSubject$: Subject<Product> = new Subject();
+    private itemsSubject$: BehaviorSubject<ProductVariant[]> = new BehaviorSubject<ProductVariant[]>([]);
+    private onAddingSubject$: Subject<Variant> = new Subject();
+    private onAddedSubject$: Subject<Variant> = new Subject();
 
-    public readonly items$: Observable<Product[]> = this.itemsSubject$.pipe(takeUntil(this.destroy$));
+    public readonly items$: Observable<ProductVariant[]> = this.itemsSubject$.pipe(takeUntil(this.destroy$));
     public readonly count$: Observable<number> = this.itemsSubject$.pipe(map(items => items.length));
-    public readonly onAdding$: Observable<Product> = this.onAddingSubject$.asObservable();
+    public readonly onAdding$: Observable<Variant> = this.onAddingSubject$.asObservable();
+    public readonly onAdded$: Observable<Variant> = this.onAddedSubject$.asObservable();
 
     constructor(
         @Inject(PLATFORM_ID) private platformId: any,
@@ -29,16 +31,28 @@ export class WishlistService implements OnDestroy {
     /**
      * Add: product to wishlist
      */
-    public add(product: Product): Observable<void> {
-        this.onAddingSubject$.next(product);
+    public add(product: Product, variant: Variant): Observable<void> {
+        // -->Check: product and variant
+        if (!product || !variant) {
+            return;
+        }
 
-        // -->Check: if product is already on the wishlist
-        const index = this.dataItems.findIndex(item => item._id === product._id);
+        // -->Find: index
+        const index = this.dataItems.findIndex(item => item.product._id === product._id && item.variant.id === variant.id);
 
-        // -->Add: product to wishlist
+        // -->Check: if product variant is already on the wishlist
         if (index === -1) {
-            this.dataItems.push(product);
+            // -->Emit: variant is being added
+            this.onAddingSubject$.next(variant);
+
+            // -->Add: wishlist item
+            this.dataItems.push({ product, variant });
+            // -->Save
             this.save();
+        }
+        else {
+            // -->Emit: variant was already added to wishlist previously
+            this.onAddedSubject$.next(variant);
         }
 
         // -->Complete
@@ -48,9 +62,10 @@ export class WishlistService implements OnDestroy {
     /**
      * Remove: product from wishlist
      */
-    public remove(product: Product): Observable<void> {
+    public remove(wishlistItem: ProductVariant): Observable<void> { //ProductVariant
         // -->Check: if product is on the wishlist
-        const index = this.dataItems.findIndex(item => item._id === product._id);
+        const index = this.dataItems.findIndex(item =>
+            item.product._id === wishlistItem.product._id && item.variant.id === wishlistItem.variant.id);
 
         // -->Remove: product and save
         if (index !== -1) {

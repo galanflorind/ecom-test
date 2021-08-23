@@ -7,8 +7,7 @@ import { NaoSettingsInterface } from '@naologic/nao-interfaces';
 import { AppService } from '../../app.service';
 import { CompareService } from '../../services/compare.service';
 import { UrlService } from '../../services/url.service';
-import { BaseAttribute, Variant } from '../../interfaces/product';
-import { CompareItem } from '../../interfaces/compare';
+import { BaseAttribute, Variant, ProductVariant } from '../../interfaces/product';
 
 interface Specification {
     name: string;
@@ -25,7 +24,7 @@ export class PageCompareComponent implements OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
 
     public appSettings: NaoSettingsInterface.Settings;
-    public compareItems$: Observable<CompareItem[]>;
+    public compareItems$: Observable<ProductVariant[]>;
     public specifications$: Observable<Specification[]>;
     public differentSpecifications$: Observable<Specification[]>;
     public show: FormControl = new FormControl('all');

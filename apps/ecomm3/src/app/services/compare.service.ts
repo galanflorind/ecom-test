@@ -2,23 +2,22 @@ import { Inject, Injectable, OnDestroy, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { BehaviorSubject, EMPTY, Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-import { Product, Variant } from '../interfaces/product';
-import { CompareItem } from '../interfaces/compare';
+import { Product, Variant, ProductVariant } from '../interfaces/product';
 
 @Injectable({
     providedIn: 'root',
 })
 export class CompareService implements OnDestroy {
-    private dataItems: CompareItem[] = [];
+    private dataItems: ProductVariant[] = [];
     private destroy$: Subject<void> = new Subject();
-    private itemsSubject$: BehaviorSubject<CompareItem[]> = new BehaviorSubject<CompareItem[]>([]);
-    private onAddingSubject$: Subject<Product> = new Subject();
-    private onAddedSubject$: Subject<Product> = new Subject();
+    private itemsSubject$: BehaviorSubject<ProductVariant[]> = new BehaviorSubject<ProductVariant[]>([]);
+    private onAddingSubject$: Subject<Variant> = new Subject();
+    private onAddedSubject$: Subject<Variant> = new Subject();
 
-    public readonly items$: Observable<CompareItem[]> = this.itemsSubject$.pipe(takeUntil(this.destroy$));
+    public readonly items$: Observable<ProductVariant[]> = this.itemsSubject$.pipe(takeUntil(this.destroy$));
     public readonly count$: Observable<number> = this.itemsSubject$.pipe(map((items) => items.length));
-    public readonly onAdding$: Observable<Product> = this.onAddingSubject$.asObservable();
-    public readonly onAdded$: Observable<Product> = this.onAddedSubject$.asObservable();
+    public readonly onAdding$: Observable<Variant> = this.onAddingSubject$.asObservable();
+    public readonly onAdded$: Observable<Variant> = this.onAddedSubject$.asObservable();
 
     constructor(
         @Inject(PLATFORM_ID) private platformId: any
@@ -37,23 +36,23 @@ export class CompareService implements OnDestroy {
             return;
         }
 
-        // -->Check: if this specific variant of the product was already pushed
+        // -->Find: index
         const index = this.dataItems.findIndex(
             item => item.product._id === product._id && item.variant.id === variant.id
         );
 
-        // -->Add: compare item
+        // -->Check: if product variant was already pushed
         if (index === -1) {
-            // -->Emit: product was added
-            this.onAddingSubject$.next(product);
+            // -->Emit: variant is being added
+            this.onAddingSubject$.next(variant);
 
             // -->Add: compare item
             this.dataItems.push({ product: product, variant: variant });
             // -->Save
             this.save();
         } else {
-            // -->Emit: product was already added previously
-            this.onAddedSubject$.next(product);
+            // -->Emit: variant was already added previously
+            this.onAddedSubject$.next(variant);
         }
 
         // -->Complete
@@ -63,7 +62,7 @@ export class CompareService implements OnDestroy {
     /**
      * Remove: compare item
      */
-    public remove(compareItem: CompareItem): Observable<void> {
+    public remove(compareItem: ProductVariant): Observable<void> {
         // -->Check: compare item
         if (!compareItem) {
             return;

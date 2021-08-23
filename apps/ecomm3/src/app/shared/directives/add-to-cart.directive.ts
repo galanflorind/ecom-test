@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Directive, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { CartService } from '../../services/cart.service';
-import {Product, Variant} from '../../interfaces/product';
+import { Product, Variant } from '../../interfaces/product';
 
 @Directive({
     selector: '[appAddToCart]',

@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Directive, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { CompareService } from '../../services/compare.service';
-import { CompareItem } from '../../interfaces/compare';
+import { ProductVariant } from '../../interfaces/product';
 
 @Directive({
     selector: '[appRemoveFromCompare]',
@@ -21,7 +21,7 @@ export class RemoveFromCompareDirective implements OnDestroy {
     /**
      * Remove: item from compare
      */
-    public remove(compareItem: CompareItem): void {
+    public remove(compareItem: ProductVariant): void {
         // -->Check: item and if remove action is already in progress
         if (!compareItem || this.inProgress) {
             return;

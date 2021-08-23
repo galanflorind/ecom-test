@@ -137,3 +137,8 @@ export interface Product {
         reviews?: number;
     }
 }
+
+export interface ProductVariant {
+    product: Product;
+    variant: Variant;
+}
