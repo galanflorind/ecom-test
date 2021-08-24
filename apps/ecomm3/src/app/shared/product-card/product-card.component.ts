@@ -45,6 +45,7 @@ export class ProductCardComponent implements OnChanges, OnInit, OnDestroy {
         private appService: AppService,
     ) { }
 
+
     public ngOnInit(): void {
         // -->Set: app settings
         this.appSettings = this.appService.settings.getValue();
@@ -55,6 +56,7 @@ export class ProductCardComponent implements OnChanges, OnInit, OnDestroy {
             this.cd.markForCheck();
         });
     }
+
 
     public ngOnChanges(changes: SimpleChanges): void {
         if (changes.product) {
@@ -68,6 +70,7 @@ export class ProductCardComponent implements OnChanges, OnInit, OnDestroy {
             this.product.maxPrice = maxPrice;
         }
     }
+
 
     /**
      * Show: product quickview
@@ -91,20 +94,6 @@ export class ProductCardComponent implements OnChanges, OnInit, OnDestroy {
         });
     }
 
-    // compatibility(): ProductCompatibilityResult {
-    //     if (this.product.compatibility === 'all') {
-    //         return 'all';
-    //     }
-    //     if (this.product.compatibility === 'unknown') {
-    //         return 'unknown';
-    //     }
-    //     // todo:
-    //     // if (this.vehicle && this.product.compatibility.includes(this.vehicle.id)) {
-    //     //     return 'fit';
-    //     // } else {
-    //         return 'not-fit';
-    //     // }
-    // }
 
     public ngOnDestroy(): void {
         this.destroy$.next();

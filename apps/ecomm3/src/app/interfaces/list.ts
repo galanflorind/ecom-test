@@ -1,6 +1,5 @@
 import { Product } from './product';
 import { Filter } from './filter';
-import { Order } from './order';
 import { Review } from './review';
 
 
@@ -37,7 +36,5 @@ export interface FilterableList<T> extends List<T> {
 }
 
 export type ProductsList = PaginatedList<Product> & FilterableList<Product>;
-
-export type OrdersList = PaginatedList<Order>;
 
 export type ReviewsList = PaginatedList<Review>;

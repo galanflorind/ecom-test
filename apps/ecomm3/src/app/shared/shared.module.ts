@@ -23,9 +23,6 @@ import { CollapseContentDirective } from './directives/collapse-content.directiv
 import { CheckboxGroupDirective } from './directives/checkbox-group.directive';
 import { RadioGroupDirective } from './directives/radio-group.directive';
 import { ActiveFilterLabelPipe } from './pipes/active-filter-label.pipe';
-import { CompatibilityToStatusBadgeIconPipe } from './pipes/compatibility-to-status-badge-icon.pipe';
-import { CompatibilityToStatusBadgeTextPipe } from './pipes/compatibility-to-status-badge-text.pipe';
-import { CompatibilityToStatusBadgeTypePipe } from './pipes/compatibility-to-status-badge-type.pipe';
 import { GetProductImagePipe } from './pipes/get-product-image.pipe';
 import { HasErrorPipe } from './pipes/has-error.pipe';
 import { IsInvalidPipe } from './pipes/is-invalid.pipe';
@@ -74,9 +71,6 @@ import { RadioButtonComponent } from './radio-button/radio-button.component';
         CheckboxGroupDirective,
         RadioGroupDirective,
         ActiveFilterLabelPipe,
-        CompatibilityToStatusBadgeIconPipe,
-        CompatibilityToStatusBadgeTextPipe,
-        CompatibilityToStatusBadgeTypePipe,
         GetProductImagePipe,
         HasErrorPipe,
         IsInvalidPipe,
@@ -121,9 +115,6 @@ import { RadioButtonComponent } from './radio-button/radio-button.component';
         CheckboxGroupDirective,
         RadioGroupDirective,
         ActiveFilterLabelPipe,
-        CompatibilityToStatusBadgeIconPipe,
-        CompatibilityToStatusBadgeTextPipe,
-        CompatibilityToStatusBadgeTypePipe,
         GetProductImagePipe,
         HasErrorPipe,
         IsInvalidPipe,

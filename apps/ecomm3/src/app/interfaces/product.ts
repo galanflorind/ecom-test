@@ -28,7 +28,6 @@ export interface ProductAttribute extends BaseAttribute {
 
 export interface ProductOptionValueBase {
     name: string;
-    slug: string; // todo: remove this
     id?: string;
     customFields?: CustomFields;
 }
@@ -56,8 +55,6 @@ export interface ProductOptionColor extends ProductOptionBase {
 }
 
 export type ProductOption = ProductOptionDefault | ProductOptionColor;
-
-export type ProductCompatibilityResult = 'all' | 'fit' | 'not-fit' | 'unknown';
 
 export interface Category {
     id: string;

@@ -66,6 +66,7 @@ export class PageProductComponent implements OnInit, OnDestroy {
         private toastr: ToastrService
     ) { }
 
+
     public ngOnInit(): void {
         // -->Set: app settings
         this.appSettings = this.appService.settings.getValue();
@@ -131,6 +132,7 @@ export class PageProductComponent implements OnInit, OnDestroy {
         });
     }
 
+
     /**
      * Refresh: product specifications
      */
@@ -172,12 +174,14 @@ export class PageProductComponent implements OnInit, OnDestroy {
         })
     }
 
+
     /**
      * Scroll: to tabs
      */
     public scrollToTabs(): void {
         this.tabsElement.scrollIntoView({ behavior: 'smooth' });
     }
+
 
     /**
      * Add: product variant to card
@@ -216,17 +220,6 @@ export class PageProductComponent implements OnInit, OnDestroy {
         ).subscribe();
     }
 
-    /**
-     * Get: product compatibility
-     */
-    // public compatibility(): ProductCompatibilityResult {
-    //     if (this.product.compatibility === 'all') {
-    //         return 'all';
-    //     }
-    //     if (this.product.compatibility === 'unknown') {
-    //         return 'unknown';
-    //     }
-    // }
 
     /**
      * Refresh: specifications based on new variant
@@ -283,8 +276,8 @@ export class PageProductComponent implements OnInit, OnDestroy {
                 }
             ]
         }
-
     }
+
 
     public ngOnDestroy() {
         this.subs.unsubscribe();
