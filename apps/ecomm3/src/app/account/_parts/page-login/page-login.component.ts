@@ -22,6 +22,7 @@ export class PageLoginComponent implements OnInit, OnDestroy {
         private naoUsersService: NaoUserAccessService,
     ) { }
 
+
     public ngOnInit(): void {
         this.formGroup = this.fb.group({
             email: [null, [Validators.required, Validators.email]],
@@ -29,6 +30,7 @@ export class PageLoginComponent implements OnInit, OnDestroy {
             rememberMe: [false],
         });
     }
+
 
     /**
      * Log: user in
@@ -72,6 +74,7 @@ export class PageLoginComponent implements OnInit, OnDestroy {
                 this.loginInProgress = false;
             });
     }
+
 
     public ngOnDestroy(): void {
         this.destroy$.next();

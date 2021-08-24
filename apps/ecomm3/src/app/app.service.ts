@@ -16,7 +16,7 @@ export class AppService implements OnDestroy {
     public readonly settings = new BehaviorSubject<NaoSettingsInterface.Settings>({
         rating: false,
         freeShipping: false,
-        hotOffers: false
+        hotOffers: false,
     });
     /**
      * All the info you need

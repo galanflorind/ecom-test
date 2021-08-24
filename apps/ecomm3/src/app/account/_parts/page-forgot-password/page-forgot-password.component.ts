@@ -25,13 +25,16 @@ export class PageForgotPasswordComponent implements OnInit, OnDestroy {
         private toastr: ToastrService,
         private translate: TranslateService,
         private userProfileService: AccountProfileService,
-    ) { }
+    ) {
+    }
+
 
     public ngOnInit(): void {
         this.formGroup = this.fb.group({
             email: [null, [Validators.required, Validators.email]],
         });
     }
+
 
     /**
      * Reset: user password
@@ -55,7 +58,7 @@ export class PageForgotPasswordComponent implements OnInit, OnDestroy {
                 this.resetInProgress = false;
                 // -->Redirect
                 // return this.router.navigate(['/', 'account', 'dashboard']);
-            },(err) => {
+            }, (err) => {
                 // -->Done: loading
                 this.resetInProgress = false;
 
@@ -65,6 +68,7 @@ export class PageForgotPasswordComponent implements OnInit, OnDestroy {
                 this.formGroup.reset();
             });
     }
+
 
     public ngOnDestroy(): void {
         this.destroy$.next();

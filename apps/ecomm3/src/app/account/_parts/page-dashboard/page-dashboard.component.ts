@@ -11,7 +11,6 @@ import { UrlService } from "../../../services/url.service";
 export class PageDashboardComponent implements OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
     private subs = new Subscription();
-
     public address!: NaoUsersInterface.Address;
     public userData = null;
 
@@ -19,6 +18,7 @@ export class PageDashboardComponent implements OnInit, OnDestroy {
         private naoUsersService: NaoUserAccessService,
         public url: UrlService,
     ) { }
+
 
     public ngOnInit(): void {
         // -->Subscribe: to userData
@@ -39,6 +39,7 @@ export class PageDashboardComponent implements OnInit, OnDestroy {
             })
         )
     }
+
 
     public ngOnDestroy(): void {
         this.subs.unsubscribe();

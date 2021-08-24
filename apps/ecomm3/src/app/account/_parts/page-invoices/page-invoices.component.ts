@@ -53,6 +53,7 @@ export class PageInvoicesComponent implements OnInit, OnDestroy {
             .skip((this.currentPage.value - 1) * this.perPage)
             .returnDataModel({_id: 1, data: 1, info: 1, fullData: 1})
             .done();
+
         // -->Execute: query to get invoice list
         this.refreshSubs = this.eCommerceService.listInvoices(query).subscribe(res => {
             if (res && Array.isArray(res.data)) {

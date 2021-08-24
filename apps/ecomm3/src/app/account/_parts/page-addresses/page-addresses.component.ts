@@ -13,10 +13,10 @@ import { AccountProfileService } from "../../account-profile.service";
 })
 export class PageAddressesComponent implements OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
-
     public addresses: NaoUsersInterface.Address[] = [];
     public removeInProgress: string[] = [];
     public subs = new Subscription();
+
 
     constructor(
         private naoUsersService: NaoUserAccessService,
@@ -25,6 +25,7 @@ export class PageAddressesComponent implements OnInit, OnDestroy {
         private translate: TranslateService,
         private userProfileService: AccountProfileService,
     ) { }
+
 
     public ngOnInit(): void {
         // -->Subscribe: to linkedDoc
@@ -38,6 +39,7 @@ export class PageAddressesComponent implements OnInit, OnDestroy {
             })
         )
     }
+
 
     /**
      * Remove: address from user profile
@@ -73,7 +75,7 @@ export class PageAddressesComponent implements OnInit, OnDestroy {
                     this.toastr.success(
                         this.translate.instant('TOASTER_ADDRESS_DELETED'),
                     );
-                    // -->Show: toaster
+
                 }).catch(err => {
                     // -->Show: toaster
                     this.toastr.error(this.translate.instant('ERROR_API_REQUEST'));
@@ -87,6 +89,7 @@ export class PageAddressesComponent implements OnInit, OnDestroy {
             this.toastr.error(this.translate.instant('ERROR_API_REQUEST'));
         })
     }
+
 
     public ngOnDestroy(): void {
         this.subs.unsubscribe();

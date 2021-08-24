@@ -60,6 +60,7 @@ export class PageCartComponent implements OnInit, OnDestroy {
 
         // -->Start: loading
         this.updating = true;
+
         // -->Update: cart items
         this.cart.update(entries).pipe(takeUntil(this.destroy$)).subscribe({
             complete: () => {
@@ -68,6 +69,7 @@ export class PageCartComponent implements OnInit, OnDestroy {
             }
         });
     }
+
 
     /**
      * Check: if update is needed
@@ -91,6 +93,7 @@ export class PageCartComponent implements OnInit, OnDestroy {
 
         return needUpdate;
     }
+
 
     public ngOnDestroy(): void {
         this.destroy$.next();

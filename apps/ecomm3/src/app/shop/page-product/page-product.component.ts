@@ -140,31 +140,33 @@ export class PageProductComponent implements OnInit, OnDestroy {
             this.router.navigateByUrl(this.url.allProducts()).then();
             return
         }
+        // -->Execute:
         this.eCommerceService.productsGet(this.docId).subscribe(res =>{
-            // todo: validate
+            // -->Set: data
             this.product = res?.data[0] || null;
-
+            // -->Check: product
             if (!this.product || !this.product.data) {
                 // -->Redirect
                 this.router.navigateByUrl(this.url.allProducts()).then();
-            }
-            // -->Refresh: specifications
-            this.refreshSpecifications();
+            } else {
+                // -->Refresh: specifications
+                this.refreshSpecifications();
 
-            // todo: we need to unsubscribe on each refresh???
-            // -->Subscribe: to options change and change the variant id
-            this.subs.add(
-                this.form.get('options').valueChanges.subscribe(value => {
-                    // -->Match: search for variant index
-                    const index = this.product.data.variants.findIndex(v => v.id === value?.variantId);
-                    // -->Set: variant index
-                    if (index > -1) {
-                        this.variantIndex = index;
-                    }
-                    // -->Refresh: specifications
-                    this.refreshSpecifications();
-                })
-            )
+                // -->Subscribe: to options change and change the variant id
+                this.subs.add(
+                    this.form.get('options').valueChanges.subscribe(value => {
+                        // -->Match: search for variant index
+                        const index = this.product.data.variants.findIndex(v => v.id === value?.variantId);
+                        // -->Set: variant index
+                        if (index > -1) {
+                            this.variantIndex = index;
+                        }
+                        // -->Refresh: specifications
+                        this.refreshSpecifications();
+                    })
+                )
+            }
+
         }, err => {
             // todo: check error
         })

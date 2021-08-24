@@ -4,4 +4,5 @@ export interface User {
     firstName: string;
     lastName: string;
     avatar: string;
+    // todo: our own interface for User
 }

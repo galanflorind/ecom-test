@@ -53,23 +53,23 @@ export class PageEditAddressComponent implements OnInit, OnDestroy {
         this.subs.add(
             this.route.params
                 .subscribe(params => {
-                        // -->Set: address id
-                        this.addressId = params.id;
-                        // -->Search: for address
-                        const address = this.addresses.find(item => item.id === this.addressId);
-                        if (address) {
-                            // -->Update: form group
-                            this.formGroup.setValue({
-                                id: address.id,
-                                country: address.country,
-                                line_1: address.line_1,
-                                line_2: address.line_2,
-                                city: address.city,
-                                state: address.state,
-                                type: address.type,
-                                zip: address.zip,
-                            });
-                        }
+                    // -->Set: address id
+                    this.addressId = params.id;
+                    // -->Search: for address
+                    const address = this.addresses.find(item => item.id === this.addressId);
+                    if (address) {
+                        // -->Update: form group
+                        this.formGroup.setValue({
+                            id: address.id,
+                            country: address.country,
+                            line_1: address.line_1,
+                            line_2: address.line_2,
+                            city: address.city,
+                            state: address.state,
+                            type: address.type,
+                            zip: address.zip,
+                        });
+                    }
                     }
                 )
         );
@@ -85,6 +85,7 @@ export class PageEditAddressComponent implements OnInit, OnDestroy {
         if (this.saveInProgress || this.formGroup.invalid) {
             return;
         }
+
         // -->Start: loading
         this.saveInProgress = true;
         // -->Get: address
@@ -107,6 +108,7 @@ export class PageEditAddressComponent implements OnInit, OnDestroy {
         const data = {
             addresses: this.addresses
         }
+
         // -->Update
         this.userProfileService.update('addresses', data).subscribe(res => {
             if (res && res.ok) {
@@ -147,6 +149,7 @@ export class PageEditAddressComponent implements OnInit, OnDestroy {
             this.toastr.error(this.translate.instant('ERROR_API_REQUEST'));
         })
     }
+
 
     public ngOnDestroy(): void {
         this.subs.unsubscribe();

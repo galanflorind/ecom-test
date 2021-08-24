@@ -36,7 +36,7 @@ export class ShopService {
         searchTerm: null
     };
 
-    // getters for list todo: this is not working properly
+    // getters for list
     public get items(): Product[] { return this.listState?.items; }
     public get page(): number { return this.listState?.page; }
     public get limit(): number { return this.listState?.limit; }
