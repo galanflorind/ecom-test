@@ -24,7 +24,7 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
     private destroy$: Subject<void> = new Subject<void>();
 
     public query$: BehaviorSubject<string> = new BehaviorSubject<string>(null);
-
+    public disableSearch$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     /**
      * TODO: when we have suggestions, uncomment everything from both html and ts files
      */
@@ -42,6 +42,7 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
         private page: ShopService,
         private router: Router
     ) { }
+
 
     public ngOnInit(): void {
         // this.query$.pipe(
@@ -62,12 +63,23 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
         //     this.categories = result.categories;
         // });
 
-        // -->Subscribe: to search
+        // -->Subscribe: to query changes
         this.query$.pipe(distinctUntilChanged(), debounceTime(600)).subscribe(searchTerm => {
             // -->Trigger: search
-            this.page.setSearchTerm(searchTerm);
-        })
+            //this.page.setSearchTerm(searchTerm);
+
+            // -->Enable: search after query change
+            this.disableSearch$.next(false);
+        });
+
+        // -->Subscribe: to searchTerm page option changes
+        this.page.optionsChange$.subscribe(() => {
+            if(this.page.options.searchTerm) {
+                this.query$.next(this.page.options.searchTerm ?? '');
+            }
+        });
     }
+
 
     public ngAfterViewInit(): void {
         if (!isPlatformBrowser(this.platformId)) {
@@ -108,14 +120,6 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
         // });
     }
 
-    /**
-     * Emit: search term updates
-     */
-    public onSearchKeyUp(event: Event): void {
-        // const input = event.target as HTMLInputElement;
-
-        // this.query$.next(input.value);
-    }
 
     /**
      * Search: term and redirect
@@ -125,8 +129,10 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
         this.router.navigateByUrl('/shop').then();
         // -->Trigger: search
         this.page.setSearchTerm(this.query$.getValue());
-
+        // -->Disable: search until query changes
+        this.disableSearch$.next(true);
     }
+
 
     // /**
     //  * Toggle: suggestions
@@ -134,6 +140,7 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
     // public toggleSuggestions(force?: boolean): void {
     //     this.suggestionsIsOpen = force !== undefined ? force : !this.suggestionsIsOpen;
     // }
+
 
     public ngOnDestroy(): void {
         this.destroy$.next();

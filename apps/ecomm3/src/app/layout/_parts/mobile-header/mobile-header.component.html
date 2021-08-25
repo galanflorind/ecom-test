@@ -17,10 +17,13 @@
                     type="text"
                     id="mobile-site-search"
                     class="mobile-search__input"
+                    [value]='query$.getValue()'
                     [placeholder]="searchPlaceholder$|async"
+                    (keyup)="onSearchKeyUp(searchInput.value)"
                     #searchInput
                 >
-                <button type="submit" class="mobile-search__button mobile-search__button--search" (click)="searchAndRedirect(searchInput.value)">
+                <button type="submit" class="mobile-search__button mobile-search__button--search"
+                        [disabled]="disableSearch$.getValue()" (click)="searchAndRedirect()">
                     <app-icon icon="search-20"></app-icon>
                 </button>
                 <button

@@ -1,0 +1,52 @@
+/*
+// .error-page
+*/
+
+.error-page {
+    position: fixed;
+    left: 0;
+    top: 25vh;
+    right: 0;
+    text-align: center;
+    padding: 36px 0;
+
+    &__500 {
+        font-size: 80px;
+        font-weight: $font-weight-bold;
+        color: map_get($body-scheme, divider);
+        padding: 20px 0 4px;
+    }
+
+    &__content {
+        width: 480px;
+        max-width: 100%;
+        margin: 0 auto;
+    }
+
+    &__title {
+        margin-bottom: 24px;
+        font-weight: $font-weight-bold;
+    }
+
+    &__text {
+        margin-bottom: 20px;
+    }
+}
+
+
+@include media-breakpoint-down(md) {
+    .error-page__500 {
+        font-size: 60px;
+    }
+}
+
+@include media-breakpoint-down(sm) {
+    .error-page__500 {
+        font-size: 50px;
+        line-height: 54px;
+        padding: 40px 0 32px;
+    }
+    .error-page__title {
+        margin-bottom: 20px;
+    }
+}

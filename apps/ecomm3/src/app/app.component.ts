@@ -20,6 +20,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
 
     public infoLoading = true;
+    public infoError = false;
 
     constructor(
         @Inject(DOCUMENT) private document: Document,
@@ -50,34 +51,15 @@ export class AppComponent implements OnInit, OnDestroy {
             this.zone.runOutsideAngular(() => {
                 this.appService.appInfo.pipe(
                     filter(info => info)
-                ).subscribe(() => {
-                    // -->Set: loading
-                    this.infoLoading = false;
+                ).subscribe((info) => {
+                    // -->Done: loading
+                    this.doneLoading();
+                }, (error) => {
+                    // -->Done: loading
+                    this.doneLoading();
 
-                    const preloaderElement = this.document.querySelector('.site-preloader');
-
-                    // -->Check: preloader
-                    if (!preloaderElement) {
-                        return;
-                    }
-
-                    // -->Listen: to transitionend event
-                    preloaderElement.addEventListener('transitionend', (event: Event) => {
-                        if (event instanceof TransitionEvent && event.propertyName === 'opacity') {
-                            // -->Remove: preloader element
-                            preloaderElement.remove();
-                            // -->Clear: preloader styles
-                            this.document.querySelector('.site-preloader-style')?.remove();
-                        }
-                    });
-                    preloaderElement.classList.add('site-preloader__fade');
-
-                    // Sometimes, due to unexpected behavior, the browser (in particular Safari) may not play the transition, which leads
-                    // to blocking interaction with page elements due to the fact that the preloader is not deleted.
-                    // The following block covers this case.
-                    if (getComputedStyle(preloaderElement).opacity === '0' && preloaderElement.parentNode) {
-                        preloaderElement.parentNode.removeChild(preloaderElement);
-                    }
+                    // -->Show: error page
+                    this.infoError = true;
                 });
             });
         }
@@ -115,6 +97,41 @@ export class AppComponent implements OnInit, OnDestroy {
             );
         });
     }
+
+
+    /**
+     * Clean: up loading element
+     */
+    private doneLoading(): void {
+        // -->Done: loading
+        this.infoLoading = false;
+
+        const preloaderElement = this.document.querySelector('.site-preloader');
+
+        // -->Check: preloader
+        if (!preloaderElement) {
+            return;
+        }
+
+        // -->Listen: to transitionend event
+        preloaderElement.addEventListener('transitionend', (event: Event) => {
+            if (event instanceof TransitionEvent && event.propertyName === 'opacity') {
+                // -->Remove: preloader element
+                preloaderElement.remove();
+                // -->Clear: preloader styles
+                this.document.querySelector('.site-preloader-style')?.remove();
+            }
+        });
+        preloaderElement.classList.add('site-preloader__fade');
+
+        // Sometimes, due to unexpected behavior, the browser (in particular Safari) may not play the transition, which leads
+        // to blocking interaction with page elements due to the fact that the preloader is not deleted.
+        // The following block covers this case.
+        if (getComputedStyle(preloaderElement).opacity === '0' && preloaderElement.parentNode) {
+            preloaderElement.parentNode.removeChild(preloaderElement);
+        }
+    }
+
 
     public ngOnDestroy(): void {
         this.destroy$.next();

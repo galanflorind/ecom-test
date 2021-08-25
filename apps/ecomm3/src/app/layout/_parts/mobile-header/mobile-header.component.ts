@@ -11,8 +11,8 @@ import {
 import { isPlatformBrowser } from '@angular/common';
 import {Router} from "@angular/router";
 import { TranslateService } from '@ngx-translate/core';
-import { Observable, Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { fromOutsideClick } from '../../../shared/functions/rxjs/from-outside-click';
 import { LayoutMobileMenuService } from '../../layout-mobile-menu.service';
 import { CartService } from '../../../services/cart.service';
@@ -29,6 +29,8 @@ export class MobileHeaderComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public searchIsOpen = false;
     public searchPlaceholder$!: Observable<string>;
+    public query$: BehaviorSubject<string> = new BehaviorSubject<string>(null);
+    public disableSearch$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
     @ViewChild('searchForm') searchForm!: ElementRef<HTMLElement>;
     @ViewChild('searchInput') searchInput!: ElementRef<HTMLElement>;
@@ -45,9 +47,24 @@ export class MobileHeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         private router: Router
     ) { }
 
+
     public ngOnInit(): void {
         this.searchPlaceholder$ = this.translate.stream('INPUT_SEARCH_PLACEHOLDER')
+
+        // -->Subscribe: to query changes
+        this.query$.pipe(distinctUntilChanged(), debounceTime(600)).subscribe(() => {
+            // -->Enable: search after query change
+            this.disableSearch$.next(false);
+        });
+
+        // -->Subscribe: to searchTerm page option changes
+        this.page.optionsChange$.subscribe(() => {
+            if(this.page.options.searchTerm) {
+                this.query$.next(this.page.options.searchTerm ?? '');
+            }
+        });
     }
+
 
     public ngAfterViewInit(): void {
         if (!isPlatformBrowser(this.platformId)) {
@@ -68,6 +85,7 @@ export class MobileHeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         });
     }
 
+
     /**
      * Open: search section
      */
@@ -79,15 +97,27 @@ export class MobileHeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         }
     }
 
+
+    /**
+     * Emit: search term updates
+     */
+    public onSearchKeyUp(searchInputValue: string): void {
+        this.query$.next(searchInputValue);
+    }
+
+
     /**
      * Search: term and redirect
      */
-    public searchAndRedirect(searchTerm: string): void {
+    public searchAndRedirect(): void {
         // -->Redirect: to shop
         this.router.navigateByUrl('/shop').then();
         // -->Trigger: search
-        this.page.setSearchTerm(searchTerm);
+        this.page.setSearchTerm(this.query$.getValue());
+        // -->Disable: search until query changes
+        this.disableSearch$.next(true);
     }
+
 
     /**
      * Close: search secton
@@ -95,6 +125,7 @@ export class MobileHeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     public closeSearch(): void {
         this.searchIsOpen = false;
     }
+
 
     public ngOnDestroy(): void {
         this.destroy$.next();

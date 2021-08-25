@@ -290,6 +290,10 @@ export class PageShopComponent implements OnInit, OnDestroy {
         if (options.hasOwnProperty('sort') && options.sort !== this.page.defaultOptions.sort) {
             params.sort = options.sort ? options.sort : this.page.defaultOptions.sort;
         }
+        // -->Check: searchTerm
+        if (options.hasOwnProperty('searchTerm') && options.searchTerm !== this.page.defaultOptions.searchTerm) {
+            params.searchTerm = options.searchTerm ? options.searchTerm : this.page.defaultOptions.searchTerm;
+        }
         // -->Check: filters
         if (options.hasOwnProperty('filters') && this.page.filters) {
             this.page.filters
@@ -339,6 +343,11 @@ export class PageShopComponent implements OnInit, OnDestroy {
             // -->Check: sort
             if (param.hasOwnProperty('sort') && param['sort']) {
                 this.page.options.sort = param['sort'];
+            }
+            // -->Check: searchTerm
+            if (param.hasOwnProperty('searchTerm') &&  param['searchTerm']) {
+                this.page.setOptionValue('searchTerm', param['searchTerm']);
+                //this.page.options.searchTerm = param['searchTerm'];
             }
             // -->Check: price filter
             if (param.hasOwnProperty('filter_price') && param['filter_price']) {

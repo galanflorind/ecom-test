@@ -56,13 +56,15 @@ export class AppService implements OnDestroy {
                 // -->Set: app info
                 this.appInfo.next(info$);
             }
+
             // -->Fresh: the data
             this.eCommerceService.getInfo().subscribe(info$ => {
                 if (info$ && info$.ok) {
                     // -->Set: app info
                     this.appInfo.next(info$.data);
                 } else {
-                    // todo: address error when the request didn't resolve correctly
+                    // -->Emit: error
+                    this.appInfo.error("The request didn't resolve correctly");
                 }
             });
         });
