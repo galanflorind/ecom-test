@@ -4,8 +4,8 @@ import { TranslateService } from "@ngx-translate/core";
 import { ToastrService } from "ngx-toastr";
 import { Subject, Subscription } from 'rxjs';
 import { QuickMongoQuery } from "@naologic/nao-utils";
-import { UrlService } from '../../../services/url.service';
-import { ECommerceService } from "../../../e-commerce.service";
+import { UrlService } from '../../services/url.service';
+import { ECommerceService } from "../../e-commerce.service";
 
 @Component({
     selector: 'app-page-orders',

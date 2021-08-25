@@ -3,9 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { NaoUserAccessService } from "@naologic/nao-user-access";
-import { AccountAuthService } from "../../account-auth.service";
-import { mustMatchValidator } from '../../../shared/functions/validators/must-match';
-import { checkPasswordStrength } from '../../../shared/functions/validators/password-strength';
+import { AccountAuthService } from "../account-auth.service";
+import { mustMatchValidator } from '../../shared/functions/validators/must-match';
+import { checkPasswordStrength } from '../../shared/functions/validators/password-strength';
 
 @Component({
     selector: 'app-page-register',

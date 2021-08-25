@@ -3,8 +3,8 @@ import { TranslateService } from "@ngx-translate/core";
 import { ToastrService } from "ngx-toastr";
 import { Subject, Subscription } from 'rxjs';
 import { NaoUserAccessService, NaoUsersInterface } from "@naologic/nao-user-access";
-import { UrlService } from '../../../services/url.service';
-import { AccountProfileService } from "../../account-profile.service";
+import { UrlService } from '../../services/url.service';
+import { AccountProfileService } from "../account-profile.service";
 
 @Component({
     selector: 'app-page-addresses',

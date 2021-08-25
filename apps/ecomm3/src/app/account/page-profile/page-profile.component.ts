@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, Subscription } from 'rxjs';
 import { NaoUserAccessService } from "@naologic/nao-user-access";
-import { AccountProfileService } from "../../account-profile.service";
+import { AccountProfileService } from "../account-profile.service";
 
 @Component({
     selector: 'app-page-profile',

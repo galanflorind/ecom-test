@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 import { NaoUserAccessService, NaoUsersInterface } from "@naologic/nao-user-access";
-import { UrlService } from "../../../services/url.service";
+import { UrlService } from "../../services/url.service";
 
 @Component({
     selector: 'app-page-dashboard',

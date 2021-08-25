@@ -4,8 +4,8 @@ import { Router } from "@angular/router";
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
-import { mustMatchValidator } from '../../../shared/functions/validators/must-match';
-import { AccountProfileService } from "../../account-profile.service";
+import { mustMatchValidator } from '../../shared/functions/validators/must-match';
+import { AccountProfileService } from "../account-profile.service";
 
 @Component({
     selector: 'app-page-password',

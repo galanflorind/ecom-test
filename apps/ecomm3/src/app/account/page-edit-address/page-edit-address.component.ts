@@ -6,8 +6,8 @@ import { ToastrService } from "ngx-toastr";
 import { Subject, Subscription } from 'rxjs';
 import { generateRandomString } from "@naologic/nao-utils";
 import { NaoUserAccessService, NaoUsersInterface } from "@naologic/nao-user-access";
-import { ActiveCountryList } from "../../../app.locale";
-import { AccountProfileService } from "../../account-profile.service";
+import { ActiveCountryList } from "../../app.locale";
+import { AccountProfileService } from "../account-profile.service";
 
 @Component({
     selector: 'app-page-edit-address',
