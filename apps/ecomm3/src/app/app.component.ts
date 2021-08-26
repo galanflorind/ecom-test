@@ -47,10 +47,10 @@ export class AppComponent implements OnInit, OnDestroy {
         this.appService.refreshInfo();
 
         if (isPlatformBrowser(this.platformId)) {
+
             this.zone.runOutsideAngular(() => {
-                this.appService.appInfo.pipe(
-                    filter(info => info)
-                ).subscribe((info) => {
+                this.appService.appInfo.pipe(filter(info => info))
+                    .subscribe((info) => {
                     // -->Done: loading
                     this.doneLoading();
 

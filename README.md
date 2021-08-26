@@ -46,7 +46,6 @@ Find bellow the overall project structure.
     │           ├── assets                          # Site assets (images, internationalization files)
     │           ├── environments                    # Environments configurations
     │           └── scss                            # Styles
-    ├── dist                                        # Compiled files
     ├── libs                                        # Libraries
     │   ├── nao-http2                               # Public library to handle http requests
     │   ├── nao-interfaces                          # Public library that holds nao interfaces (options, requests, settings)
@@ -81,7 +80,7 @@ Legend:
     ''  ->  HomeComponent
 
 #### Shop routes
-    ''                                             -->  PageShopComponent
+    ''                                              ->  PageShopComponent
     'category/products'                             ->  PageShopComponent
     'category/:categorySlug/:categoryId/products'   ->  PageShopComponent
     'products/:productSlug/:productId'              ->  PageProductComponent
