@@ -21,6 +21,60 @@
 ## About The Project
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.0.
 
+## Routing schema
+`AppBrowserModule` module is the entry point of the application. It bootstraps the `AppComponent` component which will redirect us to the `RootComponent` component of the `LayoutModule` module after loading was completed with no errors.
+`RootComponent` takes care of the site structure and renders navigation from children routes. This makes it possible that the header and footer of the site are always visible.
+
+The main children routes registered (using lazy loading) are the following:
+
+    .
+    ├── ''          ->  HomeModule
+    ├── 'shop'      ->  ShopModule
+    ├── 'account'   ->  AccountModule
+    └── 'site'      ->  SiteModule
+
+### Home routes
+
+    .
+    └── ''  ->  HomeComponent
+
+### Shop routes
+
+    .
+    ├── 'shop/'
+        ├── ''                                              ->  PageShopComponent
+        ├── 'category/products'                             ->  PageShopComponent
+        ├── 'category/:categorySlug/:categoryId/products'   ->  PageShopComponent
+        ├── 'products/:productSlug/:productId'              ->  PageProductComponent
+        ├── 'cart'                                          ->  PageCartComponent
+        ├── 'checkout'                                      ->  PageCheckoutComponent
+        ├── 'wishlist'                                      ->  PageWishlistComponent
+        └── 'compare'                                       ->  PageCompareComponent
+
+### Account routes
+
+    .
+    ├── 'account/'
+        ├── ''              ->  LayoutComponent
+        ├── 'dashboard'     ->  PageDashboardComponent
+        ├── 'profile'       ->  PageProfileComponent
+        ├── 'invoices'      ->  PageInvoicesComponent
+        ├── 'addresses'     ->  PageAddressesComponent
+        ├── 'addresses/new' ->  PageEditAddressComponent
+        ├── 'addresses/:id' ->  PageEditAddressComponent
+        ├── 'password'      ->  PagePasswordComponent
+        ├── 'login'         ->  PageLoginComponent
+        └── 'register'      ->  PageRegisterComponent
+    
+### Site routes
+
+    .
+    ├── 'site/'
+        ├── ''              ->  PageAboutUsComponent
+        ├── 'about-us'      ->  PageAboutUsComponent
+        ├── 'terms'         ->  PageTermsComponent
+        └── 'faq'           ->  PageFaqComponent
+
 ## Project Structure
 Find bellow the overall project structure.
 
@@ -59,53 +113,6 @@ For more details about any of the showcased items please scroll down to its desi
 
 ### App directory
 App directory contains the source code of the ecomm3 application. It leverages some actions such as API interaction and user access and permission management by using naologic libraries.
-
-### Routing schema
-`AppBrowserModule` module is the entry point of the application. It bootstraps the `AppComponent` component which will redirect us to the `RootComponent` component of the `LayoutModule` module after loading was completed with no errors.
-`RootComponent` takes care of the site structure and renders navigation from children routes. This makes it possible that the header and footer of the site are always visible.
-
-The main children routes registered (using lazy loading) are the following:
-
-    ''          ->  HomeModule
-    'shop'      ->  ShopModule
-    'account'   ->  AccountModule
-    'site'      ->  SiteModule
-
-Legend:
-- elements inside `''` are route paths
-- `->` indicates the path is being handled by the module or component that follows that symbol
-- `-->` indicates redirection
-
-#### Home routes
-    ''  ->  HomeComponent
-
-#### Shop routes
-    ''                                              ->  PageShopComponent
-    'category/products'                             ->  PageShopComponent
-    'category/:categorySlug/:categoryId/products'   ->  PageShopComponent
-    'products/:productSlug/:productId'              ->  PageProductComponent
-    'cart'                                          ->  PageCartComponent
-    'checkout'                                      ->  PageCheckoutComponent
-    'wishlist'                                      ->  PageWishlistComponent
-    'compare'                                       ->  PageCompareComponent
-
-#### Account routes
-    ''              ->  LayoutComponent
-    'dashboard'     ->  PageDashboardComponent
-    'profile'       ->  PageProfileComponent
-    'invoices'      ->  PageInvoicesComponent
-    'addresses'     ->  PageAddressesComponent
-    'addresses/new' ->  PageEditAddressComponent
-    'addresses/:id' ->  PageEditAddressComponent
-    'password'      ->  PagePasswordComponent
-    'login'         ->  PageLoginComponent
-    'register'      ->  PageRegisterComponent
-
-#### Site routes
-    ''             -->  PageAboutUsComponent
-    'about-us'      ->  PageAboutUsComponent
-    'terms'         ->  PageTermsComponent
-    'faq'           ->  PageFaqComponent
 
 ### Account module
 `AccountModule` module main responsibilities are handling user authentication and profile edition. The module structure can be found bellow:

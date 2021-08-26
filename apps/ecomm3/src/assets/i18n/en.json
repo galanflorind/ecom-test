@@ -258,6 +258,11 @@
   "TABLE_TOTAL_SHIPPING": "Shipping",
   "TABLE_TOTAL_TAX": "Tax",
 
+  "TEXT_ABOUT_US_TITLE": "About us",
+  "TEXT_FAQ_TITLE": "Frequently Asked Questions",
+  "TEXT_FAQ_FOOTER_TITLE": "Still have questions?",
+  "TEXT_FAQ_FOOTER_SUBTITLE": "We will be happy to answer any questions you may have.",
+  "TEXT_TERMS_AND_CONDITIONS": "Terms and Conditions",
   "TEXT_ACTIVE_FILTERS": "Active Filters",
   "TEXT_ALERT_RETURNING_CUSTOMER": "Returning customer?|Click here to login|",
   "TEXT_ALERT_UNABLE_TO_FIND_VEHICLE_BY_VIN": "We were unable to find a vehicle. Perhaps you specified an incorrect VIN.",

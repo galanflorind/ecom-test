@@ -227,6 +227,31 @@
     margin-top: 18px;
 }
 
+.home-showcase-primary-product {
+    .showcase-product-name {
+        font-size: 45px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+    .showcase-product-description {
+        font-size: 18px;
+        font-weight: 500;
+        margin-bottom: 20px;
+        color: #6c7177;
+    }
+
+    .featured-product-image {
+        max-height: 400px;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 20px;
+
+        @include media-breakpoint-up(sm) {
+            max-width: 450px;
+        }
+    }
+}
 
 @import 'product--layout--sidebar';
 @import 'product--layout--full';

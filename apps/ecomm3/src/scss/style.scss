@@ -1,159 +1,18 @@
-/* ----------------------------------------
-// Table of Contents:
-// - Base
-//   - variables
-//   - functions
-//   - mixins/direction
-//   - mixins/breakpoints
-//   - mixins/scheme
-// - Common
-//   - animations
-//   - base
-//   - .document
-//   - grid
-//   - header
-//   - .site
-// - Components
-//   - .alert
-//   - .arrow
-//   - .breadcrumb
-//   - .btn
-//   - .button-toggle
-//   - .card
-//   - .card-table
-//   - .collapse-area
-//   - .container
-//   - .decor
-//   - .filters-button
-//   - .form
-//   - .form-control
-//   - .image
-//   - .input-check
-//   - .input-check-color
-//   - .input-number
-//   - .input-radio
-//   - .input-radio-color
-//   - .input-radio-label
-//   - .layout-switcher
-//   - .loading-bar
-//   - .modal
-//   - .ngx-slider
-//   - .ngx-toastr
-//   - .nouislider
-//   - .owl-prevent-click
-//   - .pagination
-//   - .rating
-//   - .section-header
-//   - .select2
-//   - .share-links
-//   - .shop-features
-//   - .sidebar
-//   - .social-links
-//   - .status-badge
-//   - .tag-badge
-//   - .tags
-//   - .teammate
-//   - .timer
-//   - .tooltip
-//   - .typography
-//   - .view-options
-//   - .widget
-// - Filters
-//   - .filter
-//   - .filter-category
-//   - .filter-color
-//   - .filter-list
-//   - .filter-range
-//   - .filter-rating
-// - Header
-//   - .header
-//   - .logo
-//   - .menu
-//   - .main-menu
-//   - .megamenu
-//   - .account-menu
-//   - .search
-//   - .departments
-//   - .dropcart
-//   - .indicator
-//   - .phone
-//   - .suggestions
-//   - .topbar
-// - Mobile Header
-//   - .mobile-header
-//   - .mobile-indicator
-//   - .mobile-logo
-//   - .mobile-menu
-//   - .mobile-search
-// - Footer
-//   - .footer-contacts
-//   - .footer-links
-//   - .footer-newsletter
-//   - .site-footer
-// - Pages
-//   - .about
-//   - .contacts
-//   - .faq
-//   - .error
-// - Blocks
-//   - .block-brands
-//   - .block-empty
-//   - .block-features
-//   - .block-header
-//   - .block-products-carousel
-//   - .block-slideshow
-//   - .block-space
-//   - .block-split
-// - Widgets
-//   - .widget-filters
-//   - .widget-products
-// - Shop
-//   - .analogs-table
-//   - .applied-filters
-//   - .cart
-//   - .cart-table
-//   - .categories-list
-//   - .category-card
-//   - .checkout
-//   - .compare
-//   - .compare-table
-//   - .order-header
-//   - .order-list
-//   - .order-success
-//   - .payment-methods
-//   - .product
-//   - .product-card
-//   - .product-variants
-//   - .product-gallery
-//   - .product-tabs
-//   - .products-list
-//   - .products-view
-//   - .quickview
-//   - .review
-//   - .reviews-list
-//   - .reviews-view
-//   - .spec
-//   - .wishlist
-// - Account
-//   - .account-nav
-//   - .address-card
-//   - .addresses-list
-//   - .dashboard
-//   - .profile-card
-// ---------------------------------------- */
+// **********************************************
+// Styles
 
-/* ----------------------------------------
+// **********************************************
 // Base
-// ---------------------------------------- */
 @import 'variables';
 @import 'functions';
 @import 'mixins/direction';
 @import 'mixins/breakpoints';
 @import 'mixins/scheme';
+@import 'mixins/card';
+@import 'constants';
 
-/* ----------------------------------------
+// **********************************************
 // Common
-// ---------------------------------------- */
 @import 'common/animations';
 @import 'common/base';
 @import 'common/document';
@@ -161,13 +20,11 @@
 @import 'common/header';
 @import 'common/site';
 
-
-
-/* ----------------------------------------
+// **********************************************
 // Components
-// ---------------------------------------- */
 @import 'components/alert';
 @import 'components/arrow';
+@import 'components/avatar-icon';
 @import 'components/breadcrumb';
 @import 'components/btn';
 @import 'components/button-toggle';
@@ -211,11 +68,8 @@
 @import 'components/view-options';
 @import 'components/widget';
 
-
-
-/* ----------------------------------------
+// **********************************************
 // Filters
-// ---------------------------------------- */
 @import 'filters/filter';
 @import 'filters/filter-category';
 @import 'filters/filter-color';
@@ -223,33 +77,22 @@
 @import 'filters/filter-range';
 @import 'filters/filter-rating';
 
+// **********************************************
+// Layout
+@import 'layout/header';
+@import 'layout/mobile-header';
+@import 'layout/footer';
 
-/* ----------------------------------------
-// Header
-// ---------------------------------------- */
-@import 'header/header';
-@import 'header/mobile-header';
-
-
-/* ----------------------------------------
-// Footer
-// ---------------------------------------- */
-@import 'footer/footer';
-
-
-/* ----------------------------------------
+// **********************************************
 // Pages
-// ---------------------------------------- */
 @import 'pages/about';
+@import 'pages/account';
 @import 'pages/contacts';
 @import 'pages/faq';
 @import 'pages/error';
 
-
-
-/* ----------------------------------------
+// **********************************************
 // Blocks
-// ---------------------------------------- */
 @import 'blocks/block-brands';
 @import 'blocks/block-empty';
 @import 'blocks/block-features';
@@ -259,19 +102,13 @@
 @import 'blocks/block-space';
 @import 'blocks/block-split';
 
-
-
-/* ----------------------------------------
+// **********************************************
 // Widgets
-// ---------------------------------------- */
 @import 'widgets/widget-filters';
 @import 'widgets/widget-products';
 
-
-
-/* ----------------------------------------
+// **********************************************
 // Shop
-// ---------------------------------------- */
 @import 'shop/analogs-table';
 @import 'shop/applied-filters';
 @import 'shop/cart';
@@ -298,18 +135,3 @@
 @import 'shop/reviews-view';
 @import 'shop/spec';
 @import 'shop/wishlist';
-
-
-
-/* ----------------------------------------
-// Account
-// ---------------------------------------- */
-@import 'account/account-nav';
-@import 'account/address-card';
-@import 'account/addresses-list';
-@import 'account/dashboard';
-@import 'account/profile-card';
-
-
-
-@import 'custom';
