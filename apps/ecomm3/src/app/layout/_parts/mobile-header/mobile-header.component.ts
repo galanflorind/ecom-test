@@ -51,17 +51,12 @@ export class MobileHeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     public ngOnInit(): void {
         this.searchPlaceholder$ = this.translate.stream('INPUT_SEARCH_PLACEHOLDER')
 
-        // -->Subscribe: to query changes
-        this.query$.pipe(distinctUntilChanged(), debounceTime(600)).subscribe(searchTerm => {
-            // -->Enable: search if query changed
-            this.disableSearch$.next(searchTerm === this.page.options.searchTerm);
-        });
-
         // -->Subscribe: to searchTerm page option changes
         this.page.optionsChange$.subscribe(() => {
             // -->Check: searchTerm option
             if (this.page.options.searchTerm) {
                 this.query$.next(this.page.options.searchTerm ?? '');
+                this.disableSearch$.next(true);
             }
         });
     }
@@ -104,6 +99,7 @@ export class MobileHeaderComponent implements OnInit, OnDestroy, AfterViewInit {
      */
     public onSearchKeyUp(searchInputValue: string): void {
         this.query$.next(searchInputValue);
+        this.disableSearch$.next(searchInputValue === this.page.options.searchTerm);
     }
 
 

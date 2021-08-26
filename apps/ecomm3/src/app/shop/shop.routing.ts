@@ -7,7 +7,6 @@ import { PageCartComponent } from './page-cart/page-cart.component';
 import { PageCheckoutComponent } from './page-checkout/page-checkout.component';
 import { PageWishlistComponent } from './page-wishlist/page-wishlist.component';
 import { PageCompareComponent } from './page-compare/page-compare.component';
-import { PageTrackOrderComponent } from './page-track-order/page-track-order.component';
 
 
 const routes: Routes = [
@@ -58,10 +57,6 @@ const routes: Routes = [
     {
         path: 'compare',
         component: PageCompareComponent,
-    },
-    {
-        path: 'track-order',
-        component: PageTrackOrderComponent,
     },
 ];
 

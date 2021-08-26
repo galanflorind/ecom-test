@@ -89,7 +89,6 @@ Legend:
     'checkout'                                      ->  PageCheckoutComponent
     'wishlist'                                      ->  PageWishlistComponent
     'compare'                                       ->  PageCompareComponent
-    'track-order'                                   ->  PageTrackOrderComponent
 
 #### Account routes
     ''              ->  LayoutComponent

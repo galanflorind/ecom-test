@@ -72,9 +72,6 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
         this.query$.pipe(distinctUntilChanged(), debounceTime(600)).subscribe(searchTerm => {
             // -->Trigger: search
             //this.page.setSearchTerm(searchTerm);
-
-            // -->Enable: search if query changed
-            this.disableSearch$.next(searchTerm === this.page.options.searchTerm);
         });
     }
 
@@ -126,6 +123,7 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
         const input = event.target as HTMLInputElement;
 
         this.query$.next(input.value);
+        this.disableSearch$.next(input.value === this.page.options.searchTerm);
     }
 
 

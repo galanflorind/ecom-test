@@ -1,2 +1,2 @@
-<router-outlet *ngIf="!infoLoading && !infoError"></router-outlet>
-<app-page-error *ngIf="infoError"></app-page-error>
+<router-outlet *ngIf="status === 'done'"></router-outlet>
+<app-page-error *ngIf="status === 'error'"></app-page-error>

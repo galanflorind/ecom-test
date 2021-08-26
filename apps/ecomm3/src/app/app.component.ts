@@ -19,8 +19,7 @@ import { AppService } from './app.service';
 export class AppComponent implements OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
 
-    public infoLoading = true;
-    public infoError = false;
+    public status : 'loading' | 'error' | 'done' = 'loading';
 
     constructor(
         @Inject(DOCUMENT) private document: Document,
@@ -54,12 +53,15 @@ export class AppComponent implements OnInit, OnDestroy {
                 ).subscribe((info) => {
                     // -->Done: loading
                     this.doneLoading();
+
+                    // -->Set: status to done
+                    this.status = 'done';
                 }, (error) => {
                     // -->Done: loading
                     this.doneLoading();
 
-                    // -->Show: error page
-                    this.infoError = true;
+                    // -->Set: status to error
+                    this.status = 'error';
                 });
             });
         }
@@ -103,9 +105,6 @@ export class AppComponent implements OnInit, OnDestroy {
      * Clean: up loading element
      */
     private doneLoading(): void {
-        // -->Done: loading
-        this.infoLoading = false;
-
         const preloaderElement = this.document.querySelector('.site-preloader');
 
         // -->Check: preloader

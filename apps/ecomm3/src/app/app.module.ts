@@ -25,7 +25,7 @@ import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { RootComponent } from './layout/root/root.component';
 import { PageNotFoundComponent } from './default-pages/page-not-found/page-not-found.component';
-import { PageErrorComponent } from './default-pages/page-error/page-error.component';
+import { PageServerErrorComponent } from './default-pages/page-server-error/page-server-error.component';
 
 
 @NgModule({
@@ -33,7 +33,7 @@ import { PageErrorComponent } from './default-pages/page-error/page-error.compon
         AppComponent,
         RootComponent,
         PageNotFoundComponent,
-        PageErrorComponent
+        PageServerErrorComponent
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'serverApp' }),

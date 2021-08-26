@@ -66,6 +66,9 @@ export class AppService implements OnDestroy {
                     // -->Emit: error
                     this.appInfo.error("The request didn't resolve correctly");
                 }
+            }, error => {
+                // -->Emit: error
+                this.appInfo.error(error);
             });
         });
     }

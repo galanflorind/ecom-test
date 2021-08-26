@@ -1,52 +1,74 @@
 /*
-// .error-page
+// .not-found
 */
 
-.error-page {
+
+.not-found {
+    text-align: center;
+    padding: 36px 0;
+}
+
+.server-error {
     position: fixed;
     left: 0;
     top: 25vh;
     right: 0;
     text-align: center;
     padding: 36px 0;
+}
 
-    &__500 {
-        font-size: 80px;
-        font-weight: $font-weight-bold;
-        color: map_get($body-scheme, divider);
-        padding: 20px 0 4px;
-    }
+.not-found__404,
+.server-error__500 {
+    font-size: 80px;
+    font-weight: $font-weight-bold;
+    color: map_get($body-scheme, divider);
+    padding: 20px 0 4px;
+}
 
-    &__content {
-        width: 480px;
-        max-width: 100%;
-        margin: 0 auto;
-    }
+.error__content {
+    width: 480px;
+    max-width: 100%;
+    margin: 0 auto;
+}
 
-    &__title {
-        margin-bottom: 24px;
-        font-weight: $font-weight-bold;
-    }
+.error__title {
+    margin-bottom: 24px;
+    font-weight: $font-weight-bold;
+}
 
-    &__text {
-        margin-bottom: 20px;
+.error__text {
+    margin-bottom: 20px;
+}
+
+.not-found__search {
+    display: flex;
+    margin-bottom: 30px;
+}
+
+.not-found__search-input {
+    width: 1px;
+    flex-grow: 1;
+
+    @include direction {
+        #{$margin-inline-end}: 10px;
     }
 }
 
 
 @include media-breakpoint-down(md) {
-    .error-page__500 {
+    .not-found__404, .server-error__500 {
         font-size: 60px;
     }
 }
 
+
 @include media-breakpoint-down(sm) {
-    .error-page__500 {
+    .not-found__404, .server-error__500 {
         font-size: 50px;
         line-height: 54px;
         padding: 40px 0 32px;
     }
-    .error-page__title {
+    .error__title {
         margin-bottom: 20px;
     }
 }
