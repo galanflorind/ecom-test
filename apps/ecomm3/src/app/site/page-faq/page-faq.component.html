@@ -4,7 +4,7 @@
 <div class="block faq">
     <div class="container container--max--xl">
         <div class="faq__header">
-            <h1 class="faq__header-title">Frequently Asked Questions</h1>
+            <h1 class="faq__header-title">Frequently Asked Questions</h1> <!--TODO @Barbara: add translate-->
         </div>
 
         <div class="faq__section">
@@ -26,8 +26,8 @@
 
 
         <div class="faq__footer">
-            <div class="faq__footer-title">Still have questions?</div>
-            <div class="faq__footer-subtitle">We will be happy to answer any questions you may have.</div>
+            <div class="faq__footer-title">Still have questions?</div> <!--TODO @Barbara: add translate-->
+            <div class="faq__footer-subtitle">We will be happy to answer any questions you may have.</div> <!--TODO @Barbara: add translate-->
             <ng-container *ngIf="infoSupport?.supportEmailAddress">
                 <a [href]="'mailto:' + infoSupport.supportEmailAddress">{{ infoSupport.supportEmailAddress }}</a>
             </ng-container>
