@@ -10,8 +10,9 @@
         spellcheck="false"
         name="search"
         class="search__input"
-        [value]='query$.getValue()'
+        [value]="query$.getValue()"
         [placeholder]="'INPUT_SEARCH_PLACEHOLDER' | translate"
+        (keyup)="onSearchKeyUp($event)"
     >
     <button class="search__button search__button--end" [disabled]="disableSearch$.getValue()"
             type="submit" (click)="searchAndRedirect()">

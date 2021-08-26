@@ -30,7 +30,7 @@ export class MobileHeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     public searchIsOpen = false;
     public searchPlaceholder$!: Observable<string>;
     public query$: BehaviorSubject<string> = new BehaviorSubject<string>(null);
-    public disableSearch$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    public disableSearch$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
     @ViewChild('searchForm') searchForm!: ElementRef<HTMLElement>;
     @ViewChild('searchInput') searchInput!: ElementRef<HTMLElement>;
@@ -52,14 +52,15 @@ export class MobileHeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         this.searchPlaceholder$ = this.translate.stream('INPUT_SEARCH_PLACEHOLDER')
 
         // -->Subscribe: to query changes
-        this.query$.pipe(distinctUntilChanged(), debounceTime(600)).subscribe(() => {
-            // -->Enable: search after query change
-            this.disableSearch$.next(false);
+        this.query$.pipe(distinctUntilChanged(), debounceTime(600)).subscribe(searchTerm => {
+            // -->Enable: search if query changed
+            this.disableSearch$.next(searchTerm === this.page.options.searchTerm);
         });
 
         // -->Subscribe: to searchTerm page option changes
         this.page.optionsChange$.subscribe(() => {
-            if(this.page.options.searchTerm) {
+            // -->Check: searchTerm option
+            if (this.page.options.searchTerm) {
                 this.query$.next(this.page.options.searchTerm ?? '');
             }
         });

@@ -24,7 +24,7 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
     private destroy$: Subject<void> = new Subject<void>();
 
     public query$: BehaviorSubject<string> = new BehaviorSubject<string>(null);
-    public disableSearch$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    public disableSearch$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
     /**
      * TODO: when we have suggestions, uncomment everything from both html and ts files
      */
@@ -63,20 +63,18 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
         //     this.categories = result.categories;
         // });
 
+        // -->Match: query to searchTerm options initially
+        if (this.page.options.searchTerm) {
+            this.query$.next(this.page.options.searchTerm);
+        }
+
         // -->Subscribe: to query changes
         this.query$.pipe(distinctUntilChanged(), debounceTime(600)).subscribe(searchTerm => {
             // -->Trigger: search
             //this.page.setSearchTerm(searchTerm);
 
-            // -->Enable: search after query change
-            this.disableSearch$.next(false);
-        });
-
-        // -->Subscribe: to searchTerm page option changes
-        this.page.optionsChange$.subscribe(() => {
-            if(this.page.options.searchTerm) {
-                this.query$.next(this.page.options.searchTerm ?? '');
-            }
+            // -->Enable: search if query changed
+            this.disableSearch$.next(searchTerm === this.page.options.searchTerm);
         });
     }
 
@@ -118,6 +116,16 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
         //         }
         //     });
         // });
+    }
+
+
+    /**
+     * Emit: search term updates
+     */
+    public onSearchKeyUp(event: Event): void {
+        const input = event.target as HTMLInputElement;
+
+        this.query$.next(input.value);
     }
 
 

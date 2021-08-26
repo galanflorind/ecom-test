@@ -17,7 +17,7 @@
                     type="text"
                     id="mobile-site-search"
                     class="mobile-search__input"
-                    [value]='query$.getValue()'
+                    [value]="query$.getValue()"
                     [placeholder]="searchPlaceholder$|async"
                     (keyup)="onSearchKeyUp(searchInput.value)"
                     #searchInput
