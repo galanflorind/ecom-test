@@ -50,14 +50,14 @@ const routes: Routes = [
         component: PageCheckoutComponent,
         canActivate: [NaoUserPermissionsGuard]
     },
-    {
+    /*{
         path: 'wishlist',
         component: PageWishlistComponent,
-    },
-    {
+    },*/
+    /*{
         path: 'compare',
         component: PageCompareComponent,
-    },
+    },*/
 ];
 
 @NgModule({

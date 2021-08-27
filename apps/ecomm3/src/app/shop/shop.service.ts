@@ -32,7 +32,6 @@ export class ShopService {
         limit: 16,
         sort: 'name_asc',
         filters: {},
-        category: null,
         searchTerm: null
     };
 

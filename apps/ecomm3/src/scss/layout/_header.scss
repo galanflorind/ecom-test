@@ -148,7 +148,9 @@ $header-variant-name: classic-one;
 
 @if(map_get($header-scheme, main) == map_get($topbar-scheme, main)) {
     .header {
-        grid-template-rows: 36px auto auto;
+        // todo: uncomment next line when we add the topbar back in
+        //grid-template-rows: 36px auto auto;
+        grid-template-rows: auto auto;
     }
     .header__topbar-bg {
         border-bottom: 1px solid map_get($header-scheme, divider);

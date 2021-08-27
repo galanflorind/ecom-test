@@ -3,6 +3,5 @@ export interface GetProductsListOptions {
     limit?: number;
     sort?: string;
     filters?: { [slug: string]: string; };
-    category?: number;
     searchTerm?: string;
 }

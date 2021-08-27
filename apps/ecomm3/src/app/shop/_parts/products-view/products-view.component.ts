@@ -1,4 +1,4 @@
-import { Component, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { merge, Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';

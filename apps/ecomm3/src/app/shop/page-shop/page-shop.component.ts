@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { merge, Observable, of, Subject, Subscription } from 'rxjs';
-import { debounceTime, map, switchMap, takeUntil, take } from 'rxjs/operators';
+import { debounceTime, map, switchMap, takeUntil, take, filter } from 'rxjs/operators';
 import { ShopSidebarService } from '../shop-sidebar.service';
 import { ShopService } from '../shop.service';
 import { UrlService } from '../../services/url.service';
@@ -110,20 +110,35 @@ export class PageShopComponent implements OnInit, OnDestroy {
             this.sidebarPosition = data.sidebarPosition;
         });
 
-        // -->Refresh: page shop on data update, navigation or option changes
+        // -->Refresh: page shop on options update
+        this.page.optionsChange$.pipe(
+            debounceTime(100),
+            takeUntil(this.destroy$)
+        )
+        .subscribe(() => {
+            // -->Refresh: products according to options
+            this.refresh();
+        })
+
+        // -->Refresh: page shop on data update or navigation (first time navigation and category changes)
         data$.pipe(
             switchMap((data: PageShopData) => merge(
                 of(data.productsList),
-                this.router.events,
-                this.page.optionsChange$
+                this.router.events.pipe(filter(event => event instanceof NavigationEnd)),
                 )
             ),
             debounceTime(100),
             takeUntil(this.destroy$)
         )
-        .subscribe((options) => {
-            // -->Refresh: products according to options
-            this.refresh();
+        .subscribe(() => {
+            // -->Clear: price filter
+            if (this.page.options.filters?.hasOwnProperty('price')) {
+                // -->Set: filter value. This will trigger the refresh
+                this.page.setFilterValue('price', null);
+            } else {
+                // -->Refresh
+                this.refresh();
+            }
         });
     }
 
@@ -140,14 +155,6 @@ export class PageShopComponent implements OnInit, OnDestroy {
         this.page.isLoading = true;
         // -->Get: category id
         const categoryId: number = this.route.snapshot.params.categoryId ? +this.route.snapshot.params.categoryId : undefined;
-
-        // -->Set: page number to 1 if category changed
-        if (this.page.options.category !== categoryId) {
-            this.page.options.page = 1;
-        }
-
-        // -->Update: category on page options
-        this.page.options.category = categoryId;
 
         // -->Create: filters options
         const options = {
@@ -346,16 +353,19 @@ export class PageShopComponent implements OnInit, OnDestroy {
             }
             // -->Check: searchTerm
             if (param.hasOwnProperty('searchTerm') &&  param['searchTerm']) {
-                this.page.setOptionValue('searchTerm', param['searchTerm']);
-                //this.page.options.searchTerm = param['searchTerm'];
+                this.page.options.searchTerm = param['searchTerm'];
+            }
+
+            if (!this.page.options.filters) {
+                this.page.options.filters = {};
             }
             // -->Check: price filter
             if (param.hasOwnProperty('filter_price') && param['filter_price']) {
-                this.page.setFilterValue('price', param['filter_price']);
+                this.page.options.filters['price'] = param['filter_price'];
             }
             // -->Check: manufacturer filter
             if (param.hasOwnProperty('filter_manufacturer') && param['filter_manufacturer']) {
-                this.page.setFilterValue('manufacturer', param['filter_manufacturer']);
+                this.page.options.filters['manufacturer'] = param['filter_manufacturer'];
             }
         });
     }
