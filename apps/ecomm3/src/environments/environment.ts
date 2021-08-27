@@ -3,34 +3,32 @@ export const environment = {
     localDatabase: {
         company: {
             dbName: 'company',
-            collections: [
-                { name: 'cache', schema: 'any' }
-            ]
+            collections: [{ name: 'cache', schema: 'any' }],
         },
         nao: {
             dbName: 'nao',
             collections: [
                 { name: 'sessions', schema: 'any' },
                 { name: 'companycache', schema: 'any' },
-            ]
-        }
+            ],
+        },
     },
     API: {
         server: {
             $id: 'server',
-            protocol: 'https',
-            port: 443,
-            url: 'api-v2-bee11.naologic.com',
+            protocol: 'http',
+            port: 3010,
+            url: 'localhost',
             prefix: 'api/v2/',
-            ssl: true
+            ssl: false
         },
         naoToken: 'naoprodvlhauavvm9kslfbynan6bu2a8',
         webSocket: {
-            enabled: false
+            enabled: false,
         },
         basicAuth: {
             user: 'gabriel',
-            password: 'gabriel'
+            password: 'gabriel',
         }
     },
     naoUsers: {
@@ -53,3 +51,12 @@ export const environment = {
         },
     },
 };
+
+/*
+ * For easier debugging in development mode, you can import the following file
+ * to ignore zone related error stack frames such as zone.run, zoneDelegate.invokeTask.
+ *
+ * This import should be commented out in production mode because it will have a negative impact
+ * on performance if an error is thrown.
+ */
+import 'zone.js/dist/zone-error'; // Included with Angular CLI.

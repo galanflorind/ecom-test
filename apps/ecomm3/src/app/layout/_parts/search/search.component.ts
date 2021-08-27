@@ -82,15 +82,6 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
         }
 
         // this.zone.runOutsideAngular(() => {
-        //     // fromOutsideClick([
-        //     //     this.selectVehicleButton.nativeElement,
-        //     //     this.vehiclePickerDropdown.nativeElement,
-        //     // ]).pipe(
-        //     //     filter(() => this.vehiclePickerIsOpen),
-        //     //     takeUntil(this.destroy$),
-        //     // ).subscribe(() => {
-        //     //     this.zone.run(() => this.vehiclePickerIsOpen = false);
-        //     // });
         //
         //     fromOutsideClick(this.element).pipe(
         //         filter(() => this.suggestionsIsOpen),
